@@ -1,0 +1,26 @@
+﻿<Properties StartupItem="../MyBuyListMobileService/MyBuyListMobileCommon/MyBuyListMobileCommon.csproj">
+  <DisabledProjects>
+    <String>../MyBuyListMobileService/MyBuyListMobileCommon/MyBuyListMobileCommon.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="firefox" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Membership/MyBuyListMembershipProvider.cs">
+    <Files>
+      <File FileName="Membership/MyBuyListMembershipProvider.cs" Line="8" Column="48" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="www.mybuylist.dev" expanded="True" selected="True">
+            <Node name="MyBuyListClasses" expanded="True">
+              <Node name="Membership" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

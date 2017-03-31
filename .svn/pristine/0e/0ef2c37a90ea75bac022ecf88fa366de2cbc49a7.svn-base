@@ -1,0 +1,253 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Diagnostics;
+using System.Reflection;
+using log4net;
+using log4net.Appender;
+using log4net.Config;
+
+namespace ProperServices.Common.Log
+{
+    public static class Logger
+    {
+        public enum Level
+        {
+            Debug,
+            Info,
+            Warning,
+            Error,
+            Fatal
+        }
+
+        #region Publishing exceptions
+        /// <summary>
+        /// Writes an entry to the log using the specified error level, and throws an exception.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="level"></param>
+        public static Exception PublishException(string msg, Level level)
+        {
+            return PublishException(new ApplicationException(msg), level);
+        }
+
+        /// <summary>
+        /// Writes an entry to the log using the specified error level, and throws an exception.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="level"></param>
+        public static Exception PublishException(Exception ex, Level level)
+        {
+            return PublishException(ex.Message, ex, level);
+        }
+
+        /// <summary>
+        /// Writes an entry to the log using the specified error level, and throws an exception.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ex"></param>
+        /// <param name="level"></param>
+        public static Exception PublishException(string message, Exception ex, Level level)
+        {
+            Write(message, ex, level);
+            return ex;
+        }
+        #endregion
+
+        private static readonly object LockObject = new object();
+
+        #region Logger initialization
+        private static readonly ILog Log4Net = LogManager.GetLogger(typeof(Logger));
+
+        static Logger()
+        {
+            XmlConfigurator.Configure();
+        }
+        #endregion
+
+        #region GetCallingMethod related operations
+        private static int? skipStackFrames = null;
+
+        /// <summary>
+        /// Returns the number of stack frames which should be skipped over, when we wish to retrieve the calling method.
+        /// </summary>
+        /// <returns></returns>
+        private static int GetSkipStackFrames()
+        {
+            // calc how many stack frames to skip
+            if (Logger.skipStackFrames == null)
+            {
+                lock (Logger.LockObject)
+                {
+                    // make sure that no thread calculated this while current thread attempted to achieve the lock.
+                    if (Logger.skipStackFrames == null)
+                    {
+                        StackTrace stack = new StackTrace();
+                        for (int i = 0; i < stack.FrameCount; ++i)
+                        {
+                            // get current method in stack trace
+                            StackFrame frame = stack.GetFrame(i);
+                            MethodBase method = frame.GetMethod();
+
+                            // the first method which isn't of the Logger class, is the actual method which performs the call
+                            if (method.DeclaringType != typeof(Logger))
+                            {
+                                // now we know how many frames should be skipped, when attempting to retrieve the calling method
+                                skipStackFrames = i - 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return Logger.skipStackFrames.Value;
+        }
+
+        /// <summary>
+        /// Returns the calling method.
+        /// </summary>
+        /// <returns></returns>
+        private static MethodBase GetCallingMethod()
+        {
+            StackTrace stack = new StackTrace(GetSkipStackFrames(), true);
+            StackFrame frame = stack.GetFrame(0);
+            MethodBase callingMethod = frame.GetMethod();
+            return callingMethod;
+        }
+        #endregion
+
+        #region Wrap message methods
+        private const string FormattedMessageTemplate = "[{0}.{1}] {2}";
+        /// <summary>
+        /// Wraps the message to be logged.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ex">FFU</param>
+        /// <returns></returns>
+        private static object WrapMessage(string message, params object[] args)
+        {
+            // get calling method
+            MethodBase callingMethod = GetCallingMethod();
+
+            // format message
+            string msg = string.Format(message, args);
+            msg = string.Format(Logger.FormattedMessageTemplate, callingMethod.DeclaringType.Name, callingMethod.Name, msg);
+
+            return msg;
+        }
+        #endregion
+
+        #region Logging methods
+        /// <summary>
+        /// Writes an entry to the log using the specified error level.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="level"></param>
+        public static void Write(string message, Level level)
+        {
+            Write(message, null, level);
+        }
+
+        /// <summary>
+        /// Writes an entry to the log using the specified error level.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ex"></param>
+        /// <param name="level"></param>
+        public static void Write(string message, Exception ex, Level level)
+        {
+            switch (level)
+            {
+                case Level.Debug:
+                    Debug(ex, message);
+                    break;
+
+                case Level.Info:
+                    Info(ex, message);
+                    break;
+
+                case Level.Warning:
+                    Warn(ex, message);
+                    break;
+
+                case Level.Error:
+                    Error(ex, message);
+                    break;
+
+                case Level.Fatal:
+                    Debug(ex, message);
+                    break;
+
+                default:
+                    Warn(ex, message);
+                    break;
+            }
+        }
+
+        public static void Debug(string message, params object[] args)
+        {
+            Log4Net.Debug(WrapMessage(message, args));
+        }
+
+        public static void Debug(Exception ex, string message, params object[] args)
+        {
+            Log4Net.Debug(WrapMessage(message, args), ex);
+        }
+
+        public static void Info(string message, params object[] args)
+        {
+            Log4Net.Info(WrapMessage(message, args));
+        }
+
+        public static void Info(Exception ex, string message, params object[] args)
+        {
+            Log4Net.Info(WrapMessage(message, args), ex);
+        }
+
+        public static void Warn(string message, params object[] args)
+        {
+            Log4Net.Warn(WrapMessage(message, args));
+        }
+
+        public static void Warn(Exception ex, string message, params object[] args)
+        {
+            Log4Net.Warn(WrapMessage(message, args), ex);
+        }
+
+        public static void Error(string message, params object[] args)
+        {
+            Log4Net.Error(WrapMessage(message, args));
+        }
+
+        public static void Error(Exception ex, string message, params object[] args)
+        {
+            Log4Net.Error(WrapMessage(message, args), ex);
+        }
+
+        public static void Fatal(string message, params object[] args)
+        {
+            Log4Net.Fatal(WrapMessage(message, args));
+        }
+
+        public static void Fatal(Exception ex, string message, params object[] args)
+        {
+            Log4Net.Fatal(WrapMessage(message, args), ex);
+        }
+
+        /// <summary>
+        /// Flushes current buffering appenders.
+        /// </summary>
+        /// <remarks>see: http://tinyurl.com/2meswa</remarks>
+        public static void Flush()
+        {
+            foreach (IAppender appender in LogManager.GetRepository().GetAppenders())
+            {
+                BufferingAppenderSkeleton bufferingAppender = appender as BufferingAppenderSkeleton;
+                if (bufferingAppender != null)
+                    bufferingAppender.Flush(true);
+            }
+        }
+        #endregion
+    }
+}
