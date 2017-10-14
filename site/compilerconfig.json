@@ -10,5 +10,9 @@
   {
     "outputFile": "App_Themes/Standard/mybuylist_mobile.css",
     "inputFile": "App_Themes/Standard/mybuylist_mobile.scss"
+  },
+  {
+    "outputFile": "App_Themes/Standard/Recipes.css",
+    "inputFile": "App_Themes/Standard/Recipes.scss"
   }
 ]

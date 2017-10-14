@@ -10,7 +10,7 @@
 
 <div class="search-box flex-container" justify-content="start">
     <asp:TextBox ID="TextBoxSearchValue" runat="server" CssClass="search-value" flex-grow="1"></asp:TextBox>
-    <div class="flex-container">
+    <div class="search-types flex-container">
         <asp:DropDownList ID="DropDownListSearchType" runat="server" CssClass="search-category" DataTextField="value" DataValueField="key">
             <asp:ListItem Value="1">מתכונים</asp:ListItem>
             <asp:ListItem Value="2" class="requireLogin">המתכונים שלי</asp:ListItem>

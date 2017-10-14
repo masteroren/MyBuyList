@@ -27,7 +27,11 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        height: 80px;
+        /*height: 80px;*/
+
+        .search-types {
+            display: none;
+        }
 
         input {
             max-height: 30px;
@@ -64,6 +68,14 @@
 
     #reciep-wrapper {
         .header {
+        }
+
+        .search {
+            margin-top: 10px;
+
+            #recipes_filter {
+                display: none;
+            }
         }
     }
 }
