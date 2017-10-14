@@ -190,11 +190,11 @@
 
 #reciep-wrapper div.recipe_box {
     height: 160px;
-    width: 600px;
+    /*width: 600px;*/
     margin-bottom: 30px;
     font-size: 12px;
-    background-color: white;
-    overflow-y: auto;
+    /*background-color: white;*/
+    /*overflow-y: auto;*/
     background-image: none;
 }
 
@@ -204,10 +204,13 @@
         padding-right: 12px;
         padding-left: 12px;
         padding-top: 20px;
+        background-color: white;
     }
 
 #reciep-wrapper div.recipe_list div.recipe_main_category {
     width: 100%;
+    position: relative;
+    top: 6px;
 }
 
 #reciep-wrapper div.recipe_list div.recipe_inner_box {
