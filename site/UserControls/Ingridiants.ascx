@@ -3,18 +3,16 @@
 <script src="Scripts/Ingridiants.js"></script>
 
 <script>
-    var quantityClientId = '<%=txtQuantity.ClientID %>';
     var fractionClientId = '<%=ddlFractions.ClientID %>';
     var unitClientId = '<%=ddlMeasurementUnits.ClientID %>';
     var foodRemarkClientId = '<%=txtFoodRemark.ClientID %>';
     var hfSelectedIngridiantClientId = '<%=hfSelectedIngridiant.ClientID %>';
-    var hfFoodIdClientId = '<%=hfFoodId.ClientID %>';
     var decimalSeperator = '<%=DecimalSeperator%>';
 </script>
 
-<asp:HiddenField ID="hfFoodId" runat="server" />
 <asp:HiddenField ID="hfSelectedIngridiant" runat="server" />
 <asp:HiddenField ID="hfIngridiants" runat="server" ClientIDMode="Static" />
+<asp:HiddenField ID="hfRecipeId" runat="server" ClientIDMode="Static" />
 
 <style type="text/css">
     .uc-ingridiants {
@@ -50,8 +48,11 @@
             font-size: 12px;
         }
 
-        .input-section-item #txtQuantity{
-            width: 48px;
+        .input-section-item .quantity {
+            background-color: #ddecb6;
+            border: 1px solid #A4CB3A;
+            width: 100%;
+            text-align: center;
         }
 
     .ingridiant-prefix {
@@ -161,9 +162,7 @@
         <div class="input-section-item">
             <asp:Label ID="lblQuantity" runat="server" Text="<%$ Resources:MyGlobalResources, Quantity %>"
                 Font-Bold="true" />
-            <asp:TextBox ID="txtQuantity" ClientIDMode="Static" runat="server" CssClass="quantity" />
-            <ajaxToolkit:FilteredTextBoxExtender ID="txtQuantity_ftb" runat="server" TargetControlID="txtQuantity"
-                ValidChars="0123456789." />
+            <input id="txtQuantity" class="quantity"/>
         </div>
         <div class="input-section-item">
             <asp:Label ID="lblAnd" runat="server" Text="<%$ Resources:MyGlobalResources, And %>"
@@ -178,7 +177,7 @@
         </div>
         <div class="input-section-item" style="width: 135px;">
             <asp:Label ID="lblFoodName" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantName %>" Font-Bold="true" /><br />
-            <input id="ingridiantName" type="text" class="ingridiant-prefix" />
+            <input id="ingridiantName" type="text" class="ingridiant-prefix" autocomplete="off" />
             <input id="ingridiantId" type="hidden" />
             <div id="ingridiantsList" class="ingridiant-list"></div>
         </div>
@@ -189,6 +188,8 @@
         <div class="input-section-item" style="height: 25px; padding-top: 7px;">
             <a id="addIngridiant" class="action"></a>
             <a id="updateIngridiant" class="action"></a>
+            <input id="mode" type="hidden" />
+            <input id="selectedIndex" type="hidden" />
         </div>
     </div>
     <div id="divIngredients" runat="server" style="clear: both; margin-top: 4px; margin-bottom: 20px;">

@@ -158,7 +158,7 @@ public partial class MenuDetails : BasePage
         if (menu != null)
         {
             lblMenuName.Text = menu.MenuName;
-            lblCategories.Text = this.GetCategoriesString(menu.MenuCategories.ToArray());
+            //lblCategories.Text = GetCategoriesString(menu.MCategories.ToArray());
             lnkPublisher.Text = menu.User.DisplayName;
             lblPublishDate.Text = menu.ModifiedDate.ToString("dd/MM/yyyy");
             lblDescription.Text = menu.Description;
@@ -184,37 +184,37 @@ public partial class MenuDetails : BasePage
             if (!string.IsNullOrEmpty(menu.EmbeddedVideo) && menu.EmbeddedVideo.Contains("object") && menu.EmbeddedVideo.Contains("embed"))
             {
                 //adjustment method may not work for embedded videos that are not from youtube.
-                this.menu_video.InnerHtml = this.AdjustVideo(menu.EmbeddedVideo);
+                //this.menu_video.InnerHtml = this.AdjustVideo(menu.EmbeddedVideo);
             }
             else
             {
                 this.menu_video.Visible = false;
             }
 
-            bool isInMyFavorites = (this.currentMenu.UserFavoriteMenus.SingleOrDefault(ufm => ufm.UserId == ((BasePage)this.Page).UserId) != null);
+            //bool isInMyFavorites = (currentMenu.UserFavoriteMenus.SingleOrDefault(ufm => ufm.UserId == ((BasePage)Page).UserId) != null);
 
-            if (isInMyFavorites)
-            {
-                this.myFavoritesTopTag.Visible = true;
-            }
-            else
-            {
-                this.myFavoritesTopTag.Visible = false;
-            }
+            //if (isInMyFavorites)
+            //{
+            //    this.myFavoritesTopTag.Visible = true;
+            //}
+            //else
+            //{
+            //    this.myFavoritesTopTag.Visible = false;
+            //}
 
-            this.lblAllFavorites.Text = menu.UserFavoriteMenus.Count.ToString();
+            //this.lblAllFavorites.Text = menu.UserFavoriteMenus.Count.ToString();
 
-            bool isInUserFavorites = (this.currentMenu.UserFavoriteMenus.SingleOrDefault(ufm => ufm.UserId == ((BasePage)this.Page).UserId) != null);
-            if (isInUserFavorites)
-            {
-                this.btnAddMenuToFavorites.Visible = false;
-                this.btnAddMenuToFavorites_bottom.Visible = false;
-            }
-            else
-            {
-                this.btnRemoveMenuFromFavorites.Visible = false;
-                this.btnRemoveMenuFromFavorites_bottom.Visible = false;
-            }
+            //bool isInUserFavorites = (this.currentMenu.UserFavoriteMenus.SingleOrDefault(ufm => ufm.UserId == ((BasePage)this.Page).UserId) != null);
+            //if (isInUserFavorites)
+            //{
+            //    this.btnAddMenuToFavorites.Visible = false;
+            //    this.btnAddMenuToFavorites_bottom.Visible = false;
+            //}
+            //else
+            //{
+            //    this.btnRemoveMenuFromFavorites.Visible = false;
+            //    this.btnRemoveMenuFromFavorites_bottom.Visible = false;
+            //}
 
             hlShowShoppingList.NavigateUrl = string.Format("~/ShoppingList.aspx?menuId={0}", menu.MenuId);
             hlShowShoppingList_bottom.NavigateUrl = string.Format("~/ShoppingList.aspx?menuId={0}", menu.MenuId);
@@ -287,252 +287,252 @@ public partial class MenuDetails : BasePage
        
         if (menu != null)
         {
-            bool isInMyFavorites = (menu.UserFavoriteMenus.SingleOrDefault(ufm => ufm.UserId == ((BasePage)this.Page).UserId) != null);
+            //    bool isInMyFavorites = (menu.UserFavoriteMenus.SingleOrDefault(ufm => ufm.UserId == ((BasePage)this.Page).UserId) != null);
 
-            if (isInMyFavorites)
-            {
-                this.myFavoritesTopTag.Visible = true;
-            }
-            else
-            {
-                this.myFavoritesTopTag.Visible = false;
-            }
+            //    if (isInMyFavorites)
+            //    {
+            //        this.myFavoritesTopTag.Visible = true;
+            //    }
+            //    else
+            //    {
+            //        this.myFavoritesTopTag.Visible = false;
+            //    }
 
-            this.lblAllFavorites.Text = menu.UserFavoriteMenus.Count.ToString();
+            //    this.lblAllFavorites.Text = menu.UserFavoriteMenus.Count.ToString();
         }
     }
 
-    protected void rptDays_ItemDataBound(object sender, RepeaterItemEventArgs e)
-    {
-        Menu menu = this.currentMenu;
+    //protected void rptDays_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    //{
+    //    Menu menu = this.currentMenu;
 
-        if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
-        {
-            System.Web.UI.WebControls.Image tableTopImag = e.Item.FindControl("imgTableTop") as System.Web.UI.WebControls.Image;
-            tableTopImag.ImageUrl = "~/Images/bgr_TableMenu.jpg";
+    //    if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
+    //    {
+    //        System.Web.UI.WebControls.Image tableTopImag = e.Item.FindControl("imgTableTop") as System.Web.UI.WebControls.Image;
+    //        tableTopImag.ImageUrl = "~/Images/bgr_TableMenu.jpg";
 
-            Repeater rptCourses = e.Item.FindControl("rptCourses") as Repeater;
+    //        Repeater rptCourses = e.Item.FindControl("rptCourses") as Repeater;
 
 
-            var list = from item in BusinessFacade.Instance.GetCourseTypes()
-                       select new CourseOrMealType(item.CourseTypeId, item.CourseTypeName);
-            CourseOrMealType[] courseTypesArray = list.ToArray();
+    //        var list = from item in BusinessFacade.Instance.GetCourseTypes()
+    //                   select new CourseOrMealType(item.CourseTypeId, item.CourseTypeName);
+    //        CourseOrMealType[] courseTypesArray = list.ToArray();
 
-            if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal)
-            {
-                CourseOrMealType tempCourseType = courseTypesArray[0];
-                //for (int i = 0; i < (courseTypesArray.Length - 1); i++)
-                //{
-                //    courseTypesArray[i] = courseTypesArray[i + 1];
-                //}
-                //courseTypesArray[courseTypesArray.Length - 1] = tempCourseType;
-                rptCourses.DataSource = courseTypesArray;
-            }
-            else
-            {
-                rptCourses.DataSource = courseTypesArray.Where(cmt => cmt.CourseOrMealTypeId == 0);
-            }
+    //        if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal)
+    //        {
+    //            CourseOrMealType tempCourseType = courseTypesArray[0];
+    //            //for (int i = 0; i < (courseTypesArray.Length - 1); i++)
+    //            //{
+    //            //    courseTypesArray[i] = courseTypesArray[i + 1];
+    //            //}
+    //            //courseTypesArray[courseTypesArray.Length - 1] = tempCourseType;
+    //            rptCourses.DataSource = courseTypesArray;
+    //        }
+    //        else
+    //        {
+    //            rptCourses.DataSource = courseTypesArray.Where(cmt => cmt.CourseOrMealTypeId == 0);
+    //        }
 
-            rptCourses.DataBind();
-        }
-        if (menu.MenuTypeId == (int)MenuTypeEnum.Weekly)
-        {
-            MealDayOfWeek mdow = e.Item.DataItem as MealDayOfWeek;
-            if (mdow != null)
-            {
-                System.Web.UI.WebControls.Image tableTopImag = e.Item.FindControl("imgTableTop") as System.Web.UI.WebControls.Image;
-                tableTopImag.ImageUrl = "~/Images/bgr_Table" + mdow.DayId + ".jpg";
-            }
+    //        rptCourses.DataBind();
+    //    }
+    //    if (menu.MenuTypeId == (int)MenuTypeEnum.Weekly)
+    //    {
+    //        MealDayOfWeek mdow = e.Item.DataItem as MealDayOfWeek;
+    //        if (mdow != null)
+    //        {
+    //            System.Web.UI.WebControls.Image tableTopImag = e.Item.FindControl("imgTableTop") as System.Web.UI.WebControls.Image;
+    //            tableTopImag.ImageUrl = "~/Images/bgr_Table" + mdow.DayId + ".jpg";
+    //        }
 
-            Repeater rptCourses = e.Item.FindControl("rptCourses") as Repeater;
+    //        Repeater rptCourses = e.Item.FindControl("rptCourses") as Repeater;
 
-            var list = from item in BusinessFacade.Instance.GetMealTypes()
-                       select new CourseOrMealType(item.MealTypeId, item.MealTypeName);
+    //        var list = from item in BusinessFacade.Instance.GetMealTypes()
+    //                   select new CourseOrMealType(item.MealTypeId, item.MealTypeName);
 
-            CourseOrMealType[] mealTypesArray = list.ToArray();
-            rptCourses.DataSource = mealTypesArray;
-            rptCourses.DataBind();
-        }
-    }
+    //        CourseOrMealType[] mealTypesArray = list.ToArray();
+    //        rptCourses.DataSource = mealTypesArray;
+    //        rptCourses.DataBind();
+    //    }
+    //}
 
-    protected void rptCourses_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
-    {
-        Menu menu = this.currentMenu;
+    //protected void rptCourses_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
+    //{
+    //    Menu menu = this.currentMenu;
 
-        Meal currentMeal = null;
-        MealDayOfWeek currentWeekDay = null;
-        int currentWeekDayId = 0;
+    //    Meal currentMeal = null;
+    //    MealDayOfWeek currentWeekDay = null;
+    //    int currentWeekDayId = 0;
 
-        int currentCourseOrMenuTypeId = ((CourseOrMealType)e.Item.DataItem).CourseOrMealTypeId;
+    //    int currentCourseOrMenuTypeId = ((CourseOrMealType)e.Item.DataItem).CourseOrMealTypeId;
 
-        RepeaterItem parentItem = e.Item.Parent.Parent as RepeaterItem;
-        if (parentItem != null)
-        {
-            currentWeekDay = parentItem.DataItem as MealDayOfWeek;
-        }
-        if (currentWeekDay != null)
-        {
-            currentWeekDayId = currentWeekDay.DayId;
-        }
+    //    RepeaterItem parentItem = e.Item.Parent.Parent as RepeaterItem;
+    //    if (parentItem != null)
+    //    {
+    //        currentWeekDay = parentItem.DataItem as MealDayOfWeek;
+    //    }
+    //    if (currentWeekDay != null)
+    //    {
+    //        currentWeekDayId = currentWeekDay.DayId;
+    //    }
 
-        if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
-        {
-            foreach (Meal m in this.currentMenu.Meals.ToArray())
-            {
-                if (m.CourseTypeId == currentCourseOrMenuTypeId)
-                    currentMeal = m;
+    //    if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
+    //    {
+    //        foreach (Meal m in this.currentMenu.Meals.ToArray())
+    //        {
+    //            if (m.CourseTypeId == currentCourseOrMenuTypeId)
+    //                currentMeal = m;
 
-                if (currentCourseOrMenuTypeId == 6)
-                {
-                    Label txtComments = e.Item.FindControl("LabelComments") as Label;
-                    if (txtComments != null)
-                    {
-                        if (m.Comments != null)
-                            txtComments.Text = m.Comments.Replace("\r\n", "<br />");
-                        txtComments.Visible = true;
-                    }
-                }
-            }
-        }
-        if (menu.MenuTypeId == (int)MenuTypeEnum.Weekly)
-        {
-            foreach (Meal m in this.currentMenu.Meals.ToArray())
-            {
-                if (m.MealTypeId == currentCourseOrMenuTypeId && m.DayIndex == currentWeekDayId)
-                    currentMeal = m;
+    //            if (currentCourseOrMenuTypeId == 6)
+    //            {
+    //                Label txtComments = e.Item.FindControl("LabelComments") as Label;
+    //                if (txtComments != null)
+    //                {
+    //                    if (m.Comments != null)
+    //                        txtComments.Text = m.Comments.Replace("\r\n", "<br />");
+    //                    txtComments.Visible = true;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    if (menu.MenuTypeId == (int)MenuTypeEnum.Weekly)
+    //    {
+    //        foreach (Meal m in this.currentMenu.Meals.ToArray())
+    //        {
+    //            if (m.MealTypeId == currentCourseOrMenuTypeId && m.DayIndex == currentWeekDayId)
+    //                currentMeal = m;
 
-                if (currentCourseOrMenuTypeId == 5 && m.DayIndex == currentWeekDayId)
-                {
-                    Label txtComments = e.Item.FindControl("LabelComments") as Label;
-                    if (m.Comments != null) txtComments.Text = m.Comments.Replace("\r\n", "<br />");
-                    txtComments.Visible = true;
-                }
+    //            if (currentCourseOrMenuTypeId == 5 && m.DayIndex == currentWeekDayId)
+    //            {
+    //                Label txtComments = e.Item.FindControl("LabelComments") as Label;
+    //                if (m.Comments != null) txtComments.Text = m.Comments.Replace("\r\n", "<br />");
+    //                txtComments.Visible = true;
+    //            }
 
-            }
-        }
+    //        }
+    //    }
 
-        if (currentMeal == null)
-        {
-            return;
-        }
+    //    if (currentMeal == null)
+    //    {
+    //        return;
+    //    }
 
-        CurrentMeal = currentMeal;
+    //    CurrentMeal = currentMeal;
 
-        Repeater rpt = e.Item.FindControl("rptRecipes") as Repeater;
+    //    Repeater rpt = e.Item.FindControl("rptRecipes") as Repeater;
 
-        if (rpt != null)
-        {
-            rpt.DataSource = currentMeal.MealRecipes.ToArray();
-            rpt.DataBind();
-        }
-    }
+    //    if (rpt != null)
+    //    {
+    //        rpt.DataSource = currentMeal.MealRecipes.ToArray();
+    //        rpt.DataBind();
+    //    }
+    //}
 
-    protected void rptRecipes_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
-    {
-        Menu menu = this.currentMenu;
+    //protected void rptRecipes_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
+    //{
+    //    Menu menu = this.currentMenu;
 
-        Meal meal = this.CurrentMeal;
+    //    Meal meal = this.CurrentMeal;
 
-        HyperLink lnk = e.Item.FindControl("lblRecipeName") as HyperLink;
-        if (lnk != null)
-        {
-            lnk.NavigateUrl = "~/RecipeDetails.aspx?RecipeId=" + ((MealRecipe)e.Item.DataItem).RecipeId.ToString();
-        }
+    //    HyperLink lnk = e.Item.FindControl("lblRecipeName") as HyperLink;
+    //    if (lnk != null)
+    //    {
+    //        lnk.NavigateUrl = "~/RecipeDetails.aspx?RecipeId=" + ((MealRecipe)e.Item.DataItem).RecipeId.ToString();
+    //    }
 
-        if (this.currentMenu.MenuTypeId == (int)MenuTypeEnum.Weekly)
-        {            
-            HtmlTableCell tdDinerNum = e.Item.FindControl("tdDinersNum") as HtmlTableCell;
-            if (tdDinerNum != null)
-            {
-                tdDinerNum.Style["width"] = "33px";                
-                Label lblDinersNum = new Label();
-                lblDinersNum.Text = meal.Diners.ToString();
-                tdDinerNum.Controls.Add(lblDinersNum);
-            }
-        }
-    }
+    //    if (this.currentMenu.MenuTypeId == (int)MenuTypeEnum.Weekly)
+    //    {            
+    //        HtmlTableCell tdDinerNum = e.Item.FindControl("tdDinersNum") as HtmlTableCell;
+    //        if (tdDinerNum != null)
+    //        {
+    //            tdDinerNum.Style["width"] = "33px";                
+    //            Label lblDinersNum = new Label();
+    //            lblDinersNum.Text = meal.Diners.ToString();
+    //            tdDinerNum.Controls.Add(lblDinersNum);
+    //        }
+    //    }
+    //}
 
-    protected void btnAddMenuToFavorites_Click(object sender, EventArgs e)
-    {
-        int favMenusNum = 0;
-        if (this.CurrentMenuId != null && BusinessFacade.Instance.AddMenuToUserFavorites(((BasePage)this.Page).UserId, this.CurrentMenuId.Value, out favMenusNum))
-        {
-            this.btnAddMenuToFavorites.Visible = false;
-            this.btnAddMenuToFavorites_bottom.Visible = false;
-            this.btnRemoveMenuFromFavorites.Visible = true;
-            this.btnRemoveMenuFromFavorites_bottom.Visible = true;
-            this.upActionsTop.Update();
-            this.upActionsBottom.Update();
-            this.RefreshTopTags();
-            this.upTopTags.Update();
+    //protected void btnAddMenuToFavorites_Click(object sender, EventArgs e)
+    //{
+    //    int favMenusNum = 0;
+    //    if (this.CurrentMenuId != null && BusinessFacade.Instance.AddMenuToUserFavorites(((BasePage)this.Page).UserId, this.CurrentMenuId.Value, out favMenusNum))
+    //    {
+    //        this.btnAddMenuToFavorites.Visible = false;
+    //        this.btnAddMenuToFavorites_bottom.Visible = false;
+    //        this.btnRemoveMenuFromFavorites.Visible = true;
+    //        this.btnRemoveMenuFromFavorites_bottom.Visible = true;
+    //        this.upActionsTop.Update();
+    //        this.upActionsBottom.Update();
+    //        this.RefreshTopTags();
+    //        this.upTopTags.Update();
 
-            List<int> favMenusList = Utils.FavoriteMenusAdded;
-            favMenusList.Add(this.CurrentMenuId.Value);
-            Utils.FavoriteMenusAdded = favMenusList;
+    //        List<int> favMenusList = Utils.FavoriteMenusAdded;
+    //        favMenusList.Add(this.CurrentMenuId.Value);
+    //        Utils.FavoriteMenusAdded = favMenusList;
 
-            UserControl uc = (((this.Master).Master).Master).FindControl("HeaderControl1") as UserControl;
+    //        UserControl uc = (((this.Master).Master).Master).FindControl("HeaderControl1") as UserControl;
 
-            if (uc != null)
-            {
-                Label lbl = uc.FindControl("lblFavMenusNum") as Label;
-                if (lbl != null)
-                {
-                    lbl.Text = "(" + Utils.FavoriteMenusAdded.Count + ")";
-                }
+    //        if (uc != null)
+    //        {
+    //            Label lbl = uc.FindControl("lblFavMenusNum") as Label;
+    //            if (lbl != null)
+    //            {
+    //                lbl.Text = "(" + Utils.FavoriteMenusAdded.Count + ")";
+    //            }
 
-                UpdatePanel up = uc.FindControl("upFavorites") as UpdatePanel;
-                if (up != null)
-                {
-                    up.Update();
-                }
-            }
-        }        
-    }
+    //            UpdatePanel up = uc.FindControl("upFavorites") as UpdatePanel;
+    //            if (up != null)
+    //            {
+    //                up.Update();
+    //            }
+    //        }
+    //    }        
+    //}
 
-    protected void btnRemoveMenuFromFavorites_Click(object sender, EventArgs e)
-    {
-        int favMenusNum = 0;
-        if (this.CurrentMenuId != null && BusinessFacade.Instance.RemoveMenuFromUserFavorites(((BasePage)this.Page).UserId, this.CurrentMenuId.Value, out favMenusNum))
-        {
-            this.btnAddMenuToFavorites.Visible = true;
-            this.btnAddMenuToFavorites_bottom.Visible = true;
-            this.btnRemoveMenuFromFavorites.Visible = false;
-            this.btnRemoveMenuFromFavorites_bottom.Visible = false;
-            this.upActionsTop.Update();
-            this.upActionsBottom.Update();
-            this.RefreshTopTags();
-            this.upTopTags.Update();
+    //protected void btnRemoveMenuFromFavorites_Click(object sender, EventArgs e)
+    //{
+    //    int favMenusNum = 0;
+    //    if (this.CurrentMenuId != null && BusinessFacade.Instance.RemoveMenuFromUserFavorites(((BasePage)this.Page).UserId, this.CurrentMenuId.Value, out favMenusNum))
+    //    {
+    //        this.btnAddMenuToFavorites.Visible = true;
+    //        this.btnAddMenuToFavorites_bottom.Visible = true;
+    //        this.btnRemoveMenuFromFavorites.Visible = false;
+    //        this.btnRemoveMenuFromFavorites_bottom.Visible = false;
+    //        this.upActionsTop.Update();
+    //        this.upActionsBottom.Update();
+    //        this.RefreshTopTags();
+    //        this.upTopTags.Update();
 
-            List<int> favMenusList = Utils.FavoriteMenusAdded;
-            if (favMenusList.Contains(this.CurrentMenuId.Value))
-            {
-                favMenusList.Remove(this.CurrentMenuId.Value);
-            }
-            Utils.FavoriteMenusAdded = favMenusList;
+    //        List<int> favMenusList = Utils.FavoriteMenusAdded;
+    //        if (favMenusList.Contains(this.CurrentMenuId.Value))
+    //        {
+    //            favMenusList.Remove(this.CurrentMenuId.Value);
+    //        }
+    //        Utils.FavoriteMenusAdded = favMenusList;
 
-            UserControl uc = (((this.Master).Master).Master).FindControl("HeaderControl1") as UserControl;
+    //        UserControl uc = (((this.Master).Master).Master).FindControl("HeaderControl1") as UserControl;
 
-            if (uc != null)
-            {
-                Label lbl = uc.FindControl("lblFavMenusNum") as Label;
-                if (lbl != null)
-                {
-                    lbl.Text = "(" + Utils.FavoriteMenusAdded.Count + ")";
-                }
+    //        if (uc != null)
+    //        {
+    //            Label lbl = uc.FindControl("lblFavMenusNum") as Label;
+    //            if (lbl != null)
+    //            {
+    //                lbl.Text = "(" + Utils.FavoriteMenusAdded.Count + ")";
+    //            }
 
-                UpdatePanel up = uc.FindControl("upFavorites") as UpdatePanel;
-                if (up != null)
-                {
-                    up.Update();
-                }
-            }
-        }
-    }
+    //            UpdatePanel up = uc.FindControl("upFavorites") as UpdatePanel;
+    //            if (up != null)
+    //            {
+    //                up.Update();
+    //            }
+    //        }
+    //    }
+    //}
 
-    protected void ucSendMailToFriend_EmailSent(object sender, SendToFriendEventArgs e)
-    {
-        ((BasePage)this.Page).DisplayMessage = "אימייל נשלח ל- " + e.recipentName;
-    }
+    //protected void ucSendMailToFriend_EmailSent(object sender, SendToFriendEventArgs e)
+    //{
+    //    ((BasePage)this.Page).DisplayMessage = "אימייל נשלח ל- " + e.recipentName;
+    //}
 
     //protected void btnSendMail_Click(object sender, EventArgs e)
     //{
@@ -555,79 +555,79 @@ public partial class MenuDetails : BasePage
         //}       
     //}
 
-    protected void btnDeleteMenu_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            if (CurrentMenuId.HasValue && BusinessFacade.Instance.DeleteMenu(CurrentMenuId.Value))
-            {
-                Response.Redirect("~/Menus.aspx");
-            }
-        }
-        catch (Exception exception)
-        {
-            PopupMessage(exception.Message);
-        }
-    }
+    //protected void btnDeleteMenu_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        if (CurrentMenuId.HasValue && BusinessFacade.Instance.DeleteMenu(CurrentMenuId.Value))
+    //        {
+    //            Response.Redirect("~/Menus.aspx");
+    //        }
+    //    }
+    //    catch (Exception exception)
+    //    {
+    //        PopupMessage(exception.Message);
+    //    }
+    //}
 
-    protected string GetCategoriesString(MenuCategory[] categories)
-    {
-        string str = "";
-        foreach (MenuCategory cat in categories)
-        {
-            str += cat.MCategory.MCategoryName + ", ";
-        }
+    //protected string GetCategoriesString(MCategory[] categories)
+    //{
+    //    string str = "";
+    //    foreach (MCategory cat in categories)
+    //    {
+    //        str += cat.MCategoryName + ", ";
+    //    }
 
-        if (str.Length > 2)
-        {
-            str = str.Remove(str.Length - 2);
-        }
+    //    if (str.Length > 2)
+    //    {
+    //        str = str.Remove(str.Length - 2);
+    //    }
 
-        return str;
-    }
+    //    return str;
+    //}
 
-    protected string AdjustVideo(string embeddedVideoString)
-    {
-        string str = embeddedVideoString;
-        int embedIndex = str.IndexOf("embed");
-        int heightIndex = str.IndexOf("height=", embedIndex);
-        string heightValue = str.Substring(heightIndex + "height=".Length + 1, 3);
-        int widthIndex = str.IndexOf("width=", embedIndex);
-        string widthValue = str.Substring(widthIndex + "width=".Length + 1, 3);
-        str = str.Replace(widthValue, "330");
-        str = str.Replace(heightValue, "236");
-        return str;
-    }
+    //protected string AdjustVideo(string embeddedVideoString)
+    //{
+    //    string str = embeddedVideoString;
+    //    int embedIndex = str.IndexOf("embed");
+    //    int heightIndex = str.IndexOf("height=", embedIndex);
+    //    string heightValue = str.Substring(heightIndex + "height=".Length + 1, 3);
+    //    int widthIndex = str.IndexOf("width=", embedIndex);
+    //    string widthValue = str.Substring(widthIndex + "width=".Length + 1, 3);
+    //    str = str.Replace(widthValue, "330");
+    //    str = str.Replace(heightValue, "236");
+    //    return str;
+    //}
 
-    protected void SaveImage(object sender, EventArgs e)
-    {
-        if (!CurrentMenuId.HasValue) return;
+    //protected void SaveImage(object sender, EventArgs e)
+    //{
+    //    if (!CurrentMenuId.HasValue) return;
 
-        Menu menu = BusinessFacade.Instance.GetMenu(CurrentMenuId.Value);
-        string category = "MenusScreenShots";
+    //    Menu menu = BusinessFacade.Instance.GetMenu(CurrentMenuId.Value);
+    //    string category = "MenusScreenShots";
 
-        string savePath = Server.MapPath(string.Format(@"~\Images\{0}\", category));
+    //    string savePath = Server.MapPath(string.Format(@"~\Images\{0}\", category));
 
-        if (!Directory.Exists(savePath))
-            Directory.CreateDirectory(savePath);
+    //    if (!Directory.Exists(savePath))
+    //        Directory.CreateDirectory(savePath);
 
-        string t_strLargeImage = string.Format(@"{0}{1}.jpg", savePath, menu.MenuName);
+    //    string t_strLargeImage = string.Format(@"{0}{1}.jpg", savePath, menu.MenuName);
 
-        // Create instance
-        ThumbMakerClass t_xThumbMaker = new ThumbMakerClass();
+    //    // Create instance
+    //    ThumbMakerClass t_xThumbMaker = new ThumbMakerClass();
 
-        t_xThumbMaker.SetURL(string.Format("http://{0}{1}/ScreenShotMenu.aspx?menuId={2}&action=screenshot", Request.Url.Host,
-                                           Request.ApplicationPath, CurrentMenuId));
-        t_xThumbMaker.SetRegInfo("KRMAXARQW-XTABNYBXW-KMQXRWMKB-BNTQABQTE");
-        t_xThumbMaker.StartSnap();
+    //    t_xThumbMaker.SetURL(string.Format("http://{0}{1}/ScreenShotMenu.aspx?menuId={2}&action=screenshot", Request.Url.Host,
+    //                                       Request.ApplicationPath, CurrentMenuId));
+    //    t_xThumbMaker.SetRegInfo("KRMAXARQW-XTABNYBXW-KMQXRWMKB-BNTQABQTE");
+    //    t_xThumbMaker.StartSnap();
 
-        // Save the image with full size in C#
-        bool saveImage = t_xThumbMaker.SaveImage(t_strLargeImage.Replace(@"""", "``"));
+    //    // Save the image with full size in C#
+    //    bool saveImage = t_xThumbMaker.SaveImage(t_strLargeImage.Replace(@"""", "``"));
 
-        if (saveImage)
-        {
-            Response.Redirect("ScreenShotMenu.aspx?menuId=" + CurrentMenuId);
-        }
-    }
+    //    if (saveImage)
+    //    {
+    //        Response.Redirect("ScreenShotMenu.aspx?menuId=" + CurrentMenuId);
+    //    }
+    //}
 
 }

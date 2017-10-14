@@ -39,29 +39,31 @@ public partial class PageMeasurementUnitsConvert : BasePage
             }
             else
             {
-                this.ddlFromMeasurementUnits.DataSource = BusinessFacade.Instance.GetMeasurementUnitsList();
-                this.ddlFromMeasurementUnits.DataTextField = "UnitName";
-                this.ddlFromMeasurementUnits.DataValueField = "UnitId";
-                this.ddlFromMeasurementUnits.DataBind();
+                ddlFromMeasurementUnits.DataSource = BusinessFacade.Instance.GetMeasurementUnitsList();
+                ddlFromMeasurementUnits.DataTextField = "UnitName";
+                ddlFromMeasurementUnits.DataValueField = "UnitId";
+                ddlFromMeasurementUnits.DataBind();
 
-                this.ddlToMeasurementUnits.DataSource = BusinessFacade.Instance.GetMeasurementUnitsList();
-                this.ddlToMeasurementUnits.DataTextField = "UnitName";
-                this.ddlToMeasurementUnits.DataValueField = "UnitId";
-                this.ddlToMeasurementUnits.DataBind();
+                ddlToMeasurementUnits.DataSource = BusinessFacade.Instance.GetMeasurementUnitsList();
+                ddlToMeasurementUnits.DataTextField = "UnitName";
+                ddlToMeasurementUnits.DataValueField = "UnitId";
+                ddlToMeasurementUnits.DataBind();
 
                 if (!string.IsNullOrEmpty(this.Request["ConvertId"]))
                 {
-                    this.ConvertId = int.Parse(this.Request["ConvertId"]);
+                    ConvertId = int.Parse(this.Request["ConvertId"]);
 
                     MeasurementUnitsConvert convert = BusinessFacade.Instance.GetMeasurementUnitsConvert(ConvertId);
 
+                    Food food = BusinessFacade.Instance.GetFood(convert.FoodId);
+
                     if (convert != null)
                     {
-                        this.txtIngredientName.Text = convert.Food.FoodName;
-                        this.txtFromQuantity.Text = convert.FromQuantity.ToString();
-                        this.ddlFromMeasurementUnits.SelectedValue = convert.FromUnitId.ToString();
-                        this.txtToQuantity.Text = convert.ToQuantity.ToString();
-                        this.ddlToMeasurementUnits.SelectedValue = convert.ToUnitId.ToString();
+                        txtIngredientName.Text = food.FoodName;
+                        txtFromQuantity.Text = convert.FromQuantity.ToString();
+                        ddlFromMeasurementUnits.SelectedValue = convert.FromUnitId.ToString();
+                        txtToQuantity.Text = convert.ToQuantity.ToString();
+                        ddlToMeasurementUnits.SelectedValue = convert.ToUnitId.ToString();
                     }
                 }
             }

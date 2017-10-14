@@ -59,7 +59,7 @@ public partial class PageMeausurementUnitsList : BasePage
         }
 
         btn = rolItem.FindControl("btnDelete") as LinkButton;
-        btn.Visible = unit.AllowDelete;
+        //btn.Visible = unit.AllowDelete;
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)

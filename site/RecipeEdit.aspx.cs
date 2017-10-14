@@ -1,6 +1,7 @@
 ﻿using System;
 
 using ProperServices.Common.Log;
+using MyBuyList.Shared.Entities;
 
 public partial class RecipeEdit : BasePage
 {

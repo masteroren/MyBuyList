@@ -19,7 +19,7 @@ public partial class UserControls_MenusSearchControl : System.Web.UI.UserControl
         lstCategories.Items.Add(new ListItem("בחר קטגוריה"));
         foreach (MCategory mCategory in categoryList)
         {
-            string Text = string.Format("{0} ({1})", mCategory.MCategoryName, mCategory.MenusCount);
+            string Text = string.Format("{0} ({1})", mCategory.MCategoryName, mCategory.Menus.Count());
             string Url = string.Format(MenuCategoryChangeBaseUrl, mCategory.MCategoryId);
             lstCategories.Items.Add(new ListItem(Text, Url));
         }

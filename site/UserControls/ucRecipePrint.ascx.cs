@@ -28,14 +28,15 @@ public partial class UserControls_RecipePrint : System.Web.UI.UserControl
 
     public void Bind(int recipeId, int[] ServingsList)
     {
-        this.recipe = BusinessFacade.Instance.GetRecipe(recipeId);
+        recipe = BusinessFacade.Instance.GetRecipe(recipeId);
+        Ingredient[] recipeIngredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
 
         if (ServingsList == null)
         {
             ServingsList = new int[] { recipe.Servings };
         }
 
-        if (recipe.Ingredients.Count > 0)
+        if (recipeIngredients.Count() > 0)
         {
             this.lvServs.DataSource = ServingsList;
             this.lvServs.DataBind();
@@ -45,7 +46,7 @@ public partial class UserControls_RecipePrint : System.Web.UI.UserControl
             this.lvServs.Visible = false;
         }
 
-        Ingredient[] toPrint = recipe.Ingredients.Where(i => i.Food.PrintPicture == true).ToArray();
+        Ingredient[] toPrint = recipeIngredients.Where(i => i.Food.PrintPicture == true).ToArray();
         Dictionary<int, string> foodArray = new Dictionary<int, string>();
 
         foreach (Ingredient ing in toPrint)
@@ -121,7 +122,9 @@ public partial class UserControls_RecipePrint : System.Web.UI.UserControl
         int servings = (int)lvItem.DataItem;
 
         UserControls_PrintIngredients uc = lvItem.FindControl("printIngredients") as UserControls_PrintIngredients;
-        uc.Bind(recipe.Ingredients.ToArray<Ingredient>(), recipe.Servings, (int)lvItem.DataItem);
+
+        Ingredient[] recipeIngredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+        uc.Bind(recipeIngredients.ToArray<Ingredient>(), recipe.Servings, (int)lvItem.DataItem);
 
     }
 }

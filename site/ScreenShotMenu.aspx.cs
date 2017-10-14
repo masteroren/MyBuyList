@@ -337,18 +337,18 @@ public partial class PrintWeeklyMenu : BasePage
     }
 
 
-    protected string GetCategoriesString(MenuCategory[] categories)
+    protected string GetCategoriesString(Category[] categories)
     {
         string str = "";
-        foreach (MenuCategory cat in categories)
-        {
-            str += cat.MCategory.MCategoryName + ", ";
-        }
+        //foreach (MenuCategory cat in categories)
+        //{
+        //    str += cat.MCategory.MCategoryName + ", ";
+        //}
 
-        if (str.Length > 2)
-        {
-            str = str.Remove(str.Length - 2);
-        }
+        //if (str.Length > 2)
+        //{
+        //    str = str.Remove(str.Length - 2);
+        //}
 
         return str;
     }

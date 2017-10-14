@@ -136,15 +136,17 @@ public partial class ucMyRecipesList : System.Web.UI.UserControl
         if (!string.IsNullOrEmpty(btn.Attributes["recipeId"]))
         {
             int recipeId = int.Parse(btn.Attributes["recipeId"]);
-            if (BusinessFacade.Instance.DeleteRecipe(recipeId))
-            {
-                this.RefreshData();;
-            }
-            else
-            {
-                this.result.Visible = true;
-                this.lblResult.Text = "מתכון זה מופיע בתפריט/ים ולכן אין באפשרותך למחוק אותו";
-            }
+            BusinessFacade.Instance.DeleteRecipe(recipeId);
+
+            //if (BusinessFacade.Instance.DeleteRecipe(recipeId))
+            //{
+            //    this.RefreshData();;
+            //}
+            //else
+            //{
+            //    this.result.Visible = true;
+            //    this.lblResult.Text = "מתכון זה מופיע בתפריט/ים ולכן אין באפשרותך למחוק אותו";
+            //}
         }
     }
 

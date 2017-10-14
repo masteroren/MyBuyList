@@ -58,7 +58,7 @@ public partial class PageGeneralItemsList : BasePage
         }
 
         btn = rolItem.FindControl("btnDelete") as LinkButton;
-        btn.Visible = Item.AllowDelete;
+        //btn.Visible = Item.AllowDelete;
         btn.Attributes.Add("ItemId", Item.GeneralItemId.ToString());
     }
 

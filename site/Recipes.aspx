@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master"
-    AutoEventWireup="true" CodeFile="Recipes.aspx.cs" Inherits="Recipes" Theme="Standard" %>
+    AutoEventWireup="true" CodeFile="Recipes.aspx.cs" Inherits="Recipes" %>
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc2" TagName="RecipeCategories" %>
@@ -104,7 +104,7 @@
                 <asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" OnClick="ButtonRecipesRefresh_Click" />
                 <asp:UpdatePanel ID="upRecipes" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" /> 
+                        <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" />
                     </Triggers>
                     <ContentTemplate>
                         <div class="recipe_list">
@@ -117,12 +117,12 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <div class="recipe_main_category">
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Right.png); width: 19px; height: 30px; background-repeat:no-repeat;"></div>
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Center.png); width: 220px; height: 30px; background-repeat:repeat-x;">
+                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Right.png); width: 19px; height: 30px; background-repeat: no-repeat;"></div>
+                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Center.png); width: 220px; height: 30px; background-repeat: repeat-x;">
                                             <div style="height: 10px;"></div>
-                                            <asp:Label ID="lblMainCategory" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "RecipeCategories[0].Category.CategoryName") %>'></asp:Label>
+                                            <asp:Label ID="lblMainCategory" runat="server"></asp:Label>
                                         </div>
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Left.png); width: 19px; height: 30px; background-repeat:no-repeat;"></div>
+                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Left.png); width: 19px; height: 30px; background-repeat: no-repeat;"></div>
                                     </div>
                                     <div class="recipe_box">
                                         <div class="body">
@@ -157,8 +157,7 @@
                                                 </div>
                                                 <div class="publisher_box">
                                                     <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
-                                                    <asp:HyperLink ID="lnkPublisher" runat="server" NavigateUrl="" CssClass="published_value"
-                                                        Text='<%# DataBinder.Eval(Container.DataItem, "User.DisplayName") %>'></asp:HyperLink>&nbsp;&nbsp;&nbsp;
+                                                    <asp:HyperLink ID="lnkPublisher" runat="server" NavigateUrl="" CssClass="published_value"></asp:HyperLink>&nbsp;&nbsp;&nbsp;
                                         <div class="published_date">
                                             <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
                                             <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("CreatedDate") %>' CssClass="published_value"></asp:Label>
@@ -167,8 +166,7 @@
                                             </div>
                                             <div class="recipe_thumbnail_box">
                                                 <div class="recipe_thumbnail" style="width: 123px; height: 94px;">
-                                                    <asp:Image ID="imgThumbnail" runat="server" ImageUrl='<%# Eval("Picture") %>'
-                                                        Style="max-height: 94px; max-width: 123px;" />
+                                                    <asp:Image ID="imgThumbnail" runat="server" Style="max-height: 94px; max-width: 123px;" />
                                                 </div>
                                             </div>
                                         </div>

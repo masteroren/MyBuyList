@@ -92,12 +92,14 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
         //    HeaderControl1.SearchFor = Session["SearchFor"].ToString();
         //    HeaderControl1.SearchIn = Session["SearchIn"].ToString();
         //}
-        
+
         //MyBuyList.Shared.Entities.Article footerBody = BusinessFacade.Instance.GetArticleById(FOOTER_ARTICLE_ID);
         //if (footerBody != null)
         //{
         //    this.footerHtml.InnerHtml = footerBody.Body;
         //}
+
+        RestUrl.Value = ConfigurationManager.AppSettings["RestService"];
     }
 
     protected override void OnPreRender(EventArgs e)
@@ -126,10 +128,6 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
         }
     }
 
-    #region Disappearing message
-    /// <summary>
-    /// Renders a message if one exists.
-    /// </summary>
     private void RenderDisappearingMessage()
     {
         BasePage page = Page as BasePage;
@@ -140,5 +138,4 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
             this.DisappearingMessage1.Text = page.DisplayMessage;
         }
     }
-    #endregion
 }

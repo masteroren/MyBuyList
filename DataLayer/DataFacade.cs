@@ -4,6 +4,7 @@ using System.Linq;
 using MyBuyList.Shared.Entities;
 using MyBuyList.DataLayer.DataAdapters;
 using MyBuyList.Shared.Enums;
+using System;
 
 namespace MyBuyList.DataLayer
 {
@@ -62,7 +63,7 @@ namespace MyBuyList.DataLayer
             return new MenusDA().GetMenuType(menuId);
         }
 
-        public MenuRecipe[] GetMenuRecipes(int menuId)
+        public Recipe[] GetMenuRecipes(int menuId)
         {
             return new MenusDA().GetMenuRecipes(menuId);
         }
@@ -265,10 +266,10 @@ namespace MyBuyList.DataLayer
             return new RecipesDA().GetRecipesNum();
         }
 
-        public RecipeIngredientsView[] GetRecipeIngredientsViewList(int recipeId)
-        {
-            return new RecipesDA().GetRecipeIngredientsViewList(recipeId);
-        }
+        //public RecipeIngredientsView[] GetRecipeIngredientsViewList(int recipeId)
+        //{
+        //    return new RecipesDA().GetRecipeIngredientsViewList(recipeId);
+        //}
 
         public Ingredient[] GetRecipeIngredientsList(int recipeId)
         {
@@ -290,14 +291,19 @@ namespace MyBuyList.DataLayer
             return new RecipesDA().RemoveUserFavoritesRecipe(userId, recipeId, out favRecipesNum);
         }
 
-        public bool DeleteRecipe(int recipeId)
+        public int DeleteRecipe(int recipeId)
         {
             return new RecipesDA().DeleteRecipe(recipeId);
         }
 
-        public bool SaveRecipe(Recipe recipe, out int recipeId)
+        public bool SaveRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories, out int recipeId)
         {
-            return new RecipesDA().SaveRecipe(recipe, out recipeId);
+            return new RecipesDA().SaveRecipe(recipe, ingridiants, categories, out recipeId);
+        }
+
+        public bool UpdateRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories)
+        {
+            return new RecipesDA().UpdateRecipe(recipe, ingridiants, categories);
         }
 
         public bool UpdateRecipePreparationMethod(int recipeId, string preparationMethod)
@@ -305,10 +311,10 @@ namespace MyBuyList.DataLayer
             return new RecipesDA().UpdateRecipePreparationMethod(recipeId, preparationMethod);
         }
 
-        public bool SaveRecipeCategories(int recipeId, RecipeCategory[] categories)
-        {
-            return new RecipesDA().SaveRecipeCategories(recipeId, categories);
-        }
+        //public bool SaveRecipeCategories(int recipeId, RecipeCategory[] categories)
+        //{
+            //return new RecipesDA().SaveRecipeCategories(recipeId, categories);
+        //}
 
         public RecipeTotalNutValues[] GetRecipeTotalNutValues(int recipeId, out bool isCompleteCalculation)
         {
@@ -384,95 +390,95 @@ namespace MyBuyList.DataLayer
         #endregion
 
         #region Routine List
-        public SavedList AddSavedList(int userId, string name)
-        {
-            return new SavedListDA().AddList(userId, name);
-        }
+        //public SavedList AddSavedList(int userId, string name)
+        //{
+        //    return new SavedListDA().AddList(userId, name);
+        //}
 
-        public SavedListDetail AddSavedListItem(string name, int quantity, int listId)
-        {
-            return new SavedListDA().AddListItem(name, quantity, listId);
-        }
+        //public SavedListDetail AddSavedListItem(string name, int quantity, int listId)
+        //{
+        //    return new SavedListDA().AddListItem(name, quantity, listId);
+        //}
 
-        public IQueryable<SavedListDetail> GetSavedListDetails(int listId)
-        {
-            return new SavedListDA().GetListDetails(listId);
-        }
+        //public IQueryable<SavedListDetail> GetSavedListDetails(int listId)
+        //{
+        //    return new SavedListDA().GetListDetails(listId);
+        //}
 
-        public void DeleteSavedListItem(int ingredientId)
-        {
-            new SavedListDA().DeleteListItem(ingredientId);
-        }
+        //public void DeleteSavedListItem(int ingredientId)
+        //{
+        //    new SavedListDA().DeleteListItem(ingredientId);
+        //}
 
-        public IQueryable<SavedList> GetSavedLists(int userId)
-        {
-            return new SavedListDA().GetLists(userId);
-        }
+        //public IQueryable<SavedList> GetSavedLists(int userId)
+        //{
+        //    return new SavedListDA().GetLists(userId);
+        //}
 
-        public bool DeleteSavedList(int listId)
-        {
-            return new SavedListDA().DeleteList(listId);
-        }
+        //public bool DeleteSavedList(int listId)
+        //{
+        //    return new SavedListDA().DeleteList(listId);
+        //}
         #endregion
 
         #region General List
-        public int AddGeneralList(int userId, ListTypes listType)
-        {
-            return new GeneralListDA().AddGeneralList(userId, listType);
-        }
+        //public int AddGeneralList(int userId, ListTypes listType)
+        //{
+        //    return new GeneralListDA().AddGeneralList(userId, listType);
+        //}
 
-        public bool AddGeneralListItem(SRL_Ingredient ingredient, int listId)
-        {
-            return new GeneralListDA().AddGeneralListItem(ingredient, listId);
-        }
+        //public bool AddGeneralListItem(SRL_Ingredient ingredient, int listId)
+        //{
+        //    return new GeneralListDA().AddGeneralListItem(ingredient, listId);
+        //}
 
-        public List<SRL_Ingredient> GetGeneralList(int userId, ListTypes listType)
-        {
-            return new GeneralListDA().GetGeneralList(userId, listType);
-        }
+        //public List<SRL_Ingredient> GetGeneralList(int userId, ListTypes listType)
+        //{
+        //    return new GeneralListDA().GetGeneralList(userId, listType);
+        //}
 
-        public bool DeleteGeneralList(int listId)
-        {
-            return new GeneralListDA().DeleteGeneralList(listId);
-        }
+        //public bool DeleteGeneralList(int listId)
+        //{
+        //    return new GeneralListDA().DeleteGeneralList(listId);
+        //}
 
-        public bool DeleteGeneralListItem(int ingredientId)
-        {
-            return new GeneralListDA().DeleteGeneralListItem(ingredientId);
-        }
+        //public bool DeleteGeneralListItem(int ingredientId)
+        //{
+        //    return new GeneralListDA().DeleteGeneralListItem(ingredientId);
+        //}
         #endregion
 
 
         #region Summery List
-        public int AddSummeryList(int userId)
-        {
-            return new SummeryListDA().AddList(userId);
-        }
+        //public int AddSummeryList(int userId)
+        //{
+        //    return new SummeryListDA().AddList(userId);
+        //}
 
-        public bool AddSummeryListItem(SRL_Ingredient ingredient, int listId, int sourceId)
-        {
-            return new SummeryListDA().AddListItem(ingredient, listId, sourceId);
-        }
+        //public bool AddSummeryListItem(SRL_Ingredient ingredient, int listId, int sourceId)
+        //{
+        //    return new SummeryListDA().AddListItem(ingredient, listId, sourceId);
+        //}
 
-        public int GetSummeryList(int userId)
-        {
-            return new SummeryListDA().GetList(userId);
-        }
+        //public int GetSummeryList(int userId)
+        //{
+        //    return new SummeryListDA().GetList(userId);
+        //}
 
-        public List<SRL_Ingredient> GetSummeryListDetails(int listId)
-        {
-            return new SummeryListDA().GetListDetails(listId);
-        }
+        //public List<SRL_Ingredient> GetSummeryListDetails(int listId)
+        //{
+        //    return new SummeryListDA().GetListDetails(listId);
+        //}
 
-        public void DeleteSummeryList(int listId)
-        {
-            new SummeryListDA().DeleteList(listId);
-        }
+        //public void DeleteSummeryList(int listId)
+        //{
+        //    new SummeryListDA().DeleteList(listId);
+        //}
 
-        public void DeleteSummeryListItem(int summeryId, int sourceId, SRL_Ingredient ingredient)
-        {
-            new SummeryListDA().DeleteListItem(summeryId, sourceId, ingredient);
-        }
+        //public void DeleteSummeryListItem(int summeryId, int sourceId, SRL_Ingredient ingredient)
+        //{
+        //    new SummeryListDA().DeleteListItem(summeryId, sourceId, ingredient);
+        //}
         #endregion
 
         #region Admin
@@ -871,10 +877,10 @@ namespace MyBuyList.DataLayer
             new ShoppingsListDA().CheckShoppingListItem(userId, foodId, active);
         }
 
-        public IQueryable<RecipesView> GetRecipes(string searchValue, int userId)
-        {
-            return new RecipesDA().GetRecipes(searchValue, userId);
-        }
+        //public IQueryable<RecipesView> GetRecipes(string searchValue, int userId)
+        //{
+        //    return new RecipesDA().GetRecipes(searchValue, userId);
+        //}
 
         public void AddRecipeToShoppingList(int userId, int recipeId)
         {
@@ -896,30 +902,30 @@ namespace MyBuyList.DataLayer
             new MenusDA().AddMenuToShoppingList(userId, menuId, check);
         }
 
-        public IQueryable<MenusInShoppingList> GetMenusInShoppingList(int userId)
-        {
-            return new MenusDA().GetMenusInShoppingList(userId);
-        }
+        //public IQueryable<MenusInShoppingList> GetMenusInShoppingList(int userId)
+        //{
+        //    return new MenusDA().GetMenusInShoppingList(userId);
+        //}
 
         public void RemoveMenuFromShoppingList(int userId, int menuId)
         {
             new MenusDA().RemoveMenuFromShoppingList(userId, menuId);
         }
 
-        public void UpdateSaveList(int listId, bool shoppingList)
-        {
-            new SavedListDA().UpdateSaveList(listId, shoppingList);
-        }
+        //public void UpdateSaveList(int listId, bool shoppingList)
+        //{
+        //    new SavedListDA().UpdateSaveList(listId, shoppingList);
+        //}
 
         public void UpdateMissingListItem(int id, int quantity)
         {
             new MissingItemsListDA().UpdateMissingListItem(id, quantity);
         }
 
-        public void UpdateSavedListItem(int id, int quantity)
-        {
-            new SavedListDA().UpdateSavedListItem(id, quantity);
-        }
+        //public void UpdateSavedListItem(int id, int quantity)
+        //{
+        //    new SavedListDA().UpdateSavedListItem(id, quantity);
+        //}
 
         public IEnumerable<Recipe> SearchRecipes(string searchedText)
         {

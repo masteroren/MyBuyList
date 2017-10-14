@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MyBuyListRest.ShippingList;
+using System;
 using System.ServiceModel.Activation;
+using System.Web;
 using System.Web.Routing;
 
 namespace MyBuyListRest
 {
-    public class Global : System.Web.HttpApplication
+    public class Global : HttpApplication
     {
 
         protected void Application_Start(object sender, EventArgs e)
@@ -21,7 +23,15 @@ namespace MyBuyListRest
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
+            {
+                //These headers are handling the "pre-flight" OPTIONS call sent by the browser
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+                HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "1728000");
+                HttpContext.Current.Response.End();
+            }
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

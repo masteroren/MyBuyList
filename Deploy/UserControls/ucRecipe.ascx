@@ -159,7 +159,7 @@
                 <asp:Image ID="Image5" runat="server" ImageUrl="~/Images/SubHeader_Products_AddNewRecipe.png" />
             </div>
 
-            <MBL:Ingridiants runat="server" id="Ingridiants" />
+            <MBL:Ingridiants runat="server" ID="Ingridiants" />
 
             <div class="DividerAddNewRecipe">
             </div>

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
-using ProperControls.Pages;
 using ProperControls.General;
 using ProperServices.Common.Extensions;
 
@@ -54,7 +50,7 @@ public partial class Recipes : BasePage
 
                 //EmphasizeCurrentSearch(this.Display);
 
-                MyBuyList.Shared.Entities.User currentUser = BusinessFacade.Instance.GetUser(((BasePage)this.Page).UserId);
+                User currentUser = BusinessFacade.Instance.GetUser(((BasePage)this.Page).UserId);
                 string email = (currentUser != null) ? currentUser.Email : string.Empty;
                 //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
 
@@ -408,12 +404,35 @@ public partial class Recipes : BasePage
 
             bool inMyFavorites = false;
             inMyFavorites = false;
-            if (recipe.UserFavoriteRecipes.Any() && CurrUser != null)
-                inMyFavorites = recipe.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
+            if (recipe.Users.Any() && CurrUser != null)
+                inMyFavorites = recipe.Users.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
             divMyFavoritesInfoTag.Visible = inMyFavorites;
 
             Label lblAllFavorites = e.Item.FindControl("lblAllFavorites") as Label;
             Label lblAllMenus = e.Item.FindControl("lblAllMenus") as Label;
+
+            Label mainCategor = e.Item.FindControl("lblMainCategory") as Label;
+            Category[] recipeCategories = (from a in recipe.Categories select a).ToArray();
+            if (recipeCategories.Length > 0)
+            {
+                mainCategor.Text = recipeCategories[0].CategoryName;
+            }
+
+            HyperLink publisher = e.Item.FindControl("lnkPublisher") as HyperLink;
+            if (recipe.User != null)
+            {
+                publisher.Text = recipe.User.DisplayName;
+            }
+
+            Image image = e.Item.FindControl("imgThumbnail") as Image;
+            if (recipe.Picture == null)
+            {
+                image.ImageUrl = "~/Images/Img_Default_small.jpg";
+            } else
+            {
+                //image.ImageUrl = recipe.Picture;
+            }
+            
 
             //lblAllFavorites.Text = ((Recipe)e.Item.DataItem).NumUsersFavorite.ToString();
             //lblAllMenus.Text = ((Recipe)e.Item.DataItem).NumMenusInclude.ToString();
@@ -611,9 +630,9 @@ public partial class Recipes : BasePage
     private int RebindCategories(int? categoryId)
     {
         int count = 0;
-        Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList(((BasePage)this.Page).UserId);
+        Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList(((BasePage)Page).UserId);
         var list = from cat in categories.Where(cat => cat.ParentCategoryId == categoryId).ToArray()
-                   select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.RecipesCount);
+                   select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.Recipes.Count());
         this.rptCategories.DataSource = list.ToArray();
         this.rptCategories.DataBind();
         count = list.ToArray().Length;
@@ -628,7 +647,7 @@ public partial class Recipes : BasePage
                 pathList.Add(tmpCategory);
                 if (tmpCategory.ParentCategoryId == null)
                     break;
-                tmpCategory = tmpCategory.ParentCategory;
+                tmpCategory = tmpCategory.Categories1.SingleOrDefault(x => x.ParentCategoryId == tmpCategory.ParentCategoryId);
             }
             while (tmpCategory != null);
         }

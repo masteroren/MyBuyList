@@ -58,7 +58,7 @@ public partial class PageShopDepartmentsList : BasePage
         }
 
         btn = rolItem.FindControl("btnDelete") as LinkButton;
-        btn.Visible = dep.AllowDelete;
+        //btn.Visible = dep.AllowDelete;
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)

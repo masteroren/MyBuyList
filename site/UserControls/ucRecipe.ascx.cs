@@ -12,6 +12,7 @@ using MyBuyList.Shared.Entities;
 using Resources;
 using System.Drawing;
 using ProperServices.Common.Log;
+using System.Web.Script.Serialization;
 
 public partial class ucRecipe : System.Web.UI.UserControl
 {
@@ -45,6 +46,7 @@ public partial class ucRecipe : System.Web.UI.UserControl
     {
         ShowEditor(0);
     }
+
     public void EditRecipe(int recipeId)
     {
         ShowEditor(recipeId);
@@ -56,6 +58,7 @@ public partial class ucRecipe : System.Web.UI.UserControl
         //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "setDirty", "setDirty();", true);
         updateCategories.Update();
     }
+
     public void UpdatePicture(Binary picture)
     {
         this.RecipePicture = picture;
@@ -111,8 +114,8 @@ public partial class ucRecipe : System.Web.UI.UserControl
             }
 
 
-            var list = from item in recipe.RecipeCategories
-                       select new SRL_RecipeCategory(0, item.CategoryId, item.Category.CategoryName);
+            var list = from item in recipe.Categories
+                       select new SRL_RecipeCategory(0, item.CategoryId, item.CategoryName);
             RecipeCategories_Rebind(list.ToArray());
 
             //Ingredients = new List<SRL_Ingredient>();
@@ -214,18 +217,34 @@ public partial class ucRecipe : System.Web.UI.UserControl
 
                 Logger.Write("ucRecipe.SetValues -> Set Categories", Logger.Level.Info);
 
-                var list = from item in recipe.RecipeCategories
-                           select new SRL_RecipeCategory(item.RecipeId, item.CategoryId, item.Category.CategoryName);
+                var list = from item in recipe.Categories
+                           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
+
                 RecipeCategories_Rebind(list.ToArray());
 
                 Logger.Write("ucRecipe.SetValues -> Set Ingrediants", Logger.Level.Info);
 
-                List<SRL_Ingredient> listOfIngediants = new List<SRL_Ingredient>();
-                foreach (Ingredient item in recipe.Ingredients)
+                Ingredient[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+                List<FlatIngredient> flatIngredients = new List<FlatIngredient>();
+                foreach(Ingredient ing in ingredients)
                 {
-                    listOfIngediants.Add(new SRL_Ingredient(item));
+                    flatIngredients.Add(new FlatIngredient
+                    {
+                        FoodId = ing.FoodId,
+                        IngredientId = ing.IngredientId,
+                        MeasurementUnitId = ing.MeasurementUnitId,
+                        Quantity = ing.Quantity,
+                        RecipeId = ing.RecipeId,
+                        Remarks = ing.Remarks,
+                        SortOrder = ing.SortOrder,
+                        FoodName = ing.FoodName,
+                        MeasureUnitName = ing.MeasureUnitName
+                    });
                 }
-                Ingridiants.ListOfIngediants = listOfIngediants;
+
+                JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+                Ingridiants.recipeId = recipe.RecipeId;
+                Ingridiants.Ingridiants = jsSerializer.Serialize(flatIngredients);
 
                 Logger.Write("ucRecipe.SetValues -> End", Logger.Level.Info);
 
@@ -259,6 +278,7 @@ public partial class ucRecipe : System.Web.UI.UserControl
             Logger.Write(string.Format("ucRecipe.SetValues -> Failed for recipe {0}", recipe.RecipeId), ex, Logger.Level.Error);
         }
     }
+
     protected void btnSelectPicture_Click(object sender, EventArgs e)
     {
         if (this.SelectPictureClick != null)
@@ -266,6 +286,7 @@ public partial class ucRecipe : System.Web.UI.UserControl
             this.SelectPictureClick.Invoke(this.RecipeId);
         }
     }
+
     protected void btnCategories_Click(object sender, EventArgs e)
     {        
         if (this.ShowCategoriesClick != null)
@@ -320,13 +341,16 @@ public partial class ucRecipe : System.Web.UI.UserControl
             }
 
             Recipe recipe;
+            bool isNewRecipe = false;
+
             if (RecipeId == 0)
             {
                 recipe = new Recipe();
+                isNewRecipe = true;
             }
             else
             {
-                recipe = BusinessFacade.Instance.GetRecipe(this.RecipeId);
+                recipe = BusinessFacade.Instance.GetRecipe(RecipeId);
             }
 
             if (recipe == null)
@@ -387,50 +411,15 @@ public partial class ucRecipe : System.Web.UI.UserControl
             }
 
             recipe.VideoLink = this.txtEmbeddedLink.Text;
-            recipe.Picture = this.RecipePicture;
+            //recipe.Picture = this.RecipePicture;
 
             if (recipe.UserId == 0)
             {
                 recipe.UserId = ((BasePage)Page).UserId;
             }
 
-            Logger.Write("btnSave_Click -> Set recipe categories", Logger.Level.Info);
-
-            recipe.RecipeCategories.Clear();
-            foreach (SRL_RecipeCategory rcat in this.RecipeCategories)
-            {
-                recipe.RecipeCategories.Add(new RecipeCategory(rcat.RecipeId, rcat.CategoryId));
-            }
-
-            Logger.Write("btnSave_Click -> Set recipe ingrediants", Logger.Level.Info);
-
-            recipe.Ingredients.Clear();
-
-            int index = 0;
-            foreach (SRL_Ingredient item in Ingridiants.ListOfIngediants)
-            {
-                decimal fraction;
-                decimal.TryParse(item.FractionValue, out fraction);
-
-                Ingredient ing = new Ingredient
-                {
-                    //IngredientId = item.Id,
-                    RecipeId = RecipeId,
-                    FoodId = item.FoodId,
-                    FoodName = item.FoodName,
-                    MeasurementUnitId = item.MeasurementUnitId,
-                    //Quantity = item.IntQuantity + fraction,
-                    Remarks = item.Remarks,
-                    SortOrder = ++index
-                };
-
-                recipe.Ingredients.Add(ing);
-            }
-
-            Logger.Write("btnSave_Click -> Save recipe", Logger.Level.Info);
-
             int returnedRecipeId;
-            if (BusinessFacade.Instance.SaveRecipe(recipe, out returnedRecipeId))
+            if (BusinessFacade.Instance.SaveRecipe(recipe, Ingridiants.ListOfIngediants, RecipeCategories.ToList(), isNewRecipe, out returnedRecipeId))
             {
                 if (RefreshData != null)
                 {
@@ -441,7 +430,11 @@ public partial class ucRecipe : System.Web.UI.UserControl
             Logger.Write("btnSave_Click -> End and redirect", Logger.Level.Info);
 
             RecipeCategories = null;
-            Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", returnedRecipeId));
+
+            if (returnedRecipeId != 0)
+            {
+                Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", returnedRecipeId));
+            }
         }
         catch (Exception ex)
         {
@@ -784,11 +777,14 @@ public partial class ucRecipe : System.Web.UI.UserControl
     }
 
     public delegate void RefreshHandler();
+
     public event RefreshHandler RefreshData;
 
     public delegate void ShowCategoriesHandler(int recipeId, SRL_RecipeCategory[] arr);
+
     public event ShowCategoriesHandler ShowCategoriesClick;
 
     public delegate void SelectPictureHandler(int recipeId);
+
     public event SelectPictureHandler SelectPictureClick;
 }

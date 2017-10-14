@@ -42,22 +42,27 @@ public partial class PageFoodCategory : BasePage
                 if (!string.IsNullOrEmpty(this.Request["catId"]))
                 {
                     this.FoodCategoryId = int.Parse(this.Request["catId"]);
-                    FoodCategory FoodCategory = BusinessFacade.Instance.GetFoodCategory(this.FoodCategoryId);
+                    FoodCategory FoodCategory = BusinessFacade.Instance.GetFoodCategory(FoodCategoryId);
                     if (FoodCategory != null)
                     {
                         this.txtFoodCategoryName.Text = FoodCategory.FoodCategoryName;
-                        if (FoodCategory.ParentFoodCategory != null)
+                        if (FoodCategory.ParentCategoryId.HasValue)
                         {
-                            this.txtParentFoodCategory.Text = FoodCategory.ParentFoodCategory.FoodCategoryName;
-                            this.ParentFoodCategoryId = FoodCategory.ParentCategoryId;
-                        }
-                        else
-                        {
-                            this.txtParentFoodCategory.Text = string.Empty;
-                            this.ParentFoodCategoryId = null;
+                            FoodCategory ParentFoodCategory = BusinessFacade.Instance.GetFoodCategory(FoodCategory.ParentCategoryId.Value);
+
+                            if (ParentFoodCategory != null)
+                            {
+                                this.txtParentFoodCategory.Text = ParentFoodCategory.FoodCategoryName;
+                                this.ParentFoodCategoryId = FoodCategory.ParentCategoryId;
+                            }
+                            else
+                            {
+                                this.txtParentFoodCategory.Text = string.Empty;
+                                this.ParentFoodCategoryId = null;
+                            }
                         }
 
-                        this.btnDelete.Visible = FoodCategory.AllowDelete;
+                        //this.btnDelete.Visible = FoodCategory.AllowDelete;
                     }
                     else
                     {

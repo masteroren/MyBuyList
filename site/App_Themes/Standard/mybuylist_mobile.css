@@ -1,0 +1,32 @@
+﻿@media screen and (max-width: 412px) {
+  body {
+    margin: 0px; }
+  .header .logo-and-search {
+    flex-direction: column; }
+    .header .logo-and-search .search {
+      width: 95%; }
+    .header .logo-and-search .logo {
+      width: 100px; }
+      .header .logo-and-search .logo img {
+        width: 100%; }
+  .search-box {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px; }
+    .search-box input {
+      max-height: 30px;
+      width: 100%; }
+    .search-box select {
+      height: 30px;
+      max-height: 30px;
+      direction: rtl; } }
+
+@media screen and (max-width: 732px) {
+  .header .logo-and-search {
+    flex-direction: column; }
+    .header .logo-and-search .search {
+      width: 95%; }
+  .search-box {
+    flex-direction: column; } }
+

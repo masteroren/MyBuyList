@@ -19,6 +19,14 @@ internal class SearchItem
     public string label { get; set; }
 }
 
+public class LoginResponse
+{
+    public int UserId { get; set; }
+    public int UserTypeId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+}
+
 public class Handler : IHttpHandler, IRequiresSessionState
 {
     public void ProcessRequest (HttpContext context) {
@@ -246,14 +254,21 @@ public class Handler : IHttpHandler, IRequiresSessionState
 
     public string IsLoggedIn(HttpContext context)
     {
-        string result = string.Empty;
+        LoginResponse loginResponse = null;
+
         if (context.Session[AppConstants.CURR_USER] != null)
         {
             User user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
-            result = JsonSerializer<User>(user);
-            return result;
+
+            loginResponse = new LoginResponse
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserId = user.UserId,
+                UserTypeId = user.UserTypeId
+            };
         }
-        return result;
+        return JsonSerializer<LoginResponse>(loginResponse);
     }
 
     public void Logout(HttpContext context)
@@ -263,7 +278,8 @@ public class Handler : IHttpHandler, IRequiresSessionState
 
     public string Login(HttpContext context)
     {
-        Logger.Info("Login", new object[]{});
+        Logger.Info("Login", new object[] { });
+        LoginResponse loginResponse = null;
 
         try
         {
@@ -273,14 +289,20 @@ public class Handler : IHttpHandler, IRequiresSessionState
             User user = BusinessFacade.Instance.GetUser(userName, password);
             context.Session.Add(AppConstants.CURR_USER, user);
 
-            string result = JsonSerializer<User>(user);
-            return result;
+            loginResponse = new LoginResponse
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserId = user.UserId,
+                UserTypeId = user.UserTypeId
+            };
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger.Error(ex, "Login", new object[] { });
-            return string.Empty;
         }
+
+        return JsonSerializer<LoginResponse>(loginResponse);
     }
 
     public bool RemoveFromMissingList(HttpContext context)

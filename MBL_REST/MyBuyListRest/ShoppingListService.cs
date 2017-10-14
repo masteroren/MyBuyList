@@ -10,7 +10,7 @@ using MyBuyList.Shared.Entities;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace MyBuyListRest
+namespace MyBuyListRest.ShippingList
 {
     [DataContract]
     public class Request
@@ -174,7 +174,7 @@ namespace MyBuyListRest
                             {
                                 id = item.CATEGORY_ID.HasValue ? item.CATEGORY_ID.Value : 0,
                                 name = item.CATEGORY_NAME,
-                                foodItems = categoryItems.Select(x => new Responses.Food { id = x.FOOD_ID, name = x.FOOD_NAME, quantity = x.FriendlyQuantity, canDelete = x.CAN_DELETE.HasValue ? x.CAN_DELETE.Value : false, measure = x.MEASUREMENT_NAME }).ToList(),
+                                //foodItems = categoryItems.Select(x => new Responses.Food { id = x.FOOD_ID, name = x.FOOD_NAME, quantity = x.FriendlyQuantity, canDelete = x.CAN_DELETE.HasValue ? x.CAN_DELETE.Value : false, measure = x.MEASUREMENT_NAME }).ToList(),
                             });
                         }
                     }

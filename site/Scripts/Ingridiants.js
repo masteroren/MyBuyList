@@ -72,32 +72,27 @@ var IngridiantsApi = function () {
 
     this.Add = function (ingridiant) {
 
-        ingridiant.Id = ingridiantsArr.length - 1;
+        //ingridiant.Id = ingridiantsArr.length - 1;
         ingridiantsArr.push(ingridiant);
     }
 
-    this.Update = function (ingridiant) {
-
-        var indx = ingridiant.Id;
+    this.Update = function (ingridiant, indx) {
         ingridiantsArr[indx].FoodId = ingridiant.FoodId;
-        ingridiantsArr[indx].IntQuantity = ingridiant.IntQuantity;
-        ingridiantsArr[indx].FractionValue = ingridiant.FractionValue;
+        ingridiantsArr[indx].Quantity = ingridiant.Quantity;
         ingridiantsArr[indx].FractionDisplay = ingridiant.FractionDisplay;
         ingridiantsArr[indx].MeasurementUnitId = ingridiant.MeasurementUnitId;
-        ingridiantsArr[indx].MeasurementUnitName = ingridiant.MeasurementUnitName;
+        ingridiantsArr[indx].MeasureUnitName = ingridiant.MeasureUnitName;
         ingridiantsArr[indx].Remarks = ingridiant.Remarks;
         ingridiantsArr[indx].FoodName = ingridiant.FoodName;
         ingridiantsArr[indx].DisplayIngredient = ingridiant.DisplayIngredient;
     }
 
-    this.Delete = function (id) {
-
-        ingridiantsArr.splice(id, 1);
+    this.Delete = function (index) {
+        ingridiantsArr.splice(index, 1);
     }
 
-    this.GetItem = function (id) {
-
-        return ingridiantsArr[id];
+    this.GetItem = function (index) {
+        return ingridiantsArr[index];
     }
 
     this.GetList = function () {
@@ -109,16 +104,16 @@ var IngridiantsApi = function () {
 
             var ingrediant = new Ingridiant();
 
-            ingrediant.Id = i;
+            ingrediant.IngredientId = arr[i].IngredientId;
             ingrediant.FoodId = arr[i].FoodId;
             ingrediant.FoodName = arr[i].FoodName;
             ingrediant.MeasurementUnitId = arr[i].MeasurementUnitId;
-            ingrediant.MeasurementUnitName = arr[i].MeasurementUnitName;
-            ingrediant.IntQuantity = arr[i].CompleteValue != null ? arr[i].CompleteValue : 0;
-            ingrediant.FractionValue = arr[i].FractionValue != null ? arr[i].FractionValue : 0;
+            ingrediant.MeasureUnitName = arr[i].MeasureUnitName;
+            ingrediant.Quantity = arr[i].Quantity;
             ingrediant.FractionDisplay = arr[i].FractionDisplay;
             ingrediant.Remarks = arr[i].Remarks;
-            ingrediant.DisplayIngredient = arr[i].DisplayIngredient;
+            ingrediant.q = parseInt(arr[i].Quantity);
+            ingrediant.f = arr[i].Quantity - ingrediant.q;
             this.Add(ingrediant);
         }
     }
@@ -126,14 +121,13 @@ var IngridiantsApi = function () {
 
 var Ingridiant = function () {
 
-    this.Id;
+    this.IngredientId;
     this.RecipeId;
     this.FoodId;
     this.FoodName;
     this.MeasurementUnitId;
     this.MeasurementUnitName;
     this.Quantity;
-    this.IntQuantity;
     this.Remarks;
     this.CompleteValue;
     this.FractionValue;
@@ -141,17 +135,27 @@ var Ingridiant = function () {
     this.DisplayIngredient;
     this.DecimalSeperator;
 
-    this.IsValid = function () {
+    this.q;
+    this.f;
 
-        return (this.IntQuantity != '' || this.FractionValue != '') && this.FoodId != '';
+    this.IsValid = function () {
+        return this.Quantity !== '' && this.FoodId !== '';
+        //return (this.Quantity !== '' || this.FractionValue !== '') && this.FoodId !== '';
     }
 }
 
 var ingridiantsApi;
+var recipeId;
 
 $(document).ready(function () {
 
     InitIngediantsControl();
+
+    var savedIngridiants = $('#hfIngridiants').val();
+    if (savedIngridiants != '') {
+        ShowSavedListIngridiant(JSON.parse(savedIngridiants));
+    }
+    recipeId = $('#hfRecipeId').val() === '' ? -1 : $('#hfRecipeId').val();
 
     $('#updateIngridiant').hide();
 
@@ -178,51 +182,67 @@ $(document).ready(function () {
 
     $('#addIngridiant, #updateIngridiant').click(function () {
 
-        var ingridiant = new Ingridiant();
+        var mode = $('#mode').val();
+        switch (mode) {
+            case 'update': {
+                var index = $('#selectedIndex').val();
+                var ingridiant = ingridiantsApi.GetItem(index);
+                break;
+            }
+            default:
+                var ingridiant = new Ingridiant();
+                ingridiant.IngredientId = $('#ingridiantId').val();
+                break
+        }
 
-        var intQuantity = $('#' + quantityClientId).val();
-
-        ingridiant.Id = $('#ingridiantId').val();
-        ingridiant.FoodId = $('#ingridiantId').val();
-        ingridiant.IntQuantity = intQuantity != '' ? intQuantity : 0;
+        ingridiant.RecipeId = recipeId;
+        ingridiant.q = parseFloat($('#txtQuantity').val());
+        ingridiant.f = $('#' + fractionClientId + ' option:selected').val() ? parseFloat($('#' + fractionClientId + ' option:selected').val().replace(',', '.')) : 0;
+        ingridiant.Quantity = ingridiant.q + ingridiant.f;
         ingridiant.FractionDisplay = $('#' + fractionClientId + ' option:selected').text();
-        ingridiant.FractionValue = $('#' + fractionClientId).val();
-        ingridiant.MeasurementUnitName = $('#' + unitClientId + ' option:selected').text();
+        ingridiant.MeasureUnitName = $('#' + unitClientId + ' option:selected').text();
         ingridiant.MeasurementUnitId = $('#' + unitClientId).val();
+        ingridiant.FoodId = $('#ingridiantId').val();
         ingridiant.FoodName = $('#ingridiantName').val();
         ingridiant.Remarks = $('#' + foodRemarkClientId).val();
-        ingridiant.DisplayIngredient = ingridiant.FractionDisplay + (intQuantity != '' ? intQuantity : '') + ' ' + ingridiant.MeasurementUnitName + ' ' + ingridiant.FoodName;
 
         if (!ingridiant.IsValid()) return;
 
-        if (!ingridiantsApi.Exists(ingridiant)) {
-
-            ingridiantsApi.Add(ingridiant);
-        }
-        else {
-            ingridiantsApi.Update(ingridiant);
+        switch (mode) {
+            case 'update': {
+                ingridiantsApi.Update(ingridiant, index);
+                break;
+            }
+            default:
+                ingridiantsApi.Add(ingridiant);
+                break
         }
 
         ShowList();
 
-        $('#' + quantityClientId).val('');
+        $('#txtQuantity').val('');
         $('#' + fractionClientId ).val('');
         $('#ingridiantName').val('');
         $('#' + foodRemarkClientId).val('');
 
         $('#addIngridiant').show();
         $('#updateIngridiant').hide();
+
+        $('#mode').val('');
     })
 
     $('#updateIngridiant').mousedown(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_down.png")');
     })
+
     $('#updateIngridiant').mouseup(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_over.png")');
     })
+
     $('#updateIngridiant').mouseout(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_up.png")');
     })
+
     $('#updateIngridiant').mouseover(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_over.png")');
     })
@@ -233,15 +253,20 @@ function ShowList() {
     var ingredientsContainer = $('#ingredientsContainer');
     ingredientsContainer.html('');
 
-    for (var i = 0; i < ingridiantsApi.Length() ; i++) {
+    for (var i = 0; i < ingridiantsApi.Length(); i++) {
 
         var ingridiant = ingridiantsApi.GetItem(i);
-        ingridiant.Id = i;
 
-        var div = $('<div/>').addClass('row').attr('data-id', ingridiant.Id);
-        var spanEdit = $('<a />').html('עדכן').addClass('listBtn').addClass('updateBtn').addClass('modifyBtn').addClass('col').attr('data-id', ingridiant.Id);
+        ingridiant.DisplayIngredient =
+            ingridiant.FractionDisplay +
+            ingridiant.q + ' ' +
+            ingridiant.MeasureUnitName + ' ' +
+            ingridiant.FoodName;
+
+        var div = $('<div/>').addClass('row').attr('data-id', i);
+        var spanEdit = $('<a />').html('עדכן').addClass('listBtn').addClass('updateBtn').addClass('modifyBtn').addClass('col').attr('data-id', i);
         div.append(spanEdit);
-        var spanDelete = $('<a />').html('מחק').addClass('listBtn').addClass('deleteBtn').addClass('deleteBtn').addClass('col').attr('data-id', ingridiant.Id);
+        var spanDelete = $('<a />').html('מחק').addClass('listBtn').addClass('deleteBtn').addClass('deleteBtn').addClass('col').attr('data-id', i);
         div.append(spanDelete);
         var spanDisplayIngredient = $('<span />').html(ingridiant.DisplayIngredient).addClass('floatRight').addClass('col');
         div.append(spanDisplayIngredient);
@@ -274,28 +299,32 @@ function initEvents() {
 
     $('.modifyBtn').click(function () {
 
-        var id = $(this).attr('data-id');
-        var ingridiant = IngridiantsApi.GetItem(id);
+        var index = $(this).attr('data-id');
+        var ingridiant = ingridiantsApi.GetItem(index);
 
-        $('#' + quantityClientId).val(ingridiant.IntQuantity != 0 ? ingridiant.IntQuantity : '');
-        $('#' + fractionClientId).val(ingridiant.FractionValue);
-        $('#' + hfFoodIdClientId).val(ingridiant.FoodId);
-        $('#' + foodNameClientId).val(ingridiant.FoodName);
+        $('#mode').val('update');
+        $('#selectedIndex').val(index);
+
+        $('#txtQuantity').val(ingridiant.q);
+        $('#' + fractionClientId).val(ingridiant.f);
+        $('#ingridiantName').val(ingridiant.FoodName);
         $('#' + foodRemarkClientId).val(ingridiant.Remarks);
         $('#' + unitClientId).val(ingridiant.MeasurementUnitId);
-        $('#' + hfSelectedIngridiantClientId).val(id);
+        $('#ingridiantId').val(ingridiant.FoodId);
 
         $('#addIngridiant').hide();
         $('#updateIngridiant').show();
     })
 
     $('.deleteBtn').click(function () {
-        var id = $(this).attr('data-id');
-        ingridiantsApi.Delete(id);
-        $('.row[data-id=' + id + ']').hide();
+        var index = $(this).attr('data-id');
+        ingridiantsApi.Delete(index);
+        $('.row[data-id=' + index + ']').hide();
 
         var listAsJSON = JSON.stringify(ingridiantsApi.GetList());
-        $('#' + hfIngridiantsClientId).val(listAsJSON);
+        $('#hfIngridiants').val(listAsJSON);
+
+        ShowList();
     })
 }
 

@@ -47,18 +47,18 @@ public partial class MenuCategory : BasePage
                     if (category != null)
                     {
                         this.txtCategoryName.Text = category.MCategoryName;
-                        if (category.ParentMCategory != null)
-                        {
-                            this.txtParentCategory.Text = category.ParentMCategory.MCategoryName;
-                            this.ParentCategoryId = category.ParentMCategoryId;
-                        }
-                        else
-                        {
-                            this.txtParentCategory.Text = string.Empty;
-                            this.ParentCategoryId = null;
-                        }
+                        //if (category.ParentMCategory != null)
+                        //{
+                        //    this.txtParentCategory.Text = category.ParentMCategory.MCategoryName;
+                        //    this.ParentCategoryId = category.ParentMCategoryId;
+                        //}
+                        //else
+                        //{
+                        //    this.txtParentCategory.Text = string.Empty;
+                        //    this.ParentCategoryId = null;
+                        //}
 
-                        this.btnDelete.Visible = category.AllowDelete;
+                        //this.btnDelete.Visible = category.AllowDelete;
                     }
                     else
                     {

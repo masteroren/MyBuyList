@@ -46,18 +46,24 @@ public partial class PageCategory : BasePage
                     if (category != null)
                     {
                         this.txtCategoryName.Text = category.CategoryName;
-                        if (category.ParentCategory != null)
-                        {
-                            this.txtParentCategory.Text = category.ParentCategory.CategoryName;
-                            this.ParentCategoryId = category.ParentCategoryId;
-                        }
-                        else
-                        {
-                            this.txtParentCategory.Text = string.Empty;
-                            this.ParentCategoryId = null;
-                        }
 
-                        this.btnDelete.Visible = category.AllowDelete;
+                        if (category.ParentCategoryId.HasValue)
+                        {
+                            Category parentCategory = BusinessFacade.Instance.GetCategory(category.ParentCategoryId.Value);
+
+                            if (parentCategory != null)
+                            {
+                                this.txtParentCategory.Text = parentCategory.CategoryName;
+                                this.ParentCategoryId = category.ParentCategoryId;
+                            }
+                            else
+                            {
+                                this.txtParentCategory.Text = string.Empty;
+                                this.ParentCategoryId = null;
+                            }
+
+                            //this.btnDelete.Visible = category.AllowDelete;
+                        }
                     }
                     else
                     {

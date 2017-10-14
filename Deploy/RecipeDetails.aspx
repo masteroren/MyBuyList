@@ -2,6 +2,8 @@
     CodeFile="RecipeDetails.aspx.cs" Inherits="PageRecipeDetails" Theme="Standard" %>
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
+<%@ Register Src="~/UserControls/RecipeDetailsActions.ascx" TagPrefix="MBL" TagName="RecipeDetailsActions" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
     <meta name="Description" id="PageDescription" runat="server" />
 </asp:Content>
@@ -186,7 +188,10 @@
                             </div>
                             <div style="height: 30px">
                             </div>
-                            <div id="recipe_actions">
+
+                            <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions" />
+
+                            <!--<div id="recipe_actions">
                                 <asp:LinkButton ID="blkAddRemove" runat="server" OnClientClick="StartHeaderInterval();" OnClick="blkAddRemove_Click" Font-Bold="true"
                                     ForeColor="#a4cb3a" />
                                 <asp:Label ID="lblAddRemoveSeperator" runat="server">|</asp:Label>
@@ -217,14 +222,15 @@
 
                                 <%--<asp:LinkButton ID="btnDeleteRecipe" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
                                     OnClick="btnDeleteRecipe_Click" />--%>
-                                <a id="removeRecipe" class="">מחיקה</a>
+                                <a id="removeRecipe" class="cursor">מחיקה</a>
                                 <asp:Label ID="lblDeleteRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
                                     Font-Underline="true" ForeColor="LightGray" Visible="false" />
 
                                 <%--<ajaxToolkit:ConfirmButtonExtender ID="cbeDeleteRecipe" runat="server" TargetControlID="btnDeleteRecipe"
                                     ConfirmText="האם אתה בטוח שברצונך למחוק את המתכון?" />--%>
                                 <asp:Label ID="lblResult" runat="server" Text="" Visible="false"></asp:Label>
-                            </div>
+                            </div>-->
+                            <%--<a href="#">content</a>--%>
                             <div id="recipe_picture">
                                 <div style="float: left; text-align: center; width: 300px; height: 231px;">
                                     <asp:Image ID="imgRecipePicture" runat="server" BorderColor="#656565" BorderWidth="1px"
@@ -331,7 +337,10 @@
                                     <asp:Image ID="Image8" runat="server" ImageUrl="~/Images/bgr_TabIndexReciepesRight.png" />
                                 </td>
                                 <td class="wrapper_bottom_tab2_3" style="" nowrap="nowrap">
-                                    <div id="recipe_actions_bottom">
+
+                                    <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions1" />
+
+                                    <!--<div id="recipe_actions_bottom">
                                         <asp:LinkButton ID="blkAddRemove_bottom" runat="server" OnClick="blkAddRemove_Click"
                                             Font-Bold="true" ForeColor="#a4cb3a" />
                                         <asp:Label ID="lblAddRemoveSeperator_bottom" runat="server">|</asp:Label>
@@ -367,7 +376,8 @@
                                        <%-- <ajaxToolkit:ConfirmButtonExtender ID="cbeDeleteRecipe_bottom" runat="server" TargetControlID="btnDeleteRecipe_bottom"
                                             ConfirmText="האם אתה בטוח שברצונך למחוק את המתכון?" />--%>
                                         <asp:Label ID="lblResult_bottom" runat="server" Text="" Visible="false"></asp:Label>
-                                    </div>
+                                    </div>-->
+
                                 </td>
                                 <td style="width: 20px;">
                                     <asp:Image runat="server" ImageUrl="~/Images/bgr_TabIndexReciepesLeft.png" />

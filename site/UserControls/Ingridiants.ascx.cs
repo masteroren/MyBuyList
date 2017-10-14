@@ -8,36 +8,31 @@ using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class UserControls_Ingridiants : System.Web.UI.UserControl
+public partial class UserControls_Ingridiants : UserControl
 {
-    public List<SRL_Ingredient> ListOfIngediants
+    private string JsonSerializer<T>(T t)
+    {
+        System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
+        System.IO.MemoryStream ms = new System.IO.MemoryStream();
+        ser.WriteObject(ms, t);
+        string jsonString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
+        ms.Close();
+        return jsonString;
+    }
+
+    public List<Ingredient> ListOfIngediants
     {
         get
         {
             try
             {
-                Logger.Write("Retrieve ListOfIngediants -> Start", Logger.Level.Info);
-
                 if (!string.IsNullOrEmpty(hfIngridiants.Value))
                 {
-                    Logger.Write(string.Format("Retrieve ListOfIngediants -> Before DeSerialized, {0}", hfIngridiants.Value.Replace("{", "{{").Replace("}", "}}")), Logger.Level.Info);
-
-                    // Convert from JSON to object
                     JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-                    List<SRL_Ingredient> ingredients = jsSerializer.Deserialize<List<SRL_Ingredient>>(hfIngridiants.Value);
-                    ViewState["Ingredients"] = ingredients;
-
-                    Logger.Write("Retrieve ListOfIngediants -> After DeSerialized", Logger.Level.Info);
+                    List<Ingredient> ingredients = jsSerializer.Deserialize<List<Ingredient>>(hfIngridiants.Value);
+                    return ingredients;
                 }
-
-                if (ViewState["Ingredients"] == null)
-                {
-                    ViewState["Ingredients"] = new List<SRL_Ingredient>();
-                }
-
-                Logger.Write("Retrieve ListOfIngediants -> End", Logger.Level.Info);
-
-                return (List<SRL_Ingredient>)ViewState["Ingredients"];
+                return null;
             }
             catch(Exception ex)
             {
@@ -66,11 +61,26 @@ public partial class UserControls_Ingridiants : System.Web.UI.UserControl
         }
     }
 
+    public int recipeId {
+        get
+        {
+            return int.Parse(hfRecipeId.Value);
+        }
+        set
+        {
+            hfRecipeId.Value = value.ToString();
+        }
+    }
+
     public string Ingridiants
     {
         get
         {
             return hfIngridiants.Value;
+        }
+        set
+        {
+            hfIngridiants.Value = value;
         }
     }
 
@@ -85,8 +95,6 @@ public partial class UserControls_Ingridiants : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         if (IsPostBack) return;
-
-        hfIngridiants.ValueChanged += HfIngridiants_ValueChanged;
 
         try
         {
@@ -103,27 +111,10 @@ public partial class UserControls_Ingridiants : System.Web.UI.UserControl
             ddlMeasurementUnits.DataTextField = "UnitName";
             ddlMeasurementUnits.DataValueField = "UnitId";
             ddlMeasurementUnits.DataBind();
-
-            if (!string.IsNullOrEmpty(Ingridiants))
-            {
-                Logger.Write(string.Format("AjaxIngrediants.Page_Load -> Before Show List, {0}", Ingridiants.Replace("{", "{{").Replace("}", "}}")), Logger.Level.Info);
-
-                string script = string.Format("ShowSavedListIngridiant({0})", Ingridiants);
-                Page.ClientScript.RegisterStartupScript(GetType(), "ShowIngridiant", script, true);
-            }
-            else
-            {
-                Page.ClientScript.RegisterStartupScript(GetType(), "ShowIngridiant", "InitAjaxIngediantsControl();", true);
-            }
         }
         catch(Exception ex)
         {
-            Logger.Write("AjaxIngrediants.Page_Load -> failed", ex, Logger.Level.Error);
+            Logger.Write("Ingrediants.Page_Load -> failed", ex, Logger.Level.Error);
         }
-    }
-
-    private void HfIngridiants_ValueChanged(object sender, EventArgs e)
-    {
-        throw new NotImplementedException();
     }
 }

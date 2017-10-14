@@ -84,9 +84,9 @@ namespace UserControls
             if (user == null)
                 return;
 
-            int listId = BusinessFacade.Instance.GetSummeryList(user.UserId);
-            List<SRL_Ingredient> summeryListDetails = BusinessFacade.Instance.GetSummeryListDetails(listId);
-            Ingredients = summeryListDetails;
+            //int listId = BusinessFacade.Instance.GetSummeryList(user.UserId);
+            //List<SRL_Ingredient> summeryListDetails = BusinessFacade.Instance.GetSummeryListDetails(listId);
+            //Ingredients = summeryListDetails;
         }
     }
 }

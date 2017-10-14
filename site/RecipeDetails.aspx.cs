@@ -220,7 +220,7 @@ public partial class PageRecipeDetails : BasePage
                 this.txtTools.Text = recipe.Tools.Replace("\n", "<br />");
             }
 
-            bool isInMyFavorites = (recipe.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
+            bool isInMyFavorites = (recipe.Users.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
             if (isInMyFavorites)
             {
                 this.myFavoritesTopTag.Visible = true;
@@ -230,19 +230,24 @@ public partial class PageRecipeDetails : BasePage
                 this.myFavoritesTopTag.Visible = false;
             }
 
-            lblAllFavorites.Text = recipe.UserFavoriteRecipes.Count.ToString();
+            lblAllFavorites.Text = recipe.Users.Count.ToString();
 
-            lblAllMenus.Text = recipe.MenuRecipes.Count.ToString();
+            lblAllMenus.Text = recipe.Menus.Count.ToString();
 
-            string str = "";
-            foreach (RecipeCategory rc in recipe.RecipeCategories)
+            if (recipe.Categories.Any())
             {
-                str += rc.Category.CategoryName + ", ";
+                string str = "";
+                foreach (Category rc in recipe.Categories)
+                {
+                    str += rc.CategoryName + ", ";
+                }
+                str = str.Remove(str.Length - 2);
+                lblRecipeCategories.Text = str;
             }
-            str = str.Remove(str.Length - 2);
-            this.lblRecipeCategories.Text = str;
 
-            dlistIngredients.DataSource = recipe.Ingredients;
+            Ingredient[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+            dlistIngredients.ItemDataBound += DlistIngredients_ItemDataBound;
+            dlistIngredients.DataSource = ingredients;
             dlistIngredients.DataBind();
 
             bool allowRecipeEdit = (bool)((recipe.UserId == ((BasePage)Page).UserId) || (((BasePage)Page).UserType == 1));
@@ -255,19 +260,23 @@ public partial class PageRecipeDetails : BasePage
             //btnDeleteRecipe.Visible = allowRecipeEdit;
             //btnDeleteRecipe_bottom.Visible = allowRecipeEdit;
 
-            UserFavoriteRecipe ufrep = recipe.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.RecipeId == recipe.RecipeId &&
-                                                                                         ufr.UserId == ((BasePage)Page).UserId);
+            User user = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
             bool isValidUser = (((BasePage)Page).UserId != -1);
-            bool existInFavorites = (ufrep != null);
+            bool existInFavorites = false;
+            if (isValidUser)
+            {
+                Recipe[] ufrep = user.Recipes1.ToArray();
+                existInFavorites = (ufrep != null);
+            }
+
             lblAddToFavoritesSeparator.Visible = isValidUser;
             lblAddToFavoritesSeparator_bottom.Visible = isValidUser;
-            btnAddRecipeToFavorites.Visible = ((!existInFavorites) && isValidUser);            
+            btnAddRecipeToFavorites.Visible = ((!existInFavorites) && isValidUser);
             btnAddRecipeToFavorites_bottom.Visible = ((!existInFavorites) && isValidUser);
             btnRemoveRecipeFromFavorites.Visible = ((existInFavorites) && isValidUser);
             btnRemoveRecipeFromFavorites_bottom.Visible = ((existInFavorites) && isValidUser);
 
             if ((isValidUser) && (((BasePage)Page).UserType == 1))
-            //if ((isValidUser))
             {
                 btnCopyRecipe.Visible = true;
                 btnCopyRecipe_bottom.Visible = true;
@@ -275,11 +284,11 @@ public partial class PageRecipeDetails : BasePage
                 lblSeparator3_bottom.Visible = true;
             }
 
-            //this.btnSendMail.Visible = isValidUser;
-            //this.lblSeparator1.Visible = isValidUser;
+            //btnSendMail.Visible = isValidUser;
+            //lblSeparator1.Visible = isValidUser;
 
             //if (allowRecipeEdit && recipe.MenuRecipes.Count > 0)
-            if (allowRecipeEdit && recipe.MenuRecipes.Count > 0 &&((BasePage)Page).UserType != 1)
+            if (allowRecipeEdit && recipe.Menus.Count > 0 &&((BasePage)Page).UserType != 1)
             {
                 //btnDeleteRecipe.Visible = false;
                 //btnDeleteRecipe_bottom.Visible = false;
@@ -300,33 +309,33 @@ public partial class PageRecipeDetails : BasePage
 
             if (!isSelectedRecipe)
             {
-                this.blkAddRemove.Text = "הוסף לרשימת קניות";
-                this.blkAddRemove_bottom.Text = "הוסף לרשימת קניות";
+                blkAddRemove.Text = "הוסף לרשימת קניות";
+                blkAddRemove_bottom.Text = "הוסף לרשימת קניות";
             }
             else
             {
-                this.blkAddRemove.Text = "הסר מרשימת קניות";
-                this.blkAddRemove_bottom.Text = "הסר מרשימת קניות";
-                this.blkAddRemove.Style["color"] = "Red";
-                this.blkAddRemove_bottom.Style["color"] = "Red";
+                blkAddRemove.Text = "הסר מרשימת קניות";
+                blkAddRemove_bottom.Text = "הסר מרשימת קניות";
+                blkAddRemove.Style["color"] = "Red";
+                blkAddRemove_bottom.Style["color"] = "Red";
             }
 
             bool isCompleteCalculation = false;
             RecipeTotalNutValues[] nutritionalValues = BusinessFacade.Instance.GetRecipeTotalNutValues(this.RecipeId, out isCompleteCalculation);
             if (nutritionalValues == null || nutritionalValues.Length == 0 || !isCompleteCalculation)            
             {
-                this.divNutritionalValues.Visible = false;
-                this.txtNoDataForNutritionalValues.Visible = true;
-                this.txtNoDataForNutritionalValues.Text = MyGlobalResources.NoDataForNutritionalValues.Replace("\n", "<br>");
+                divNutritionalValues.Visible = false;
+                txtNoDataForNutritionalValues.Visible = true;
+                txtNoDataForNutritionalValues.Text = MyGlobalResources.NoDataForNutritionalValues.Replace("\n", "<br>");
             }
             else
             {
                 if (rptNutritionalValues != null)
                 {
-                    this.rptNutritionalValues.DataSource = nutritionalValues;
-                    this.rptNutritionalValues.DataBind();
-                    this.rptNutritionalValues1.DataSource = nutritionalValues;
-                    this.rptNutritionalValues1.DataBind();
+                    rptNutritionalValues.DataSource = nutritionalValues;
+                    rptNutritionalValues.DataBind();
+                    rptNutritionalValues1.DataSource = nutritionalValues;
+                    rptNutritionalValues1.DataBind();
                 }
             }
 
@@ -353,7 +362,7 @@ public partial class PageRecipeDetails : BasePage
             this.lblPublishDate.Text = recipe.ModifiedDate.ToString("dd/MM/yyyy");
 
             string userEmail = string.Empty;
-            MyBuyList.Shared.Entities.User currentUser = BusinessFacade.Instance.GetUser(((BasePage)this.Page).UserId);
+            User currentUser = BusinessFacade.Instance.GetUser(((BasePage)this.Page).UserId);
             if (currentUser != null)
             {
                 userEmail = currentUser.Email;
@@ -365,12 +374,21 @@ public partial class PageRecipeDetails : BasePage
         }
     }
 
+    private void DlistIngredients_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        Ingredient ingredient = (Ingredient)e.Item.DataItem;
+        if (ingredient != null)
+        {
+
+        }
+    }
+
     private void RefreshTopTags()
     {
         Recipe recipe = BusinessFacade.Instance.GetRecipe(this.RecipeId);
         if (recipe != null)
         {
-            bool isInMyFavorites = (recipe.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
+            bool isInMyFavorites = (recipe.Users.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
             if (isInMyFavorites)
             {
                 this.myFavoritesTopTag.Visible = true;
@@ -380,9 +398,9 @@ public partial class PageRecipeDetails : BasePage
                 this.myFavoritesTopTag.Visible = false;
             }
 
-            this.lblAllFavorites.Text = recipe.UserFavoriteRecipes.Count.ToString();
+            this.lblAllFavorites.Text = recipe.Users.Count.ToString();
 
-            this.lblAllMenus.Text = recipe.MenuRecipes.Count.ToString();
+            this.lblAllMenus.Text = recipe.Menus.Count.ToString();
         }
     }
 

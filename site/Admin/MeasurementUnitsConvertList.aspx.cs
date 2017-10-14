@@ -63,8 +63,11 @@ public partial class PageMeasurementUnitsConvertList : BasePage
                 to = toStr[0];
             }
 
-            
-            textLine.Text = string.Format("{0} {1} {2} = {3} {4}", from, MeasuresConvert.SOURCE_UNIT_NAME, MeasuresConvert.FOOD_NAME, to, MeasuresConvert.TARGET_UNIT_NAME);
+            Food food = BusinessFacade.Instance.GetFood(MeasuresConvert.FoodId);
+            MeasurementUnit sourceMeasureUnit = BusinessFacade.Instance.GetMeasurementUnit(MeasuresConvert.FromUnitId);
+            MeasurementUnit targetMeasureUnit = BusinessFacade.Instance.GetMeasurementUnit(MeasuresConvert.ToUnitId);
+
+            textLine.Text = string.Format("{0} {1} {2} = {3} {4}", from, sourceMeasureUnit.UnitName, food.FoodName, to, targetMeasureUnit.UnitName);
 
         }
 

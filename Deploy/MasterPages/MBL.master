@@ -14,6 +14,8 @@
 <head runat="server">
     <title>MyBuyList</title>
     <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+    <link href="../App_Themes/Standard/MBL.css" rel="stylesheet" />
     
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -26,20 +28,8 @@
     <MBL:Facebook runat="server" ID="Facebook" />
 
     <form id="form1" runat="server">
-        <!--Login PopUp -->
         <MBL:ucPopupLogin runat="server" ID="ucPopupLogin" />
-        <!--Login PopUp -->
-
         <asp:ScriptManager ID="ScriptManager1" runat="server" ></asp:ScriptManager>
-
-        <%--<ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" EnablePartialRendering="true"
-            EnablePageMethods="true" EnableScriptGlobalization="true" ScriptMode="Release"
-            EnableScriptLocalization="true">
-            <Scripts>
-                <asp:ScriptReference Path="~/scripts/swfobject.js" />
-            </Scripts>
-        </ajaxToolkit:ToolkitScriptManager>--%>
-
         <div id="main_wrapper">
             <div id="main">
                 <proper:DisappearingMessage runat="server" ID="DisappearingMessage1" />
@@ -49,13 +39,14 @@
                 <MBL:Footer ID="FooterControl1" runat="server" />
             </div>
         </div>
+
+        <asp:HiddenField ID="RestUrl" runat="server" ClientIDMode="Static" />
     </form>
     
     <script src="Scripts/config.js"></script>
     <script src="Scripts/MBL.js"></script>
 
-    <%--<uc1:ucGA ID="ucGA1" runat="server" />--%>
-    <!-- END TAG -->
+    
 
     <asp:ContentPlaceHolder ID="cphFooter" runat="server">
     </asp:ContentPlaceHolder>

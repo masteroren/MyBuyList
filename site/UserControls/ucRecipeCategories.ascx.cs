@@ -56,10 +56,10 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
             Recipe recipe = BusinessFacade.Instance.GetRecipe(recipeId);
             if (recipe != null)
             {
-                var list = from item in recipe.RecipeCategories
-                           select new SRL_RecipeCategory(item.RecipeId, item.CategoryId, item.Category.CategoryName);
-                this.RecipeCategories = list.ToArray();
-                this.RecipeId = recipe.RecipeId;
+                var list = from item in recipe.Categories
+                           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
+                RecipeCategories = list.ToArray();
+                RecipeId = recipe.RecipeId;
             }
         }
     }
@@ -99,27 +99,30 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
 
     private void BuildTree(Category[] cats, int? parentCategoryId, TreeNode rootNode)
     {
-        var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
-        foreach (Category item in list)
+        if (parentCategoryId != null)
         {
-            TreeNode node = new TreeNode(item.CategoryName, item.CategoryId.ToString());
-            if (this.RecipeCategories != null &&
-                this.RecipeCategories.SingleOrDefault(rc => rc.RecipeId == this.RecipeId &&
-                                                            rc.CategoryId == item.CategoryId) != null)
+            var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
+            foreach (Category item in list)
             {
-                node.Checked = true;
-            }
+                TreeNode node = new TreeNode(item.CategoryName, item.CategoryId.ToString());
+                if (this.RecipeCategories != null &&
+                    this.RecipeCategories.SingleOrDefault(rc => rc.RecipeId == this.RecipeId &&
+                                                                rc.CategoryId == item.CategoryId) != null)
+                {
+                    node.Checked = true;
+                }
 
-            if (rootNode == null)
-            {
-                this.tvCategories.Nodes.Add(node);
-            }
-            else
-            {
-                rootNode.ChildNodes.Add(node);
-            }
+                if (rootNode == null)
+                {
+                    this.tvCategories.Nodes.Add(node);
+                }
+                else
+                {
+                    rootNode.ChildNodes.Add(node);
+                }
 
-            BuildTree(cats, item.CategoryId, node);
+                BuildTree(cats, item.CategoryId, node);
+            }
         }
     }
 

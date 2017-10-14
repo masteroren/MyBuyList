@@ -1,1 +1,5 @@
-﻿window.mblRestHost = window.location.origin + '/MyBuyListRest/';
+﻿$(document).ready(function () {
+
+    window.mblRestHost = $('#RestUrl').val();
+
+});

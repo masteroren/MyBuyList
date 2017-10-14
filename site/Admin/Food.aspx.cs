@@ -169,7 +169,7 @@ public partial class PageFood : BasePage
         }
         else
         {
-            food.Picture = this.FoodPicture;
+            //food.Picture = FoodPicture;
         }
 
         if (BusinessFacade.Instance.SaveFood(food))

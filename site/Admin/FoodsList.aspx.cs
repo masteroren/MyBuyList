@@ -87,7 +87,7 @@ public partial class PageFoodsList : BasePage
         if (food != null)
         {
             btn.PostBackUrl = string.Format("~/Admin/Food.aspx?foodId={0}", food.FoodId);
-            btnDelete.Visible = food.AllowDelete;
+            //btnDelete.Visible = food.AllowDelete;
         }
     }
     public void btnDelete_Click(object sender, EventArgs e)

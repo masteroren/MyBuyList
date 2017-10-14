@@ -58,9 +58,11 @@ function isLoggedIn(callback)
     var data = { method: 'IsLoggedIn' };
     $.post('Handler.ashx', data, function (data)
     {
-        if (data != '') {
+        if (data !== '') {
             var user = $.parseJSON(data);
-            callback(user.UserId)
+            if (user && user.UserId) {
+                callback(user.UserId);
+            }
         }
         else {
             callback(null);
@@ -73,18 +75,20 @@ function CheckLogin() {
     $.post('Handler.ashx', data, function (data) {
         if (data != '') {
             var user = $.parseJSON(data);
-            window.userId = user.UserId;
+            if (user && user.UserId) {
+                window.userId = user.UserId;
 
-            var loginBtn = $('#header a.login');
-            loginBtn.unbind('click');
+                var loginBtn = $('#header a.login');
+                loginBtn.unbind('click');
 
-            loginBtn.switchClass('login', 'logout');
-            loginBtn.html('יציאה');
-            $('.HelloUser').html('שלום, ' + user.FirstName + ' ' + user.LastName);
+                loginBtn.switchClass('login', 'logout');
+                loginBtn.html('יציאה');
+                $('.HelloUser').html('שלום, ' + user.FirstName + ' ' + user.LastName);
 
-            loginBtn.click(function () {
-                Logout($(this));
-            });
+                loginBtn.click(function () {
+                    Logout($(this));
+                });
+            }
 
         }
         else {
@@ -118,9 +122,10 @@ function Login() {
                     if (loginCallbackFunction != null)
                         loginCallbackFunction();
 
-                    loginBtn.click(function () {
-                        Logout($(this));
-                    });
+                    //loginBtn.click(function () {
+                    //    Logout($(this));
+                    //});
+
                     break;
             }
         }

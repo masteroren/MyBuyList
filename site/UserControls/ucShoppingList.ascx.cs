@@ -150,17 +150,18 @@ namespace UserControls
         //    NumOfSelectedRecipes = recipes.Count();
         //}
 
-        private void RepeaterRecipes_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                RecipesInShoppingList recipe = (RecipesInShoppingList)e.Item.DataItem;
-                HyperLink recipeName = (HyperLink)e.Item.FindControl("RecipeName");
-                recipeName.Text = recipe.RECIPE_NAME.Substring(0, recipe.RECIPE_NAME.Length <= 40 ? recipe.RECIPE_NAME.Length : 30);
-                recipeName.NavigateUrl = string.Format("../RecipeDetails.aspx?RecipeId={0}", recipe.RECIPE_ID);
-                recipeName.ToolTip = recipe.RECIPE_NAME;
-            }
-        }
+        //private void RepeaterRecipes_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        //{
+        //    if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        //    {
+        //        RecipesInShoppingList recipe = (RecipesInShoppingList)e.Item.DataItem;
+
+        //        HyperLink recipeName = (HyperLink)e.Item.FindControl("RecipeName");
+        //        recipeName.Text = recipe.RECIPE_NAME.Substring(0, recipe.RECIPE_NAME.Length <= 40 ? recipe.RECIPE_NAME.Length : 30);
+        //        recipeName.NavigateUrl = string.Format("../RecipeDetails.aspx?RecipeId={0}", recipe.RECIPE_ID);
+        //        recipeName.ToolTip = recipe.RECIPE_NAME;
+        //    }
+        //}
         
         private void BindList()
         {

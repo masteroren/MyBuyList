@@ -8,10 +8,24 @@ using System.Data.Linq;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
 using MyBuyList.Shared;
+using AutoMapper;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class RecipesDA : BaseContextDataAdapter<MyBuyListDBContext>
+    class IngredientComparer : IEqualityComparer<Ingredient>
+    {
+        public bool Equals(Ingredient x, Ingredient y)
+        {
+            return x != null & y != null && x.IngredientId.Equals(y.IngredientId);
+        }
+
+        public int GetHashCode(Ingredient obj)
+        {
+            return obj.IngredientId;
+        }
+    }
+
+    class RecipesDA : BaseContextDataAdapter<MyBuyListEntities>
     {
         public const int USER_ADMIN = 1;
 
@@ -48,13 +62,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<Recipe>(r => r.User);
-                    dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                    dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                    dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                    dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                    DataContext.LoadOptions = dlo;
+                    //DataLoadOptions dlo = new DataLoadOptions();
+                    //dlo.LoadWith<Recipe>(r => r.User);
+                    //dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
+                    //dlo.LoadWith<Recipe>(r => r.MenuRecipes);
+                    //dlo.LoadWith<Recipe>(r => r.RecipeCategories);
+                    //dlo.LoadWith<RecipeCategory>(rc => rc.Category);
+                    //DataContext.LoadOptions = dlo;
 
                     var ingredients = from r in DataContext.Recipes.Where(r => r.IsPublic == true || r.UserId == userId || userId == USER_ADMIN)
                                       join i in DataContext.Ingredients.Where(i => (i.Food.FoodName.Trim().IndexOf(freeText.Trim()) != -1) ||
@@ -71,10 +85,16 @@ namespace MyBuyList.DataLayer.DataAdapters
                                                            ))
                                   select r1.RecipeId;
 
-                    var list2 = from r2 in DataContext.Recipes.Where(r => (r.IsPublic == true || r.UserId == userId || userId == USER_ADMIN))
-                                join rc in DataContext.RecipeCategories.Where(rc => (rc.Category.CategoryName.Trim().IndexOf(freeText.Trim()) != -1))
-                                                                                    on r2.RecipeId equals rc.RecipeId
-                                select r2.RecipeId;
+                    //var list2 = from r2 in DataContext.Recipes.Where(r => (r.IsPublic == true || r.UserId == userId || userId == USER_ADMIN))
+                    //            join rc in DataContext.RecipeCategories.Where(rc => (rc.Category.CategoryName.Trim().IndexOf(freeText.Trim()) != -1))
+                    //                                                                on r2.RecipeId equals rc.RecipeId
+                    //            select r2.RecipeId;
+
+                    var list2 = from a in DataContext.Recipes
+                                from b in a.Categories
+                                where (a.IsPublic == true || a.UserId == userId || userId == USER_ADMIN) && b.CategoryName.Trim().IndexOf(freeText.Trim()) != -1
+                                select a.RecipeId;
+
 
                     //var list1 = recipes.Union(ingredients);
                     var tmpList = recipes.Union(ingredients);
@@ -93,14 +113,28 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                         foreach (int categoryId in recipeCats)
                         {
-                            foreach (RecipeCategory rcat in DataContext.RecipeCategories.Where(rc => rc.CategoryId == categoryId ||
-                                                                                                    rc.Category.ParentCategoryId == categoryId))
+
+                            var recipesByCategory = from a in DataContext.Categories
+                                                    from b in a.Recipes
+                                                    where a.CategoryId == categoryId || a.ParentCategoryId == categoryId
+                                                    select b;
+
+                            foreach (var recipe in recipesByCategory)
                             {
-                                if (!temp.Contains(rcat.Recipe))
+                                if (!temp.Contains(recipe))
                                 {
-                                    temp.Add(rcat.Recipe);
+                                    temp.Add(recipe);
                                 }
                             }
+
+                            //foreach (var rcat in DataContext.Categories.Where(rc => rc.CategoryId == categoryId ||
+                            //                                                                        rc.Category.ParentCategoryId == categoryId))
+                            //{
+                            //    if (!temp.Contains(rcat.Recipe))
+                            //    {
+                            //        temp.Add(rcat.Recipe);
+                            //    }
+                            //}
                         }
 
                         list = (from r in list
@@ -123,13 +157,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<Recipe>(r => r.User);
-                    dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                    dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                    dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                    dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                    DataContext.LoadOptions = dlo;
+                    //DataLoadOptions dlo = new DataLoadOptions();
+                    //dlo.LoadWith<Recipe>(r => r.User);
+                    //dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
+                    //dlo.LoadWith<Recipe>(r => r.MenuRecipes);
+                    //dlo.LoadWith<Recipe>(r => r.RecipeCategories);
+                    //dlo.LoadWith<RecipeCategory>(rc => rc.Category);
+                    //DataContext.LoadOptions = dlo;
 
                     var list = DataContext.Recipes.Where(r => r.UserId == userId);
                     return list.ToArray();
@@ -147,17 +181,23 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<Recipe>(r => r.User);
-                    dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                    dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                    dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                    dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                    DataContext.LoadOptions = dlo;
+                    //DataLoadOptions dlo = new DataLoadOptions();
+                    //dlo.LoadWith<Recipe>(r => r.User);
+                    //dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
+                    //dlo.LoadWith<Recipe>(r => r.MenuRecipes);
+                    //dlo.LoadWith<Recipe>(r => r.RecipeCategories);
+                    //dlo.LoadWith<RecipeCategory>(rc => rc.Category);
+                    //DataContext.LoadOptions = dlo;
 
-                    var list = from r in DataContext.Recipes
-                               join ufr in DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId) on r.RecipeId equals ufr.RecipeId
-                               select r;
+                    //var list = from r in DataContext.Recipes
+                    //           join ufr in DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId) on r.RecipeId equals ufr.RecipeId
+                    //           select r;
+
+                    var list = from a in DataContext.Recipes
+                               from b in a.Users
+                               where b.UserId == userId
+                               select a;
+
                     return list.ToArray();
                 }
                 catch
@@ -173,13 +213,18 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<UserFavoriteRecipe>(ufr => ufr.RecipeId);
-                    DataContext.LoadOptions = dlo;
+                    //DataLoadOptions dlo = new DataLoadOptions();
+                    //dlo.LoadWith<UserFavoriteRecipe>(ufr => ufr.RecipeId);
+                    //DataContext.LoadOptions = dlo;
 
-                    var list = from ufr in DataContext.UserFavoriteRecipes
-                               where ufr.RecipeId == recipeId
-                               select ufr;
+                    //var list = from ufr in DataContext.UserFavoriteRecipes
+                    //           where ufr.RecipeId == recipeId
+                    //           select ufr;
+
+                    var list = from a in DataContext.Users
+                               from b in a.Recipes1
+                               select a;
+
                     return list.ToArray().Length;
                 }
                 catch
@@ -195,15 +240,16 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<Recipe>(r => r.User);
-                    DataContext.LoadOptions = dlo;
+                    //DataLoadOptions dlo = new DataLoadOptions();
+                    //dlo.LoadWith<Recipe>(r => r.User);
+                    //DataContext.LoadOptions = dlo;
+
                     var list = DataContext.Categories.OrderBy(cat => cat.SortOrder);
-                    foreach (Category item in list)
-                    {
-                        item.ParentCategories.Load();
-                        item.RecipesCount = GetRecipesByCategory(DataContext, item.CategoryId, userId).Length;
-                    }
+                    //foreach (Category item in list)
+                    //{
+                    //    item.ParentCategories.Load();
+                    //    item.RecipesCount = GetRecipesByCategory(DataContext, item.CategoryId, userId).Length;
+                    //}
                     return list.ToArray();
                 }
                 catch
@@ -217,30 +263,37 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                DataLoadOptions dlo = new DataLoadOptions();
-                dlo.LoadWith<Recipe>(r => r.User);
-                dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                DataContext.LoadOptions = dlo;
+                //DataLoadOptions dlo = new DataLoadOptions();
+                //dlo.LoadWith<Recipe>(r => r.User);
+                //dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
+                //dlo.LoadWith<Recipe>(r => r.MenuRecipes);
+                //dlo.LoadWith<Recipe>(r => r.RecipeCategories);
+                //dlo.LoadWith<RecipeCategory>(rc => rc.Category);
+                //DataContext.LoadOptions = dlo;
+
+
                 return GetRecipesByCategory(DataContext, categoryId, userId);
             }
         }
 
-        private Recipe[] GetRecipesByCategory(MyBuyListDBContext dc, int categoryId, int userId)
+        private Recipe[] GetRecipesByCategory(MyBuyListEntities dc, int categoryId, int userId)
         {
-            System.IO.StringWriter sw = new System.IO.StringWriter();
+            //System.IO.StringWriter sw = new System.IO.StringWriter();
 
-            dc.Log = sw;
+            //dc.Log = sw;
 
             try
             {
-                var list = from r in dc.Recipes.Where(r => r.IsPublic == true || r.UserId == userId || userId == USER_ADMIN)
-                           join rcat in dc.RecipeCategories.Where(rc => rc.CategoryId == categoryId ||
-                                                                        rc.Category.ParentCategoryId == categoryId)
-                           on r.RecipeId equals rcat.RecipeId
-                           select r;
+                //var list = from r in dc.Recipes.Where(r => r.IsPublic == true || r.UserId == userId || userId == USER_ADMIN)
+                //           join rcat in dc.RecipeCategories.Where(rc => rc.CategoryId == categoryId ||
+                //                                                        rc.Category.ParentCategoryId == categoryId)
+                //           on r.RecipeId equals rcat.RecipeId
+                //           select r;
+
+                var list = from a in DataContext.Recipes
+                           from b in a.Categories
+                           where (a.IsPublic == true || a.UserId == userId || userId == USER_ADMIN)
+                           select a;
 
                 return (from r in dc.Recipes
                         where list.Contains(r)
@@ -272,7 +325,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 {
                     Recipe recipe = DataContext.Recipes.Single(r => r.RecipeId == recipeId);
                     recipe.IsApproved = !recipe.IsApproved;
-                    DataContext.SubmitChanges();
+                    DataContext.SaveChanges();
                 }
                 catch
                 {
@@ -283,75 +336,50 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal Recipe GetRecipe(int recipeId)
         {
-            DataLoadOptions dlo = new DataLoadOptions();
-            dlo.LoadWith<Recipe>(r => r.User);
-            dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-            dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-            dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-            dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-            dlo.LoadWith<Recipe>(r => r.Ingredients);
-            dlo.LoadWith<Ingredient>(i => i.Food);
-            dlo.LoadWith<Ingredient>(i => i.MeasurementUnit);
+            Recipe recipe = DataContext.Recipes.SingleOrDefault(r => r.RecipeId == recipeId);
 
+            //if (recipe != null)
+            //{
+            //    UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.RecipeId == recipe.RecipeId &&
+            //                                                                                      ufr.UserId == recipe.UserId);
+            //    recipe.ShowInFavorites = (ufrep != null);
 
-            DataContext.LoadOptions = dlo;
-
-            Recipe recipe = DataContext.Recipes.Single(r => r.RecipeId == recipeId);
-
-            if (recipe != null)
-            {
-                UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.RecipeId == recipe.RecipeId &&
-                                                                                                  ufr.UserId == recipe.UserId);
-                recipe.ShowInFavorites = (ufrep != null);
-
-                //recipe.SHOPPING_LIST = recipe.RecipesInShoppingLists.Any();
-            }
-            else
-            {
-                recipe.ShowInFavorites = false;
-            }
+            //    //recipe.SHOPPING_LIST = recipe.RecipesInShoppingLists.Any();
+            //}
+            //else
+            //{
+            //    recipe.ShowInFavorites = false;
+            //}
 
             return recipe;
         }
 
-        internal RecipeIngredientsView[] GetRecipeIngredientsViewList(int recipeId)
-        {
-            using (DataContext)
-            {
-                try
-                {
-                    var list = DataContext.RecipeIngredientsViews.Where(ri => ri.RecipeId == recipeId);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
+        //internal RecipeIngredientsView[] GetRecipeIngredientsViewList(int recipeId)
+        //{
+        //    using (DataContext)
+        //    {
+        //        try
+        //        {
+        //            var list = DataContext.RecipeIngredientsViews.Where(ri => ri.RecipeId == recipeId);
+        //            return list.ToArray();
+        //        }
+        //        catch
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
 
         internal Ingredient[] GetRecipeIngredientsList(int recipeId)
         {
-            using (DataContext)
+            try
             {
-                try
-                {
-                    DataLoadOptions dlo = new DataLoadOptions();
-
-                    dlo.LoadWith<Ingredient>(i => i.Food);
-                    dlo.LoadWith<Ingredient>(i => i.MeasurementUnit);
-                    dlo.LoadWith<Ingredient>(i => i.Remarks);
-
-
-                    DataContext.LoadOptions = dlo;
-
-                    var list = DataContext.Ingredients.Where(ri => ri.RecipeId == recipeId);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                List<Ingredient> ingredients = DataContext.Ingredients.Where(ri => ri.RecipeId == recipeId).ToList();
+                return ingredients.ToArray();
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -378,18 +406,26 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
 
-                    UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.UserId == userId &&
-                                                                                                      ufr.RecipeId == recipeId);
-                    if (ufrep == null)
-                    {
-                        ufrep = new UserFavoriteRecipe();
-                        ufrep.UserId = userId;
-                        ufrep.RecipeId = recipeId;
-                        DataContext.UserFavoriteRecipes.InsertOnSubmit(ufrep);
-                        DataContext.SubmitChanges();
-                    }
-                    favRecipesNum = DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId && (ufr.Recipe.UserId == userId || ufr.Recipe.IsPublic)).Count();
+                    //UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.SingleOrDefault(ufr => ufr.UserId == userId &&
+                    //                                                                                  ufr.RecipeId == recipeId);
 
+                    var favoriteRecipe = from a in DataContext.Users
+                                         from b in a.Recipes1
+                                         where a.UserId == userId && b.RecipeId == recipeId
+                                         select a;
+
+
+                    //if (favoriteRecipe == null)
+                    //{
+                    //    favoriteRecipe = new UserFavoriteRecipe();
+                    //    favoriteRecipe.UserId = userId;
+                    //    favoriteRecipe.RecipeId = recipeId;
+                    //    DataContext.UserFavoriteRecipes.InsertOnSubmit(favoriteRecipe);
+                    //    DataContext.SubmitChanges();
+                    //}
+
+                    //favRecipesNum = DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId && (ufr.Recipe.UserId == userId || ufr.Recipe.IsPublic)).Count();
+                    favRecipesNum = 0;
                     return true;
                 }
                 catch
@@ -406,12 +442,25 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.Single(ufr => ufr.UserId == userId &&
-                                                                                             ufr.RecipeId == recipeId);
-                    DataContext.UserFavoriteRecipes.DeleteOnSubmit(ufrep);
-                    DataContext.SubmitChanges();
+                    //UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.Single(ufr => ufr.UserId == userId &&
+                    //                                                                         ufr.RecipeId == recipeId);
 
-                    favRecipesNum = DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId && (ufr.Recipe.UserId == userId || ufr.Recipe.IsPublic)).Count();
+
+
+                    var userFavoriteRecipe = DataContext.Recipes.Single(p => p.RecipeId == recipeId);
+                    User user = DataContext.Users.Single(a => a.UserId == userId);
+                    user.Recipes1.Remove(userFavoriteRecipe);
+                    DataContext.SaveChanges();
+
+                    //DataContext.UserFavoriteRecipes.DeleteOnSubmit(ufrep);
+                    //DataContext.SubmitChanges();
+
+                    //favRecipesNum = DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId && (ufr.Recipe.UserId == userId || ufr.Recipe.IsPublic)).Count();
+
+                    favRecipesNum = (from a in DataContext.Recipes
+                                     from b in a.Users
+                                     where b.UserId == userId && a.IsPublic
+                                     select a).Count();
 
                     return true;
                 }
@@ -423,124 +472,177 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool DeleteRecipe(int recipeId)
+        internal int DeleteRecipe(int recipeId)
+        {
+            Recipe recipe = DataContext.Recipes.SingleOrDefault(r => r.RecipeId == recipeId);
+            if (recipe != null)
+            {
+                DataContext.Recipes.Remove(recipe);
+                return DataContext.SaveChanges();
+            }
+            return 0;
+        }
+
+        internal bool UpdateRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories)
+        {
+            AddNewFoodItems(ingridiants, recipe.UserId);
+
+            recipe.ModifiedDate = DateTime.Now;
+
+           
+
+            ingridiants.ForEach(item =>
+            {
+                Ingredient t = DataContext.Ingredients.SingleOrDefault(x => x.IngredientId == item.IngredientId && x.RecipeId == item.RecipeId);
+                if (t != null)
+                {
+                    t.FoodId = item.FoodId;
+                    t.MeasurementUnitId = item.MeasurementUnitId;
+                    t.Quantity = item.Quantity;
+                }
+                else
+                {
+                    DataContext.Ingredients.Add(item);
+                }
+            });
+
+            IEnumerable<Ingredient> p = DataContext.Ingredients.Where(i => i.RecipeId == recipe.RecipeId);
+            IEnumerable<Ingredient> s = p.Except(ingridiants, new IngredientComparer());
+            DataContext.Ingredients.RemoveRange(s);
+
+            Recipe r = DataContext.Recipes.SingleOrDefault(x => x.RecipeId == recipe.RecipeId);
+
+            r.Categories.Clear();
+            foreach (SRL_RecipeCategory cat in categories)
+            {
+                Category c = GetCategory(cat.CategoryId);
+                r.Categories.Add(c);
+            }
+
+            IEnumerable<string> propertyNames = DataContext.Entry<Recipe>(r).CurrentValues.PropertyNames;
+            foreach(string propertyName in propertyNames)
+            {
+                DataContext.Entry<Recipe>(r).Property(propertyName).CurrentValue = DataContext.Entry<Recipe>(recipe).Property(propertyName).CurrentValue;
+            }
+
+            DataContext.SaveChanges();
+
+            return true;
+        }
+
+        internal bool SaveRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories, out int recipeId)
         {
             using (DataContext)
             {
                 try
                 {
-                    Recipe recipe = DataContext.Recipes.Single(r => r.RecipeId == recipeId);
-                    DataContext.Recipes.DeleteOnSubmit(recipe);
-                    DataContext.SubmitChanges();
+                    AddNewFoodItems(ingridiants, recipe.UserId);
+
+                    recipe.CreatedDate = DateTime.Now;
+                    int max = 0;
+
+                    if (DataContext.Recipes.Where(r => r.UserId == recipe.UserId).Count() > 0)
+                    {
+                        max = DataContext.Recipes.Where(r => r.UserId == recipe.UserId).Max(r => r.SortOrder);
+                        recipe.SortOrder = max + 1;
+                    }
+
+                    recipe.ModifiedDate = DateTime.Now;
+
+                    DataContext.Recipes.Add(recipe);
+                    DataContext.SaveChanges();
+
+                    recipeId = recipe.RecipeId;
+
+                    Recipe savedRecipe = GetRecipe(recipeId);
+                    foreach (SRL_RecipeCategory cat in categories)
+                    {
+                        Category category = GetCategory(cat.CategoryId);
+                        category.Recipes.Add(savedRecipe);
+                    }
+
+                    ingridiants.ForEach(item =>
+                    {
+                        item.RecipeId = recipe.RecipeId;
+                        DataContext.Ingredients.Add(item);
+                    });
+
+                    DataContext.SaveChanges();
+
+                    //Show recipe in favorites
+                    //UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.SingleOrDefault(fr => fr.RecipeId == recipe.RecipeId &&
+                    //                                                                                 fr.UserId == recipe.UserId);
+                    //if (recipe.ShowInFavorites)
+                    //{
+                    //    if (ufrep == null)
+                    //    {
+                    //        ufrep = new UserFavoriteRecipe();
+                    //        ufrep.RecipeId = recipe.RecipeId;
+                    //        ufrep.UserId = recipe.UserId;
+                    //        DataContext.UserFavoriteRecipes.InsertOnSubmit(ufrep);
+                    //        DataContext.SubmitChanges();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (ufrep != null)
+                    //    {
+                    //        DataContext.UserFavoriteRecipes.DeleteOnSubmit(ufrep);
+                    //        DataContext.SubmitChanges();
+                    //    }
+                    //}
+
                     return true;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    recipeId = 0;
                     return false;
                 }
             }
         }
 
-        internal bool SaveRecipe(Recipe data, out int recipeId)
+        private Category GetCategory(int categoryId)
         {
-            using (DataContext)
+            try
             {
-                try
+                return DataContext.Categories.SingleOrDefault(x => x.CategoryId == categoryId);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        private void AddNewFoodItems(List<Ingredient> ingridiants, int userId)
+        {
+            // Foods
+            foreach (Ingredient ing in ingridiants)
+            {
+                //find food by name for getting FoodId
+                Food food = DataContext.Foods.SingleOrDefault(f => f.FoodId == ing.FoodId);
+
+                if (food != null)
                 {
-                    //Foods
-                    foreach (Ingredient ing in data.Ingredients)
-                    {
-                        //find food by name for getting FoodId
-                        Food food = DataContext.Foods.SingleOrDefault(f => f.FoodName.Trim() == ing.FoodName);
-                        if (food != null)
-                        {
-                            ing.FoodId = food.FoodId;
-                        }
-                        else
-                        {
-                            //Create new food and mark it temporary
-                            food = new Food();
-                            food.FoodName = ing.FoodName;
-                            food.IsTemporary = true;
-                            food.FoodCategoryId = 0;
-                            food.CalculateUnitId = 0;
-                            food.CreatedBy = data.UserId;
-                            food.CreatedDate = DateTime.Now;
-                            food.ModifiedBy = data.UserId;
-                            food.ModifiedDate = DateTime.Now;
-                            DataContext.Foods.InsertOnSubmit(food);
-                            DataContext.SubmitChanges();
-
-                            ing.FoodId = food.FoodId;
-                        }
-                    }
-
-                    Recipe recipe = DataContext.Recipes.SingleOrDefault(r => r.RecipeId == data.RecipeId);
-                    if (recipe == null)
-                    {
-                        recipe = new Recipe(data);
-                        recipe.CreatedDate = DateTime.Now;
-
-                        int max = 0;
-
-                        if (DataContext.Recipes.Where(r => r.UserId == recipe.UserId).Count() > 0)
-                        {
-                            max = DataContext.Recipes.Where(r => r.UserId == recipe.UserId).Max(r => r.SortOrder);
-                        }
-
-                        recipe.SortOrder = max + 1;
-
-
-
-                        recipe.RecipeCategories.AddRange(data.RecipeCategories);
-                        recipe.Ingredients.AddRange(data.Ingredients);
-
-                        DataContext.Recipes.InsertOnSubmit(recipe);
-                    }
-                    else
-                    {
-                        recipe.SetValues(data);
-                        DataContext.RecipeCategories.DeleteAllOnSubmit(recipe.RecipeCategories);
-                        recipe.RecipeCategories.AddRange(data.RecipeCategories);
-
-                        DataContext.Ingredients.DeleteAllOnSubmit(recipe.Ingredients);
-                        recipe.Ingredients.AddRange(data.Ingredients);
-                    }
-
-                    recipe.ModifiedDate = DateTime.Now;
-                    DataContext.SubmitChanges();
-
-                    recipeId = recipe.RecipeId;
-
-                    //Show recipe in favorites
-                    UserFavoriteRecipe ufrep = DataContext.UserFavoriteRecipes.SingleOrDefault(fr => fr.RecipeId == recipe.RecipeId &&
-                                                                                                     fr.UserId == recipe.UserId);
-                    if (recipe.ShowInFavorites)
-                    {
-                        if (ufrep == null)
-                        {
-                            ufrep = new UserFavoriteRecipe();
-                            ufrep.RecipeId = recipe.RecipeId;
-                            ufrep.UserId = recipe.UserId;
-                            DataContext.UserFavoriteRecipes.InsertOnSubmit(ufrep);
-                            DataContext.SubmitChanges();
-                        }
-                    }
-                    else
-                    {
-                        if (ufrep != null)
-                        {
-                            DataContext.UserFavoriteRecipes.DeleteOnSubmit(ufrep);
-                            DataContext.SubmitChanges();
-                        }
-                    }
-
-                    return true;
+                    ing.FoodId = food.FoodId;
                 }
-                catch
+                else
                 {
-                    recipeId = 0;
-                    return false;
+                    //Create new food and mark it temporary
+                    food = new Food();
+                    food.FoodName = ing.FoodName;
+                    food.IsTemporary = true;
+                    food.FoodCategoryId = 0;
+                    food.CalculateUnitId = 0;
+                    food.CreatedBy = userId;
+                    food.CreatedDate = DateTime.Now;
+                    food.ModifiedBy = userId;
+                    food.ModifiedDate = DateTime.Now;
+
+                    DataContext.Foods.Add(food);
+                    DataContext.SaveChanges();
+
+                    ing.FoodId = food.FoodId;
                 }
             }
         }
@@ -554,7 +656,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     Recipe recipe = DataContext.Recipes.Single(r => r.RecipeId == recipeId);
                     recipe.PreparationMethod = preparationMethod;
                     recipe.ModifiedDate = DateTime.Now;
-                    DataContext.SubmitChanges();
+                    DataContext.SaveChanges();
                     return true;
                 }
                 catch
@@ -564,26 +666,26 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveRecipeCategories(int recipeId, RecipeCategory[] categories)
-        {
-            using (DataContext)
-            {
-                try
-                {
-                    Recipe recipe = DataContext.Recipes.Single(r => r.RecipeId == recipeId);
-                    DataContext.RecipeCategories.DeleteAllOnSubmit(recipe.RecipeCategories);
-                    DataContext.SubmitChanges();
-                    recipe.RecipeCategories.AddRange(categories);
-                    recipe.ModifiedDate = DateTime.Now;
-                    DataContext.SubmitChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+        //internal bool SaveRecipeCategories(int recipeId, RecipeCategory[] categories)
+        //{
+        //    using (DataContext)
+        //    {
+        //        try
+        //        {
+        //            Recipe recipe = DataContext.Recipes.Single(r => r.RecipeId == recipeId);
+        //            recipe.Categories.rem(recipe.RecipeCategories);
+        //            DataContext.SubmitChanges();
+        //            recipe.RecipeCategories.AddRange(categories);
+        //            recipe.ModifiedDate = DateTime.Now;
+        //            DataContext.SubmitChanges();
+        //            return true;
+        //        }
+        //        catch
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
 
         internal Food GetFood(int id)
         {
@@ -622,8 +724,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             isCompleteCalculation = false;
 
-            int ingredientsCount = DataContext.Recipes.Single(r => r.RecipeId == recipeId).Ingredients.Count;
-
+            int ingredientsCount = DataContext.Ingredients.Where(r => r.RecipeId == recipeId).Count();
             var measureUnitConverts = DataContext.MeasurementUnitsConverts;
 
             var query = from r in DataContext.Recipes.Where(r => r.RecipeId == recipeId && r.Servings > 0)
@@ -853,14 +954,10 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal IEnumerable<Recipe> GetRecipes(RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
         {
-            using (MyBuyListDBContext context = new MyBuyListDBContext(DBUtils.GetConnection()))
+            using (DataContext)
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<Recipe>(r => r.User);
-                    DataContext.LoadOptions = dlo;
-
                     var count = (from r in DataContext.Recipes
                                  select r).Count();
 
@@ -899,8 +996,8 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal List<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
         {
-            using (MyBuyListDBContext context = new MyBuyListDBContext(DBUtils.GetConnection()))
-            {
+            //using (DataContext)
+            //{
                 try
                 {
                     List<Recipe> recipesList = null;
@@ -947,27 +1044,27 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     totalPages = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
-                    var list = from r in recipesList
-                               select r;
+                var list = from r in recipesList
+                           select r;
 
 
-                    switch (orderBy)
-                    {
-                        case RecipeOrderEnum.Name:
-                            list = list.OrderBy(r => r.RecipeName);
-                            break;
-                        case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(r => r.User.DisplayName);
-                            break;
-                        case RecipeOrderEnum.LastUpdate:
-                            list = list.OrderByDescending(r => r.ModifiedDate);
-                            break;
-                    }
+                switch (orderBy)
+                {
+                    case RecipeOrderEnum.Name:
+                        list = list.OrderBy(r => r.RecipeName);
+                        break;
+                    case RecipeOrderEnum.Publisher:
+                        list = list.OrderBy(r => r.User.DisplayName);
+                        break;
+                    case RecipeOrderEnum.LastUpdate:
+                        list = list.OrderByDescending(r => r.ModifiedDate);
+                        break;
+                }
 
-                    // paging
-                    var list2 = list.Skip((page - 1) * pageSize).Take(pageSize);
+                // paging
+                var list2 = list.Skip((page - 1) * pageSize).Take(pageSize);
 
-                    return list2.ToList();
+                return list2.ToList();
 
                 }
                 catch
@@ -976,7 +1073,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     numRecipes = 0;
                     return null;
                 }
-            }
+            //}
         }
 
         internal Recipe[] GetAllRecipes(int userId)
@@ -996,15 +1093,6 @@ namespace MyBuyList.DataLayer.DataAdapters
             //{
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<Recipe>(r => r.User);
-                    dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                    dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                    dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                    dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                    dlo.LoadWith<RecipesInShoppingList>(r => r.RECIPE_ID);
-                    DataContext.LoadOptions = dlo;
-
                     var list =
                         from r in
                             DataContext.Recipes.Where(r => r.IsPublic || r.UserId == userId || userId == USER_ADMIN)
@@ -1025,13 +1113,10 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    DataLoadOptions dlo = new DataLoadOptions();
-                    dlo.LoadWith<MenuRecipe>(mr => mr.RecipeId);
-                    DataContext.LoadOptions = dlo;
-
-                    var list = from mr in DataContext.MenuRecipes
-                               where mr.RecipeId == recipeId
-                               select mr;
+                    var list = from a in DataContext.Menus
+                               from b in a.Recipes
+                               where b.RecipeId == recipeId
+                               select a;
 
                     return list.ToArray().Length;
                 }
@@ -1043,11 +1128,11 @@ namespace MyBuyList.DataLayer.DataAdapters
         }
 
 
-        internal IQueryable<RecipesView> GetRecipes(string searchValue, int userId)
-        {
-            IQueryable<RecipesView> recipes = DataContext.RecipesViews.Where(p => p.RecipeName.Contains(searchValue));
-            return recipes;
-        }
+        //internal IQueryable<RecipesView> GetRecipes(string searchValue, int userId)
+        //{
+        //    IQueryable<RecipesView> recipes = DataContext.RecipesViews.Where(p => p.RecipeName.Contains(searchValue));
+        //    return recipes;
+        //}
 
         internal void AddRecipeToShoppingList(int userId, int recipeId)
         {
@@ -1064,8 +1149,8 @@ namespace MyBuyList.DataLayer.DataAdapters
                     SERVINGS = recipe.Servings
                 };
 
-                DataContext.RecipesInShoppingLists.InsertOnSubmit(recipesInShoppingList);
-                DataContext.SubmitChanges();
+                DataContext.RecipesInShoppingLists.Add(recipesInShoppingList);
+                DataContext.SaveChanges();
             }
         }
 
@@ -1078,8 +1163,8 @@ namespace MyBuyList.DataLayer.DataAdapters
         internal void RemoveRecipeFromShoppingList(int userId, int recipeId)
         {
             RecipesInShoppingList recipesInShoppingList = DataContext.RecipesInShoppingLists.SingleOrDefault(p => p.USER_ID == userId && p.RECIPE_ID == recipeId);
-            DataContext.RecipesInShoppingLists.DeleteOnSubmit(recipesInShoppingList);
-            DataContext.SubmitChanges();
+            DataContext.RecipesInShoppingLists.Remove(recipesInShoppingList);
+            DataContext.SaveChanges();
         }
 
         internal IEnumerable<Recipe> SearchRecipes(string searchedText)

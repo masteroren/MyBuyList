@@ -68,10 +68,10 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetRecipesList();
         }
 
-        internal RecipeIngredientsView[] GetRecipeIngredientsViewList(int recipeId)
-        {
-            return DataFacade.Instance.GetRecipeIngredientsViewList(recipeId);
-        }
+        //internal RecipeIngredientsView[] GetRecipeIngredientsViewList(int recipeId)
+        //{
+        //    return DataFacade.Instance.GetRecipeIngredientsViewList(recipeId);
+        //}
 
         internal Ingredient[] GetRecipeIngredientsList(int recipeId)
         {
@@ -93,14 +93,22 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.RemoveUserFavoritesRecipe(userId, recipeId, out favRecipesNum);
         }
 
-        internal bool DeleteRecipe(int recipeId)
+        internal int DeleteRecipe(int recipeId)
         {
             return DataFacade.Instance.DeleteRecipe(recipeId);
         }
 
-        internal bool SaveRecipe(Recipe recipe, out int recipeId)
+        internal bool SaveRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories, bool isNewRecipe, out int recipeId)
         {
-            return DataFacade.Instance.SaveRecipe(recipe, out recipeId);
+            if (isNewRecipe)
+            {
+                return DataFacade.Instance.SaveRecipe(recipe, ingridiants, categories, out recipeId);
+            }
+            else
+            {
+                recipeId = recipe.RecipeId;
+                return DataFacade.Instance.UpdateRecipe(recipe, ingridiants, categories);
+            }
         }
 
         internal bool UpdateRecipePreparationMethod(int recipeId, string preparationMethod)
@@ -108,10 +116,10 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.UpdateRecipePreparationMethod(recipeId, preparationMethod);
         }
 
-        internal bool SaveRecipeCategories(int recipeId, RecipeCategory[] categories)
-        {
-            return DataFacade.Instance.SaveRecipeCategories(recipeId, categories);
-        }
+        //internal bool SaveRecipeCategories(int recipeId, RecipeCategory[] categories)
+        //{
+            //return DataFacade.Instance.SaveRecipeCategories(recipeId, categories);
+        //}
 
         internal bool SaveFood(Food food)
         {
@@ -166,10 +174,10 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetRecipeMenusCount(recipeId);
         }
 
-        internal IQueryable<RecipesView> GetRecipes(string searchValue, int userId)
-        {
-            return DataFacade.Instance.GetRecipes(searchValue, userId);
-        }
+        //internal IQueryable<RecipesView> GetRecipes(string searchValue, int userId)
+        //{
+        //    return DataFacade.Instance.GetRecipes(searchValue, userId);
+        //}
 
         internal void AddRecipeToShoppingList(int userId, int recipeId)
         {

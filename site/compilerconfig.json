@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "App_Themes/Standard/mbl.css",
+    "inputFile": "App_Themes/Standard/mbl.scss"
+  },
+  {
+    "outputFile": "App_Themes/Standard/mybuylist.css",
+    "inputFile": "App_Themes/Standard/mybuylist.scss"
+  },
+  {
+    "outputFile": "App_Themes/Standard/mybuylist_mobile.css",
+    "inputFile": "App_Themes/Standard/mybuylist_mobile.scss"
+  }
+]
