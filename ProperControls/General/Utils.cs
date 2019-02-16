@@ -14,6 +14,7 @@ using System.Reflection;
 using ProperServices.Common.Log;
 using System.Diagnostics;
 using MyBuyList.Shared.Entities;
+using MyBuyList.Shared;
 
 namespace ProperControls.General
 {

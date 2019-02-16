@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MyBuyList.Shared.Entities;
 using System.Linq;
 using MyBuyList.DataLayer;
+using MyBuyList.Shared;
 
 namespace MyBuyList.BusinessLayer.Managers
 {

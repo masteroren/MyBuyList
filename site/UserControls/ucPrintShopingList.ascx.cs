@@ -100,9 +100,9 @@ public partial class UserControls_ucPrintShopingList : System.Web.UI.UserControl
 
         Label name = rptItem.FindControl("lblItemName") as Label;
 
-        if (shopAdditional.GeneralItem != null)
+        if (shopAdditional.GeneralItems != null)
         {
-            name.Text = shopAdditional.GeneralItem.GeneralItemName;
+            name.Text = shopAdditional.GeneralItems.GeneralItemName;
         }
         else if (shopAdditional.ItemName != null)
         {

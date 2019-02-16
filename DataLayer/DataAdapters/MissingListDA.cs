@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MyBuyList.Shared.Entities;
+﻿using MyBuyList.Shared;
 using System;
-using System.Data.Linq;
+using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MissingItemsListDA : BaseContextDataAdapter<MyBuyListEntities>
+    class MissingItemsListDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         internal int AddList(int userId)
         {
@@ -40,7 +38,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     MissingListDetail missingListDetail = null;
 
-                    Food food = DataContext.Foods.SingleOrDefault(p => p.FoodName == name);
+                    Food food = DataContext.Food.SingleOrDefault(p => p.FoodName == name);
 
                     if (food == null)
                     {
@@ -50,7 +48,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             CreatedBy = userId,
                         };
                         new AdminDA().SaveFood(food);
-                        food = DataContext.Foods.SingleOrDefault(p => p.FoodName == name);
+                        food = DataContext.Food.SingleOrDefault(p => p.FoodName == name);
                     }
 
                     missingListDetail = DataContext.MissingListDetails.SingleOrDefault(p => p.LIST_ID == missingListId && p.FOOD_ID == food.FoodId);

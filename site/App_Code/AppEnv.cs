@@ -12,6 +12,7 @@ using System.Xml.Linq;
 
 using MyBuyList.Shared.Entities;
 using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 
 public class AppEnv
 {
@@ -47,15 +48,15 @@ public class SRL_Recipe
         this.RecipeId = item.RecipeId;
         this.RecipeName = item.RecipeName;
 
-        if (item.User != null)
+        if (item.Users != null)
         {
-            if (!string.IsNullOrEmpty(item.User.DisplayName))
+            if (!string.IsNullOrEmpty(item.Users.DisplayName))
             {
-                this.Name = item.User.DisplayName;
+                this.Name = item.Users.DisplayName;
             }
             else
             {
-                this.Name = item.User.Name;
+                this.Name = item.Users.Name;
             }
         }
     }
@@ -73,7 +74,7 @@ public class SRL_MealRecipe
     {
         this.MealId = item.MealId;
         this.RecipeId = item.RecipeId;
-        this.RecipeName = item.Recipe.RecipeName;
+        this.RecipeName = item.Recipes.RecipeName;
         this.Servings = item.Servings;
     }
 }

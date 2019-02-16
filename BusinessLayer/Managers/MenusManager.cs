@@ -7,6 +7,7 @@ using MyBuyList.DataLayer;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
 using System.Data;
+using MyBuyList.Shared;
 
 namespace MyBuyList.BusinessLayer.Managers
 {

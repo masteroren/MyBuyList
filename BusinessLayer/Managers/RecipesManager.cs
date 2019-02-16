@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Collections.Specialized;
-
-using MyBuyList.DataLayer;
+﻿using MyBuyList.DataLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyBuyList.BusinessLayer.Managers
 {
@@ -139,9 +135,9 @@ namespace MyBuyList.BusinessLayer.Managers
                 MealRecipe[] mealRecipes = BusinessFacade.Instance.GetMealRecipes(currMeal.MealId);
                 foreach (MealRecipe currRecipe in mealRecipes)
                 {
-                    if (!recipes.ContainsKey(currRecipe.Recipe.RecipeName))
+                    if (!recipes.ContainsKey(currRecipe.Recipes.RecipeName))
                     {
-                        recipes.Add(currRecipe.Recipe.RecipeName, currRecipe.Recipe);
+                        recipes.Add(currRecipe.Recipes.RecipeName, currRecipe.Recipes);
                     }
                 }
             }
@@ -159,7 +155,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetRecipes(orderBy, page, pageSize, out totalPages);
         }
 
-        internal IEnumerable<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
+        internal List<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
         {
             return DataFacade.Instance.GetRecipesEx(display, userId, freeText, categoryId, servings, recipeCats, orderBy, page, pageSize, out totalPages, out numRecipes);
         }

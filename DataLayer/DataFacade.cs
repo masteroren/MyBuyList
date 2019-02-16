@@ -5,6 +5,7 @@ using MyBuyList.Shared.Entities;
 using MyBuyList.DataLayer.DataAdapters;
 using MyBuyList.Shared.Enums;
 using System;
+using MyBuyList.Shared;
 
 namespace MyBuyList.DataLayer
 {
@@ -802,7 +803,7 @@ namespace MyBuyList.DataLayer
             return new RecipesDA().GetRecipes(orderBy, page, pageSize, out totalPages);
         }
 
-        public IEnumerable<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
+        public List<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
         {
             return new RecipesDA().GetRecipesEx(display, userId, freeText, categoryId, servings, recipeCats, orderBy, page, pageSize, out totalPages, out numRecipes);
         }

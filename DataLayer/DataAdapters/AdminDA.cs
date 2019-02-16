@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MyBuyList.Shared;
+using System;
 using System.Data.Linq;
-
-using MyBuyList.Shared.Entities;
+using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class AdminDA : BaseContextDataAdapter<MyBuyListEntities>
+    class AdminDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         #region Categories
 
@@ -303,7 +300,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.Foods.Any(f => f.FoodId != FoodId &&
+                    return DataContext.Food.Any(f => f.FoodId != FoodId &&
                                                              f.FoodName.Trim() == FoodName.Trim());
                 }
                 catch
@@ -459,7 +456,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             //DataLoadOptions dlo = new DataLoadOptions();
             //dlo.LoadWith<Food>(f => f.Ingredients);
             //DataContext.LoadOptions = dlo;
-            var list = DataContext.Foods.OrderBy(f => f.FoodName);
+            var list = DataContext.Food.OrderBy(f => f.FoodName);
             return list.ToArray();
         }
 
@@ -467,7 +464,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                Food food = DataContext.Foods.Single(f => f.FoodId == foodId);
+                Food food = DataContext.Food.Single(f => f.FoodId == foodId);
                 return food;
             }
         }
@@ -478,7 +475,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Food food = DataContext.Foods.SingleOrDefault(f => f.FoodName.Trim() == name);
+                    Food food = DataContext.Food.SingleOrDefault(f => f.FoodName.Trim() == name);
                     return food;
                 }
                 catch
@@ -494,17 +491,17 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    if (!DataContext.Foods.Contains(food))
+                    if (!DataContext.Food.Contains(food))
                     {
                         food.CreatedDate = DateTime.Now;
                         food.IsTemporary = true;
-                        DataContext.Foods.Add(food);
+                        DataContext.Food.Add(food);
                         //DataContext.Foods.InsertOnSubmit(food);
                     }
                     else
                     {
                         food.IsTemporary = false;
-                        DataContext.Foods.Attach(food);
+                        DataContext.Food.Attach(food);
                         //DataContext.Refresh(RefreshMode.KeepCurrentValues, food);
                     }
 
@@ -1200,7 +1197,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             using (DataContext)
             {
                 // foods
-                var foods = from f in DataContext.Foods
+                var foods = from f in DataContext.Food
                             where f.CreatedBy == sourceUserId
                             select f;
 
@@ -1209,7 +1206,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     food.CreatedBy = targetUserId;
                 }
 
-                var foods2 = from f in DataContext.Foods
+                var foods2 = from f in DataContext.Food
                              where f.ModifiedBy == sourceUserId
                              select f;
 
@@ -1263,8 +1260,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Food Item = DataContext.Foods.Single(f => f.FoodId == foodId);
-                    DataContext.Foods.Remove(Item);
+                    Food Item = DataContext.Food.Single(f => f.FoodId == foodId);
+                    DataContext.Food.Remove(Item);
                     DataContext.SaveChanges();
                     //DataContext.Foods.DeleteOnSubmit(Item);
                     //DataContext.SubmitChanges();

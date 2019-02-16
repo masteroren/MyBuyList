@@ -1,5 +1,6 @@
 ﻿using System;
 using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 
 public partial class UC_FooterControl : System.Web.UI.UserControl

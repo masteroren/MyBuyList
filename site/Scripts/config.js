@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
 
-    window.mblRestHost = $('#RestUrl').val();
+    window.mblRestHost = $('#F').val();
 
 });

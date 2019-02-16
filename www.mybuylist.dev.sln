@@ -19,7 +19,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MyBuyList", "http://localho
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
-		ProjectReferences = "{87d38e40-be95-4465-b3ee-fa6b5ffda288}|MyBuyList.BusinessLayer.dll;{9AAED141-DB6F-4B7E-BB2B-BC96559FD3A5}|MyBuyList.DataLayer.dll;{929C49D7-83ED-475C-82F7-83CD13FF94C6}|MyBuyList.Shared.dll;{00F3C8C0-3A78-4402-B9B5-C5F16EFA56C2}|ProperServices.Common.dll;"
+		ProjectReferences = "{87d38e40-be95-4465-b3ee-fa6b5ffda288}|MyBuyList.BusinessLayer.dll;{9AAED141-DB6F-4B7E-BB2B-BC96559FD3A5}|MyBuyList.DataLayer.dll;{929C49D7-83ED-475C-82F7-83CD13FF94C6}|MyBuyList.Shared.dll;{00F3C8C0-3A78-4402-B9B5-C5F16EFA56C2}|ProperServices.Common.dll;{9fe8294c-2d9c-4b49-8bcd-a2b0da922b99}|ProperControls.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/MyBuyList"
 		Debug.AspNetCompiler.PhysicalPath = "site\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\MyBuyList\"
@@ -133,5 +133,8 @@ Global
 		{00F3C8C0-3A78-4402-B9B5-C5F16EFA56C2} = {887C9790-5465-4861-983D-DFCBF1C6C236}
 		{929C49D7-83ED-475C-82F7-83CD13FF94C6} = {887C9790-5465-4861-983D-DFCBF1C6C236}
 		{9FE8294C-2D9C-4B49-8BCD-A2B0DA922B99} = {887C9790-5465-4861-983D-DFCBF1C6C236}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD544E32-E56E-420F-BD84-1A1FC8E9D444}
 	EndGlobalSection
 EndGlobal

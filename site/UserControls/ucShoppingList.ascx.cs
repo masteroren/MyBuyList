@@ -1,11 +1,10 @@
-﻿using System;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using ProperControls.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
-using ProperControls.General;
-using MyBuyList.Shared.Entities;
-using MyBuyList.BusinessLayer;
 
 namespace UserControls
 {
@@ -104,8 +103,8 @@ namespace UserControls
             int currentUserId = ((BasePage)Page).UserId;
             if (currentUserId != -1)
             {
-                MyBuyList.Shared.Entities.Menu[] userMenus = BusinessFacade.Instance.GetMenusList(currentUserId);
-                MyBuyList.Shared.Entities.Menu[] userMenus1 = userMenus.OrderBy(um => um.MenuName).ToArray();
+                MyBuyList.Shared.Menu[] userMenus = BusinessFacade.Instance.GetMenusList(currentUserId);
+                MyBuyList.Shared.Menu[] userMenus1 = userMenus.OrderBy(um => um.MenuName).ToArray();
                 rptUserMenus.DataSource = userMenus1;
                 rptUserMenus.DataBind();
             }
@@ -114,7 +113,7 @@ namespace UserControls
         protected void rptUserMenus_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             HyperLink hp = e.Item.FindControl("lnkMenu") as HyperLink;
-            hp.NavigateUrl = string.Format("~/MenuEdit.aspx?menuId={0}", ((MyBuyList.Shared.Entities.Menu)e.Item.DataItem).MenuId);
+            hp.NavigateUrl = string.Format("~/MenuEdit.aspx?menuId={0}", ((MyBuyList.Shared.Menu)e.Item.DataItem).MenuId);
         }
 
         private void BindShoppingList()

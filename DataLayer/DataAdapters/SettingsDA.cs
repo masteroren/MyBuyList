@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Data.Linq;
-
+﻿using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
+using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class SettingsDA : BaseContextDataAdapter<MyBuyListEntities>
+    class SettingsDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         internal MBLSettingsWrapper GetMBLSettingsWrapper()
         {

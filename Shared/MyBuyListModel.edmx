@@ -1,0 +1,3038 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyBuyListModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="ArticleId" />
+          </Key>
+          <Property Name="ArticleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="longtext" Nullable="false" />
+          <Property Name="Abstract" Type="longtext" />
+          <Property Name="Body" Type="longtext" Nullable="false" />
+          <Property Name="Publisher" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="int" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CourseTypes">
+          <Key>
+            <PropertyRef Name="CourseTypeId" />
+          </Key>
+          <Property Name="CourseTypeId" Type="int" Nullable="false" />
+          <Property Name="CourseTypeName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FoodName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="FoodCategoryId" Type="int" Nullable="false" />
+          <Property Name="CalculateUnitId" Type="int" Nullable="false" />
+          <Property Name="IsTemporary" Type="bool" Nullable="false" />
+          <Property Name="Remarks" Type="longtext" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrintPicture" Type="bool" Nullable="false" />
+          <Property Name="Picture" Type="longblob" />
+        </EntityType>
+        <EntityType Name="FoodCategories">
+          <Key>
+            <PropertyRef Name="FoodCategoryId" />
+          </Key>
+          <Property Name="FoodCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FoodCategoryName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="int" />
+          <Property Name="ShopDepartmentId" Type="int" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GeneralItems">
+          <Key>
+            <PropertyRef Name="GeneralItemId" />
+          </Key>
+          <Property Name="GeneralItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GeneralItemName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ingredients">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+          </Key>
+          <Property Name="IngredientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="FoodId" Type="int" Nullable="false" />
+          <Property Name="MeasurementUnitId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarks" Type="longtext" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Exception" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="MBLSettings">
+          <Key>
+            <PropertyRef Name="SettingKey" />
+          </Key>
+          <Property Name="SettingKey" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SettingValue" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MCategories">
+          <Key>
+            <PropertyRef Name="MCategoryId" />
+          </Key>
+          <Property Name="MCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MCategoryName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentMCategoryId" Type="int" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MealRecipes">
+          <Key>
+            <PropertyRef Name="MealId" />
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="MealId" Type="int" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="Servings" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Meals">
+          <Key>
+            <PropertyRef Name="MealId" />
+          </Key>
+          <Property Name="MealId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="MealTypeId" Type="int" Nullable="false" />
+          <Property Name="DayIndex" Type="int" />
+          <Property Name="CourseTypeId" Type="int" />
+          <Property Name="Diners" Type="int" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comments" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="MealTypes">
+          <Key>
+            <PropertyRef Name="MealTypeId" />
+          </Key>
+          <Property Name="MealTypeId" Type="int" Nullable="false" />
+          <Property Name="MealTypeName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MeasurementUnits">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EnabledInShoppingList" Type="bool" />
+        </EntityType>
+        <EntityType Name="MeasurementUnitsConverts">
+          <Key>
+            <PropertyRef Name="ConvertId" />
+          </Key>
+          <Property Name="ConvertId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FoodId" Type="int" Nullable="false" />
+          <Property Name="FromUnitId" Type="int" Nullable="false" />
+          <Property Name="FromQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ToUnitId" Type="int" Nullable="false" />
+          <Property Name="ToQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MenuCategories">
+          <Key>
+            <PropertyRef Name="MenuId" />
+            <PropertyRef Name="MCategoryId" />
+          </Key>
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="MCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MenuRecipes">
+          <Key>
+            <PropertyRef Name="MenuId" />
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="MenuTypeId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="longtext" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsDeleted" Type="bool" Nullable="false" />
+          <Property Name="TempUserId" Type="int" />
+          <Property Name="IsPublic" Type="bool" Nullable="false" />
+          <Property Name="Tags" Type="longtext" />
+          <Property Name="Picture" Type="longblob" />
+          <Property Name="EmbeddedVideo" Type="longtext" />
+          <Property Name="Comments" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="MenusInShoppingList">
+          <Key>
+            <PropertyRef Name="MenuId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MenuTypes">
+          <Key>
+            <PropertyRef Name="MenuTypeId" />
+          </Key>
+          <Property Name="MenuTypeId" Type="int" Nullable="false" />
+          <Property Name="MenuTypeName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MissingListDetails">
+          <Key>
+            <PropertyRef Name="LIST_ID" />
+            <PropertyRef Name="FOOD_ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LIST_ID" Type="int" Nullable="false" />
+          <Property Name="FOOD_ID" Type="int" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT_ID" Type="int" Nullable="false" />
+          <Property Name="QUANTITY" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MissingLists">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CREATED_BY" Type="int" Nullable="false" />
+          <Property Name="CREATE_DATE" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="ACTIVE" Type="bool" />
+        </EntityType>
+        <EntityType Name="NutCategories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NutItems">
+          <Key>
+            <PropertyRef Name="NutItemId" />
+          </Key>
+          <Property Name="NutItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NutItemName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DisplayUnit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NutCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NutValues">
+          <Key>
+            <PropertyRef Name="FoodId" />
+            <PropertyRef Name="NutItemId" />
+          </Key>
+          <Property Name="FoodId" Type="int" Nullable="false" />
+          <Property Name="NutItemId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="ReciepList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ACTIVE" Type="bool" />
+          <Property Name="CREATED_BY" Type="int" Nullable="false" />
+          <Property Name="CREATE_DATE" Type="datetime" Precision="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReciepListDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LIST_ID" Type="int" Nullable="false" />
+          <Property Name="FOOD_ID" Type="int" Nullable="false" />
+          <Property Name="FOOD_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="QUANTITY" Type="int" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT_ID" Type="int" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeCategories">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recipes">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="RecipeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsPublic" Type="bool" Nullable="false" />
+          <Property Name="Servings" Type="int" Nullable="false" />
+          <Property Name="PreparationMethod" Type="longtext" Nullable="false" />
+          <Property Name="Remarks" Type="longtext" />
+          <Property Name="Source" Type="longtext" />
+          <Property Name="MediaLink" Type="longtext" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tools" Type="longtext" />
+          <Property Name="IsApproved" Type="bool" Nullable="false" />
+          <Property Name="Picture" Type="longblob" />
+          <Property Name="VideoLink" Type="longtext" />
+          <Property Name="Description" Type="longtext" />
+          <Property Name="Tags" Type="longtext" />
+          <Property Name="DifficultyLevel" Type="int" />
+          <Property Name="PreperationTime" Type="int" />
+          <Property Name="CookingTime" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.MyBuyList.RecipesFavorits' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RecipesFavorits">
+          <Key>
+            <PropertyRef Name="RecipesId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="RecipesId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipesInShoppingList">
+          <Key>
+            <PropertyRef Name="RECIPE_ID" />
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="RECIPE_ID" Type="int" Nullable="false" />
+          <Property Name="SERVINGS" Type="int" />
+          <Property Name="USER_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SavedList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ACTIVE" Type="bool" />
+          <Property Name="SHOPPING_LIST" Type="bool" />
+          <Property Name="CREATED_BY" Type="int" />
+          <Property Name="CREATE_DATE" Type="datetime" Precision="6" />
+        </EntityType>
+        <EntityType Name="SavedListDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LIST_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LIST_ID" Type="int" Nullable="false" />
+          <Property Name="FOOD_ID" Type="int" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT_ID" Type="int" Nullable="false" />
+          <Property Name="QUANTITY" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShopDepartments">
+          <Key>
+            <PropertyRef Name="ShopDepartmentId" />
+          </Key>
+          <Property Name="ShopDepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShopDepartmentName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModifiedDate" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShoppingListAdditionalItems">
+          <Key>
+            <PropertyRef Name="ShoppingListItemId" />
+          </Key>
+          <Property Name="ShoppingListItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="GeneralItemId" Type="int" />
+          <Property Name="ItemName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'def.MyBuyList.ShoppingListConvertions' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ShoppingListConvertions">
+          <Property Name="FromValue" Type="varchar" MaxLength="100" />
+          <Property Name="ToValue" Type="varchar" MaxLength="100" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.MyBuyList.ShoppingLists' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ShoppingLists">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="int" Nullable="false" />
+          <Property Name="ITEMS" Type="varchar" MaxLength="500" />
+          <Property Name="ID" Type="int" />
+          <Property Name="CREATED_BY" Type="varchar" MaxLength="50" />
+          <Property Name="CREATE_DATE" Type="datetime" Precision="6" />
+          <Property Name="ACTIVE" Type="bool" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="160" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="longblob" />
+        </EntityType>
+        <EntityType Name="UserFavoriteMenus">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserFavoriteRecipes">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserList">
+          <Key>
+            <PropertyRef Name="LIST_TYPE" />
+            <PropertyRef Name="FOOD_ID" />
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="LIST_TYPE" Type="int" Nullable="false" />
+          <Property Name="FOOD_ID" Type="int" Nullable="false" />
+          <Property Name="USER_ID" Type="int" Nullable="false" />
+          <Property Name="FOOD_NAME" Type="varchar" MaxLength="200" />
+          <Property Name="MEASURMENT_ID" Type="int" />
+          <Property Name="MEASUREMENT_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="QUANTITY" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CATEGORY_ID" Type="int" />
+          <Property Name="CATEGORY_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="ACTIVE" Type="bool" />
+          <Property Name="CAN_DELETE" Type="bool" />
+          <Property Name="IMAGE" Type="longblob" />
+        </EntityType>
+        <EntityType Name="UserListsTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserTypeId" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="AgreeToMail" Type="bool" Nullable="false" />
+          <Property Name="Token" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserShoppingList">
+          <Key>
+            <PropertyRef Name="FOOD_ID" />
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="FOOD_ID" Type="int" Nullable="false" />
+          <Property Name="FOOD_NAME" Type="varchar" MaxLength="200" />
+          <Property Name="MEASURMENT_ID" Type="int" />
+          <Property Name="MEASUREMENT_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="QUANTITY" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CATEGORY_ID" Type="int" />
+          <Property Name="CATEGORY_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="USER_ID" Type="int" Nullable="false" />
+          <Property Name="ACTIVE" Type="bool" />
+          <Property Name="CAN_DELETE" Type="bool" />
+          <Property Name="IMAGE" Type="longblob" />
+        </EntityType>
+        <EntityType Name="UserTypes">
+          <Key>
+            <PropertyRef Name="UserTypeId" />
+          </Key>
+          <Property Name="UserTypeId" Type="int" Nullable="false" />
+          <Property Name="UserTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Food_CreatedByUser">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_FoodCategories">
+          <End Role="FoodCategories" Type="Self.FoodCategories" Multiplicity="1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodCategories">
+              <PropertyRef Name="FoodCategoryId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="FoodCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_ModifiedByUser">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodCategories_ParentCategory">
+          <End Role="FoodCategories" Type="Self.FoodCategories" Multiplicity="0..1" />
+          <End Role="FoodCategories1" Type="Self.FoodCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodCategories">
+              <PropertyRef Name="FoodCategoryId" />
+            </Principal>
+            <Dependent Role="FoodCategories1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodCategories_ShopDepartments">
+          <End Role="ShopDepartments" Type="Self.ShopDepartments" Multiplicity="1" />
+          <End Role="FoodCategories" Type="Self.FoodCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShopDepartments">
+              <PropertyRef Name="ShopDepartmentId" />
+            </Principal>
+            <Dependent Role="FoodCategories">
+              <PropertyRef Name="ShopDepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredients_Food">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="Ingredients" Type="Self.Ingredients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="Ingredients">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredients_MeasurementUnits">
+          <End Role="MeasurementUnits" Type="Self.MeasurementUnits" Multiplicity="1" />
+          <End Role="Ingredients" Type="Self.Ingredients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Ingredients">
+              <PropertyRef Name="MeasurementUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealRecipes_Meals">
+          <End Role="Meals" Type="Self.Meals" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MealRecipes" Type="Self.MealRecipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meals">
+              <PropertyRef Name="MealId" />
+            </Principal>
+            <Dependent Role="MealRecipes">
+              <PropertyRef Name="MealId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealRecipes_Recipes">
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="1" />
+          <End Role="MealRecipes" Type="Self.MealRecipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="MealRecipes">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meals_CourseTypes">
+          <End Role="CourseTypes" Type="Self.CourseTypes" Multiplicity="0..1" />
+          <End Role="Meals" Type="Self.Meals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseTypes">
+              <PropertyRef Name="CourseTypeId" />
+            </Principal>
+            <Dependent Role="Meals">
+              <PropertyRef Name="CourseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meals_MealTypes">
+          <End Role="MealTypes" Type="Self.MealTypes" Multiplicity="1" />
+          <End Role="Meals" Type="Self.Meals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealTypes">
+              <PropertyRef Name="MealTypeId" />
+            </Principal>
+            <Dependent Role="Meals">
+              <PropertyRef Name="MealTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meals_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Meals" Type="Self.Meals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="Meals">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeasurementUnitsConverts_ToUnit">
+          <End Role="MeasurementUnits" Type="Self.MeasurementUnits" Multiplicity="1" />
+          <End Role="MeasurementUnitsConverts" Type="Self.MeasurementUnitsConverts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="MeasurementUnitsConverts">
+              <PropertyRef Name="ToUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuCategories_MCategories">
+          <End Role="MCategories" Type="Self.MCategories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MenuCategories" Type="Self.MenuCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MCategories">
+              <PropertyRef Name="MCategoryId" />
+            </Principal>
+            <Dependent Role="MenuCategories">
+              <PropertyRef Name="MCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuCategories_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MenuCategories" Type="Self.MenuCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="MenuCategories">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuRecipes_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MenuRecipes" Type="Self.MenuRecipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="MenuRecipes">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuRecipes_Recipes">
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="1" />
+          <End Role="MenuRecipes" Type="Self.MenuRecipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="MenuRecipes">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_MenuTypes">
+          <End Role="MenuTypes" Type="Self.MenuTypes" Multiplicity="1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuTypes">
+              <PropertyRef Name="MenuTypeId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="MenuTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenusCategories_ParentMenusCategories">
+          <End Role="MCategories" Type="Self.MCategories" Multiplicity="0..1" />
+          <End Role="MCategories1" Type="Self.MCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MCategories">
+              <PropertyRef Name="MCategoryId" />
+            </Principal>
+            <Dependent Role="MCategories1">
+              <PropertyRef Name="ParentMCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NutItems_NutCategories">
+          <End Role="NutCategories" Type="Self.NutCategories" Multiplicity="1" />
+          <End Role="NutItems" Type="Self.NutItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NutCategories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="NutItems">
+              <PropertyRef Name="NutCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NutValues_Food">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="NutValues" Type="Self.NutValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="NutValues">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NutValues_NutItems">
+          <End Role="NutItems" Type="Self.NutItems" Multiplicity="1" />
+          <End Role="NutValues" Type="Self.NutValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NutItems">
+              <PropertyRef Name="NutItemId" />
+            </Principal>
+            <Dependent Role="NutValues">
+              <PropertyRef Name="NutItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeCategories_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecipeCategories" Type="Self.RecipeCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="RecipeCategories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeCategories_Recipes">
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecipeCategories" Type="Self.RecipeCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="RecipeCategories">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipes_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Recipes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipesCategories_ParentCategory">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Categories1" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Categories1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShoppingListAdditionalItems_GeneralItems">
+          <End Role="GeneralItems" Type="Self.GeneralItems" Multiplicity="0..1" />
+          <End Role="ShoppingListAdditionalItems" Type="Self.ShoppingListAdditionalItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeneralItems">
+              <PropertyRef Name="GeneralItemId" />
+            </Principal>
+            <Dependent Role="ShoppingListAdditionalItems">
+              <PropertyRef Name="GeneralItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShoppingListAdditionalItems_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ShoppingListAdditionalItems" Type="Self.ShoppingListAdditionalItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="ShoppingListAdditionalItems">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFavoriteMenus_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserFavoriteMenus" Type="Self.UserFavoriteMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="UserFavoriteMenus">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFavoriteMenus_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserFavoriteMenus" Type="Self.UserFavoriteMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserFavoriteMenus">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFavoriteRecipes_Recipes">
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserFavoriteRecipes" Type="Self.UserFavoriteRecipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="UserFavoriteRecipes">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFavoriteRecipes_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserFavoriteRecipes" Type="Self.UserFavoriteRecipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserFavoriteRecipes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserList_UserListTypes">
+          <End Role="UserListsTypes" Type="Self.UserListsTypes" Multiplicity="1" />
+          <End Role="UserList" Type="Self.UserList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserListsTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserList">
+              <PropertyRef Name="LIST_TYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypes">
+          <End Role="UserTypes" Type="Self.UserTypes" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="UserTypeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MenusInShoppingList_fk">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+          <End Role="MenusInShoppingList" Type="Self.MenusInShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="MenusInShoppingList">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MenusInShoppingList_fk2">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MenusInShoppingList" Type="Self.MenusInShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MenusInShoppingList">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissingListDetails_fk">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="MissingListDetails" Type="Self.MissingListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="MissingListDetails">
+              <PropertyRef Name="FOOD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissingListDetails_fk2">
+          <End Role="MissingLists" Type="Self.MissingLists" Multiplicity="1" />
+          <End Role="MissingListDetails" Type="Self.MissingListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MissingLists">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MissingListDetails">
+              <PropertyRef Name="LIST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissingListDetails_fk3">
+          <End Role="MeasurementUnits" Type="Self.MeasurementUnits" Multiplicity="1" />
+          <End Role="MissingListDetails" Type="Self.MissingListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="MissingListDetails">
+              <PropertyRef Name="MEASUREMENT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ReciepsListDetails_fk">
+          <End Role="ReciepList" Type="Self.ReciepList" Multiplicity="1" />
+          <End Role="ReciepListDetails" Type="Self.ReciepListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReciepList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ReciepListDetails">
+              <PropertyRef Name="LIST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RecipesInShoppingList_fk">
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="1" />
+          <End Role="RecipesInShoppingList" Type="Self.RecipesInShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="RecipesInShoppingList">
+              <PropertyRef Name="RECIPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RecipesInShoppingList_fk2">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="RecipesInShoppingList" Type="Self.RecipesInShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="RecipesInShoppingList">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoutineListDetails_fk">
+          <End Role="MeasurementUnits" Type="Self.MeasurementUnits" Multiplicity="1" />
+          <End Role="SavedListDetails" Type="Self.SavedListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="SavedListDetails">
+              <PropertyRef Name="MEASUREMENT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoutineListDetails_fk2">
+          <End Role="SavedList" Type="Self.SavedList" Multiplicity="1" />
+          <End Role="SavedListDetails" Type="Self.SavedListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SavedList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SavedListDetails">
+              <PropertyRef Name="LIST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SavedListDetails_fk">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="SavedListDetails" Type="Self.SavedListDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="SavedListDetails">
+              <PropertyRef Name="FOOD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ShoppingLists_fk">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ShoppingLists" Type="Self.ShoppingLists" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ShoppingLists">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyBuyListModelStoreContainer">
+          <EntitySet Name="Articles" EntityType="Self.Articles" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="CourseTypes" EntityType="Self.CourseTypes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Food" EntityType="Self.Food" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="FoodCategories" EntityType="Self.FoodCategories" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="GeneralItems" EntityType="Self.GeneralItems" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Ingredients" EntityType="Self.Ingredients" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MBLSettings" EntityType="Self.MBLSettings" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MCategories" EntityType="Self.MCategories" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MealRecipes" EntityType="Self.MealRecipes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Meals" EntityType="Self.Meals" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MealTypes" EntityType="Self.MealTypes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MeasurementUnits" EntityType="Self.MeasurementUnits" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MeasurementUnitsConverts" EntityType="Self.MeasurementUnitsConverts" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MenuCategories" EntityType="Self.MenuCategories" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MenuRecipes" EntityType="Self.MenuRecipes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MenusInShoppingList" EntityType="Self.MenusInShoppingList" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MenuTypes" EntityType="Self.MenuTypes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MissingListDetails" EntityType="Self.MissingListDetails" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="MissingLists" EntityType="Self.MissingLists" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="NutCategories" EntityType="Self.NutCategories" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="NutItems" EntityType="Self.NutItems" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="NutValues" EntityType="Self.NutValues" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="ReciepList" EntityType="Self.ReciepList" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="ReciepListDetails" EntityType="Self.ReciepListDetails" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="RecipeCategories" EntityType="Self.RecipeCategories" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Recipes" EntityType="Self.Recipes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="RecipesInShoppingList" EntityType="Self.RecipesInShoppingList" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="SavedList" EntityType="Self.SavedList" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="SavedListDetails" EntityType="Self.SavedListDetails" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="ShopDepartments" EntityType="Self.ShopDepartments" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="ShoppingListAdditionalItems" EntityType="Self.ShoppingListAdditionalItems" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="UserFavoriteMenus" EntityType="Self.UserFavoriteMenus" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="UserFavoriteRecipes" EntityType="Self.UserFavoriteRecipes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="UserList" EntityType="Self.UserList" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="UserListsTypes" EntityType="Self.UserListsTypes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="UserShoppingList" EntityType="Self.UserShoppingList" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserTypes" Schema="MyBuyList" store:Type="Tables" />
+          <EntitySet Name="RecipesFavorits" EntityType="Self.RecipesFavorits" store:Type="Tables" store:Schema="MyBuyList">
+            <DefiningQuery>SELECT
+`RecipesFavorits`.`RecipesId`, 
+`RecipesFavorits`.`UserId`
+FROM `RecipesFavorits` AS `RecipesFavorits`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ShoppingLists" EntityType="Self.ShoppingLists" store:Type="Tables" store:Schema="MyBuyList">
+            <DefiningQuery>SELECT
+`ShoppingLists`.`USER_ID`, 
+`ShoppingLists`.`ITEMS`, 
+`ShoppingLists`.`ID`, 
+`ShoppingLists`.`CREATED_BY`, 
+`ShoppingLists`.`CREATE_DATE`, 
+`ShoppingLists`.`ACTIVE`
+FROM `ShoppingLists` AS `ShoppingLists`</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Food_CreatedByUser" Association="Self.FK_Food_CreatedByUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_FoodCategories" Association="Self.FK_Food_FoodCategories">
+            <End Role="FoodCategories" EntitySet="FoodCategories" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_ModifiedByUser" Association="Self.FK_Food_ModifiedByUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodCategories_ParentCategory" Association="Self.FK_FoodCategories_ParentCategory">
+            <End Role="FoodCategories" EntitySet="FoodCategories" />
+            <End Role="FoodCategories1" EntitySet="FoodCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodCategories_ShopDepartments" Association="Self.FK_FoodCategories_ShopDepartments">
+            <End Role="ShopDepartments" EntitySet="ShopDepartments" />
+            <End Role="FoodCategories" EntitySet="FoodCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredients_Food" Association="Self.FK_Ingredients_Food">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="Ingredients" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredients_MeasurementUnits" Association="Self.FK_Ingredients_MeasurementUnits">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="Ingredients" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealRecipes_Meals" Association="Self.FK_MealRecipes_Meals">
+            <End Role="Meals" EntitySet="Meals" />
+            <End Role="MealRecipes" EntitySet="MealRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealRecipes_Recipes" Association="Self.FK_MealRecipes_Recipes">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="MealRecipes" EntitySet="MealRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meals_CourseTypes" Association="Self.FK_Meals_CourseTypes">
+            <End Role="CourseTypes" EntitySet="CourseTypes" />
+            <End Role="Meals" EntitySet="Meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meals_MealTypes" Association="Self.FK_Meals_MealTypes">
+            <End Role="MealTypes" EntitySet="MealTypes" />
+            <End Role="Meals" EntitySet="Meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meals_Menus" Association="Self.FK_Meals_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Meals" EntitySet="Meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeasurementUnitsConverts_ToUnit" Association="Self.FK_MeasurementUnitsConverts_ToUnit">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="MeasurementUnitsConverts" EntitySet="MeasurementUnitsConverts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuCategories_MCategories" Association="Self.FK_MenuCategories_MCategories">
+            <End Role="MCategories" EntitySet="MCategories" />
+            <End Role="MenuCategories" EntitySet="MenuCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuCategories_Menus" Association="Self.FK_MenuCategories_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="MenuCategories" EntitySet="MenuCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuRecipes_Menus" Association="Self.FK_MenuRecipes_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="MenuRecipes" EntitySet="MenuRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuRecipes_Recipes" Association="Self.FK_MenuRecipes_Recipes">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="MenuRecipes" EntitySet="MenuRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_MenuTypes" Association="Self.FK_Menus_MenuTypes">
+            <End Role="MenuTypes" EntitySet="MenuTypes" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Users" Association="Self.FK_Menus_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenusCategories_ParentMenusCategories" Association="Self.FK_MenusCategories_ParentMenusCategories">
+            <End Role="MCategories" EntitySet="MCategories" />
+            <End Role="MCategories1" EntitySet="MCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NutItems_NutCategories" Association="Self.FK_NutItems_NutCategories">
+            <End Role="NutCategories" EntitySet="NutCategories" />
+            <End Role="NutItems" EntitySet="NutItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NutValues_Food" Association="Self.FK_NutValues_Food">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="NutValues" EntitySet="NutValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NutValues_NutItems" Association="Self.FK_NutValues_NutItems">
+            <End Role="NutItems" EntitySet="NutItems" />
+            <End Role="NutValues" EntitySet="NutValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeCategories_Categories" Association="Self.FK_RecipeCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="RecipeCategories" EntitySet="RecipeCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeCategories_Recipes" Association="Self.FK_RecipeCategories_Recipes">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="RecipeCategories" EntitySet="RecipeCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipes_Users" Association="Self.FK_Recipes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Recipes" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipesCategories_ParentCategory" Association="Self.FK_RecipesCategories_ParentCategory">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Categories1" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShoppingListAdditionalItems_GeneralItems" Association="Self.FK_ShoppingListAdditionalItems_GeneralItems">
+            <End Role="GeneralItems" EntitySet="GeneralItems" />
+            <End Role="ShoppingListAdditionalItems" EntitySet="ShoppingListAdditionalItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShoppingListAdditionalItems_Menus" Association="Self.FK_ShoppingListAdditionalItems_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="ShoppingListAdditionalItems" EntitySet="ShoppingListAdditionalItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFavoriteMenus_Menus" Association="Self.FK_UserFavoriteMenus_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="UserFavoriteMenus" EntitySet="UserFavoriteMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFavoriteMenus_Users" Association="Self.FK_UserFavoriteMenus_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserFavoriteMenus" EntitySet="UserFavoriteMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFavoriteRecipes_Recipes" Association="Self.FK_UserFavoriteRecipes_Recipes">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="UserFavoriteRecipes" EntitySet="UserFavoriteRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFavoriteRecipes_Users" Association="Self.FK_UserFavoriteRecipes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserFavoriteRecipes" EntitySet="UserFavoriteRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserList_UserListTypes" Association="Self.FK_UserList_UserListTypes">
+            <End Role="UserListsTypes" EntitySet="UserListsTypes" />
+            <End Role="UserList" EntitySet="UserList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypes" Association="Self.FK_Users_UserTypes">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="MenusInShoppingList_fk" Association="Self.MenusInShoppingList_fk">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="MenusInShoppingList" EntitySet="MenusInShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="MenusInShoppingList_fk2" Association="Self.MenusInShoppingList_fk2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MenusInShoppingList" EntitySet="MenusInShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="MissingListDetails_fk" Association="Self.MissingListDetails_fk">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="MissingListDetails" EntitySet="MissingListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="MissingListDetails_fk2" Association="Self.MissingListDetails_fk2">
+            <End Role="MissingLists" EntitySet="MissingLists" />
+            <End Role="MissingListDetails" EntitySet="MissingListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="MissingListDetails_fk3" Association="Self.MissingListDetails_fk3">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="MissingListDetails" EntitySet="MissingListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="ReciepsListDetails_fk" Association="Self.ReciepsListDetails_fk">
+            <End Role="ReciepList" EntitySet="ReciepList" />
+            <End Role="ReciepListDetails" EntitySet="ReciepListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="RecipesInShoppingList_fk" Association="Self.RecipesInShoppingList_fk">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="RecipesInShoppingList" EntitySet="RecipesInShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="RecipesInShoppingList_fk2" Association="Self.RecipesInShoppingList_fk2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RecipesInShoppingList" EntitySet="RecipesInShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="RoutineListDetails_fk" Association="Self.RoutineListDetails_fk">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="SavedListDetails" EntitySet="SavedListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="RoutineListDetails_fk2" Association="Self.RoutineListDetails_fk2">
+            <End Role="SavedList" EntitySet="SavedList" />
+            <End Role="SavedListDetails" EntitySet="SavedListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="SavedListDetails_fk" Association="Self.SavedListDetails_fk">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="SavedListDetails" EntitySet="SavedListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="ShoppingLists_fk" Association="Self.ShoppingLists_fk">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ShoppingLists" EntitySet="ShoppingLists" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyBuyListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="ArticleId" />
+          </Key>
+          <Property Name="ArticleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Abstract" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Body" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Publisher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="Int32" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Categories1" Relationship="Self.FK_RecipesCategories_ParentCategory" FromRole="Categories" ToRole="Categories1" />
+          <NavigationProperty Name="Categories2" Relationship="Self.FK_RecipesCategories_ParentCategory" FromRole="Categories1" ToRole="Categories" />
+          <NavigationProperty Name="Recipes" Relationship="Self.RecipeCategories" FromRole="Categories" ToRole="Recipes" />
+        </EntityType>
+        <EntityType Name="CourseType">
+          <Key>
+            <PropertyRef Name="CourseTypeId" />
+          </Key>
+          <Property Name="CourseTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CourseTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Meals" Relationship="Self.FK_Meals_CourseTypes" FromRole="CourseTypes" ToRole="Meals" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FoodName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FoodCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CalculateUnitId" Type="Int32" Nullable="false" />
+          <Property Name="IsTemporary" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrintPicture" Type="Boolean" Nullable="false" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Food_CreatedByUser" FromRole="Food" ToRole="Users" />
+          <NavigationProperty Name="FoodCategories" Relationship="Self.FK_Food_FoodCategories" FromRole="Food" ToRole="FoodCategories" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK_Food_ModifiedByUser" FromRole="Food" ToRole="Users" />
+          <NavigationProperty Name="Ingredients" Relationship="Self.FK_Ingredients_Food" FromRole="Food" ToRole="Ingredients" />
+          <NavigationProperty Name="NutValues" Relationship="Self.FK_NutValues_Food" FromRole="Food" ToRole="NutValues" />
+          <NavigationProperty Name="MissingListDetails" Relationship="Self.MissingListDetails_fk" FromRole="Food" ToRole="MissingListDetails" />
+          <NavigationProperty Name="SavedListDetails" Relationship="Self.SavedListDetails_fk" FromRole="Food" ToRole="SavedListDetails" />
+        </EntityType>
+        <EntityType Name="FoodCategory">
+          <Key>
+            <PropertyRef Name="FoodCategoryId" />
+          </Key>
+          <Property Name="FoodCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FoodCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="Int32" />
+          <Property Name="ShopDepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_Food_FoodCategories" FromRole="FoodCategories" ToRole="Food" />
+          <NavigationProperty Name="FoodCategories1" Relationship="Self.FK_FoodCategories_ParentCategory" FromRole="FoodCategories" ToRole="FoodCategories1" />
+          <NavigationProperty Name="FoodCategories2" Relationship="Self.FK_FoodCategories_ParentCategory" FromRole="FoodCategories1" ToRole="FoodCategories" />
+          <NavigationProperty Name="ShopDepartments" Relationship="Self.FK_FoodCategories_ShopDepartments" FromRole="FoodCategories" ToRole="ShopDepartments" />
+        </EntityType>
+        <EntityType Name="GeneralItem">
+          <Key>
+            <PropertyRef Name="GeneralItemId" />
+          </Key>
+          <Property Name="GeneralItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GeneralItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ShoppingListAdditionalItems" Relationship="Self.FK_ShoppingListAdditionalItems_GeneralItems" FromRole="GeneralItems" ToRole="ShoppingListAdditionalItems" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+          </Key>
+          <Property Name="IngredientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="FoodId" Type="Int32" Nullable="false" />
+          <Property Name="MeasurementUnitId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_Ingredients_Food" FromRole="Ingredients" ToRole="Food" />
+          <NavigationProperty Name="MeasurementUnits" Relationship="Self.FK_Ingredients_MeasurementUnits" FromRole="Ingredients" ToRole="MeasurementUnits" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Thread" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MBLSetting">
+          <Key>
+            <PropertyRef Name="SettingKey" />
+          </Key>
+          <Property Name="SettingKey" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SettingValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MCategory">
+          <Key>
+            <PropertyRef Name="MCategoryId" />
+          </Key>
+          <Property Name="MCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MCategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParentMCategoryId" Type="Int32" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MCategories1" Relationship="Self.FK_MenusCategories_ParentMenusCategories" FromRole="MCategories" ToRole="MCategories1" />
+          <NavigationProperty Name="MCategories2" Relationship="Self.FK_MenusCategories_ParentMenusCategories" FromRole="MCategories1" ToRole="MCategories" />
+          <NavigationProperty Name="Menus" Relationship="Self.MenuCategories" FromRole="MCategories" ToRole="Menus" />
+        </EntityType>
+        <EntityType Name="MealRecipe">
+          <Key>
+            <PropertyRef Name="MealId" />
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="MealId" Type="Int32" Nullable="false" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="Servings" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Meals" Relationship="Self.FK_MealRecipes_Meals" FromRole="MealRecipes" ToRole="Meals" />
+          <NavigationProperty Name="Recipes" Relationship="Self.FK_MealRecipes_Recipes" FromRole="MealRecipes" ToRole="Recipes" />
+        </EntityType>
+        <EntityType Name="Meal">
+          <Key>
+            <PropertyRef Name="MealId" />
+          </Key>
+          <Property Name="MealId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="MealTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DayIndex" Type="Int32" />
+          <Property Name="CourseTypeId" Type="Int32" />
+          <Property Name="Diners" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comments" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CourseTypes" Relationship="Self.FK_Meals_CourseTypes" FromRole="Meals" ToRole="CourseTypes" />
+          <NavigationProperty Name="MealRecipes" Relationship="Self.FK_MealRecipes_Meals" FromRole="Meals" ToRole="MealRecipes" />
+          <NavigationProperty Name="MealTypes" Relationship="Self.FK_Meals_MealTypes" FromRole="Meals" ToRole="MealTypes" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_Meals_Menus" FromRole="Meals" ToRole="Menus" />
+        </EntityType>
+        <EntityType Name="MealType">
+          <Key>
+            <PropertyRef Name="MealTypeId" />
+          </Key>
+          <Property Name="MealTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MealTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Meals" Relationship="Self.FK_Meals_MealTypes" FromRole="MealTypes" ToRole="Meals" />
+        </EntityType>
+        <EntityType Name="MeasurementUnit">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EnabledInShoppingList" Type="Boolean" />
+          <NavigationProperty Name="Ingredients" Relationship="Self.FK_Ingredients_MeasurementUnits" FromRole="MeasurementUnits" ToRole="Ingredients" />
+          <NavigationProperty Name="MeasurementUnitsConverts" Relationship="Self.FK_MeasurementUnitsConverts_ToUnit" FromRole="MeasurementUnits" ToRole="MeasurementUnitsConverts" />
+          <NavigationProperty Name="MissingListDetails" Relationship="Self.MissingListDetails_fk3" FromRole="MeasurementUnits" ToRole="MissingListDetails" />
+          <NavigationProperty Name="SavedListDetails" Relationship="Self.RoutineListDetails_fk" FromRole="MeasurementUnits" ToRole="SavedListDetails" />
+        </EntityType>
+        <EntityType Name="MeasurementUnitsConvert">
+          <Key>
+            <PropertyRef Name="ConvertId" />
+          </Key>
+          <Property Name="ConvertId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FoodId" Type="Int32" Nullable="false" />
+          <Property Name="FromUnitId" Type="Int32" Nullable="false" />
+          <Property Name="FromQuantity" Type="Decimal" Nullable="false" />
+          <Property Name="ToUnitId" Type="Int32" Nullable="false" />
+          <Property Name="ToQuantity" Type="Decimal" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MeasurementUnits" Relationship="Self.FK_MeasurementUnitsConverts_ToUnit" FromRole="MeasurementUnitsConverts" ToRole="MeasurementUnits" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MenuTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="TempUserId" Type="Int32" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="Tags" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="EmbeddedVideo" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Meals" Relationship="Self.FK_Meals_Menus" FromRole="Menus" ToRole="Meals" />
+          <NavigationProperty Name="MenuTypes" Relationship="Self.FK_Menus_MenuTypes" FromRole="Menus" ToRole="MenuTypes" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Menus_Users" FromRole="Menus" ToRole="Users" />
+          <NavigationProperty Name="ShoppingListAdditionalItems" Relationship="Self.FK_ShoppingListAdditionalItems_Menus" FromRole="Menus" ToRole="ShoppingListAdditionalItems" />
+          <NavigationProperty Name="MCategories" Relationship="Self.MenuCategories" FromRole="Menus" ToRole="MCategories" />
+          <NavigationProperty Name="Recipes" Relationship="Self.MenuRecipes" FromRole="Menus" ToRole="Recipes" />
+          <NavigationProperty Name="Users1" Relationship="Self.MenusInShoppingList" FromRole="Menus" ToRole="Users" />
+          <NavigationProperty Name="Users2" Relationship="Self.UserFavoriteMenus" FromRole="Menus" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="MenuType">
+          <Key>
+            <PropertyRef Name="MenuTypeId" />
+          </Key>
+          <Property Name="MenuTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MenuTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_Menus_MenuTypes" FromRole="MenuTypes" ToRole="Menus" />
+        </EntityType>
+        <EntityType Name="MissingListDetail">
+          <Key>
+            <PropertyRef Name="LIST_ID" />
+            <PropertyRef Name="FOOD_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LIST_ID" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_ID" Type="Int32" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT_ID" Type="Int32" Nullable="false" />
+          <Property Name="QUANTITY" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="Food" Relationship="Self.MissingListDetails_fk" FromRole="MissingListDetails" ToRole="Food" />
+          <NavigationProperty Name="MeasurementUnits" Relationship="Self.MissingListDetails_fk3" FromRole="MissingListDetails" ToRole="MeasurementUnits" />
+          <NavigationProperty Name="MissingLists" Relationship="Self.MissingListDetails_fk2" FromRole="MissingListDetails" ToRole="MissingLists" />
+        </EntityType>
+        <EntityType Name="MissingList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CREATED_BY" Type="Int32" Nullable="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <NavigationProperty Name="MissingListDetails" Relationship="Self.MissingListDetails_fk2" FromRole="MissingLists" ToRole="MissingListDetails" />
+        </EntityType>
+        <EntityType Name="NutCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="NutItems" Relationship="Self.FK_NutItems_NutCategories" FromRole="NutCategories" ToRole="NutItems" />
+        </EntityType>
+        <EntityType Name="NutItem">
+          <Key>
+            <PropertyRef Name="NutItemId" />
+          </Key>
+          <Property Name="NutItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NutItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DisplayUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NutCategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NutCategories" Relationship="Self.FK_NutItems_NutCategories" FromRole="NutItems" ToRole="NutCategories" />
+          <NavigationProperty Name="NutValues" Relationship="Self.FK_NutValues_NutItems" FromRole="NutItems" ToRole="NutValues" />
+        </EntityType>
+        <EntityType Name="NutValue">
+          <Key>
+            <PropertyRef Name="FoodId" />
+            <PropertyRef Name="NutItemId" />
+          </Key>
+          <Property Name="FoodId" Type="Int32" Nullable="false" />
+          <Property Name="NutItemId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Decimal" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_NutValues_Food" FromRole="NutValues" ToRole="Food" />
+          <NavigationProperty Name="NutItems" Relationship="Self.FK_NutValues_NutItems" FromRole="NutValues" ToRole="NutItems" />
+        </EntityType>
+        <EntityType Name="ReciepList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <Property Name="CREATED_BY" Type="Int32" Nullable="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ReciepListDetails" Relationship="Self.ReciepsListDetails_fk" FromRole="ReciepList" ToRole="ReciepListDetails" />
+        </EntityType>
+        <EntityType Name="ReciepListDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LIST_ID" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_ID" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QUANTITY" Type="Int32" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT_ID" Type="Int32" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ReciepList" Relationship="Self.ReciepsListDetails_fk" FromRole="ReciepListDetails" ToRole="ReciepList" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="RecipeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="Servings" Type="Int32" Nullable="false" />
+          <Property Name="PreparationMethod" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Source" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="MediaLink" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tools" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="VideoLink" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Tags" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="DifficultyLevel" Type="Int32" />
+          <Property Name="PreperationTime" Type="Int32" />
+          <Property Name="CookingTime" Type="Int32" />
+          <NavigationProperty Name="MealRecipes" Relationship="Self.FK_MealRecipes_Recipes" FromRole="Recipes" ToRole="MealRecipes" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Recipes_Users" FromRole="Recipes" ToRole="Users" />
+          <NavigationProperty Name="RecipesInShoppingList" Relationship="Self.RecipesInShoppingList_fk" FromRole="Recipes" ToRole="RecipesInShoppingList" />
+          <NavigationProperty Name="Menus" Relationship="Self.MenuRecipes" FromRole="Recipes" ToRole="Menus" />
+          <NavigationProperty Name="Categories" Relationship="Self.RecipeCategories" FromRole="Recipes" ToRole="Categories" />
+          <NavigationProperty Name="Users1" Relationship="Self.UserFavoriteRecipes" FromRole="Recipes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="RecipesInShoppingList">
+          <Key>
+            <PropertyRef Name="RECIPE_ID" />
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="RECIPE_ID" Type="Int32" Nullable="false" />
+          <Property Name="SERVINGS" Type="Int32" />
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Recipes" Relationship="Self.RecipesInShoppingList_fk" FromRole="RecipesInShoppingList" ToRole="Recipes" />
+          <NavigationProperty Name="Users" Relationship="Self.RecipesInShoppingList_fk2" FromRole="RecipesInShoppingList" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SavedList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <Property Name="SHOPPING_LIST" Type="Boolean" />
+          <Property Name="CREATED_BY" Type="Int32" />
+          <Property Name="CREATE_DATE" Type="DateTime" />
+          <NavigationProperty Name="SavedListDetails" Relationship="Self.RoutineListDetails_fk2" FromRole="SavedList" ToRole="SavedListDetails" />
+        </EntityType>
+        <EntityType Name="SavedListDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LIST_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LIST_ID" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_ID" Type="Int32" Nullable="false" />
+          <Property Name="MEASUREMENT_UNIT_ID" Type="Int32" Nullable="false" />
+          <Property Name="QUANTITY" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="Food" Relationship="Self.SavedListDetails_fk" FromRole="SavedListDetails" ToRole="Food" />
+          <NavigationProperty Name="MeasurementUnits" Relationship="Self.RoutineListDetails_fk" FromRole="SavedListDetails" ToRole="MeasurementUnits" />
+          <NavigationProperty Name="SavedList" Relationship="Self.RoutineListDetails_fk2" FromRole="SavedListDetails" ToRole="SavedList" />
+        </EntityType>
+        <EntityType Name="ShopDepartment">
+          <Key>
+            <PropertyRef Name="ShopDepartmentId" />
+          </Key>
+          <Property Name="ShopDepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopDepartmentName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="FoodCategories" Relationship="Self.FK_FoodCategories_ShopDepartments" FromRole="ShopDepartments" ToRole="FoodCategories" />
+        </EntityType>
+        <EntityType Name="ShoppingListAdditionalItem">
+          <Key>
+            <PropertyRef Name="ShoppingListItemId" />
+          </Key>
+          <Property Name="ShoppingListItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="GeneralItemId" Type="Int32" />
+          <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GeneralItems" Relationship="Self.FK_ShoppingListAdditionalItems_GeneralItems" FromRole="ShoppingListAdditionalItems" ToRole="GeneralItems" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_ShoppingListAdditionalItems_Menus" FromRole="ShoppingListAdditionalItems" ToRole="Menus" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="160" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserList">
+          <Key>
+            <PropertyRef Name="LIST_TYPE" />
+            <PropertyRef Name="FOOD_ID" />
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="LIST_TYPE" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_ID" Type="Int32" Nullable="false" />
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MEASURMENT_ID" Type="Int32" />
+          <Property Name="MEASUREMENT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QUANTITY" Type="Decimal" />
+          <Property Name="CATEGORY_ID" Type="Int32" />
+          <Property Name="CATEGORY_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <Property Name="CAN_DELETE" Type="Boolean" />
+          <Property Name="IMAGE" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="UserListsTypes" Relationship="Self.FK_UserList_UserListTypes" FromRole="UserList" ToRole="UserListsTypes" />
+        </EntityType>
+        <EntityType Name="UserListsType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserList" Relationship="Self.FK_UserList_UserListTypes" FromRole="UserListsTypes" ToRole="UserList" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AgreeToMail" Type="Boolean" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_Food_CreatedByUser" FromRole="Users" ToRole="Food" />
+          <NavigationProperty Name="Food1" Relationship="Self.FK_Food_ModifiedByUser" FromRole="Users" ToRole="Food" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_Menus_Users" FromRole="Users" ToRole="Menus" />
+          <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipes_Users" FromRole="Users" ToRole="Recipes" />
+          <NavigationProperty Name="RecipesInShoppingList" Relationship="Self.RecipesInShoppingList_fk2" FromRole="Users" ToRole="RecipesInShoppingList" />
+          <NavigationProperty Name="UserTypes" Relationship="Self.FK_Users_UserTypes" FromRole="Users" ToRole="UserTypes" />
+          <NavigationProperty Name="ShoppingLists" Relationship="Self.ShoppingLists_fk" FromRole="Users" ToRole="ShoppingLists" />
+          <NavigationProperty Name="Menus1" Relationship="Self.MenusInShoppingList" FromRole="Users" ToRole="Menus" />
+          <NavigationProperty Name="Menus2" Relationship="Self.UserFavoriteMenus" FromRole="Users" ToRole="Menus" />
+          <NavigationProperty Name="Recipes1" Relationship="Self.UserFavoriteRecipes" FromRole="Users" ToRole="Recipes" />
+        </EntityType>
+        <EntityType Name="UserShoppingList">
+          <Key>
+            <PropertyRef Name="FOOD_ID" />
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="FOOD_ID" Type="Int32" Nullable="false" />
+          <Property Name="FOOD_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MEASURMENT_ID" Type="Int32" />
+          <Property Name="MEASUREMENT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QUANTITY" Type="Decimal" />
+          <Property Name="CATEGORY_ID" Type="Int32" />
+          <Property Name="CATEGORY_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <Property Name="CAN_DELETE" Type="Boolean" />
+          <Property Name="IMAGE" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="UserTypeId" />
+          </Key>
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+          <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_UserTypes" FromRole="UserTypes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="RecipesFavorit">
+          <Key>
+            <PropertyRef Name="RecipesId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="RecipesId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShoppingList">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <Property Name="ITEMS" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <NavigationProperty Name="Users" Relationship="Self.ShoppingLists_fk" FromRole="ShoppingLists" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_RecipesCategories_ParentCategory">
+          <End Role="Categories" Type="MyBuyListModel.Category" Multiplicity="0..1" />
+          <End Role="Categories1" Type="MyBuyListModel.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Categories1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meals_CourseTypes">
+          <End Role="CourseTypes" Type="MyBuyListModel.CourseType" Multiplicity="0..1" />
+          <End Role="Meals" Type="MyBuyListModel.Meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseTypes">
+              <PropertyRef Name="CourseTypeId" />
+            </Principal>
+            <Dependent Role="Meals">
+              <PropertyRef Name="CourseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_CreatedByUser">
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_FoodCategories">
+          <End Role="FoodCategories" Type="MyBuyListModel.FoodCategory" Multiplicity="1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodCategories">
+              <PropertyRef Name="FoodCategoryId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="FoodCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_ModifiedByUser">
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredients_Food">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="Ingredients" Type="MyBuyListModel.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="Ingredients">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NutValues_Food">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="NutValues" Type="MyBuyListModel.NutValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="NutValues">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissingListDetails_fk">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="MissingListDetails" Type="MyBuyListModel.MissingListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="MissingListDetails">
+              <PropertyRef Name="FOOD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SavedListDetails_fk">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="SavedListDetails" Type="MyBuyListModel.SavedListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="SavedListDetails">
+              <PropertyRef Name="FOOD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodCategories_ParentCategory">
+          <End Role="FoodCategories" Type="MyBuyListModel.FoodCategory" Multiplicity="0..1" />
+          <End Role="FoodCategories1" Type="MyBuyListModel.FoodCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodCategories">
+              <PropertyRef Name="FoodCategoryId" />
+            </Principal>
+            <Dependent Role="FoodCategories1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodCategories_ShopDepartments">
+          <End Role="ShopDepartments" Type="MyBuyListModel.ShopDepartment" Multiplicity="1" />
+          <End Role="FoodCategories" Type="MyBuyListModel.FoodCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShopDepartments">
+              <PropertyRef Name="ShopDepartmentId" />
+            </Principal>
+            <Dependent Role="FoodCategories">
+              <PropertyRef Name="ShopDepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShoppingListAdditionalItems_GeneralItems">
+          <End Role="GeneralItems" Type="MyBuyListModel.GeneralItem" Multiplicity="0..1" />
+          <End Role="ShoppingListAdditionalItems" Type="MyBuyListModel.ShoppingListAdditionalItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeneralItems">
+              <PropertyRef Name="GeneralItemId" />
+            </Principal>
+            <Dependent Role="ShoppingListAdditionalItems">
+              <PropertyRef Name="GeneralItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredients_MeasurementUnits">
+          <End Role="MeasurementUnits" Type="MyBuyListModel.MeasurementUnit" Multiplicity="1" />
+          <End Role="Ingredients" Type="MyBuyListModel.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Ingredients">
+              <PropertyRef Name="MeasurementUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenusCategories_ParentMenusCategories">
+          <End Role="MCategories" Type="MyBuyListModel.MCategory" Multiplicity="0..1" />
+          <End Role="MCategories1" Type="MyBuyListModel.MCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MCategories">
+              <PropertyRef Name="MCategoryId" />
+            </Principal>
+            <Dependent Role="MCategories1">
+              <PropertyRef Name="ParentMCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealRecipes_Meals">
+          <End Role="Meals" Type="MyBuyListModel.Meal" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MealRecipes" Type="MyBuyListModel.MealRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meals">
+              <PropertyRef Name="MealId" />
+            </Principal>
+            <Dependent Role="MealRecipes">
+              <PropertyRef Name="MealId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealRecipes_Recipes">
+          <End Role="Recipes" Type="MyBuyListModel.Recipe" Multiplicity="1" />
+          <End Role="MealRecipes" Type="MyBuyListModel.MealRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="MealRecipes">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meals_MealTypes">
+          <End Role="MealTypes" Type="MyBuyListModel.MealType" Multiplicity="1" />
+          <End Role="Meals" Type="MyBuyListModel.Meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealTypes">
+              <PropertyRef Name="MealTypeId" />
+            </Principal>
+            <Dependent Role="Meals">
+              <PropertyRef Name="MealTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meals_Menus">
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Meals" Type="MyBuyListModel.Meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="Meals">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeasurementUnitsConverts_ToUnit">
+          <End Role="MeasurementUnits" Type="MyBuyListModel.MeasurementUnit" Multiplicity="1" />
+          <End Role="MeasurementUnitsConverts" Type="MyBuyListModel.MeasurementUnitsConvert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="MeasurementUnitsConverts">
+              <PropertyRef Name="ToUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissingListDetails_fk3">
+          <End Role="MeasurementUnits" Type="MyBuyListModel.MeasurementUnit" Multiplicity="1" />
+          <End Role="MissingListDetails" Type="MyBuyListModel.MissingListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="MissingListDetails">
+              <PropertyRef Name="MEASUREMENT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoutineListDetails_fk">
+          <End Role="MeasurementUnits" Type="MyBuyListModel.MeasurementUnit" Multiplicity="1" />
+          <End Role="SavedListDetails" Type="MyBuyListModel.SavedListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementUnits">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="SavedListDetails">
+              <PropertyRef Name="MEASUREMENT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_MenuTypes">
+          <End Role="MenuTypes" Type="MyBuyListModel.MenuType" Multiplicity="1" />
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuTypes">
+              <PropertyRef Name="MenuTypeId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="MenuTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Users">
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="1" />
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShoppingListAdditionalItems_Menus">
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ShoppingListAdditionalItems" Type="MyBuyListModel.ShoppingListAdditionalItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="ShoppingListAdditionalItems">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissingListDetails_fk2">
+          <End Role="MissingLists" Type="MyBuyListModel.MissingList" Multiplicity="1" />
+          <End Role="MissingListDetails" Type="MyBuyListModel.MissingListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MissingLists">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MissingListDetails">
+              <PropertyRef Name="LIST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NutItems_NutCategories">
+          <End Role="NutCategories" Type="MyBuyListModel.NutCategory" Multiplicity="1" />
+          <End Role="NutItems" Type="MyBuyListModel.NutItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NutCategories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="NutItems">
+              <PropertyRef Name="NutCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NutValues_NutItems">
+          <End Role="NutItems" Type="MyBuyListModel.NutItem" Multiplicity="1" />
+          <End Role="NutValues" Type="MyBuyListModel.NutValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NutItems">
+              <PropertyRef Name="NutItemId" />
+            </Principal>
+            <Dependent Role="NutValues">
+              <PropertyRef Name="NutItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ReciepsListDetails_fk">
+          <End Role="ReciepList" Type="Self.ReciepList" Multiplicity="1" />
+          <End Role="ReciepListDetails" Type="MyBuyListModel.ReciepListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReciepList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ReciepListDetails">
+              <PropertyRef Name="LIST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipes_Users">
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="1" />
+          <End Role="Recipes" Type="MyBuyListModel.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Recipes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RecipesInShoppingList_fk">
+          <End Role="Recipes" Type="MyBuyListModel.Recipe" Multiplicity="1" />
+          <End Role="RecipesInShoppingList" Type="Self.RecipesInShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="RecipesInShoppingList">
+              <PropertyRef Name="RECIPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RecipesInShoppingList_fk2">
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="1" />
+          <End Role="RecipesInShoppingList" Type="Self.RecipesInShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="RecipesInShoppingList">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoutineListDetails_fk2">
+          <End Role="SavedList" Type="Self.SavedList" Multiplicity="1" />
+          <End Role="SavedListDetails" Type="MyBuyListModel.SavedListDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SavedList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SavedListDetails">
+              <PropertyRef Name="LIST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserList_UserListTypes">
+          <End Role="UserListsTypes" Type="MyBuyListModel.UserListsType" Multiplicity="1" />
+          <End Role="UserList" Type="Self.UserList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserListsTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserList">
+              <PropertyRef Name="LIST_TYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypes">
+          <End Role="UserTypes" Type="MyBuyListModel.UserType" Multiplicity="1" />
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="UserTypeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ShoppingLists_fk">
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="1" />
+          <End Role="ShoppingLists" Type="MyBuyListModel.ShoppingList" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ShoppingLists">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MenuCategories">
+          <End Role="MCategories" Type="MyBuyListModel.MCategory" Multiplicity="*" />
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="*" />
+        </Association>
+        <Association Name="MenuRecipes">
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="*" />
+          <End Role="Recipes" Type="MyBuyListModel.Recipe" Multiplicity="*" />
+        </Association>
+        <Association Name="MenusInShoppingList">
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="*" />
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="*" />
+        </Association>
+        <Association Name="RecipeCategories">
+          <End Role="Categories" Type="MyBuyListModel.Category" Multiplicity="*" />
+          <End Role="Recipes" Type="MyBuyListModel.Recipe" Multiplicity="*" />
+        </Association>
+        <Association Name="UserFavoriteMenus">
+          <End Role="Menus" Type="MyBuyListModel.Menu" Multiplicity="*" />
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="*" />
+        </Association>
+        <Association Name="UserFavoriteRecipes">
+          <End Role="Recipes" Type="MyBuyListModel.Recipe" Multiplicity="*" />
+          <End Role="Users" Type="MyBuyListModel.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MyBuyListEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Articles" EntityType="MyBuyListModel.Article" />
+          <EntitySet Name="Categories" EntityType="MyBuyListModel.Category" />
+          <EntitySet Name="CourseTypes" EntityType="MyBuyListModel.CourseType" />
+          <EntitySet Name="Food" EntityType="Self.Food" />
+          <EntitySet Name="FoodCategories" EntityType="MyBuyListModel.FoodCategory" />
+          <EntitySet Name="GeneralItems" EntityType="MyBuyListModel.GeneralItem" />
+          <EntitySet Name="Ingredients" EntityType="MyBuyListModel.Ingredient" />
+          <EntitySet Name="Log" EntityType="Self.Log" />
+          <EntitySet Name="MBLSettings" EntityType="MyBuyListModel.MBLSetting" />
+          <EntitySet Name="MCategories" EntityType="MyBuyListModel.MCategory" />
+          <EntitySet Name="MealRecipes" EntityType="MyBuyListModel.MealRecipe" />
+          <EntitySet Name="Meals" EntityType="MyBuyListModel.Meal" />
+          <EntitySet Name="MealTypes" EntityType="MyBuyListModel.MealType" />
+          <EntitySet Name="MeasurementUnits" EntityType="MyBuyListModel.MeasurementUnit" />
+          <EntitySet Name="MeasurementUnitsConverts" EntityType="MyBuyListModel.MeasurementUnitsConvert" />
+          <EntitySet Name="Menus" EntityType="MyBuyListModel.Menu" />
+          <EntitySet Name="MenuTypes" EntityType="MyBuyListModel.MenuType" />
+          <EntitySet Name="MissingListDetails" EntityType="MyBuyListModel.MissingListDetail" />
+          <EntitySet Name="MissingLists" EntityType="MyBuyListModel.MissingList" />
+          <EntitySet Name="NutCategories" EntityType="MyBuyListModel.NutCategory" />
+          <EntitySet Name="NutItems" EntityType="MyBuyListModel.NutItem" />
+          <EntitySet Name="NutValues" EntityType="MyBuyListModel.NutValue" />
+          <EntitySet Name="ReciepList" EntityType="Self.ReciepList" />
+          <EntitySet Name="ReciepListDetails" EntityType="MyBuyListModel.ReciepListDetail" />
+          <EntitySet Name="Recipes" EntityType="MyBuyListModel.Recipe" />
+          <EntitySet Name="RecipesInShoppingList" EntityType="Self.RecipesInShoppingList" />
+          <EntitySet Name="SavedList" EntityType="Self.SavedList" />
+          <EntitySet Name="SavedListDetails" EntityType="MyBuyListModel.SavedListDetail" />
+          <EntitySet Name="ShopDepartments" EntityType="MyBuyListModel.ShopDepartment" />
+          <EntitySet Name="ShoppingListAdditionalItems" EntityType="MyBuyListModel.ShoppingListAdditionalItem" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="UserList" EntityType="Self.UserList" />
+          <EntitySet Name="UserListsTypes" EntityType="MyBuyListModel.UserListsType" />
+          <EntitySet Name="Users" EntityType="MyBuyListModel.User" />
+          <EntitySet Name="UserShoppingList" EntityType="Self.UserShoppingList" />
+          <EntitySet Name="UserTypes" EntityType="MyBuyListModel.UserType" />
+          <EntitySet Name="RecipesFavorits" EntityType="MyBuyListModel.RecipesFavorit" />
+          <EntitySet Name="ShoppingLists" EntityType="MyBuyListModel.ShoppingList" />
+          <AssociationSet Name="FK_RecipesCategories_ParentCategory" Association="Self.FK_RecipesCategories_ParentCategory">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Categories1" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meals_CourseTypes" Association="Self.FK_Meals_CourseTypes">
+            <End Role="CourseTypes" EntitySet="CourseTypes" />
+            <End Role="Meals" EntitySet="Meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_CreatedByUser" Association="Self.FK_Food_CreatedByUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_FoodCategories" Association="Self.FK_Food_FoodCategories">
+            <End Role="FoodCategories" EntitySet="FoodCategories" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_ModifiedByUser" Association="Self.FK_Food_ModifiedByUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredients_Food" Association="Self.FK_Ingredients_Food">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="Ingredients" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NutValues_Food" Association="Self.FK_NutValues_Food">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="NutValues" EntitySet="NutValues" />
+          </AssociationSet>
+          <AssociationSet Name="MissingListDetails_fk" Association="Self.MissingListDetails_fk">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="MissingListDetails" EntitySet="MissingListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="SavedListDetails_fk" Association="Self.SavedListDetails_fk">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="SavedListDetails" EntitySet="SavedListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodCategories_ParentCategory" Association="Self.FK_FoodCategories_ParentCategory">
+            <End Role="FoodCategories" EntitySet="FoodCategories" />
+            <End Role="FoodCategories1" EntitySet="FoodCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodCategories_ShopDepartments" Association="Self.FK_FoodCategories_ShopDepartments">
+            <End Role="ShopDepartments" EntitySet="ShopDepartments" />
+            <End Role="FoodCategories" EntitySet="FoodCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShoppingListAdditionalItems_GeneralItems" Association="Self.FK_ShoppingListAdditionalItems_GeneralItems">
+            <End Role="GeneralItems" EntitySet="GeneralItems" />
+            <End Role="ShoppingListAdditionalItems" EntitySet="ShoppingListAdditionalItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredients_MeasurementUnits" Association="Self.FK_Ingredients_MeasurementUnits">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="Ingredients" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenusCategories_ParentMenusCategories" Association="Self.FK_MenusCategories_ParentMenusCategories">
+            <End Role="MCategories" EntitySet="MCategories" />
+            <End Role="MCategories1" EntitySet="MCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealRecipes_Meals" Association="Self.FK_MealRecipes_Meals">
+            <End Role="Meals" EntitySet="Meals" />
+            <End Role="MealRecipes" EntitySet="MealRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealRecipes_Recipes" Association="Self.FK_MealRecipes_Recipes">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="MealRecipes" EntitySet="MealRecipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meals_MealTypes" Association="Self.FK_Meals_MealTypes">
+            <End Role="MealTypes" EntitySet="MealTypes" />
+            <End Role="Meals" EntitySet="Meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meals_Menus" Association="Self.FK_Meals_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Meals" EntitySet="Meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeasurementUnitsConverts_ToUnit" Association="Self.FK_MeasurementUnitsConverts_ToUnit">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="MeasurementUnitsConverts" EntitySet="MeasurementUnitsConverts" />
+          </AssociationSet>
+          <AssociationSet Name="MissingListDetails_fk3" Association="Self.MissingListDetails_fk3">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="MissingListDetails" EntitySet="MissingListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="RoutineListDetails_fk" Association="Self.RoutineListDetails_fk">
+            <End Role="MeasurementUnits" EntitySet="MeasurementUnits" />
+            <End Role="SavedListDetails" EntitySet="SavedListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_MenuTypes" Association="Self.FK_Menus_MenuTypes">
+            <End Role="MenuTypes" EntitySet="MenuTypes" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Users" Association="Self.FK_Menus_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShoppingListAdditionalItems_Menus" Association="Self.FK_ShoppingListAdditionalItems_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="ShoppingListAdditionalItems" EntitySet="ShoppingListAdditionalItems" />
+          </AssociationSet>
+          <AssociationSet Name="MissingListDetails_fk2" Association="Self.MissingListDetails_fk2">
+            <End Role="MissingLists" EntitySet="MissingLists" />
+            <End Role="MissingListDetails" EntitySet="MissingListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NutItems_NutCategories" Association="Self.FK_NutItems_NutCategories">
+            <End Role="NutCategories" EntitySet="NutCategories" />
+            <End Role="NutItems" EntitySet="NutItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NutValues_NutItems" Association="Self.FK_NutValues_NutItems">
+            <End Role="NutItems" EntitySet="NutItems" />
+            <End Role="NutValues" EntitySet="NutValues" />
+          </AssociationSet>
+          <AssociationSet Name="ReciepsListDetails_fk" Association="Self.ReciepsListDetails_fk">
+            <End Role="ReciepList" EntitySet="ReciepList" />
+            <End Role="ReciepListDetails" EntitySet="ReciepListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipes_Users" Association="Self.FK_Recipes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Recipes" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="RecipesInShoppingList_fk" Association="Self.RecipesInShoppingList_fk">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="RecipesInShoppingList" EntitySet="RecipesInShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="RecipesInShoppingList_fk2" Association="Self.RecipesInShoppingList_fk2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RecipesInShoppingList" EntitySet="RecipesInShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="RoutineListDetails_fk2" Association="Self.RoutineListDetails_fk2">
+            <End Role="SavedList" EntitySet="SavedList" />
+            <End Role="SavedListDetails" EntitySet="SavedListDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserList_UserListTypes" Association="Self.FK_UserList_UserListTypes">
+            <End Role="UserListsTypes" EntitySet="UserListsTypes" />
+            <End Role="UserList" EntitySet="UserList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypes" Association="Self.FK_Users_UserTypes">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="ShoppingLists_fk" Association="Self.ShoppingLists_fk">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ShoppingLists" EntitySet="ShoppingLists" />
+          </AssociationSet>
+          <AssociationSet Name="MenuCategories" Association="Self.MenuCategories">
+            <End Role="MCategories" EntitySet="MCategories" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="MenuRecipes" Association="Self.MenuRecipes">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Recipes" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="MenusInShoppingList" Association="Self.MenusInShoppingList">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="RecipeCategories" Association="Self.RecipeCategories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Recipes" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="UserFavoriteMenus" Association="Self.UserFavoriteMenus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UserFavoriteRecipes" Association="Self.UserFavoriteRecipes">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyBuyListModelStoreContainer" CdmEntityContainer="MyBuyListEntities1">
+          <EntitySetMapping Name="Articles">
+            <EntityTypeMapping TypeName="MyBuyListModel.Article">
+              <MappingFragment StoreEntitySet="Articles">
+                <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Abstract" ColumnName="Abstract" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="MyBuyListModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseTypes">
+            <EntityTypeMapping TypeName="MyBuyListModel.CourseType">
+              <MappingFragment StoreEntitySet="CourseTypes">
+                <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
+                <ScalarProperty Name="CourseTypeName" ColumnName="CourseTypeName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Food">
+            <EntityTypeMapping TypeName="MyBuyListModel.Food">
+              <MappingFragment StoreEntitySet="Food">
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="FoodCategoryId" ColumnName="FoodCategoryId" />
+                <ScalarProperty Name="CalculateUnitId" ColumnName="CalculateUnitId" />
+                <ScalarProperty Name="IsTemporary" ColumnName="IsTemporary" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="PrintPicture" ColumnName="PrintPicture" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodCategories">
+            <EntityTypeMapping TypeName="MyBuyListModel.FoodCategory">
+              <MappingFragment StoreEntitySet="FoodCategories">
+                <ScalarProperty Name="FoodCategoryId" ColumnName="FoodCategoryId" />
+                <ScalarProperty Name="FoodCategoryName" ColumnName="FoodCategoryName" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+                <ScalarProperty Name="ShopDepartmentId" ColumnName="ShopDepartmentId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeneralItems">
+            <EntityTypeMapping TypeName="MyBuyListModel.GeneralItem">
+              <MappingFragment StoreEntitySet="GeneralItems">
+                <ScalarProperty Name="GeneralItemId" ColumnName="GeneralItemId" />
+                <ScalarProperty Name="GeneralItemName" ColumnName="GeneralItemName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredients">
+            <EntityTypeMapping TypeName="MyBuyListModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredients">
+                <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="MeasurementUnitId" ColumnName="MeasurementUnitId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="MyBuyListModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MBLSettings">
+            <EntityTypeMapping TypeName="MyBuyListModel.MBLSetting">
+              <MappingFragment StoreEntitySet="MBLSettings">
+                <ScalarProperty Name="SettingKey" ColumnName="SettingKey" />
+                <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MCategories">
+            <EntityTypeMapping TypeName="MyBuyListModel.MCategory">
+              <MappingFragment StoreEntitySet="MCategories">
+                <ScalarProperty Name="MCategoryId" ColumnName="MCategoryId" />
+                <ScalarProperty Name="MCategoryName" ColumnName="MCategoryName" />
+                <ScalarProperty Name="ParentMCategoryId" ColumnName="ParentMCategoryId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealRecipes">
+            <EntityTypeMapping TypeName="MyBuyListModel.MealRecipe">
+              <MappingFragment StoreEntitySet="MealRecipes">
+                <ScalarProperty Name="MealId" ColumnName="MealId" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="Servings" ColumnName="Servings" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meals">
+            <EntityTypeMapping TypeName="MyBuyListModel.Meal">
+              <MappingFragment StoreEntitySet="Meals">
+                <ScalarProperty Name="MealId" ColumnName="MealId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="MealTypeId" ColumnName="MealTypeId" />
+                <ScalarProperty Name="DayIndex" ColumnName="DayIndex" />
+                <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
+                <ScalarProperty Name="Diners" ColumnName="Diners" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealTypes">
+            <EntityTypeMapping TypeName="MyBuyListModel.MealType">
+              <MappingFragment StoreEntitySet="MealTypes">
+                <ScalarProperty Name="MealTypeId" ColumnName="MealTypeId" />
+                <ScalarProperty Name="MealTypeName" ColumnName="MealTypeName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeasurementUnits">
+            <EntityTypeMapping TypeName="MyBuyListModel.MeasurementUnit">
+              <MappingFragment StoreEntitySet="MeasurementUnits">
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="EnabledInShoppingList" ColumnName="EnabledInShoppingList" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeasurementUnitsConverts">
+            <EntityTypeMapping TypeName="MyBuyListModel.MeasurementUnitsConvert">
+              <MappingFragment StoreEntitySet="MeasurementUnitsConverts">
+                <ScalarProperty Name="ConvertId" ColumnName="ConvertId" />
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="FromUnitId" ColumnName="FromUnitId" />
+                <ScalarProperty Name="FromQuantity" ColumnName="FromQuantity" />
+                <ScalarProperty Name="ToUnitId" ColumnName="ToUnitId" />
+                <ScalarProperty Name="ToQuantity" ColumnName="ToQuantity" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="MyBuyListModel.Menu">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuTypeId" ColumnName="MenuTypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="TempUserId" ColumnName="TempUserId" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="EmbeddedVideo" ColumnName="EmbeddedVideo" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuTypes">
+            <EntityTypeMapping TypeName="MyBuyListModel.MenuType">
+              <MappingFragment StoreEntitySet="MenuTypes">
+                <ScalarProperty Name="MenuTypeId" ColumnName="MenuTypeId" />
+                <ScalarProperty Name="MenuTypeName" ColumnName="MenuTypeName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MissingListDetails">
+            <EntityTypeMapping TypeName="MyBuyListModel.MissingListDetail">
+              <MappingFragment StoreEntitySet="MissingListDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LIST_ID" ColumnName="LIST_ID" />
+                <ScalarProperty Name="FOOD_ID" ColumnName="FOOD_ID" />
+                <ScalarProperty Name="MEASUREMENT_UNIT_ID" ColumnName="MEASUREMENT_UNIT_ID" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MissingLists">
+            <EntityTypeMapping TypeName="MyBuyListModel.MissingList">
+              <MappingFragment StoreEntitySet="MissingLists">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NutCategories">
+            <EntityTypeMapping TypeName="MyBuyListModel.NutCategory">
+              <MappingFragment StoreEntitySet="NutCategories">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NutItems">
+            <EntityTypeMapping TypeName="MyBuyListModel.NutItem">
+              <MappingFragment StoreEntitySet="NutItems">
+                <ScalarProperty Name="NutItemId" ColumnName="NutItemId" />
+                <ScalarProperty Name="NutItemName" ColumnName="NutItemName" />
+                <ScalarProperty Name="DisplayUnit" ColumnName="DisplayUnit" />
+                <ScalarProperty Name="NutCategoryId" ColumnName="NutCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NutValues">
+            <EntityTypeMapping TypeName="MyBuyListModel.NutValue">
+              <MappingFragment StoreEntitySet="NutValues">
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="NutItemId" ColumnName="NutItemId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReciepList">
+            <EntityTypeMapping TypeName="MyBuyListModel.ReciepList">
+              <MappingFragment StoreEntitySet="ReciepList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReciepListDetails">
+            <EntityTypeMapping TypeName="MyBuyListModel.ReciepListDetail">
+              <MappingFragment StoreEntitySet="ReciepListDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LIST_ID" ColumnName="LIST_ID" />
+                <ScalarProperty Name="FOOD_ID" ColumnName="FOOD_ID" />
+                <ScalarProperty Name="FOOD_NAME" ColumnName="FOOD_NAME" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="MEASUREMENT_UNIT_ID" ColumnName="MEASUREMENT_UNIT_ID" />
+                <ScalarProperty Name="MEASUREMENT_UNIT" ColumnName="MEASUREMENT_UNIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipes">
+            <EntityTypeMapping TypeName="MyBuyListModel.Recipe">
+              <MappingFragment StoreEntitySet="Recipes">
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="Servings" ColumnName="Servings" />
+                <ScalarProperty Name="PreparationMethod" ColumnName="PreparationMethod" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="MediaLink" ColumnName="MediaLink" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="Tools" ColumnName="Tools" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="DifficultyLevel" ColumnName="DifficultyLevel" />
+                <ScalarProperty Name="PreperationTime" ColumnName="PreperationTime" />
+                <ScalarProperty Name="CookingTime" ColumnName="CookingTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipesInShoppingList">
+            <EntityTypeMapping TypeName="MyBuyListModel.RecipesInShoppingList">
+              <MappingFragment StoreEntitySet="RecipesInShoppingList">
+                <ScalarProperty Name="RECIPE_ID" ColumnName="RECIPE_ID" />
+                <ScalarProperty Name="SERVINGS" ColumnName="SERVINGS" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SavedList">
+            <EntityTypeMapping TypeName="MyBuyListModel.SavedList">
+              <MappingFragment StoreEntitySet="SavedList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="SHOPPING_LIST" ColumnName="SHOPPING_LIST" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SavedListDetails">
+            <EntityTypeMapping TypeName="MyBuyListModel.SavedListDetail">
+              <MappingFragment StoreEntitySet="SavedListDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LIST_ID" ColumnName="LIST_ID" />
+                <ScalarProperty Name="FOOD_ID" ColumnName="FOOD_ID" />
+                <ScalarProperty Name="MEASUREMENT_UNIT_ID" ColumnName="MEASUREMENT_UNIT_ID" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShopDepartments">
+            <EntityTypeMapping TypeName="MyBuyListModel.ShopDepartment">
+              <MappingFragment StoreEntitySet="ShopDepartments">
+                <ScalarProperty Name="ShopDepartmentId" ColumnName="ShopDepartmentId" />
+                <ScalarProperty Name="ShopDepartmentName" ColumnName="ShopDepartmentName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShoppingListAdditionalItems">
+            <EntityTypeMapping TypeName="MyBuyListModel.ShoppingListAdditionalItem">
+              <MappingFragment StoreEntitySet="ShoppingListAdditionalItems">
+                <ScalarProperty Name="ShoppingListItemId" ColumnName="ShoppingListItemId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="GeneralItemId" ColumnName="GeneralItemId" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MyBuyListModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserList">
+            <EntityTypeMapping TypeName="MyBuyListModel.UserList">
+              <MappingFragment StoreEntitySet="UserList">
+                <ScalarProperty Name="LIST_TYPE" ColumnName="LIST_TYPE" />
+                <ScalarProperty Name="FOOD_ID" ColumnName="FOOD_ID" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="FOOD_NAME" ColumnName="FOOD_NAME" />
+                <ScalarProperty Name="MEASURMENT_ID" ColumnName="MEASURMENT_ID" />
+                <ScalarProperty Name="MEASUREMENT_NAME" ColumnName="MEASUREMENT_NAME" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+                <ScalarProperty Name="CATEGORY_NAME" ColumnName="CATEGORY_NAME" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="CAN_DELETE" ColumnName="CAN_DELETE" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserListsTypes">
+            <EntityTypeMapping TypeName="MyBuyListModel.UserListsType">
+              <MappingFragment StoreEntitySet="UserListsTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MyBuyListModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AgreeToMail" ColumnName="AgreeToMail" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserShoppingList">
+            <EntityTypeMapping TypeName="MyBuyListModel.UserShoppingList">
+              <MappingFragment StoreEntitySet="UserShoppingList">
+                <ScalarProperty Name="FOOD_ID" ColumnName="FOOD_ID" />
+                <ScalarProperty Name="FOOD_NAME" ColumnName="FOOD_NAME" />
+                <ScalarProperty Name="MEASURMENT_ID" ColumnName="MEASURMENT_ID" />
+                <ScalarProperty Name="MEASUREMENT_NAME" ColumnName="MEASUREMENT_NAME" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+                <ScalarProperty Name="CATEGORY_NAME" ColumnName="CATEGORY_NAME" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="CAN_DELETE" ColumnName="CAN_DELETE" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="MyBuyListModel.UserType">
+              <MappingFragment StoreEntitySet="UserTypes">
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipesFavorits">
+            <EntityTypeMapping TypeName="MyBuyListModel.RecipesFavorit">
+              <MappingFragment StoreEntitySet="RecipesFavorits">
+                <ScalarProperty Name="RecipesId" ColumnName="RecipesId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShoppingLists">
+            <EntityTypeMapping TypeName="MyBuyListModel.ShoppingList">
+              <MappingFragment StoreEntitySet="ShoppingLists">
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="ITEMS" ColumnName="ITEMS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MenuCategories" TypeName="MyBuyListModel.MenuCategories" StoreEntitySet="MenuCategories">
+            <EndProperty Name="MCategories">
+              <ScalarProperty Name="MCategoryId" ColumnName="MCategoryId" />
+            </EndProperty>
+            <EndProperty Name="Menus">
+              <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="MenuRecipes" TypeName="MyBuyListModel.MenuRecipes" StoreEntitySet="MenuRecipes">
+            <EndProperty Name="Menus">
+              <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+            </EndProperty>
+            <EndProperty Name="Recipes">
+              <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="MenusInShoppingList" TypeName="MyBuyListModel.MenusInShoppingList" StoreEntitySet="MenusInShoppingList">
+            <EndProperty Name="Menus">
+              <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="RecipeCategories" TypeName="MyBuyListModel.RecipeCategories" StoreEntitySet="RecipeCategories">
+            <EndProperty Name="Categories">
+              <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+            </EndProperty>
+            <EndProperty Name="Recipes">
+              <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserFavoriteMenus" TypeName="MyBuyListModel.UserFavoriteMenus" StoreEntitySet="UserFavoriteMenus">
+            <EndProperty Name="Menus">
+              <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserFavoriteRecipes" TypeName="MyBuyListModel.UserFavoriteRecipes" StoreEntitySet="UserFavoriteRecipes">
+            <EndProperty Name="Recipes">
+              <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

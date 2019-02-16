@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using MyBuyList.Shared.Entities;
+using System;
 using System.Configuration;
 using System.Web;
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using ProperControls.Pages;
 
 public partial class MasterPages_MBL : System.Web.UI.MasterPage
 {

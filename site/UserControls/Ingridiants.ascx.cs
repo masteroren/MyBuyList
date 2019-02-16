@@ -1,4 +1,5 @@
 ﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using ProperServices.Common.Log;
 using System;

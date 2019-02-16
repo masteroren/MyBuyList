@@ -1,8 +1,4 @@
-﻿using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using ProperControls.General;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserControl
 {
@@ -16,7 +12,6 @@ public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserContr
 
     protected void blkAddRemove_Click(object sender, EventArgs e)
     {
-
     }
 
     protected void btnAddRecipeToFavorites_Click(object sender, EventArgs e)

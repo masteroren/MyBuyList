@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Linq;
-
+﻿using AutoMapper;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
-using MyBuyList.Shared;
-using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
@@ -25,7 +21,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         }
     }
 
-    class RecipesDA : BaseContextDataAdapter<MyBuyListEntities>
+    class RecipesDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         public const int USER_ADMIN = 1;
 
@@ -181,20 +177,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Recipe>(r => r.User);
-                    //dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                    //dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                    //dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                    //dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                    //DataContext.LoadOptions = dlo;
-
-                    //var list = from r in DataContext.Recipes
-                    //           join ufr in DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId) on r.RecipeId equals ufr.RecipeId
-                    //           select r;
-
                     var list = from a in DataContext.Recipes
-                               from b in a.Users
+                               from b in a.Users1
                                where b.UserId == userId
                                select a;
 
@@ -213,14 +197,6 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<UserFavoriteRecipe>(ufr => ufr.RecipeId);
-                    //DataContext.LoadOptions = dlo;
-
-                    //var list = from ufr in DataContext.UserFavoriteRecipes
-                    //           where ufr.RecipeId == recipeId
-                    //           select ufr;
-
                     var list = from a in DataContext.Users
                                from b in a.Recipes1
                                select a;
@@ -240,16 +216,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Recipe>(r => r.User);
-                    //DataContext.LoadOptions = dlo;
-
                     var list = DataContext.Categories.OrderBy(cat => cat.SortOrder);
-                    //foreach (Category item in list)
-                    //{
-                    //    item.ParentCategories.Load();
-                    //    item.RecipesCount = GetRecipesByCategory(DataContext, item.CategoryId, userId).Length;
-                    //}
                     return list.ToArray();
                 }
                 catch
@@ -263,33 +230,14 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                //DataLoadOptions dlo = new DataLoadOptions();
-                //dlo.LoadWith<Recipe>(r => r.User);
-                //dlo.LoadWith<Recipe>(r => r.UserFavoriteRecipes);
-                //dlo.LoadWith<Recipe>(r => r.MenuRecipes);
-                //dlo.LoadWith<Recipe>(r => r.RecipeCategories);
-                //dlo.LoadWith<RecipeCategory>(rc => rc.Category);
-                //DataContext.LoadOptions = dlo;
-
-
                 return GetRecipesByCategory(DataContext, categoryId, userId);
             }
         }
 
-        private Recipe[] GetRecipesByCategory(MyBuyListEntities dc, int categoryId, int userId)
+        private Recipe[] GetRecipesByCategory(MyBuyListEntities1 dc, int categoryId, int userId)
         {
-            //System.IO.StringWriter sw = new System.IO.StringWriter();
-
-            //dc.Log = sw;
-
             try
             {
-                //var list = from r in dc.Recipes.Where(r => r.IsPublic == true || r.UserId == userId || userId == USER_ADMIN)
-                //           join rcat in dc.RecipeCategories.Where(rc => rc.CategoryId == categoryId ||
-                //                                                        rc.Category.ParentCategoryId == categoryId)
-                //           on r.RecipeId equals rcat.RecipeId
-                //           select r;
-
                 var list = from a in DataContext.Recipes
                            from b in a.Categories
                            where (a.IsPublic == true || a.UserId == userId || userId == USER_ADMIN)
@@ -374,7 +322,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             try
             {
-                List<Ingredient> ingredients = DataContext.Ingredients.Where(ri => ri.RecipeId == recipeId).ToList();
+                List<Ingredient> ingredients = DataContext.Ingredients.Where((Ingredient ri) => ri.RecipeId == recipeId).ToList();
                 return ingredients.ToArray();
             }
             catch
@@ -389,7 +337,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return (from e in DataContext.Foods.Where(f => f.FoodName.StartsWith(prefixText))
+                    return (from e in DataContext.Food.Where(f => f.FoodName.StartsWith(prefixText))
                                select new { id = e.FoodId, name = e.FoodName }).ToDictionary(k=>k.id, v=> v.name);
                 }
                 catch
@@ -458,7 +406,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //favRecipesNum = DataContext.UserFavoriteRecipes.Where(ufr => ufr.UserId == userId && (ufr.Recipe.UserId == userId || ufr.Recipe.IsPublic)).Count();
 
                     favRecipesNum = (from a in DataContext.Recipes
-                                     from b in a.Users
+                                     from b in a.Users1
                                      where b.UserId == userId && a.IsPublic
                                      select a).Count();
 
@@ -506,7 +454,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
             });
 
-            IEnumerable<Ingredient> p = DataContext.Ingredients.Where(i => i.RecipeId == recipe.RecipeId);
+            IEnumerable<Ingredient> p = DataContext.Ingredients.Where((Ingredient i) => i.RecipeId == recipe.RecipeId);
             IEnumerable<Ingredient> s = p.Except(ingridiants, new IngredientComparer());
             DataContext.Ingredients.RemoveRange(s);
 
@@ -620,7 +568,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             foreach (Ingredient ing in ingridiants)
             {
                 //find food by name for getting FoodId
-                Food food = DataContext.Foods.SingleOrDefault(f => f.FoodId == ing.FoodId);
+                Food food = DataContext.Food.SingleOrDefault((Food f) => f.FoodId == ing.FoodId);
 
                 if (food != null)
                 {
@@ -630,7 +578,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 {
                     //Create new food and mark it temporary
                     food = new Food();
-                    food.FoodName = ing.FoodName;
+                    food.FoodName = ing.Food.FoodName;
                     food.IsTemporary = true;
                     food.FoodCategoryId = 0;
                     food.CalculateUnitId = 0;
@@ -639,7 +587,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     food.ModifiedBy = userId;
                     food.ModifiedDate = DateTime.Now;
 
-                    DataContext.Foods.Add(food);
+                    DataContext.Food.Add(food);
                     DataContext.SaveChanges();
 
                     ing.FoodId = food.FoodId;
@@ -693,7 +641,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Food item = DataContext.Foods.SingleOrDefault(f => f.FoodId == id);
+                    Food item = DataContext.Food.SingleOrDefault(f => f.FoodId == id);
 
 
                     return item;
@@ -729,7 +677,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
             var query = from r in DataContext.Recipes.Where(r => r.RecipeId == recipeId && r.Servings > 0)
                         join i in DataContext.Ingredients on r.RecipeId equals i.RecipeId
-                        join f in DataContext.Foods on i.FoodId equals f.FoodId
+                        join f in DataContext.Food on i.FoodId equals f.FoodId
                         join nv in DataContext.NutValues on f.FoodId equals nv.FoodId
                         join ni in DataContext.NutItems on nv.NutItemId equals ni.NutItemId
                         orderby ni.NutCategoryId, ni.NutItemId
@@ -855,7 +803,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
                 else
                 {
-                    MeasurementUnitsConvert unitConvert = measureUnitConverts.SingleOrDefault(muc => muc.FoodId == ingredient.FoodId &&
+                    MeasurementUnitsConvert unitConvert = measureUnitConverts.SingleOrDefault((MeasurementUnitsConvert muc) => muc.FoodId == ingredient.FoodId &&
                                                                                               muc.FromUnitId == ingredient.MeasurementUnitId &&
                                                                                               muc.ToUnitId == MyBuyList.Shared.AppConstants.GRAMM_UNIT_ID);
                     if (unitConvert != null)
@@ -868,7 +816,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     }
                     else
                     {
-                        unitConvert = measureUnitConverts.SingleOrDefault(muc => muc.FoodId == ingredient.FoodId &&
+                        unitConvert = measureUnitConverts.SingleOrDefault((MeasurementUnitsConvert muc) => muc.FoodId == ingredient.FoodId &&
                                                                           muc.FromUnitId == ingredient.MeasurementUnitId &&
                                                                           muc.ToUnitId == AppConstants.KILOGRAMM_UNIT_ID);
                         if (unitConvert != null)
@@ -973,7 +921,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(r => r.RecipeName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(r => r.User.DisplayName);
+                            list = list.OrderBy(r => r.Users.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(r => r.ModifiedDate);
@@ -996,53 +944,51 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal List<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
         {
-            //using (DataContext)
-            //{
-                try
+            try
+            {
+                List<Recipe> recipesList = null;
+
+                switch (display)
                 {
-                    List<Recipe> recipesList = null;
+                    case RecipeDisplayEnum.All:
+                        recipesList = GetAllRecipes(userId).ToList();
+                        break;
+                    case RecipeDisplayEnum.MyRecipes:
+                        if (!string.IsNullOrEmpty(freeText))
+                            recipesList = GetUserRecipesList(userId).Where(r => r.RecipeName.Contains(freeText)).ToList();
+                        else
+                            recipesList = GetUserRecipesList(userId).ToList();
+                        break;
+                    case RecipeDisplayEnum.MyFavoriteRecipes:
+                        if (!string.IsNullOrEmpty(freeText))
+                            recipesList = GetUserFavoritesRecipes(userId).Where(r => r.RecipeName.Contains(freeText)).ToList();
+                        else
+                            recipesList = GetUserFavoritesRecipes(userId).ToList();
+                        break;
+                    case RecipeDisplayEnum.ByCategory:
+                        if (categoryId.HasValue)
+                        {
+                            recipesList = this.GetRecipesByCategory(categoryId.Value, userId).ToList();
+                        }
+                        else
+                        {
+                            recipesList = this.GetAllRecipes(userId).ToList();
+                        }
+                        break;
+                    case RecipeDisplayEnum.BySearchSimple:
+                        recipesList = GetRecipesListByFreeText(freeText).ToList();
+                        break;
+                    case RecipeDisplayEnum.BySearchAdvanced:
+                        recipesList = this.GetRecipesListByComplexSearch(freeText, servings, recipeCats, userId).ToList();
+                        break;
+                }
 
-                    switch (display)
-                    {
-                        case RecipeDisplayEnum.All:
-                            recipesList = GetAllRecipes(userId).ToList();
-                            break;
-                        case RecipeDisplayEnum.MyRecipes:
-                            if (!string.IsNullOrEmpty(freeText))
-                                recipesList = GetUserRecipesList(userId).Where(r => r.RecipeName.Contains(freeText)).ToList();
-                            else
-                                recipesList = GetUserRecipesList(userId).ToList();
-                            break;
-                        case RecipeDisplayEnum.MyFavoriteRecipes:
-                            if (!string.IsNullOrEmpty(freeText))
-                                recipesList = GetUserFavoritesRecipes(userId).Where(r => r.RecipeName.Contains(freeText)).ToList();
-                            else
-                                recipesList = GetUserFavoritesRecipes(userId).ToList();
-                            break;
-                        case RecipeDisplayEnum.ByCategory:
-                            if (categoryId.HasValue)
-                            {
-                                recipesList = this.GetRecipesByCategory(categoryId.Value, userId).ToList();
-                            }
-                            else
-                            {
-                                recipesList = this.GetAllRecipes(userId).ToList();
-                            }
-                            break;
-                        case RecipeDisplayEnum.BySearchSimple:
-                            recipesList = GetRecipesListByFreeText(freeText).ToList();
-                            break;
-                        case RecipeDisplayEnum.BySearchAdvanced:
-                            recipesList = this.GetRecipesListByComplexSearch(freeText, servings, recipeCats, userId).ToList();
-                            break;
-                    }
+                var count = (from r in recipesList
+                             select r).Count();
 
-                    var count = (from r in recipesList
-                                 select r).Count();
+                numRecipes = count;
 
-                    numRecipes = count;
-
-                    totalPages = count / pageSize + (count % pageSize > 0 ? 1 : 0);
+                totalPages = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
                 var list = from r in recipesList
                            select r;
@@ -1054,7 +1000,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                         list = list.OrderBy(r => r.RecipeName);
                         break;
                     case RecipeOrderEnum.Publisher:
-                        list = list.OrderBy(r => r.User.DisplayName);
+                        list = list.OrderBy(r => r.Users.DisplayName);
                         break;
                     case RecipeOrderEnum.LastUpdate:
                         list = list.OrderByDescending(r => r.ModifiedDate);
@@ -1066,45 +1012,25 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                 return list2.ToList();
 
-                }
-                catch
-                {
-                    totalPages = 0;
-                    numRecipes = 0;
-                    return null;
-                }
-            //}
+            }
+            catch
+            {
+                totalPages = 0;
+                numRecipes = 0;
+                return null;
+            }
         }
 
-        internal Recipe[] GetAllRecipes(int userId)
+        internal List<Recipe> GetAllRecipes(int userId)
         {
-            //var recipes = from r in
-            //            DataContext.Recipes.Where(r => r.IsPublic || r.UserId == userId || userId == USER_ADMIN)
-            //            join a in DataContext.RecipeCategories on r.RecipeId equals a.RecipeId
-            //              select new
-            //              {
-            //                  recipe
-            //              };
-
-            //return recipes.ToArray();
-
-
-            //using (DataContext)
-            //{
-                try
-                {
-                    var list =
-                        from r in
-                            DataContext.Recipes.Where(r => r.IsPublic || r.UserId == userId || userId == USER_ADMIN)
-                    select r;
-
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
-            //}
+            try
+            {
+                return (from r in DataContext.Recipes.Where(r => r.IsPublic || r.UserId == userId || userId == USER_ADMIN) select r).ToList();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         internal int? GetRecipeMenusCount(int recipeId)
@@ -1136,7 +1062,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal void AddRecipeToShoppingList(int userId, int recipeId)
         {
-            RecipesInShoppingList recipesInShoppingList = DataContext.RecipesInShoppingLists.SingleOrDefault(p => p.USER_ID == userId && p.RECIPE_ID == recipeId);
+            RecipesInShoppingList recipesInShoppingList = DataContext.RecipesInShoppingList.SingleOrDefault(p => p.USER_ID == userId && p.RECIPE_ID == recipeId);
 
             if (recipesInShoppingList == null)
             {
@@ -1149,21 +1075,21 @@ namespace MyBuyList.DataLayer.DataAdapters
                     SERVINGS = recipe.Servings
                 };
 
-                DataContext.RecipesInShoppingLists.Add(recipesInShoppingList);
+                DataContext.RecipesInShoppingList.Add(recipesInShoppingList);
                 DataContext.SaveChanges();
             }
         }
 
         internal IQueryable<RecipesInShoppingList> GetSelectedRecipes(int userId)
         {
-            IQueryable<RecipesInShoppingList> recipesInShoppingList = DataContext.RecipesInShoppingLists.Where(p => p.USER_ID == userId);
+            IQueryable<RecipesInShoppingList> recipesInShoppingList = DataContext.RecipesInShoppingList.Where(p => p.USER_ID == userId);
             return recipesInShoppingList;
         }
 
         internal void RemoveRecipeFromShoppingList(int userId, int recipeId)
         {
-            RecipesInShoppingList recipesInShoppingList = DataContext.RecipesInShoppingLists.SingleOrDefault(p => p.USER_ID == userId && p.RECIPE_ID == recipeId);
-            DataContext.RecipesInShoppingLists.Remove(recipesInShoppingList);
+            RecipesInShoppingList recipesInShoppingList = DataContext.RecipesInShoppingList.SingleOrDefault(p => p.USER_ID == userId && p.RECIPE_ID == recipeId);
+            DataContext.RecipesInShoppingList.Remove(recipesInShoppingList);
             DataContext.SaveChanges();
         }
 

@@ -206,7 +206,7 @@ namespace MyBuyListRest
         public AddRecipeResponse AddRecipe(AddRecipeRequest request)
         {
             int recipeId;
-            List<Ingredient> ingridiants = new List<Ingredient>();
+            List<Ingredients> ingridiants = new List<Ingredients>();
             List<SRL_RecipeCategory> categories = new List<SRL_RecipeCategory>();
             AddRecipeResponse response = new AddRecipeResponse();
             try
@@ -237,7 +237,7 @@ namespace MyBuyListRest
 
                 request.recipe.ingredients.ForEach(item =>
                 {
-                    Ingredient ingredient = new Ingredient
+                    Ingredients ingredient = new Ingredients
                     {
                         FoodId = item.id,
                         FoodName = item.name,

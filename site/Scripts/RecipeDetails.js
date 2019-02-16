@@ -19,20 +19,18 @@ $(document).ready(function () {
         if (user === null) {
             $('#removeRecipe').hide();
         }
-    })
+    });
 
     $('#removeRecipe').click(function () {
         var recipeId = $('#hfRecipeId').val();
 
-        baseUrl = window.mblRestHost;
-        var url = baseUrl + 'DeleteRecipe';
+        var url = $('#RestUrl').val() + '/api/recipes/' + recipeId;
 
         $.ajax(
             url, {
-                type: 'POST',
+                type: 'DELETE',
                 contentType: 'application/json',
                 dataType: 'json',
-                data: { recipeId: recipeId },
                 success: function (response) {
                     window.location = 'Recipes.aspx';
                 },

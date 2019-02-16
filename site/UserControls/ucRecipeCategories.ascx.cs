@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using MyBuyList.Shared.Entities;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Data.Linq;
-
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using System.Text;
 
 public partial class ucRecipeCategories : System.Web.UI.UserControl
 {
@@ -99,8 +89,8 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
 
     private void BuildTree(Category[] cats, int? parentCategoryId, TreeNode rootNode)
     {
-        if (parentCategoryId != null)
-        {
+        //if (parentCategoryId != null)
+        //{
             var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
             foreach (Category item in list)
             {
@@ -123,7 +113,7 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
 
                 BuildTree(cats, item.CategoryId, node);
             }
-        }
+        //}
     }
 
     protected void btnSave_Click(object sender, EventArgs e)

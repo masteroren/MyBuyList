@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using ACAWebThumbLib;
+//using ACAWebThumbLib;
 using MyBuyList.BusinessLayer;
 using MyBuyList.Shared.Entities;
 
@@ -13,6 +13,7 @@ using ProperControls.Pages;
 using ProperControls.General;
 
 using Resources;
+using MyBuyList.Shared;
 
 public partial class PageRecipeDetails : BasePage
 {
@@ -113,7 +114,7 @@ public partial class PageRecipeDetails : BasePage
 
                 RecipeId = recipeId;
                 Page.Title = string.Format(" ארגון רשימת הקניות שלך - MyBuyList - {0}", currRecipe.RecipeName);
-                PageDescription.Attributes["content"] = string.Format("פרטי מתכון - {0} מאת {1}", currRecipe.RecipeName, currRecipe.User.DisplayName);
+                PageDescription.Attributes["content"] = string.Format("פרטי מתכון - {0} מאת {1}", currRecipe.RecipeName, currRecipe.Users.DisplayName);
 
                 if (!string.IsNullOrEmpty(Request["view"]))
                 {
@@ -220,7 +221,7 @@ public partial class PageRecipeDetails : BasePage
                 this.txtTools.Text = recipe.Tools.Replace("\n", "<br />");
             }
 
-            bool isInMyFavorites = (recipe.Users.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
+            bool isInMyFavorites = (recipe.Users1.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
             if (isInMyFavorites)
             {
                 this.myFavoritesTopTag.Visible = true;
@@ -230,7 +231,7 @@ public partial class PageRecipeDetails : BasePage
                 this.myFavoritesTopTag.Visible = false;
             }
 
-            lblAllFavorites.Text = recipe.Users.Count.ToString();
+            lblAllFavorites.Text = recipe.Users1.Count.ToString();
 
             lblAllMenus.Text = recipe.Menus.Count.ToString();
 
@@ -321,23 +322,23 @@ public partial class PageRecipeDetails : BasePage
             }
 
             bool isCompleteCalculation = false;
-            RecipeTotalNutValues[] nutritionalValues = BusinessFacade.Instance.GetRecipeTotalNutValues(this.RecipeId, out isCompleteCalculation);
-            if (nutritionalValues == null || nutritionalValues.Length == 0 || !isCompleteCalculation)            
-            {
-                divNutritionalValues.Visible = false;
-                txtNoDataForNutritionalValues.Visible = true;
-                txtNoDataForNutritionalValues.Text = MyGlobalResources.NoDataForNutritionalValues.Replace("\n", "<br>");
-            }
-            else
-            {
-                if (rptNutritionalValues != null)
-                {
-                    rptNutritionalValues.DataSource = nutritionalValues;
-                    rptNutritionalValues.DataBind();
-                    rptNutritionalValues1.DataSource = nutritionalValues;
-                    rptNutritionalValues1.DataBind();
-                }
-            }
+            //RecipeTotalNutValues[] nutritionalValues = BusinessFacade.Instance.GetRecipeTotalNutValues(this.RecipeId, out isCompleteCalculation);
+            //if (nutritionalValues == null || nutritionalValues.Length == 0 || !isCompleteCalculation)            
+            //{
+            //    divNutritionalValues.Visible = false;
+            //    txtNoDataForNutritionalValues.Visible = true;
+            //    txtNoDataForNutritionalValues.Text = MyGlobalResources.NoDataForNutritionalValues.Replace("\n", "<br>");
+            //}
+            //else
+            //{
+            //    if (rptNutritionalValues != null)
+            //    {
+            //        rptNutritionalValues.DataSource = nutritionalValues;
+            //        rptNutritionalValues.DataBind();
+            //        rptNutritionalValues1.DataSource = nutritionalValues;
+            //        rptNutritionalValues1.DataBind();
+            //    }
+            //}
 
             if (recipe.Picture != null)
             {
@@ -358,7 +359,7 @@ public partial class PageRecipeDetails : BasePage
                 this.recipe_video.Visible = false;
             }
 
-            this.lnkPublisher.Text = recipe.User.DisplayName;
+            this.lnkPublisher.Text = recipe.Users.DisplayName;
             this.lblPublishDate.Text = recipe.ModifiedDate.ToString("dd/MM/yyyy");
 
             string userEmail = string.Empty;
@@ -388,7 +389,7 @@ public partial class PageRecipeDetails : BasePage
         Recipe recipe = BusinessFacade.Instance.GetRecipe(this.RecipeId);
         if (recipe != null)
         {
-            bool isInMyFavorites = (recipe.Users.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
+            bool isInMyFavorites = (recipe.Users1.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
             if (isInMyFavorites)
             {
                 this.myFavoritesTopTag.Visible = true;
@@ -398,7 +399,7 @@ public partial class PageRecipeDetails : BasePage
                 this.myFavoritesTopTag.Visible = false;
             }
 
-            this.lblAllFavorites.Text = recipe.Users.Count.ToString();
+            this.lblAllFavorites.Text = recipe.Users1.Count.ToString();
 
             this.lblAllMenus.Text = recipe.Menus.Count.ToString();
         }
@@ -765,20 +766,20 @@ public partial class PageRecipeDetails : BasePage
         string t_strLargeImage = string.Format(@"{0}{1}.jpg", savePath, currRecipe.RecipeName);
 
         // Create instance
-        ThumbMakerClass t_xThumbMaker = new ThumbMakerClass();
+        //ThumbMakerClass t_xThumbMaker = new ThumbMakerClass();
 
-        t_xThumbMaker.SetURL(string.Format("http://{0}{1}/ScreenShotRecipe.aspx?recipeId={2}&action=screenshot", Request.Url.Host,
-                                           Request.ApplicationPath, RecipeId));
-        t_xThumbMaker.SetRegInfo("KRMAXARQW-XTABNYBXW-KMQXRWMKB-BNTQABQTE");
-        t_xThumbMaker.StartSnap();
+        //t_xThumbMaker.SetURL(string.Format("http://{0}{1}/ScreenShotRecipe.aspx?recipeId={2}&action=screenshot", Request.Url.Host,
+        //                                   Request.ApplicationPath, RecipeId));
+        //t_xThumbMaker.SetRegInfo("KRMAXARQW-XTABNYBXW-KMQXRWMKB-BNTQABQTE");
+        //t_xThumbMaker.StartSnap();
 
-        // Save the image with full size in C#
-        bool saveImage = t_xThumbMaker.SaveImage(t_strLargeImage);
+        //// Save the image with full size in C#
+        //bool saveImage = t_xThumbMaker.SaveImage(t_strLargeImage);
 
-        if (saveImage)
-        {
-            Response.Redirect(string.Format("ScreenShotRecipe.aspx?RecipeId={0}", RecipeId));
-        }
+        //if (saveImage)
+        //{
+        //    Response.Redirect(string.Format("ScreenShotRecipe.aspx?RecipeId={0}", RecipeId));
+        //}
     }
 }
 

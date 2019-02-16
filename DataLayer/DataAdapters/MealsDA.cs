@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MyBuyList.Shared;
+using System;
 using System.Linq;
-using System.Text;
-using System.Data.Linq;
-
-using MyBuyList.Shared.Entities;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MealsDA : BaseContextDataAdapter<MyBuyListEntities>
+    class MealsDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         internal MealRecipe[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
         {
@@ -16,11 +12,6 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Meal);
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Recipe);
-                    //DataContext.LoadOptions = dlo;
-
                     var meals = DataContext.Meals.Where(m => m.MenuId == menuId &&
                                                         m.DayIndex >= startDayIndex &&
                                                         m.DayIndex <= endDayIndex);
@@ -76,15 +67,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Recipe);
-                    //DataContext.LoadOptions = dlo;
-
                     var list = DataContext.Meals.Where(m => m.MenuId == menuId);
-                    //foreach (Meal item in list)
-                    //{
-                    //    item.MealRecipes.Load();
-                    //}
                     return list.ToArray();
                 }
                 catch
@@ -100,10 +83,6 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Meal>(m => m.MealRecipes);
-                    //DataContext.LoadOptions = dlo;
-
                     Meal item = DataContext.Meals.SingleOrDefault(m => m.MealId == mealId);
 
                     return item;
@@ -131,14 +110,10 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private Meal GetMeal(MyBuyListEntities dc, int menuId, int courseTypeId)
+        private Meal GetMeal(MyBuyListEntities1 dc, int menuId, int courseTypeId)
         {
             try
             {
-                //DataLoadOptions dlo = new DataLoadOptions();
-                //dlo.LoadWith<Meal>(m => m.MealRecipes);
-                //dc.LoadOptions = dlo;
-
                 Meal item = dc.Meals.SingleOrDefault(m => m.MenuId == menuId &&
                                                           m.CourseTypeId == courseTypeId);
 
@@ -150,14 +125,10 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private Meal GetMeal(MyBuyListEntities dc, int menuId, int dayIndex, int mealTypeId)
+        private Meal GetMeal(MyBuyListEntities1 dc, int menuId, int dayIndex, int mealTypeId)
         {
             try
             {
-                //DataLoadOptions dlo = new DataLoadOptions();
-                //dlo.LoadWith<Meal>(m => m.MealRecipes);
-                //dc.LoadOptions = dlo;
-
                 Meal item = dc.Meals.SingleOrDefault(m => m.MenuId == menuId &&
                                                           m.DayIndex == dayIndex &&
                                                           m.MealTypeId == mealTypeId);
@@ -187,7 +158,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private bool SaveMeal(MyBuyListEntities dc, int menuId, int courseTypeId, int? diners, out int mealId)
+        private bool SaveMeal(MyBuyListEntities1 dc, int menuId, int courseTypeId, int? diners, out int mealId)
         {
             try
             {
@@ -205,7 +176,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
         
-        private bool SaveMeal(MyBuyListEntities dc, int menuId, int dayIndex, int mealTypeId, int? diners, out int mealId)
+        private bool SaveMeal(MyBuyListEntities1 dc, int menuId, int dayIndex, int mealTypeId, int? diners, out int mealId)
         {
             try
             {
@@ -223,7 +194,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private bool SaveMeal(MyBuyListEntities dc, Meal item, int menuId, int mealTypeId, int? dayIndex, int? courseTypeId, int? diners, out int mealId)
+        private bool SaveMeal(MyBuyListEntities1 dc, Meal item, int menuId, int mealTypeId, int? dayIndex, int? courseTypeId, int? diners, out int mealId)
         {
             try
             {
@@ -242,8 +213,6 @@ namespace MyBuyList.DataLayer.DataAdapters
                         item.ModifiedDate = DateTime.Now;
                         dc.Meals.Add(item);                        
                         dc.SaveChanges();
-                        //dc.Meals.InsertOnSubmit(item);
-                        //dc.SubmitChanges();
 
                         mealId = item.MealId;
                         return true;
@@ -332,7 +301,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
             }
         }
-        private int GetRecipeServings(MyBuyListEntities dc, int recipeId)
+        private int GetRecipeServings(MyBuyListEntities1 dc, int recipeId)
         {
             try
             {
@@ -345,7 +314,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 return 0;
             }
         }
-        private bool AddMealRecipe(MyBuyListEntities dc, int mealId, int recipeId, int servings)
+        private bool AddMealRecipe(MyBuyListEntities1 dc, int mealId, int recipeId, int servings)
         {
             try
             {

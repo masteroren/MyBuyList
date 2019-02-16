@@ -31,13 +31,14 @@
         display: flex;
         justify-content: flex-start;
         margin-top: 20px;
+        height: 35px;
     }
 
     .input-section-item {
-        height: 42px;
-        width: 50px;
-        margin-top: 6px;
         margin-left: 21px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
     }
 
         .input-section-item input.text {
@@ -51,7 +52,7 @@
         .input-section-item .quantity {
             background-color: #ddecb6;
             border: 1px solid #A4CB3A;
-            width: 100%;
+            width: 30px;
             text-align: center;
         }
 
@@ -69,7 +70,9 @@
         max-height: 100px;
         margin-top: 1px;
         display: none;
-        color: #656565
+        color: #656565;
+        position: absolute;
+        top: 34px;
     }
 
     .ingridiant-list-item {
@@ -166,26 +169,26 @@
         </div>
         <div class="input-section-item">
             <asp:Label ID="lblAnd" runat="server" Text="<%$ Resources:MyGlobalResources, And %>"
-                Font-Bold="true" /><br />
+                Font-Bold="true" />
             <asp:DropDownList ID="ddlFractions" runat="server" CssClass="drop-down-fractions"></asp:DropDownList>
             <asp:Label ID="LabelError" runat="server" Text=""></asp:Label>
         </div>
         <div class="input-section-item" style="width: 76px;">
             <asp:Label ID="lblMeasurementUnits" runat="server" Text="<%$ Resources:MyGlobalResources, MeasurementUnit %>"
-                Font-Bold="true" /><br />
+                Font-Bold="true" />
             <asp:DropDownList ID="ddlMeasurementUnits" class="drop-down-measurement-units" runat="server"></asp:DropDownList>
         </div>
-        <div class="input-section-item" style="width: 135px;">
-            <asp:Label ID="lblFoodName" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantName %>" Font-Bold="true" /><br />
+        <div class="input-section-item" style="width: 135px; position:relative">
+            <asp:Label ID="lblFoodName" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantName %>" Font-Bold="true" />
             <input id="ingridiantName" type="text" class="ingridiant-prefix" autocomplete="off" />
             <input id="ingridiantId" type="hidden" />
             <div id="ingridiantsList" class="ingridiant-list"></div>
         </div>
         <div class="input-section-item" style="width: 135px;">
-            <asp:Label ID="lblFoodRemark" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantProcess %>" Font-Bold="true" /><br />
+            <asp:Label ID="lblFoodRemark" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantProcess %>" Font-Bold="true" />
             <asp:TextBox ID="txtFoodRemark" CssClass="food-process" runat="server" />
         </div>
-        <div class="input-section-item" style="height: 25px; padding-top: 7px;">
+        <div class="input-section-item" style="padding-top: 7px;">
             <a id="addIngridiant" class="action"></a>
             <a id="updateIngridiant" class="action"></a>
             <input id="mode" type="hidden" />

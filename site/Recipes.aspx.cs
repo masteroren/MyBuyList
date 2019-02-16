@@ -1,16 +1,16 @@
-﻿using System;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using MyBuyList.Shared.Entities;
+using MyBuyList.Shared.Enums;
+using ProperControls.General;
+using ProperServices.Common.Extensions;
+using ProperServices.Common.Log;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using ProperControls.General;
-using ProperServices.Common.Extensions;
-
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using MyBuyList.Shared.Enums;
-using ProperServices.Common.Log;
 
 public partial class Recipes : BasePage
 {
@@ -19,7 +19,7 @@ public partial class Recipes : BasePage
     {
         try
         {
-            if (CurrUser != null) ucShoppingList1.UserId = CurrUser.UserId;
+            //if (CurrUser != null) ucShoppingList1.UserId = CurrUser.UserId;
 
             if (!IsPostBack)
             {
@@ -251,30 +251,31 @@ public partial class Recipes : BasePage
         int count;
         int userId = -1;
 
-        IEnumerable<Recipe> recipes;
-        if (CurrUser != null && CurrUser.UserId != -1)
-        {
-            IQueryable<RecipesInShoppingList> recipesInShoppingList = BusinessFacade.Instance.GetSelectedRecipes(UserId);
-            Dictionary<int, Recipe> selectedRecipes = new Dictionary<int, Recipe>();
+        List<Recipe> recipes;
 
-            foreach (RecipesInShoppingList recipe in recipesInShoppingList)
-            {
-                selectedRecipes.Add(recipe.RECIPE_ID, recipe.Recipe);
-            }
+        //if (CurrUser != null && CurrUser.UserId != -1)
+        //{
+        //    IQueryable<RecipesInShoppingList> recipesInShoppingList = BusinessFacade.Instance.GetSelectedRecipes(UserId);
+        //    Dictionary<int, Recipe> selectedRecipes = new Dictionary<int, Recipe>();
 
-            foreach (KeyValuePair<int, Recipe> selectedRecipe in Utils.SelectedRecipes)
-            {
-                if (!selectedRecipes.ContainsKey(selectedRecipe.Key))
-                    selectedRecipes.Add(selectedRecipe.Key, selectedRecipe.Value);
-            }
+        //    foreach (RecipesInShoppingList recipe in recipesInShoppingList)
+        //    {
+        //        selectedRecipes.Add(recipe.RECIPE_ID, recipe.Recipes);
+        //    }
 
-            Utils.SelectedRecipes = selectedRecipes;
-            userId = CurrUser.UserId;
-        }
+        //    foreach (KeyValuePair<int, Recipe> selectedRecipe in Utils.SelectedRecipes)
+        //    {
+        //        if (!selectedRecipes.ContainsKey(selectedRecipe.Key))
+        //            selectedRecipes.Add(selectedRecipe.Key, selectedRecipe.Value);
+        //    }
+
+        //    Utils.SelectedRecipes = selectedRecipes;
+        //    userId = CurrUser.UserId;
+        //}
 
         rptRecipes.ItemCreated += rptRecipes_ItemCreated;// for the pagers
         rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
-        recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, CategoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
+        recipes = BusinessFacade.Instance.GetRecipesEx(Display, CurrUser.UserId, FreeText, CategoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
         rptRecipes.DataSource = recipes;
         rptRecipes.DataBind();
         lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
@@ -404,8 +405,8 @@ public partial class Recipes : BasePage
 
             bool inMyFavorites = false;
             inMyFavorites = false;
-            if (recipe.Users.Any() && CurrUser != null)
-                inMyFavorites = recipe.Users.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
+            if (recipe.Users1.Any() && CurrUser != null)
+                inMyFavorites = recipe.Users1.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
             divMyFavoritesInfoTag.Visible = inMyFavorites;
 
             Label lblAllFavorites = e.Item.FindControl("lblAllFavorites") as Label;
@@ -419,9 +420,9 @@ public partial class Recipes : BasePage
             }
 
             HyperLink publisher = e.Item.FindControl("lnkPublisher") as HyperLink;
-            if (recipe.User != null)
+            if (recipe.Users != null)
             {
-                publisher.Text = recipe.User.DisplayName;
+                publisher.Text = recipe.Users.DisplayName;
             }
 
             Image image = e.Item.FindControl("imgThumbnail") as Image;
@@ -936,7 +937,7 @@ public partial class Recipes : BasePage
 
         RebindRecipes();
         upRecipes.Update();
-        ucShoppingList1.UpdateList();
-        upShoppingList.Update();
+        //ucShoppingList1.UpdateList();
+        //upShoppingList.Update();
     }
 }

@@ -1,15 +1,12 @@
-﻿using System;
+﻿using MyBuyList.Shared;
+using MyBuyList.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Data.Linq;
-
-using MyBuyList.Shared.Entities;
-using MyBuyList.Shared.Enums;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MenusDA : BaseContextDataAdapter<MyBuyListEntities>
+    class MenusDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         public const int USER_ADMIN = 1;
 
@@ -223,7 +220,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
                     Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu.MenuType;
+                    return menu.MenuTypes;
                 }
                 catch
                 {
@@ -790,7 +787,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     //delete this recipe from all meals for menuId
                     MealRecipe[] mealRecipes = DataContext.MealRecipes.Where(mr => mr.RecipeId == recipeId &&
-                                                                                   mr.Meal.MenuId == menuId).ToArray();
+                                                                                   mr.Meals.MenuId == menuId).ToArray();
 
                     DataContext.MealRecipes.RemoveRange(mealRecipes);
                     DataContext.SaveChanges();
@@ -813,7 +810,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
                     bool check = DataContext.MealRecipes.Any(mr => mr.RecipeId == recipeId &&
-                                                             mr.Meal.MenuId == menuId);
+                                                             mr.Meals.MenuId == menuId);
                     //if (list != null)
                     //{
                     //    return true;
@@ -977,7 +974,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(m => m.MenuName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(m => m.User.DisplayName);
+                            list = list.OrderBy(m => m.Users.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(m => m.ModifiedDate);
@@ -1058,7 +1055,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(m => m.MenuName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(m => m.User.DisplayName);
+                            list = list.OrderBy(m => m.Users.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(m => m.ModifiedDate);
@@ -1188,7 +1185,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         }
 
 
-        //internal Menu[] GetMenusListByFreeText(string freeText, int userId)
+        //internal Menus[] GetMenusListByFreeText(string freeText, int userId)
         //{
         //    using (DataContext)
         //    {

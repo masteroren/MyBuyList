@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Data.Linq;
-
+﻿using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class ShoppingsListDA : BaseContextDataAdapter<MyBuyListEntities>
+    class ShoppingsListDA : BaseContextDataAdapter<MyBuyListEntities1>
     {
         internal List<UserShoppingList> GetShoppingList(int userId)
         {
@@ -26,7 +25,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 {
                     var departments =   from sd in DataContext.ShopDepartments
                                         join fc in DataContext.FoodCategories on sd.ShopDepartmentId equals fc.ShopDepartmentId
-                                        join f in DataContext.Foods on fc.FoodCategoryId equals f.FoodCategoryId
+                                        join f in DataContext.Food on fc.FoodCategoryId equals f.FoodCategoryId
                                         join i in DataContext.Ingredients on f.FoodId equals i.FoodId
                                         join r in DataContext.Recipes on i.RecipeId equals r.RecipeId
                                         join mr in DataContext.MealRecipes on r.RecipeId equals mr.RecipeId
@@ -61,7 +60,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                                       join m in DataContext.Meals.Where(m => m.MenuId == menuId) on mr.MealId equals m.MealId
                                       select new { Ingredient = i, TotalServings = mr.Servings /1.00M/ r.Servings };
 
-                    ShoppingFood[] list  = (from f in DataContext.Foods
+                    ShoppingFood[] list  = (from f in DataContext.Food
                                             where ingredients.Any(i => i.Ingredient.FoodId == f.FoodId)
                                             select new ShoppingFood(f)).ToArray();
 
@@ -222,7 +221,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal void CheckShoppingListItem(int userId, int foodId, bool active)
         {
-            UserShoppingList userShoppingList = DataContext.UserShoppingLists.SingleOrDefault(p => p.USER_ID == userId && p.FOOD_ID == foodId);
+            UserShoppingList userShoppingList = DataContext.UserShoppingList.SingleOrDefault(p => p.USER_ID == userId && p.FOOD_ID == foodId);
             if (userShoppingList != null)
             {
                 userShoppingList.ACTIVE = active;

@@ -115,13 +115,13 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{929C49D7-83ED-475C-82F7-83CD13FF94C6}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ProperServices\ProperServices.Common\ProperServices.Common.csproj">
       <Project>{00F3C8C0-3A78-4402-B9B5-C5F16EFA56C2}</Project>
       <Name>ProperServices.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{929c49d7-83ed-475c-82f7-83cd13ff94c6}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

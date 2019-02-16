@@ -93,13 +93,13 @@
             <uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="ucRecipeCats_RefreshData" />
         </div>
         <div class="body">
-            <div class="ShoppingList">
+            <%--<div class="ShoppingList">
                 <asp:UpdatePanel ID="upShoppingList" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
                         <uc1:ucShoppingList ID="ucShoppingList1" runat="server" />
                     </ContentTemplate>
                 </asp:UpdatePanel>
-            </div>
+            </div>--%>
             <div class="recipes">
                 <asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" OnClick="ButtonRecipesRefresh_Click" />
                 <asp:UpdatePanel ID="upRecipes" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">

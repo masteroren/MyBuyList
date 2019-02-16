@@ -1,20 +1,19 @@
-﻿using System;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using MyBuyList.Shared.Entities;
+using ProperServices.Common.Log;
+using Resources;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Linq;
+using System.Drawing;
 using System.Linq;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-
-using Resources;
-using System.Drawing;
-using ProperServices.Common.Log;
-using System.Web.Script.Serialization;
-
-public partial class ucRecipe : System.Web.UI.UserControl
+public partial class ucRecipe : UserControl
 {
     SRL_RecipeCategory[] RecipeCategories
     {

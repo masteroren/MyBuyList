@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using MyBuyList.DataLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 
 namespace MyBuyList.BusinessLayer.Managers
