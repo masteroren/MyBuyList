@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucSummeryList.ascx.cs"
-    Inherits="UserControls.UcSummeryList" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls.UcSummeryList, mybuylist" %>
 <div style="color: #ee1e3e; font-size: 22pt; font-weight: bold;
     font-family: Arial">
     <asp:Label ID="LabelTile" runat="server" Text="<%$ Resources:MyGlobalResources, SummeryListTitle %>"></asp:Label>

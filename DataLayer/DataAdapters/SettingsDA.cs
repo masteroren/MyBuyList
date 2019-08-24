@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class SettingsDA : BaseContextDataAdapter<MyBuyListEntities1>
+    class SettingsDA : BaseContextDataAdapter<MyBuyListEntities>
     {
         internal MBLSettingsWrapper GetMBLSettingsWrapper()
         {

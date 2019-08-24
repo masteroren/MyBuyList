@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using MyBuyList.BusinessLayer.Managers;
 using MyBuyList.BusinessLayer;
 using MyBuyList.Shared.Entities;
+using MyBuyList.Shared;
 
 public partial class UserControls_ucPrintMenu : System.Web.UI.UserControl
 {

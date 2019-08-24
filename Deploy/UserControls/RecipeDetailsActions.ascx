@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RecipeDetailsActions.ascx.cs" Inherits="UserControls_RecipeDetailsActions" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_RecipeDetailsActions, mybuylist" %>
 
 <style>
     .remove{
@@ -8,7 +8,12 @@
 
 <div id="recipe_actions">
 
-    <asp:LinkButton ID="blkAddRemove" runat="server" OnClientClick="StartHeaderInterval();" OnClick="blkAddRemove_Click" Font-Bold="true"
+    <asp:LinkButton 
+        ID="blkAddRemove" 
+        runat="server" 
+        OnClientClick="StartHeaderInterval();" 
+        OnClick="blkAddRemove_Click" 
+        Font-Bold="true"
         ForeColor="#a4cb3a" />
 
     <asp:Label ID="lblAddRemoveSeperator" runat="server">|</asp:Label>

@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DisappearingMessage.ascx.cs"
-    Inherits="CommonControls_Messages_DisappearingMessage" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="CommonControls_Messages_DisappearingMessage, mybuylist" %>
 <asp:Panel runat="server" ID="message" Style='display: none; position: fixed; right:450px; width: 100%; top: 29px;z-index: 10000'>
     <asp:Panel ID="Panel1" runat="server" SkinID="DisappearingMessageContainer" style='margin:auto; width: 400px; text-align: center'>
         <asp:Panel ID="Panel2" runat="server" SkinID="DisappearingMessageText" style='text-align:center;' >

@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MenusSearchControl.ascx.cs"
-    Inherits="UserControls_MenusSearchControl" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_MenusSearchControl, mybuylist" %>
 <div style="width: 100%">
     <asp:Panel ID="Panel1" runat="server" DefaultButton="ImageButton1">
     <div>

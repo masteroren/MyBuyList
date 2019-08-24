@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true"
-    CodeFile="MenuMeals.aspx.cs" Inherits="PageMenuMeals" Theme="Standard" Title="<%$ Resources:MyGlobalResources, PlanningMenu %>" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="PageMenuMeals, mybuylist" theme="Standard" title="<%$ Resources:MyGlobalResources, PlanningMenu %>" %>
 
 <%@ Register Src="~/UserControls/ucMealMenu.ascx" TagPrefix="uc1" TagName="MealMenu" %>
 <%@ Register Src="~/UserControls/ucWeeklyMenu.ascx" TagPrefix="uc2" TagName="WeeklyMenu" %>

@@ -18,7 +18,7 @@ namespace MyBuyList.Shared
         public int RecipeId { get; set; }
         public int Servings { get; set; }
     
-        public virtual Meal Meals { get; set; }
-        public virtual Recipe Recipes { get; set; }
+        public virtual Meal Meal { get; set; }
+        public virtual Recipe Recipe { get; set; }
     }
 }

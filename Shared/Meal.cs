@@ -30,10 +30,10 @@ namespace MyBuyList.Shared
         public System.DateTime ModifiedDate { get; set; }
         public string Comments { get; set; }
     
-        public virtual CourseType CourseTypes { get; set; }
+        public virtual CourseType CourseType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MealRecipe> MealRecipes { get; set; }
-        public virtual MealType MealTypes { get; set; }
-        public virtual Menu Menus { get; set; }
+        public virtual MealType MealType { get; set; }
+        public virtual Menu Menu { get; set; }
     }
 }

@@ -1,17 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master"
-    AutoEventWireup="true" CodeFile="Recipes.aspx.cs" Inherits="Recipes" Theme="Standard" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="Recipes, mybuylist" theme="Standard" %>
+<%@ MasterType VirtualPath="~/MasterPages/MBL.master" %>
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc2" TagName="RecipeCategories" %>
 <%@ Register Src="UserControls/ucRecipesFilter.ascx" TagName="RecipesFilter" TagPrefix="uc3" %>
 <%@ Register Src="~/UserControls/ucShoppingList.ascx" TagName="ucShoppingList" TagPrefix="uc1" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="Server">
 
     <!-- Recipes -->
 
     <script src="Scripts/Recipes.js"></script>
+
 
     <script>
         var ButtonRecipesRefreshClientID = '<%=ButtonRecipesRefresh.ClientID%>';
@@ -59,7 +62,7 @@
                 </p>
             </div>
             <div class="search">
-                <asp:UpdatePanel ID="upSearch" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                <asp:UpdatePanel ID="recipeSearchBar" ClientIDMode="Static" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
                         <div id="recipes_filter">
                             <uc3:RecipesFilter ID="RecipesFilter1" runat="server" />
@@ -93,18 +96,18 @@
             <uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="ucRecipeCats_RefreshData" />
         </div>
         <div class="body">
-            <div class="ShoppingList">
+            <%--<div class="ShoppingList">
                 <asp:UpdatePanel ID="upShoppingList" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
                         <uc1:ucShoppingList ID="ucShoppingList1" runat="server" />
                     </ContentTemplate>
                 </asp:UpdatePanel>
-            </div>
+            </div>--%>
             <div class="recipes">
                 <asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" OnClick="ButtonRecipesRefresh_Click" />
                 <asp:UpdatePanel ID="upRecipes" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" /> 
+                        <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" />
                     </Triggers>
                     <ContentTemplate>
                         <div class="recipe_list">
@@ -117,12 +120,12 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <div class="recipe_main_category">
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Right.png); width: 19px; height: 30px; background-repeat:no-repeat;"></div>
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Center.png); width: 220px; height: 30px; background-repeat:repeat-x;">
+                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Right.png); width: 19px; height: 30px; background-repeat: no-repeat;"></div>
+                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Center.png); width: 220px; height: 30px; background-repeat: repeat-x;">
                                             <div style="height: 10px;"></div>
                                             <asp:Label ID="lblMainCategory" runat="server"></asp:Label>
                                         </div>
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Left.png); width: 19px; height: 30px; background-repeat:no-repeat;"></div>
+                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Left.png); width: 19px; height: 30px; background-repeat: no-repeat;"></div>
                                     </div>
                                     <div class="recipe_box">
                                         <div class="body">

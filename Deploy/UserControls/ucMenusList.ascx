@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucMenusList.ascx.cs" Inherits="ucMenusList" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucMenusList, mybuylist" %>
 <asp:Panel ID="pnlList" runat="server" Width="470px" Height="380px" ScrollBars="Auto">
     <table style="width: 80%">
         <asp:Repeater ID="rptMenusList" runat="server">

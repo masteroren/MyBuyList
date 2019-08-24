@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucMyRecipesList.ascx.cs"
-    Inherits="ucMyRecipesList" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucMyRecipesList, mybuylist" %>
 <%@ Register Src="~/UserControls/ucRecipe.ascx" TagPrefix="uc1" TagName="Recipe" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc2" TagName="RecipeCategories" %>
 <%@ Register Src="~/UserControls/ucRecipePicture.ascx" TagPrefix="uc3" TagName="RecipePicture" %>

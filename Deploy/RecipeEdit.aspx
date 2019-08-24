@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master" EnableEventValidation="false"
-    AutoEventWireup="true" CodeFile="RecipeEdit.aspx.cs" Inherits="RecipeEdit" ValidateRequest="true" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/MBL.master" enableeventvalidation="false" autoeventwireup="true" inherits="RecipeEdit, mybuylist" validaterequest="true" theme="Standard" %>
 
 <%@ Register Src="~/UserControls/ucRecipe.ascx" TagPrefix="uc1" TagName="Recipe" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc2" TagName="RecipeCategories" %>

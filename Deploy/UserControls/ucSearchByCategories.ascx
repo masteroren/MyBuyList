@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucSearchByCategories.ascx.cs"
-    Inherits="ucSearchByCategories " %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucSearchByCategories, mybuylist" %>
 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
     <ContentTemplate>
         <table>

@@ -1,7 +1,5 @@
-﻿$(document).ready(function ()
-{
-    
-})
+﻿$(document).ready(function () {
+});
 
 var isIE = document.all ? true : false;
 var isDirty = false;

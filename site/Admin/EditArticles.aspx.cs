@@ -1,14 +1,7 @@
-﻿using System;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-using ProperControls.Pages;
-
-using MyBuyList.Shared.Entities;
-using MyBuyList.BusinessLayer;
 
 public partial class Admin_EditArticles : BasePage
 {
@@ -32,18 +25,18 @@ public partial class Admin_EditArticles : BasePage
                 id = FOOTER_ID;
             }
 
-            MyBuyList.Shared.Entities.Article article = BusinessFacade.Instance.GetArticleById(id);
+            Article article = BusinessFacade.Instance.GetArticleById(id);
 
             if (article != null)
             {
                 this.RebindArticleData(article);
             }            
 
-            MyBuyList.Shared.Entities.Article[] allArticles = BusinessFacade.Instance.GetArticlesList();
+            Article[] allArticles = BusinessFacade.Instance.GetArticlesList();
 
             Dictionary<int, string> articleList = new Dictionary<int, string>();
 
-            foreach (MyBuyList.Shared.Entities.Article art in allArticles)
+            foreach (Article art in allArticles)
             {
                 articleList.Add(art.ArticleId, art.Title);
             }
@@ -59,11 +52,11 @@ public partial class Admin_EditArticles : BasePage
 
     protected void ddlArticles_SelectedIndexChanged(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Article article = BusinessFacade.Instance.GetArticleById(int.Parse(this.ddlArticles.SelectedValue));
+        Article article = BusinessFacade.Instance.GetArticleById(int.Parse(this.ddlArticles.SelectedValue));
         this.RebindArticleData(article);        
     }
 
-    private void RebindArticleData(MyBuyList.Shared.Entities.Article article)
+    private void RebindArticleData(Article article)
     {
         if (article != null)
         {

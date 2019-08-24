@@ -21,6 +21,6 @@ namespace MyBuyList.Shared
         public Nullable<System.DateTime> CREATE_DATE { get; set; }
         public Nullable<bool> ACTIVE { get; set; }
     
-        public virtual User Users { get; set; }
+        public virtual User User { get; set; }
     }
 }

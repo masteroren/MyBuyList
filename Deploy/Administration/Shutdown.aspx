@@ -1,5 +1,4 @@
-﻿<%@ Page Title="Shutdown" Language="C#" MasterPageFile="~/Administration/AdminMasterPage.master"
-    AutoEventWireup="true" CodeFile="Shutdown.aspx.cs" Inherits="Administration_Shutdown" %>
+﻿<%@ page title="Shutdown" language="C#" masterpagefile="~/Administration/AdminMasterPage.master" autoeventwireup="true" inherits="Administration_Shutdown, mybuylist" theme="Standard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <br />

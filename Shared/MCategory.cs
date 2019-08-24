@@ -30,7 +30,7 @@ namespace MyBuyList.Shared
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MCategory> MCategories1 { get; set; }
-        public virtual MCategory MCategories2 { get; set; }
+        public virtual MCategory MCategory1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Menu> Menus { get; set; }
     }

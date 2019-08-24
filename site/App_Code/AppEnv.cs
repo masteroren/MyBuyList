@@ -50,13 +50,13 @@ public class SRL_Recipe
 
         if (item.Users != null)
         {
-            if (!string.IsNullOrEmpty(item.Users.DisplayName))
+            if (!string.IsNullOrEmpty(item.User.DisplayName))
             {
-                this.Name = item.Users.DisplayName;
+                this.Name = item.User.DisplayName;
             }
             else
             {
-                this.Name = item.Users.Name;
+                this.Name = item.User.Name;
             }
         }
     }
@@ -74,7 +74,7 @@ public class SRL_MealRecipe
     {
         this.MealId = item.MealId;
         this.RecipeId = item.RecipeId;
-        this.RecipeName = item.Recipes.RecipeName;
+        this.RecipeName = item.Recipe.RecipeName;
         this.Servings = item.Servings;
     }
 }

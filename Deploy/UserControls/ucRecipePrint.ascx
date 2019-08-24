@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucRecipePrint.ascx.cs"
-    Inherits="UserControls_RecipePrint" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_RecipePrint, mybuylist" %>
 <%@ Register TagPrefix="uc1" TagName="Ingredients" Src="~/UserControls/ucPrintIngredients.ascx" %>
 <asp:Panel ID="pnlRecipe" runat="server">
     <table dir='rtl'>

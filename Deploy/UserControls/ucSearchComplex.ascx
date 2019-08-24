@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucSearchComplex.ascx.cs"
-    Inherits="ucSearchComplex" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucSearchComplex, mybuylist" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc4" TagName="RecipeCategories" %>
 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
     <ContentTemplate>

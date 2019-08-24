@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Administration/AdminMasterPage.master" AutoEventWireup="true" CodeFile="LoggerReview.aspx.cs" Inherits="Administration_Logger_LoggerReview" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/Administration/AdminMasterPage.master" autoeventwireup="true" inherits="Administration_Logger_LoggerReview, mybuylist" theme="Standard" %>
 
 <%@ Register src="LoggerView.ascx" tagname="LoggerView" tagprefix="proper" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">

@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucPrintShopingList.ascx.cs"
-    Inherits="UserControls_ucPrintShopingList" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_ucPrintShopingList, mybuylist" %>
 <table>
     <tr>
         <td style="font-family: Arial">

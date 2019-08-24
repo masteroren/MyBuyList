@@ -1,0 +1,15 @@
+﻿body {
+}
+
+div{
+    display: inherit;
+}
+
+input {
+    width: inherit;
+    outline: none;
+}
+
+select {
+    outline: none;
+}

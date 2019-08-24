@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Admin_Default" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="Admin_Default, mybuylist" theme="Standard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>

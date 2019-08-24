@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucIngridians.ascx.cs"
-    Inherits="UserControls.UcIngridians" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls.UcIngridians, mybuylist" %>
 
 <style>
     .uc-ingridiants{

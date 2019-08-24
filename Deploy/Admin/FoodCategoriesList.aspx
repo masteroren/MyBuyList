@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true"
-    CodeFile="FoodCategoriesList.aspx.cs" Inherits="PageFoodCategoriesList" Title="<%$ Resources:MyGlobalResources, FoodCategories %>" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="PageFoodCategoriesList, mybuylist" title="<%$ Resources:MyGlobalResources, FoodCategories %>" theme="Standard" %>
 
 <%@ MasterType VirtualPath="~/MasterPages/ProperDevMasterPage.master" %>
 <asp:Content ID="RightContent" ContentPlaceHolderID="RightContentPlaceHolder" runat="Server">

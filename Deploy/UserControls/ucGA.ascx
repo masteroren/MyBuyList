@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucGA.ascx.cs" Inherits="UserControls_ucGA" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_ucGA, mybuylist" %>
 <asp:PlaceHolder ID="phGA" runat="server"></asp:PlaceHolder>

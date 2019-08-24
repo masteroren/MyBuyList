@@ -114,7 +114,7 @@ public partial class PageRecipeDetails : BasePage
 
                 RecipeId = recipeId;
                 Page.Title = string.Format(" ארגון רשימת הקניות שלך - MyBuyList - {0}", currRecipe.RecipeName);
-                PageDescription.Attributes["content"] = string.Format("פרטי מתכון - {0} מאת {1}", currRecipe.RecipeName, currRecipe.Users.DisplayName);
+                PageDescription.Attributes["content"] = string.Format("פרטי מתכון - {0} מאת {1}", currRecipe.RecipeName, currRecipe.User.DisplayName);
 
                 if (!string.IsNullOrEmpty(Request["view"]))
                 {
@@ -221,7 +221,7 @@ public partial class PageRecipeDetails : BasePage
                 this.txtTools.Text = recipe.Tools.Replace("\n", "<br />");
             }
 
-            bool isInMyFavorites = (recipe.Users1.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
+            bool isInMyFavorites = (recipe.Users.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
             if (isInMyFavorites)
             {
                 this.myFavoritesTopTag.Visible = true;
@@ -231,7 +231,7 @@ public partial class PageRecipeDetails : BasePage
                 this.myFavoritesTopTag.Visible = false;
             }
 
-            lblAllFavorites.Text = recipe.Users1.Count.ToString();
+            lblAllFavorites.Text = recipe.Users.Count.ToString();
 
             lblAllMenus.Text = recipe.Menus.Count.ToString();
 
@@ -359,7 +359,7 @@ public partial class PageRecipeDetails : BasePage
                 this.recipe_video.Visible = false;
             }
 
-            this.lnkPublisher.Text = recipe.Users.DisplayName;
+            this.lnkPublisher.Text = recipe.User.DisplayName;
             this.lblPublishDate.Text = recipe.ModifiedDate.ToString("dd/MM/yyyy");
 
             string userEmail = string.Empty;
@@ -389,7 +389,7 @@ public partial class PageRecipeDetails : BasePage
         Recipe recipe = BusinessFacade.Instance.GetRecipe(this.RecipeId);
         if (recipe != null)
         {
-            bool isInMyFavorites = (recipe.Users1.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
+            bool isInMyFavorites = (recipe.Users.SingleOrDefault(ufr => ufr.UserId == ((BasePage)this.Page).UserId) != null);
             if (isInMyFavorites)
             {
                 this.myFavoritesTopTag.Visible = true;
@@ -399,7 +399,7 @@ public partial class PageRecipeDetails : BasePage
                 this.myFavoritesTopTag.Visible = false;
             }
 
-            this.lblAllFavorites.Text = recipe.Users1.Count.ToString();
+            this.lblAllFavorites.Text = recipe.Users.Count.ToString();
 
             this.lblAllMenus.Text = recipe.Menus.Count.ToString();
         }

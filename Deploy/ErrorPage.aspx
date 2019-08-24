@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
-    CodeFile="ErrorPage.aspx.cs" Inherits="ErrorPage" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="ErrorPage, mybuylist" theme="Standard" %>
 
 <%@ Register Assembly="ProperControls" Namespace="ProperControls.BasicControls.Containers"
     TagPrefix="proper" %>

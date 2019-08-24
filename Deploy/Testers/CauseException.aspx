@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CauseException.aspx.cs" Inherits="Testers_CauseException" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="Testers_CauseException, mybuylist" theme="Standard" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

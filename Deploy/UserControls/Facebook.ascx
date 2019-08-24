@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Facebook.ascx.cs" Inherits="UserControls_Facebook" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_Facebook, mybuylist" %>
 
 <div id="fb-root">
 </div>

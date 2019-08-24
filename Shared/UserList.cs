@@ -27,6 +27,6 @@ namespace MyBuyList.Shared
         public Nullable<bool> CAN_DELETE { get; set; }
         public byte[] IMAGE { get; set; }
     
-        public virtual UserListsType UserListsTypes { get; set; }
+        public virtual UserListsType UserListsType { get; set; }
     }
 }

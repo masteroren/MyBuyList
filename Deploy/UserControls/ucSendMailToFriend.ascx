@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucSendMailToFriend.ascx.cs"
-    Inherits="UserControls_ucSendMailToFriend" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_ucSendMailToFriend, mybuylist" %>
 
 <%--<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>--%>
 

@@ -24,6 +24,6 @@ namespace MyBuyList.Shared
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
     
-        public virtual MeasurementUnit MeasurementUnits { get; set; }
+        public virtual MeasurementUnit MeasurementUnit { get; set; }
     }
 }

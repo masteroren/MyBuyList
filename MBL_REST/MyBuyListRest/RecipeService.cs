@@ -1,4 +1,5 @@
 ﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using MyBuyListRest.Recipes;
 using MyBuyListRest.Responses;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
+using Category = MyBuyList.Shared.Category;
 
 namespace MyBuyListRest
 {
@@ -172,7 +174,7 @@ namespace MyBuyListRest
 
             try
             {
-                List<MyBuyList.Shared.Entities.Category> categories = BusinessFacade.Instance.GetCategoriesList().OrderBy(x => x.ParentCategoryId).ToList();
+                List<Category> categories = BusinessFacade.Instance.GetCategoriesList().OrderBy(x => x.ParentCategoryId).ToList();
 
                 categories.ForEach(item =>
                 {
@@ -206,7 +208,7 @@ namespace MyBuyListRest
         public AddRecipeResponse AddRecipe(AddRecipeRequest request)
         {
             int recipeId;
-            List<Ingredients> ingridiants = new List<Ingredients>();
+            List<Ingredient> ingridiants = new List<Ingredient>();
             List<SRL_RecipeCategory> categories = new List<SRL_RecipeCategory>();
             AddRecipeResponse response = new AddRecipeResponse();
             try
@@ -237,7 +239,7 @@ namespace MyBuyListRest
 
                 request.recipe.ingredients.ForEach(item =>
                 {
-                    Ingredients ingredient = new Ingredients
+                    Ingredient ingredient = new Ingredient
                     {
                         FoodId = item.id,
                         FoodName = item.name,

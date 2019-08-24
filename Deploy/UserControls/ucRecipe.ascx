@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucRecipe.ascx.cs" Inherits="ucRecipe"  %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucRecipe, mybuylist" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <%@ Register Src="~/UserControls/Ingridiants.ascx" TagPrefix="MBL" TagName="Ingridiants" %>

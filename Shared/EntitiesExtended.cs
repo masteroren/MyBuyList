@@ -59,7 +59,7 @@ namespace MyBuyList.Shared
                     }
                 }
                 return string.Format("{0} {1} {2} {3}", displayQuantity,
-                                     MeasurementUnits.UnitName,
+                                     MeasurementUnit.UnitName,
                                      Food.FoodName, string.IsNullOrEmpty(this.Remarks) ? "" : this.Remarks);
             }
 
@@ -83,9 +83,9 @@ namespace MyBuyList.Shared
         {
             get
             {
-                if (MeasurementUnits != null)
+                if (MeasurementUnit != null)
                 {
-                    return MeasurementUnits.UnitName;
+                    return MeasurementUnit.UnitName;
                 }
                 return _measureUnitName;
             }

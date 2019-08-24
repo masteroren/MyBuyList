@@ -19,6 +19,8 @@ using MyBuyList.BusinessLayer;
 using MyBuyList.Shared.Entities;
 
 using Resources;
+using MyBuyList.Shared;
+
 public partial class UserControls_PrintWeeklyMenu : System.Web.UI.UserControl
 {
     int MenuId

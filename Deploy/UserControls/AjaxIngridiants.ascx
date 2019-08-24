@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AjaxIngridiants.ascx.cs" Inherits="UserControls_AjaxIngridiants" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_AjaxIngridiants, mybuylist" %>
 
 <script src="Scripts/AjaxIngridiants.js"></script>
 

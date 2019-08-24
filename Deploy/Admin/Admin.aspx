@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true"
-    CodeFile="Admin.aspx.cs" Inherits="PageAdmin" Title="<%$ Resources:MyGlobalResources, SystemManagement %>" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="PageAdmin, mybuylist" title="<%$ Resources:MyGlobalResources, SystemManagement %>" theme="Standard" %>
 
 <%@ MasterType VirtualPath="~/MasterPages/ProperDevMasterPage.master" %>
 <asp:Content ID="RightContent" ContentPlaceHolderID="RightContentPlaceHolder" runat="Server">

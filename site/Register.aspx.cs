@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using ProperControls.Pages;
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using System.Web.Security;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using System;
 using System.Configuration;
 using System.IO;
+using System.Web.Security;
 
 public partial class Register : BasePage
 {
@@ -100,10 +94,10 @@ public partial class Register : BasePage
                 if (((MasterPages_MBL)this.Master).TempUser != 0)
                 {
                     User newUser = BusinessFacade.Instance.GetUserByUserName(currUser.Name);
-                    MyBuyList.Shared.Entities.Menu[] userMenus = BusinessFacade.Instance.GetMenusList(int.Parse(ConfigurationManager.AppSettings["anonymous"]), ((MasterPages_MBL)this.Master).TempUser);
+                    Menu[] userMenus = BusinessFacade.Instance.GetMenusList(int.Parse(ConfigurationManager.AppSettings["anonymous"]), Master.TempUser);
                     if (userMenus != null)
                     {
-                        foreach (MyBuyList.Shared.Entities.Menu currMenu in userMenus)
+                        foreach (Menu currMenu in userMenus)
                         {
                             BusinessFacade.Instance.UpdateMenuUser(currMenu.MenuId, newUser.UserId);
                         }

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucShoppingList.ascx.cs" Inherits="UserControls.UcShoppingList" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls.UcShoppingList, mybuylist" %>
 
 <script src="UserControls/scripts/ucShoppingList.js"></script>
 

@@ -35,7 +35,7 @@
     });
 
     CheckLogin();
-})
+});
 
 function CloseLogin() {
     $("#popuplogin").dialog("close");
@@ -48,9 +48,10 @@ function OpenLoginDialog(callback) {
 
     loginCallbackFunction = callback;
 
-    $("#TextUserName").val('');
-    $("#TextPassword").val('');
+    $("#textUserName").val('');
+    $("#textPassword").val('');
     $("#popuplogin").dialog('open');
+    $("#textUserName").focus();
 }
 
 function isLoggedIn(callback)
@@ -73,7 +74,7 @@ function isLoggedIn(callback)
 function CheckLogin() {
     var data = { method: 'IsLoggedIn' };
     $.post('Handler.ashx', data, function (data) {
-        if (data != '') {
+        if (data !== '') {
             var user = $.parseJSON(data);
             if (user && user.UserId) {
                 window.userId = user.UserId;
@@ -98,13 +99,13 @@ function CheckLogin() {
 }
 
 function Login() {
-    var userName = $("#TextUserName").val();
-    var password = $("#TextPassword").val();
+    var userName = $("#textUserName").val();
+    var password = $("#textPassword").val();
 
     var data = { method: 'Login', UserName: userName, Password: password };
     $.post('Handler.ashx', data, function (data) {
 
-        if (data != '' && data != 'null') {
+        if (data !== '' && data !== 'null') {
             var user = $.parseJSON(data);
             window.userId = user.UserId;
             switch (user.UserTypeId) {
@@ -116,15 +117,12 @@ function Login() {
                     loginBtn.unbind('click');
                     loginBtn.switchClass('login', 'logout');
                     loginBtn.html('יציאה');
-                    $('.HelloUser').html('שלום, ' + user.FirstName + ' ' + user.LastName);
+                    console.log(user.FirstName + ' ' + user.LastName);
+                    $('.hello-user').html('שלום, ' + user.FirstName + ' ' + user.LastName);
                     $("#popuplogin").dialog('close');
 
-                    if (loginCallbackFunction != null)
+                    if (loginCallbackFunction !== null)
                         loginCallbackFunction();
-
-                    //loginBtn.click(function () {
-                    //    Logout($(this));
-                    //});
 
                     break;
             }
@@ -142,7 +140,7 @@ function Logout(logoutBtn) {
     $.post('Handler.ashx', data, function (data) {
         logoutBtn.switchClass('logout', 'login');
         logoutBtn.html('כניסה');
-        $('.HelloUser').html('שלום, אורח');
+        $('.hello-user').html('שלום, אורח');
 
         ResetSearch(1);
 

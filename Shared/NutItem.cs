@@ -25,7 +25,7 @@ namespace MyBuyList.Shared
         public string DisplayUnit { get; set; }
         public int NutCategoryId { get; set; }
     
-        public virtual NutCategory NutCategories { get; set; }
+        public virtual NutCategory NutCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NutValue> NutValues { get; set; }
     }

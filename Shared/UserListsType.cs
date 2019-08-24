@@ -17,13 +17,13 @@ namespace MyBuyList.Shared
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserListsType()
         {
-            this.UserList = new HashSet<UserList>();
+            this.UserLists = new HashSet<UserList>();
         }
     
         public int ID { get; set; }
         public string NAME { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserList> UserList { get; set; }
+        public virtual ICollection<UserList> UserLists { get; set; }
     }
 }

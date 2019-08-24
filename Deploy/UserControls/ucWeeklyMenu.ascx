@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucWeeklyMenu.ascx.cs"
-    Inherits="ucWeeklyMenu" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucWeeklyMenu, mybuylist" %>
 <asp:Panel ID="pnlNavigator" runat="server" Width="485px" Height="20px">
     &nbsp;
     <asp:LinkButton ID="btnClearAll" runat="server" Text='<%$ Resources:MyGlobalResources, ClearAll %>'

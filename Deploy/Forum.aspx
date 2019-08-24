@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
-    CodeFile="Forum.aspx.cs" Inherits="Forum" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="Forum, mybuylist" theme="Standard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
 </asp:Content>

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true" CodeFile="Tips.aspx.cs" Inherits="ContactUs" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="Tips, mybuylist" theme="Standard" %>
 <%@ Register Src="~/UserControls/ucContactUs.ascx" TagPrefix="uc1" TagName="ContactUs" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">

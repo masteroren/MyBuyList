@@ -21,7 +21,7 @@ namespace MyBuyList.Shared
         public decimal QUANTITY { get; set; }
     
         public virtual Food Food { get; set; }
-        public virtual MeasurementUnit MeasurementUnits { get; set; }
-        public virtual MissingList MissingLists { get; set; }
+        public virtual MeasurementUnit MeasurementUnit { get; set; }
+        public virtual MissingList MissingList { get; set; }
     }
 }

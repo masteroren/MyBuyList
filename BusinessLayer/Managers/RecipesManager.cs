@@ -135,9 +135,9 @@ namespace MyBuyList.BusinessLayer.Managers
                 MealRecipe[] mealRecipes = BusinessFacade.Instance.GetMealRecipes(currMeal.MealId);
                 foreach (MealRecipe currRecipe in mealRecipes)
                 {
-                    if (!recipes.ContainsKey(currRecipe.Recipes.RecipeName))
+                    if (!recipes.ContainsKey(currRecipe.Recipe.RecipeName))
                     {
-                        recipes.Add(currRecipe.Recipes.RecipeName, currRecipe.Recipes);
+                        recipes.Add(currRecipe.Recipe.RecipeName, currRecipe.Recipe);
                     }
                 }
             }

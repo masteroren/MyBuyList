@@ -18,7 +18,7 @@ namespace MyBuyList.Shared
         public Nullable<int> SERVINGS { get; set; }
         public int USER_ID { get; set; }
     
-        public virtual Recipe Recipes { get; set; }
-        public virtual User Users { get; set; }
+        public virtual Recipe Recipe { get; set; }
+        public virtual User User { get; set; }
     }
 }

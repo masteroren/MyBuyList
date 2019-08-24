@@ -65,14 +65,14 @@
     .ingridiant-list {
         background-color: #ddecb6;
         border: 1px solid #A4CB3A;
-        width: 157px;
-        overflow: auto;
+        width: 137px;
+        overflow-y: auto;
         max-height: 100px;
         margin-top: 1px;
         display: none;
         color: #656565;
         position: absolute;
-        top: 34px;
+        top: 33px;
     }
 
     .ingridiant-list-item {
@@ -182,7 +182,8 @@
             <asp:Label ID="lblFoodName" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantName %>" Font-Bold="true" />
             <input id="ingridiantName" type="text" class="ingridiant-prefix" autocomplete="off" />
             <input id="ingridiantId" type="hidden" />
-            <div id="ingridiantsList" class="ingridiant-list"></div>
+            <asp:ListBox ID="ingridiantsList" runat="server" ClientIDMode="Static">
+            </asp:ListBox>
         </div>
         <div class="input-section-item" style="width: 135px;">
             <asp:Label ID="lblFoodRemark" runat="server" Text="<%$ Resources:MyGlobalResources, IngridiantProcess %>" Font-Bold="true" />

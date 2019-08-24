@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucContactUs.ascx.cs" Inherits="ucContactUs" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucContactUs, mybuylist" %>
 <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
     <ContentTemplate>
         <table dir="rtl" style="width: 350px;" cellpadding="0px" cellspacing="0px">

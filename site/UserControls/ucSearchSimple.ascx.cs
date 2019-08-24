@@ -17,6 +17,7 @@ using MyBuyList.Shared.Entities;
 
 using Resources;
 using ProperControls.Pages;
+using MyBuyList.Shared;
 
 public partial class ucSearchSimple : System.Web.UI.UserControl, IPostBackEventHandler
 {

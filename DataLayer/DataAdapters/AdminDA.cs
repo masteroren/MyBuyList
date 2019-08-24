@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class AdminDA : BaseContextDataAdapter<MyBuyListEntities1>
+    class AdminDA : BaseContextDataAdapter<MyBuyListEntities>
     {
         #region Categories
 
@@ -300,7 +300,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.Food.Any(f => f.FoodId != FoodId &&
+                    return DataContext.Foods.Any(f => f.FoodId != FoodId &&
                                                              f.FoodName.Trim() == FoodName.Trim());
                 }
                 catch
@@ -456,7 +456,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             //DataLoadOptions dlo = new DataLoadOptions();
             //dlo.LoadWith<Food>(f => f.Ingredients);
             //DataContext.LoadOptions = dlo;
-            var list = DataContext.Food.OrderBy(f => f.FoodName);
+            var list = DataContext.Foods.OrderBy(f => f.FoodName);
             return list.ToArray();
         }
 
@@ -464,7 +464,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                Food food = DataContext.Food.Single(f => f.FoodId == foodId);
+                Food food = DataContext.Foods.Single(f => f.FoodId == foodId);
                 return food;
             }
         }
@@ -475,7 +475,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Food food = DataContext.Food.SingleOrDefault(f => f.FoodName.Trim() == name);
+                    Food food = DataContext.Foods.SingleOrDefault(f => f.FoodName.Trim() == name);
                     return food;
                 }
                 catch
@@ -491,17 +491,17 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    if (!DataContext.Food.Contains(food))
+                    if (!DataContext.Foods.Contains(food))
                     {
                         food.CreatedDate = DateTime.Now;
                         food.IsTemporary = true;
-                        DataContext.Food.Add(food);
+                        DataContext.Foods.Add(food);
                         //DataContext.Foods.InsertOnSubmit(food);
                     }
                     else
                     {
                         food.IsTemporary = false;
-                        DataContext.Food.Attach(food);
+                        DataContext.Foods.Attach(food);
                         //DataContext.Refresh(RefreshMode.KeepCurrentValues, food);
                     }
 
@@ -1197,7 +1197,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             using (DataContext)
             {
                 // foods
-                var foods = from f in DataContext.Food
+                var foods = from f in DataContext.Foods
                             where f.CreatedBy == sourceUserId
                             select f;
 
@@ -1206,7 +1206,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     food.CreatedBy = targetUserId;
                 }
 
-                var foods2 = from f in DataContext.Food
+                var foods2 = from f in DataContext.Foods
                              where f.ModifiedBy == sourceUserId
                              select f;
 
@@ -1260,8 +1260,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Food Item = DataContext.Food.Single(f => f.FoodId == foodId);
-                    DataContext.Food.Remove(Item);
+                    Food Item = DataContext.Foods.Single(f => f.FoodId == foodId);
+                    DataContext.Foods.Remove(Item);
                     DataContext.SaveChanges();
                     //DataContext.Foods.DeleteOnSubmit(Item);
                     //DataContext.SubmitChanges();

@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true"
-    CodeFile="PersonalArea.aspx.cs" Inherits="PagePersonalArea" Title="<%$ Resources:MyGlobalResources, MyPersonalAreaPageTitle %>" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="PagePersonalArea, mybuylist" title="<%$ Resources:MyGlobalResources, MyPersonalAreaPageTitle %>" theme="Standard" %>
 
 <%@ MasterType VirtualPath="~/MasterPages/ProperDevMasterPage.master" %>
 <%@ Register TagPrefix="uc1" TagName="Menus" Src="~/UserControls/ucMenusList.ascx" %>

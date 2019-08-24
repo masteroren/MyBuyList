@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MyBuyList.Shared;
+using MyBuyList.Shared.Enums;
+using System;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using MyBuyList.Shared.Enums;
-using MyBuyList.Shared.Entities;
 
 public partial class UserControls_MenusSearchControl : System.Web.UI.UserControl
 {

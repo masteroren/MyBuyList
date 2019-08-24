@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 
 public partial class RecipeDetailsScreenshot : System.Web.UI.Page

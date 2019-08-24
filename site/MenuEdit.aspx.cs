@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Web.Services;
-using System.Drawing;
-
+﻿using MyBuyList.BusinessLayer;
 using MyBuyList.BusinessLayer.Managers;
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-
-using ProperControls.Pages;
+using MyBuyList.Shared;
 using ProperControls.General;
-
 using Resources;
-
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Web;
+using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using Menu = MyBuyList.Shared.Menu;
 
 public partial class MenuEdit : BasePage
 {
@@ -37,9 +32,9 @@ public partial class MenuEdit : BasePage
     }
 
     //change to save Menu to EntityState instead of Session
-    MyBuyList.Shared.Entities.Menu CurrentMenu
+    Menu CurrentMenu
     {
-        get { return HttpContext.Current.Session["currentMenu"] as MyBuyList.Shared.Entities.Menu; }
+        get { return HttpContext.Current.Session["currentMenu"] as Menu; }
         set { HttpContext.Current.Session["currentMenu"] = value; }
     }
 
@@ -103,7 +98,7 @@ public partial class MenuEdit : BasePage
 
     protected void NewMenu()
     {
-        MyBuyList.Shared.Entities.Menu menu = new MyBuyList.Shared.Entities.Menu();
+        Menu menu = new Menu();
 
         Dictionary<int, Recipe> selectedRecipes = Utils.SelectedRecipes;
 
@@ -141,7 +136,7 @@ public partial class MenuEdit : BasePage
         {
             titleImg.ImageUrl = "~/Images/Header_EditMenu.png";
 
-            MyBuyList.Shared.Entities.Menu menu = BusinessFacade.Instance.GetMenuEx(menuId);
+            Menu menu = BusinessFacade.Instance.GetMenuEx(menuId);
 
             if (menu != null)
             {
@@ -223,7 +218,7 @@ public partial class MenuEdit : BasePage
 
     protected void RebindMenuRecipes()
     {
-        MyBuyList.Shared.Entities.Menu menu = CurrentMenu;
+        Menu menu = CurrentMenu;
 
         Dictionary<int, Recipe> recipes = new Dictionary<int, Recipe>();
 
@@ -247,7 +242,7 @@ public partial class MenuEdit : BasePage
 
     protected void RebindMenuDetails()
     {
-        MyBuyList.Shared.Entities.Menu menu = CurrentMenu;
+        Menu menu = CurrentMenu;
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
         {
@@ -290,7 +285,7 @@ public partial class MenuEdit : BasePage
 
     protected void RebindMealsDetails()
     {
-        MyBuyList.Shared.Entities.Menu menu = CurrentMenu;
+        Menu menu = CurrentMenu;
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
         {
@@ -308,7 +303,7 @@ public partial class MenuEdit : BasePage
 
     protected void rptDays_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
         {
@@ -359,7 +354,7 @@ public partial class MenuEdit : BasePage
 
     protected void rptCourses_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         Meal currentMeal = null;
         MealDayOfWeek currentWeekDay = null;
@@ -488,7 +483,7 @@ public partial class MenuEdit : BasePage
 
     protected void rptRecipes_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         Meal meal = null;
         MealRecipe currentMealRecipe = e.Item.DataItem as MealRecipe;
@@ -530,7 +525,7 @@ public partial class MenuEdit : BasePage
     {
         try
         {
-            MyBuyList.Shared.Entities.Menu menu = CurrentMenu;
+            Menu menu = CurrentMenu;
 
             int menuTypeId = 0;
             bool isPublic = false;
@@ -782,7 +777,7 @@ public partial class MenuEdit : BasePage
     //flow seems "smoother".
     protected void btnTmpOK_Click(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = CurrentMenu;
+        Menu menu = CurrentMenu;
 
         //get relevant meal, or create it if it doesn't exist.
         Meal meal;
@@ -881,7 +876,7 @@ public partial class MenuEdit : BasePage
     [WebMethod]
     public static void AddToMenu_DnD(int recipeId, string mealSignature)
     {
-        MyBuyList.Shared.Entities.Menu menu = HttpContext.Current.Session["currentMenu"] as MyBuyList.Shared.Entities.Menu;
+        Menu menu = HttpContext.Current.Session["currentMenu"] as Menu;
 
         Meal meal = null;
 
@@ -944,7 +939,7 @@ public partial class MenuEdit : BasePage
 
     protected void lnkRemove_Click(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         LinkButton lnkBtn = sender as LinkButton;
 
@@ -983,7 +978,7 @@ public partial class MenuEdit : BasePage
 
     protected void removeFromMeal_Click(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         LinkButton lnkBtn = sender as LinkButton;
         if (lnkBtn != null)
@@ -1048,7 +1043,7 @@ public partial class MenuEdit : BasePage
 
     protected void txtServings_TextChanged(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         TextBox txtServings = sender as TextBox;
         if (txtServings != null)
@@ -1088,7 +1083,7 @@ public partial class MenuEdit : BasePage
 
     protected void txtDinersNum_TextChanged(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
         int dinersNumber;
         TextBox txtDinersNum = sender as TextBox;
 
@@ -1119,7 +1114,7 @@ public partial class MenuEdit : BasePage
 
     protected void btnCatOK_Click(object sender, EventArgs e)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         menu.MCategories.Clear();
         string updatedCategoriesStr = "";
@@ -1153,7 +1148,7 @@ public partial class MenuEdit : BasePage
 
     private void BuildTree(MCategory[] cats, int? parentCategoryId, TreeNode rootNode)
     {
-        MyBuyList.Shared.Entities.Menu menu = this.CurrentMenu;
+        Menu menu = this.CurrentMenu;
 
         var list = cats.Where(mc => mc.ParentMCategoryId == parentCategoryId);
         foreach (MCategory item in list)
@@ -1259,7 +1254,7 @@ public partial class MenuEdit : BasePage
     protected void ChangeServings(object sender, CommandEventArgs e)
     {
         int recipeId = Convert.ToInt32(e.CommandArgument);
-        MyBuyList.Shared.Entities.Menu menu = CurrentMenu;
+        Menu menu = CurrentMenu;
 
         //Recipe recipe1 = BusinessFacade.Instance.GetRecipe(recipeId);
 

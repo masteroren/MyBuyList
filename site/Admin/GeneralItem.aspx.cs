@@ -12,6 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
 using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using ProperControls.Pages;
 

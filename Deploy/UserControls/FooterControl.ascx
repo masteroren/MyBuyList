@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="FooterControl.ascx.cs" Inherits="UC_FooterControl" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UC_FooterControl, mybuylist" %>
 <div id="footer">
     <div id="links_footer">
         <div id="footerContent" runat="server">

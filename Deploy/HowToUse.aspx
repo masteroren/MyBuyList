@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
-    CodeFile="HowToUse.aspx.cs" Inherits="HowToUse" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="HowToUse, mybuylist" theme="Standard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
 </asp:Content>

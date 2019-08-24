@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Configuration;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using MyBuyList.Shared.Entities;
+using System;
 using System.Data;
 using System.Linq;
-using System.Web;
-using System.Web.Services;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Diagnostics;
-using System.Threading;
-
-using MyBuyList.BusinessLayer;
-using MyBuyList.BusinessLayer.Managers;
-using MyBuyList.Shared.Entities;
-using ProperControls.Pages;
 
 public partial class ucMyRecipesList : System.Web.UI.UserControl
 {

@@ -253,32 +253,39 @@ public partial class Recipes : BasePage
 
         List<Recipe> recipes;
 
-        //if (CurrUser != null && CurrUser.UserId != -1)
-        //{
-        //    IQueryable<RecipesInShoppingList> recipesInShoppingList = BusinessFacade.Instance.GetSelectedRecipes(UserId);
-        //    Dictionary<int, Recipe> selectedRecipes = new Dictionary<int, Recipe>();
+        if (CurrUser != null && CurrUser.UserId != -1)
+        {
+            //    IQueryable<RecipesInShoppingList> recipesInShoppingList = BusinessFacade.Instance.GetSelectedRecipes(UserId);
+            //    Dictionary<int, Recipe> selectedRecipes = new Dictionary<int, Recipe>();
 
-        //    foreach (RecipesInShoppingList recipe in recipesInShoppingList)
-        //    {
-        //        selectedRecipes.Add(recipe.RECIPE_ID, recipe.Recipes);
-        //    }
+            //    foreach (RecipesInShoppingList recipe in recipesInShoppingList)
+            //    {
+            //        selectedRecipes.Add(recipe.RECIPE_ID, recipe.Recipes);
+            //    }
 
-        //    foreach (KeyValuePair<int, Recipe> selectedRecipe in Utils.SelectedRecipes)
-        //    {
-        //        if (!selectedRecipes.ContainsKey(selectedRecipe.Key))
-        //            selectedRecipes.Add(selectedRecipe.Key, selectedRecipe.Value);
-        //    }
+            //    foreach (KeyValuePair<int, Recipe> selectedRecipe in Utils.SelectedRecipes)
+            //    {
+            //        if (!selectedRecipes.ContainsKey(selectedRecipe.Key))
+            //            selectedRecipes.Add(selectedRecipe.Key, selectedRecipe.Value);
+            //    }
 
-        //    Utils.SelectedRecipes = selectedRecipes;
-        //    userId = CurrUser.UserId;
-        //}
+            //    Utils.SelectedRecipes = selectedRecipes;
+            userId = CurrUser.UserId;
+        }
 
         rptRecipes.ItemCreated += rptRecipes_ItemCreated;// for the pagers
         rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
-        recipes = BusinessFacade.Instance.GetRecipesEx(Display, CurrUser.UserId, FreeText, CategoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
-        rptRecipes.DataSource = recipes;
-        rptRecipes.DataBind();
-        lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
+        try
+        {
+            recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, CategoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
+            rptRecipes.DataSource = recipes;
+            rptRecipes.DataBind();
+            lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
+        }
+        catch (Exception ex)
+        {
+            Master.ConsoleLog(ex.Message);
+        }
     }
 
     void rptRecipes_ItemCreated(object sender, RepeaterItemEventArgs e)
@@ -405,8 +412,8 @@ public partial class Recipes : BasePage
 
             bool inMyFavorites = false;
             inMyFavorites = false;
-            if (recipe.Users1.Any() && CurrUser != null)
-                inMyFavorites = recipe.Users1.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
+            if (recipe.Users.Any() && CurrUser != null)
+                inMyFavorites = recipe.Users.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
             divMyFavoritesInfoTag.Visible = inMyFavorites;
 
             Label lblAllFavorites = e.Item.FindControl("lblAllFavorites") as Label;
@@ -422,7 +429,7 @@ public partial class Recipes : BasePage
             HyperLink publisher = e.Item.FindControl("lnkPublisher") as HyperLink;
             if (recipe.Users != null)
             {
-                publisher.Text = recipe.Users.DisplayName;
+                publisher.Text = recipe.User.DisplayName;
             }
 
             Image image = e.Item.FindControl("imgThumbnail") as Image;

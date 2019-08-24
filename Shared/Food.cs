@@ -37,9 +37,9 @@ namespace MyBuyList.Shared
         public bool PrintPicture { get; set; }
         public byte[] Picture { get; set; }
     
-        public virtual User Users { get; set; }
-        public virtual FoodCategory FoodCategories { get; set; }
-        public virtual User Users1 { get; set; }
+        public virtual User User { get; set; }
+        public virtual FoodCategory FoodCategory { get; set; }
+        public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ingredient> Ingredients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

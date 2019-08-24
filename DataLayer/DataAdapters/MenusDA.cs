@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MenusDA : BaseContextDataAdapter<MyBuyListEntities1>
+    class MenusDA : BaseContextDataAdapter<MyBuyListEntities>
     {
         public const int USER_ADMIN = 1;
 
@@ -220,7 +220,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
                     Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu.MenuTypes;
+                    return menu.MenuType;
                 }
                 catch
                 {
@@ -787,7 +787,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     //delete this recipe from all meals for menuId
                     MealRecipe[] mealRecipes = DataContext.MealRecipes.Where(mr => mr.RecipeId == recipeId &&
-                                                                                   mr.Meals.MenuId == menuId).ToArray();
+                                                                                   mr.Meal.MenuId == menuId).ToArray();
 
                     DataContext.MealRecipes.RemoveRange(mealRecipes);
                     DataContext.SaveChanges();
@@ -810,7 +810,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
                     bool check = DataContext.MealRecipes.Any(mr => mr.RecipeId == recipeId &&
-                                                             mr.Meals.MenuId == menuId);
+                                                             mr.Meal.MenuId == menuId);
                     //if (list != null)
                     //{
                     //    return true;
@@ -974,7 +974,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(m => m.MenuName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(m => m.Users.DisplayName);
+                            list = list.OrderBy(m => m.User.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(m => m.ModifiedDate);
@@ -1055,7 +1055,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(m => m.MenuName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(m => m.Users.DisplayName);
+                            list = list.OrderBy(m => m.User.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(m => m.ModifiedDate);

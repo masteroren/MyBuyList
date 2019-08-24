@@ -1,5 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AdminMasterPage.master.cs"
-    Inherits="Administration_AdminMasterPage" %>
+﻿<%@ master language="C#" autoeventwireup="true" inherits="Administration_AdminMasterPage, mybuylist" %>
 
 <%@ Register Src="Controls/MemoryUsage.ascx" TagName="MemoryUsage" TagPrefix="uc1" %>
 <%@ Register Assembly="ProperControls" Namespace="ProperControls.BasicControls.Containers"

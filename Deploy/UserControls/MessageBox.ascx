@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MessageBox.ascx.cs" Inherits="CommonControls_Messages_MessageBox" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="CommonControls_Messages_MessageBox, mybuylist" %>
 <asp:LinkButton ID="LinkButton1" runat="server" Style="display: none" meta:resourcekey="LinkButton1Resource1" />
 <asp:Panel ID="Panel1" runat="server" Style="display: none; width: 430px" CssClass="modalConfirm"
     meta:resourcekey="Panel1Resource1">

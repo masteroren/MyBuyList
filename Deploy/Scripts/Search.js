@@ -5,10 +5,10 @@
     var searchCategory;
 
     var searchValueBox = $('#header div.search-box input[type=text]');
-    searchValueBox.addClass('search-value');
+    //searchValueBox.addClass('search-value');
 
     var select = $('#header div.search-box select');
-    select.addClass('search-value');
+    //select.addClass('search-value');
 
     $('#header div.search-box input[type=text]').autocomplete({
         source: function(request, response){

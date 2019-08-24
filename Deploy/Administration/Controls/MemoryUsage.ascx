@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MemoryUsage.ascx.cs" Inherits="Administration_Controls_MemoryUsage" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="Administration_Controls_MemoryUsage, mybuylist" %>
 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
     <Triggers>
         <asp:AsyncPostBackTrigger ControlID="Timer1" />

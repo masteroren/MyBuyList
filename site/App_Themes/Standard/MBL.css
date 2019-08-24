@@ -29,14 +29,14 @@ div.add-recipe {
     float: left;
 }
 
-/*.main_wrapper {
+.main_wrapper {
     background-image: url('../../Images/bgr.jpg');
     background-repeat: repeat-y;
     background-position: center top;
     direction: rtl;
-}*/
+}
 
-#main {
+.main {
     margin: 0 auto;
     width: 982px;
 }
@@ -1567,27 +1567,26 @@ a.article_published_value {
         margin-left: 3px;
     }*/
 
-/*Popup Login*/
-#popuplogin-wrapper {
-}
-
 #popuplogin {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-    #popuplogin input {
-        width: 200px;
+    #popuplogin .credentials {
+        display: flex;
+        flex-direction: column;
+        width: 55%;
+        text-align: right;
     }
 
-    #popuplogin div {
-        margin-top: 3px;
-        margin-right: 120px;
-    }
+        #popuplogin .credentials input {
+            width: 200px;
+            text-align: right;
+        }
 
     #popuplogin img {
-        position: absolute;
         width: 100px;
-        height: auto;
     }
 
 

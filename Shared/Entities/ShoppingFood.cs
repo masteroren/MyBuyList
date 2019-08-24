@@ -93,7 +93,7 @@ namespace MyBuyList.Shared.Entities
         {
             this.FoodId = food.FoodId;
             this.FoodName = food.FoodName;
-            this.ShopDepartmentId = food.FoodCategories.ShopDepartmentId;
+            this.ShopDepartmentId = food.FoodCategory.ShopDepartmentId;
             this.CalculateUnitId = food.CalculateUnitId;
             
             this.Picture = food.Picture;

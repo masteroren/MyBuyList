@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true" EnableEventValidation="true" Theme="Standard"
-CodeFile="MeausurementUnitsList.aspx.cs" Inherits="PageMeausurementUnitsList"  Title="<%$ Resources:MyGlobalResources, MeasurementUnits %>"%>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" enableeventvalidation="true" theme="Standard" inherits="PageMeausurementUnitsList, mybuylist" title="<%$ Resources:MyGlobalResources, MeasurementUnits %>" %>
 
 <%@ MasterType VirtualPath="~/MasterPages/ProperDevMasterPage.master" %>
 

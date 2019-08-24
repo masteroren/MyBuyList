@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucRecipeCategories.ascx.cs"
-    Inherits="ucRecipeCategories" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucRecipeCategories, mybuylist" %>
 <%--<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>--%>
 <asp:Panel ID="Panel1" runat="server" Style="display: none" BorderWidth="1px" BorderColor="#8CAC31"
     BackColor="White" Width="370px" CssClass="modalPopup">

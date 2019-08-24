@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MBL.master.cs" Inherits="MasterPages_MBL" %>
+﻿<%@ master language="C#" autoeventwireup="true" inherits="MasterPages_MBL, mybuylist" %>
 
 <%@ Register Assembly="ProperControls" TagPrefix="pc" Namespace="ProperControls.General" %>
 <%@ Register Assembly="ProperControls" TagPrefix="pc" Namespace="ProperControls.General" %>
@@ -15,8 +15,6 @@
     <title>MyBuyList</title>
     <meta name="viewport" content="width=device-width; initial-scale=1.0" />
 
-    <link href="../App_Themes/Standard/MBL.css" rel="stylesheet" />
-    
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -24,14 +22,14 @@
     <asp:ContentPlaceHolder ID="cphHead" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body dir="rtl">
+<body>
     <MBL:Facebook runat="server" ID="Facebook" />
 
     <form id="form1" runat="server">
         <MBL:ucPopupLogin runat="server" ID="ucPopupLogin" />
-        <asp:ScriptManager ID="ScriptManager1" runat="server" ></asp:ScriptManager>
-        <div id="main_wrapper">
-            <div id="main">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div class="main_wrapper">
+            <div class="main">
                 <proper:DisappearingMessage runat="server" ID="DisappearingMessage1" />
                 <MBL:Header ID="HeaderControl1" runat="server" />
                 <asp:ContentPlaceHolder ID="cphMain" runat="server">
@@ -40,13 +38,14 @@
             </div>
         </div>
 
-        <asp:HiddenField ID="RestUrl" runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="apiUrl" runat="server" ClientIDMode="Static" />
+
     </form>
-    
+
     <script src="Scripts/config.js"></script>
     <script src="Scripts/MBL.js"></script>
 
-    
+
 
     <asp:ContentPlaceHolder ID="cphFooter" runat="server">
     </asp:ContentPlaceHolder>

@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true"
-    CodeFile="EditWhatsNew.aspx.cs" Inherits="Admin_EditWhatsNew" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="Admin_EditWhatsNew, mybuylist" theme="Standard" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="RightContentPlaceHolder" runat="Server">
     <div style="padding-left: 10px; font-size: 14px; font-weight: bold;">

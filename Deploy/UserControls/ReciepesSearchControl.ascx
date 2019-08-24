@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ReciepesSearchControl.ascx.cs"
-    Inherits="UserControls_ReciepesSearchControl" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_ReciepesSearchControl, mybuylist" %>
 
 <script>
     var lnkNewRecipeClientId = '<%=lnkNewRecipe.ClientID%>';

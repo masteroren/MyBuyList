@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using AjaxControlToolkit;
 
 using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using ProperControls.Pages;
 

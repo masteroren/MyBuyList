@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
-    CodeFile="RecipeDetails.aspx.cs" Inherits="PageRecipeDetails" Theme="Standard" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="PageRecipeDetails, mybuylist" theme="Standard" %>
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/RecipeDetailsActions.ascx" TagPrefix="MBL" TagName="RecipeDetailsActions" %>

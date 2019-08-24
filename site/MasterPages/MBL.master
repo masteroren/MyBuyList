@@ -27,7 +27,7 @@
 
     <form id="form1" runat="server">
         <MBL:ucPopupLogin runat="server" ID="ucPopupLogin" />
-        <asp:ScriptManager ID="ScriptManager1" runat="server" ></asp:ScriptManager>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div class="main_wrapper">
             <div class="main">
                 <proper:DisappearingMessage runat="server" ID="DisappearingMessage1" />
@@ -38,13 +38,14 @@
             </div>
         </div>
 
-        <asp:HiddenField ID="RestUrl" runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="apiUrl" runat="server" ClientIDMode="Static" />
+
     </form>
-    
+
     <script src="Scripts/config.js"></script>
     <script src="Scripts/MBL.js"></script>
 
-    
+
 
     <asp:ContentPlaceHolder ID="cphFooter" runat="server">
     </asp:ContentPlaceHolder>

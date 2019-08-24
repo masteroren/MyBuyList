@@ -23,6 +23,6 @@ namespace MyBuyList.Shared
         public int SortOrder { get; set; }
     
         public virtual Food Food { get; set; }
-        public virtual MeasurementUnit MeasurementUnits { get; set; }
+        public virtual MeasurementUnit MeasurementUnit { get; set; }
     }
 }

@@ -18,10 +18,10 @@ namespace MyBuyList.Shared
         public Recipe()
         {
             this.MealRecipes = new HashSet<MealRecipe>();
-            this.RecipesInShoppingList = new HashSet<RecipesInShoppingList>();
+            this.RecipesInShoppingLists = new HashSet<RecipesInShoppingList>();
             this.Menus = new HashSet<Menu>();
             this.Categories = new HashSet<Category>();
-            this.Users1 = new HashSet<User>();
+            this.Users = new HashSet<User>();
         }
     
         public int RecipeId { get; set; }
@@ -48,14 +48,14 @@ namespace MyBuyList.Shared
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MealRecipe> MealRecipes { get; set; }
-        public virtual User Users { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecipesInShoppingList> RecipesInShoppingList { get; set; }
+        public virtual ICollection<RecipesInShoppingList> RecipesInShoppingLists { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Menu> Menus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users1 { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

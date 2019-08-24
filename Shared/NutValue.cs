@@ -19,6 +19,6 @@ namespace MyBuyList.Shared
         public Nullable<decimal> Value { get; set; }
     
         public virtual Food Food { get; set; }
-        public virtual NutItem NutItems { get; set; }
+        public virtual NutItem NutItem { get; set; }
     }
 }

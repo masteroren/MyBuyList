@@ -19,7 +19,7 @@ namespace MyBuyList.Shared
         public Nullable<int> GeneralItemId { get; set; }
         public string ItemName { get; set; }
     
-        public virtual GeneralItem GeneralItems { get; set; }
-        public virtual Menu Menus { get; set; }
+        public virtual GeneralItem GeneralItem { get; set; }
+        public virtual Menu Menu { get; set; }
     }
 }

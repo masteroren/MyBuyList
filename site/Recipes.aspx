@@ -1,17 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master"
-    AutoEventWireup="true" CodeFile="Recipes.aspx.cs" Inherits="Recipes" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true" CodeFile="Recipes.aspx.cs" Inherits="Recipes" %>
+<%@ MasterType VirtualPath="~/MasterPages/MBL.master" %>
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc2" TagName="RecipeCategories" %>
 <%@ Register Src="UserControls/ucRecipesFilter.ascx" TagName="RecipesFilter" TagPrefix="uc3" %>
 <%@ Register Src="~/UserControls/ucShoppingList.ascx" TagName="ucShoppingList" TagPrefix="uc1" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="Server">
 
     <!-- Recipes -->
 
     <script src="Scripts/Recipes.js"></script>
+
 
     <script>
         var ButtonRecipesRefreshClientID = '<%=ButtonRecipesRefresh.ClientID%>';
@@ -59,7 +62,7 @@
                 </p>
             </div>
             <div class="search">
-                <asp:UpdatePanel ID="upSearch" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                <asp:UpdatePanel ID="recipeSearchBar" ClientIDMode="Static" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
                         <div id="recipes_filter">
                             <uc3:RecipesFilter ID="RecipesFilter1" runat="server" />

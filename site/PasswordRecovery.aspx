@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
-    CodeFile="PasswordRecovery.aspx.cs" Inherits="Login" Title="<%$ Resources:MyGlobalResources, ForgotPasswordPageTitle %>" %>
+    CodeFile="PasswordRecovery.aspx.cs" Inherits="PasswordRecovery" Title="<%$ Resources:MyGlobalResources, ForgotPasswordPageTitle %>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
 </asp:Content>

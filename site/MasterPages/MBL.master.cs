@@ -7,7 +7,7 @@ using System.Web;
 
 public partial class MasterPages_MBL : System.Web.UI.MasterPage
 {
-    const int FOOTER_ARTICLE_ID = 6; 
+    const int FOOTER_ARTICLE_ID = 6;
 
     public bool IsFromHome
     {
@@ -99,7 +99,7 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
         //    this.footerHtml.InnerHtml = footerBody.Body;
         //}
 
-        RestUrl.Value = ConfigurationManager.AppSettings["RestService"];
+        apiUrl.Value = ConfigurationManager.AppSettings["ApiUrl"];
     }
 
     protected override void OnPreRender(EventArgs e)
@@ -137,5 +137,10 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
             this.DisappearingMessage1.Displayed = true;
             this.DisappearingMessage1.Text = page.DisplayMessage;
         }
+    }
+
+    public void ConsoleLog(string message)
+    {
+        Response.Write(string.Format("<script>console.log('{0}')</script>", message));
     }
 }

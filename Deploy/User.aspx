@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
-    CodeFile="User.aspx.cs" Inherits="PageUser" Title="<%$ Resources:MyGlobalResources, UserPageTitle %>" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="PageUser, mybuylist" title="<%$ Resources:MyGlobalResources, UserPageTitle %>" theme="Standard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
 </asp:Content>

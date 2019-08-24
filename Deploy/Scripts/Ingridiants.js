@@ -1,58 +1,55 @@
 ﻿var ingridiantsContainer;
 
 var IngridiantsApi = function () {
-    
+
     var ingridiantsArr = new Array();
-    var fractures = new Array()
+    var fractures = new Array();
 
     this.SelectedIngrediant;
 
-    this.Length = function(){
+    this.Length = function () {
         return ingridiantsArr.length;
-    }
+    };
 
     this.getIngridiants = function (prefix) {
         var list = $('#ingridiantsList');
-        
-        if (prefix.length < 3) {
-            list.text('');
-            list.hide();
-            return;
-        };
 
-        baseUrl = window.mblRestHost;
-        var url = baseUrl + 'Recipes/Ingridiants';
-        $.get(url, { prefix: prefix }, function (response) {
-            if (response.list) {
+        if (prefix.length < 3) {
+            list.text('').hide();
+            return;
+        }
+
+        var url = $('#apiUrl').val() + '/api/foods';
+        $.get(url, { searchQuery: prefix }, function (response) {
+            if (response.results) {
                 list.text('');
-                $.each(response.list, function (index, item) {
+                $.each(response.results, function (index, item) {
                     var div = $('<div/>', {
                         class: 'ingridiant-list-item'
                     }).appendTo(list);
 
                     $('<span/>', {
-                        text: item.Value
+                        text: item.FoodName
                     }).appendTo(div);
 
                     $('<input/>', {
                         type: 'hidden',
-                        value: item.Key
+                        value: item.FoodId
                     }).appendTo(div);
                 });
                 list.show();
 
                 $('.ingridiant-list-item').click(function (event) {
-
                     var foodId = $(this).children('input').val();
                     var foodName = $(this).children('span').text();
 
                     $('#ingridiantName').val(foodName);
                     $('#ingridiantId').val(foodId);
                     list.hide();
-                })
+                });
             }
         }, 'json');
-    }
+    };
 
     this.Exists = function (ingridiant) {
         for (var i = 0; i < ingridiantsArr.length; i++) {
@@ -60,7 +57,7 @@ var IngridiantsApi = function () {
                 return true;
         }
         return false;
-    }
+    };
 
     this.IndexOf = function (id) {
         for (var i = 0; i < ingridiantsArr.length; i++) {
@@ -68,13 +65,13 @@ var IngridiantsApi = function () {
                 return i;
         }
         return -1;
-    }
+    };
 
     this.Add = function (ingridiant) {
 
         //ingridiant.Id = ingridiantsArr.length - 1;
         ingridiantsArr.push(ingridiant);
-    }
+    };
 
     this.Update = function (ingridiant, indx) {
         ingridiantsArr[indx].FoodId = ingridiant.FoodId;
@@ -85,19 +82,19 @@ var IngridiantsApi = function () {
         ingridiantsArr[indx].Remarks = ingridiant.Remarks;
         ingridiantsArr[indx].FoodName = ingridiant.FoodName;
         ingridiantsArr[indx].DisplayIngredient = ingridiant.DisplayIngredient;
-    }
+    };
 
     this.Delete = function (index) {
         ingridiantsArr.splice(index, 1);
-    }
+    };
 
     this.GetItem = function (index) {
         return ingridiantsArr[index];
-    }
+    };
 
     this.GetList = function () {
         return ingridiantsArr;
-    }
+    };
 
     this.SetList = function (arr) {
         for (var i = 0; i < arr.length; i++) {
@@ -116,8 +113,8 @@ var IngridiantsApi = function () {
             ingrediant.f = arr[i].Quantity - ingrediant.q;
             this.Add(ingrediant);
         }
-    }
-}
+    };
+};
 
 var Ingridiant = function () {
 
@@ -141,8 +138,8 @@ var Ingridiant = function () {
     this.IsValid = function () {
         return this.Quantity !== '' && this.FoodId !== '';
         //return (this.Quantity !== '' || this.FractionValue !== '') && this.FoodId !== '';
-    }
-}
+    };
+};
 
 var ingridiantsApi;
 var recipeId;
@@ -152,7 +149,7 @@ $(document).ready(function () {
     InitIngediantsControl();
 
     var savedIngridiants = $('#hfIngridiants').val();
-    if (savedIngridiants != '') {
+    if (savedIngridiants !== '') {
         ShowSavedListIngridiant(JSON.parse(savedIngridiants));
     }
     recipeId = $('#hfRecipeId').val() === '' ? -1 : $('#hfRecipeId').val();
@@ -162,35 +159,36 @@ $(document).ready(function () {
     $('#ingridiantName').keyup(function () {
         var prefix = $('#ingridiantName').val();
         ingridiantsApi.getIngridiants(prefix);
-    })
+    });
 
     $('#addIngridiant').mousedown(function () {
         $(this).css('background-image', 'url("Images/btn_AddProduct_down.png")');
-    })
+    });
 
     $('#addIngridiant').mouseup(function () {
         $(this).css('background-image', 'url("Images/btn_AddProduct_over.png")');
-    })
+    });
 
     $('#addIngridiant').mouseout(function () {
         $(this).css('background-image', 'url("Images/btn_AddProduct_up.png")');
-    })
+    });
 
     $('#addIngridiant').mouseover(function () {
         $(this).css('background-image', 'url("Images/btn_AddProduct_over.png")');
-    })
+    });
 
     $('#addIngridiant, #updateIngridiant').click(function () {
 
         var mode = $('#mode').val();
+        var ingridiant;
         switch (mode) {
             case 'update': {
                 var index = $('#selectedIndex').val();
-                var ingridiant = ingridiantsApi.GetItem(index);
+                ingridiant = ingridiantsApi.GetItem(index);
                 break;
             }
             default:
-                var ingridiant = new Ingridiant();
+                ingridiant = new Ingridiant();
                 ingridiant.IngredientId = $('#ingridiantId').val();
                 break
         }
@@ -221,7 +219,7 @@ $(document).ready(function () {
         ShowList();
 
         $('#txtQuantity').val('');
-        $('#' + fractionClientId ).val('');
+        $('#' + fractionClientId).val('');
         $('#ingridiantName').val('');
         $('#' + foodRemarkClientId).val('');
 
@@ -229,24 +227,24 @@ $(document).ready(function () {
         $('#updateIngridiant').hide();
 
         $('#mode').val('');
-    })
+    });
 
     $('#updateIngridiant').mousedown(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_down.png")');
-    })
+    });
 
     $('#updateIngridiant').mouseup(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_over.png")');
-    })
+    });
 
     $('#updateIngridiant').mouseout(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_up.png")');
-    })
+    });
 
     $('#updateIngridiant').mouseover(function () {
         $(this).css('background-image', 'url("Images/btn_EditProduct_over.png")');
-    })
-})
+    });
+});
 
 function ShowList() {
 
@@ -292,7 +290,7 @@ function ShowSavedListIngridiant(arr) {
         ingridiantsApi = new IngridiantsApi();
     }
     ingridiantsApi.SetList(arr);
-    ShowList()
+    ShowList();
 }
 
 function initEvents() {
@@ -314,7 +312,7 @@ function initEvents() {
 
         $('#addIngridiant').hide();
         $('#updateIngridiant').show();
-    })
+    });
 
     $('.deleteBtn').click(function () {
         var index = $(this).attr('data-id');
@@ -325,7 +323,7 @@ function initEvents() {
         $('#hfIngridiants').val(listAsJSON);
 
         ShowList();
-    })
+    });
 }
 
 function OnClientItemSelected(behaviour, args) {

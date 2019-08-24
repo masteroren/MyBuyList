@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/ProperDevMasterPage.master" AutoEventWireup="true"
-    CodeFile="MenuRecipes.aspx.cs" Inherits="PageMenuRecipes" Title="<%$ Resources:MyGlobalResources, ChoiceMenuRecipesPageTitle %>" %>
+﻿<%@ page language="C#" masterpagefile="~/MasterPages/ProperDevMasterPage.master" autoeventwireup="true" inherits="PageMenuRecipes, mybuylist" title="<%$ Resources:MyGlobalResources, ChoiceMenuRecipesPageTitle %>" theme="Standard" %>
 
 <%@ MasterType VirtualPath="~/MasterPages/ProperDevMasterPage.master" %>
 <%@ Register TagPrefix="uc1" TagName="SearchSimple" Src="~/UserControls/ucSearchSimple.ascx" %>

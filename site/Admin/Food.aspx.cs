@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using System;
 using System.Data.Linq;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using ProperControls.Pages;
-using System.IO;
 using System.Drawing;
-using System.Drawing.Imaging;
+using System.IO;
+using System.Web.UI.WebControls;
 
 public partial class PageFood : BasePage
 {

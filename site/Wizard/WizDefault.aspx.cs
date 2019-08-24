@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Web.UI.WebControls;
-using System.Web.Security;
-using System.IO;
-using ProperControls.Pages;
-using ProperServices.Common.Extensions;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
-using MyBuyList.BusinessLayer;
+using ProperServices.Common.Extensions;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI.WebControls;
+using Menu = MyBuyList.Shared.Menu;
 
 namespace Wizard
 {
@@ -176,23 +177,23 @@ namespace Wizard
 
         protected void RebindRecentMenus(int menuId1, int menuId2)
         {
-            MyBuyList.Shared.Entities.Menu menu1 = BusinessFacade.Instance.GetMenu(menuId1);
-            MyBuyList.Shared.Entities.Menu menu2 = BusinessFacade.Instance.GetMenu(menuId2);
+            Menu menu1 = BusinessFacade.Instance.GetMenu(menuId1);
+            Menu menu2 = BusinessFacade.Instance.GetMenu(menuId2);
 
-            this.rptRecentMenus.DataSource = new MyBuyList.Shared.Entities.Menu[2] { menu1, menu2 };
+            this.rptRecentMenus.DataSource = new Menu[2] { menu1, menu2 };
             this.rptRecentMenus.DataBind();
         }
 
         protected void rpt_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             Recipe recipe;
-            MyBuyList.Shared.Entities.Menu menu;
+            Menu menu;
 
             recipe = e.Item.DataItem as Recipe;
 
             if (recipe == null)
             {
-                menu = e.Item.DataItem as MyBuyList.Shared.Entities.Menu;
+                menu = e.Item.DataItem as Menu;
                 HyperLink lblMenuName = e.Item.FindControl("lblMenuName") as HyperLink;
                 if (lblMenuName != null)
                 {

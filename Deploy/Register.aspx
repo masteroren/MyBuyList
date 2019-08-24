@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master"
-    AutoEventWireup="true" CodeFile="Register.aspx.cs" Inherits="Register" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/MasterPages/MBL.master" autoeventwireup="true" inherits="Register, mybuylist" theme="Standard" %>
 
 <%@ MasterType VirtualPath="~/MasterPages/MBL.master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">

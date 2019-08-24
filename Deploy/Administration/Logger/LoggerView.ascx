@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LoggerView.ascx.cs" Inherits="Administration_Logger_LoggerView" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="Administration_Logger_LoggerView, mybuylist" %>
 <style type="text/css">
     .style1
     {

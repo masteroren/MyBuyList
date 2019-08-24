@@ -1,23 +1,19 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucPopupLogin.ascx.cs" Inherits="UserControls_ucPopupLogin" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_ucPopupLogin, mybuylist" %>
 
 <script src="Scripts/Login.js"></script>
 
 <!-- Login -->
-<div id="popuplogin-wrapper">
-    <div id="popuplogin">
-        <img alt="" src="Images/mybuylist.png" />
-        <div>
-            <asp:Literal ID="LiteralUserName" runat="server"></asp:Literal>
-        </div>
-        <div>
-            <input id="TextUserName" type="text" />
-        </div>
-        <div>
-            <asp:Literal ID="LiteralPassword" runat="server"></asp:Literal>
-        </div>
-        <div>
-            <input id="TextPassword" type="password" />
-        </div>
+<div id="popuplogin">
+    <div class="credentials">
+        <label>
+            <span>שם משתמש</span>
+            <input id="textUserName" type="text" />
+        </label>
+        <label>
+            <span>סיסמה</span>
+            <input id="textPassword" type="password" />
+        </label>
     </div>
+    <img alt="" src="Images/mybuylist.png" />
 </div>
 <!-- Login -->

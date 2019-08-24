@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucSearchSimple.ascx.cs"
-    Inherits="ucSearchSimple" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="ucSearchSimple, mybuylist" %>
 <%@ Register Src="~/UserControls/ucRecipe.ascx" TagPrefix="uc1" TagName="Recipe" %>
 
 <script type="text/javascript">

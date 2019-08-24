@@ -1,5 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ucPrintMealMenu.ascx.cs"
-    Inherits="UserControls_ucPrintMenu" %>
+﻿<%@ control language="C#" autoeventwireup="true" inherits="UserControls_ucPrintMenu, mybuylist" %>
 <asp:Repeater ID="rpCourses" runat="server" OnItemDataBound="Course_DataBound">
     <ItemTemplate>
         <table style="width: 100%; border-color: Gray;" border="1" cellspacing="0">

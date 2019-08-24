@@ -19,6 +19,7 @@ using MyBuyList.BusinessLayer;
 using MyBuyList.Shared.Entities;
 using ProperControls.Pages;
 using Resources;
+using MyBuyList.Shared;
 
 public partial class PageMenuRecipes : BasePage
 {

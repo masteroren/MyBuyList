@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MealsDA : BaseContextDataAdapter<MyBuyListEntities1>
+    class MealsDA : BaseContextDataAdapter<MyBuyListEntities>
     {
         internal MealRecipe[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
         {
@@ -110,7 +110,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private Meal GetMeal(MyBuyListEntities1 dc, int menuId, int courseTypeId)
+        private Meal GetMeal(MyBuyListEntities dc, int menuId, int courseTypeId)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private Meal GetMeal(MyBuyListEntities1 dc, int menuId, int dayIndex, int mealTypeId)
+        private Meal GetMeal(MyBuyListEntities dc, int menuId, int dayIndex, int mealTypeId)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private bool SaveMeal(MyBuyListEntities1 dc, int menuId, int courseTypeId, int? diners, out int mealId)
+        private bool SaveMeal(MyBuyListEntities dc, int menuId, int courseTypeId, int? diners, out int mealId)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
         
-        private bool SaveMeal(MyBuyListEntities1 dc, int menuId, int dayIndex, int mealTypeId, int? diners, out int mealId)
+        private bool SaveMeal(MyBuyListEntities dc, int menuId, int dayIndex, int mealTypeId, int? diners, out int mealId)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        private bool SaveMeal(MyBuyListEntities1 dc, Meal item, int menuId, int mealTypeId, int? dayIndex, int? courseTypeId, int? diners, out int mealId)
+        private bool SaveMeal(MyBuyListEntities dc, Meal item, int menuId, int mealTypeId, int? dayIndex, int? courseTypeId, int? diners, out int mealId)
         {
             try
             {
@@ -301,7 +301,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
             }
         }
-        private int GetRecipeServings(MyBuyListEntities1 dc, int recipeId)
+        private int GetRecipeServings(MyBuyListEntities dc, int recipeId)
         {
             try
             {
@@ -314,7 +314,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 return 0;
             }
         }
-        private bool AddMealRecipe(MyBuyListEntities1 dc, int mealId, int recipeId, int servings)
+        private bool AddMealRecipe(MyBuyListEntities dc, int mealId, int recipeId, int servings)
         {
             try
             {

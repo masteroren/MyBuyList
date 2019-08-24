@@ -13,40 +13,27 @@ var IngridiantsApi = function () {
 
     this.getIngridiants = function (prefix) {
         var list = $('#ingridiantsList');
+        list.addClass('ingridiant-list');
+        list.click((data) => {
+            $('#ingridiantName').val(data.target.text);
+            $('#ingridiantId').val(data.target.value);
+            list.hide();
+        });
 
         if (prefix.length < 3) {
-            list.text('').hide();
+            list.hide();
             return;
         }
 
-        var url = $('#RestUrl').val() + '/api/foods';
+        var url = $('#apiUrl').val() + '/api/foods';
         $.get(url, { searchQuery: prefix }, function (response) {
             if (response.results) {
                 list.text('');
+
                 $.each(response.results, function (index, item) {
-                    var div = $('<div/>', {
-                        class: 'ingridiant-list-item'
-                    }).appendTo(list);
-
-                    $('<span/>', {
-                        text: item.FoodName
-                    }).appendTo(div);
-
-                    $('<input/>', {
-                        type: 'hidden',
-                        value: item.FoodId
-                    }).appendTo(div);
+                    list.append($('<option/>').text(item.FoodName).val(item.FoodId));
                 });
                 list.show();
-
-                $('.ingridiant-list-item').click(function (event) {
-                    var foodId = $(this).children('input').val();
-                    var foodName = $(this).children('span').text();
-
-                    $('#ingridiantName').val(foodName);
-                    $('#ingridiantId').val(foodId);
-                    list.hide();
-                });
             }
         }, 'json');
     };
