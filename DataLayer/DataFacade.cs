@@ -18,7 +18,7 @@ namespace MyBuyList.DataLayer
 
         public static DataFacade Instance
         {
-            get { return DataFacade.singleton; }
+            get { return singleton; }
         }
         #endregion
 

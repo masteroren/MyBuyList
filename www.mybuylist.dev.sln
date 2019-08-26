@@ -39,6 +39,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MyBuyList", "http://localho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBuyListRest", "MBL_REST\MyBuyListRest\MyBuyListRest.csproj", "{2DA4BEC6-FA23-4F80-8534-86E493800B6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayerTests", "DataLayerTests\DataLayerTests.csproj", "{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,18 @@ Global
 		{2DA4BEC6-FA23-4F80-8534-86E493800B6D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2DA4BEC6-FA23-4F80-8534-86E493800B6D}.Release|x86.ActiveCfg = Release|Any CPU
 		{2DA4BEC6-FA23-4F80-8534-86E493800B6D}.Release|x86.Build.0 = Release|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Debug|x86.Build.0 = Debug|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Release|x86.ActiveCfg = Release|Any CPU
+		{38AE50D6-6DD8-4FBE-A681-663CDDF88B5A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
