@@ -55,7 +55,7 @@ public partial class ucRecipe : UserControl
     {
         this.RecipeCategories_Rebind(arr);
         //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "setDirty", "setDirty();", true);
-        updateCategories.Update();
+        //updateCategories.Update();
     }
 
     public void UpdatePicture(Binary picture)

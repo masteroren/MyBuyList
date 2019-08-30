@@ -222,8 +222,7 @@
 #recipes_filter {
   color: #656565;
   font-weight: bold;
-  text-align: right;
-  width: 100%; }
+  text-align: right; }
 
 #recipes_filter a {
   text-decoration: underline;

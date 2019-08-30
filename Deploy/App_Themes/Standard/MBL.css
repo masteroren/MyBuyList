@@ -26,7 +26,6 @@ p {
 
 div.add-recipe {
     cursor: pointer;
-    float: left;
 }
 
 .main_wrapper {
@@ -486,6 +485,7 @@ a.recipe_forum_link {
     font-size: 16px;
     color: #656565;
     font-weight: bold;
+    display: block;
 }
 
 .recipe_list {

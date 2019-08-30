@@ -20,8 +20,8 @@ namespace MyBuyList.Shared
             this.MealRecipes = new HashSet<MealRecipe>();
             this.RecipesInShoppingLists = new HashSet<RecipesInShoppingList>();
             this.Menus = new HashSet<Menu>();
-            this.Categories = new HashSet<Category>();
             this.Users = new HashSet<User>();
+            this.Categories = new HashSet<Category>();
         }
     
         public int RecipeId { get; set; }
@@ -54,8 +54,8 @@ namespace MyBuyList.Shared
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Menu> Menus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Categories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

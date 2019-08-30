@@ -210,27 +210,25 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Category[] GetRecipesCategoriesList(int userId)
+        internal Category[] GetRecipesCategoriesList()
         {
-            using (DataContext)
-            {
-                try
-                {
-                    var list = DataContext.Categories.OrderBy(cat => cat.SortOrder);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
-            }
+            return DataContext.Categories.OrderBy(cat => cat.SortOrder).ToArray();
         }
 
         internal Recipe[] GetRecipesByCategory(int categoryId, int userId)
         {
-            using (DataContext)
+            try
             {
-                return GetRecipesByCategory(DataContext, categoryId, userId);
+                var list = (from a in DataContext.Recipes
+                            from b in a.Categories
+                            where b.CategoryId == categoryId
+                            select a).ToArray();
+
+                return list;
+            }
+            catch
+            {
+                return null;
             }
         }
 

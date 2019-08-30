@@ -7,6 +7,24 @@
 <%@ Register Src="~/UserControls/ucShoppingList.ascx" TagName="ucShoppingList" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
+    <style>
+        .search {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            align-items: flex-start;
+        }
+
+        .recipes-filter {
+            display: flex;
+            flex-direction: column;
+            padding-top: 5px;
+        }
+
+        .categories-breadcrumbs {
+            padding-top: 10px;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="Server">
@@ -15,11 +33,11 @@
 
     <script src="Scripts/Recipes.js"></script>
 
-
     <script>
         var ButtonRecipesRefreshClientID = '<%=ButtonRecipesRefresh.ClientID%>';
         var RecipeIdClientID = '<%=hfRecipeId.ClientID%>';
         var RecipeNameClientID = '<%=hfRecipeName.ClientID%>';
+        var lnkNewRecipeClientId = '<%=lnkNewRecipe.ClientID%>';
     </script>
 
     <div id="reciep-wrapper">
@@ -34,22 +52,22 @@
                 switch (sort) {
                     case 'LastUpdate':
                         document.location = '<%= OrderByLastUpdateUrl %>';
-                    break;
-                case 'Name':
-                    document.location = '<%= OrderByNameUrl %>';
-                    break;
-                case 'Publisher':
-                    document.location = '<%= OrderByPublisherUrl %>';
-                    break;
+                        break;
+                    case 'Name':
+                        document.location = '<%= OrderByNameUrl %>';
+                        break;
+                    case 'Publisher':
+                        document.location = '<%= OrderByPublisherUrl %>';
+                        break;
+                }
             }
-        }
 
-        function passParametersToSendToFriend(sender) {
-            var recipeId = sender.getAttribute('recipeId');
-            var recipeName = sender.getAttribute('recipeName');
-            setParameters(recipeId, recipeName);
-            showSendMailToFriendBox();
-        }
+            function passParametersToSendToFriend(sender) {
+                var recipeId = sender.getAttribute('recipeId');
+                var recipeName = sender.getAttribute('recipeName');
+                setParameters(recipeId, recipeName);
+                showSendMailToFriendBox();
+            }
         </script>
         <div class="header">
             <div class="top" style="display: none">
@@ -62,36 +80,39 @@
                 </p>
             </div>
             <div class="search">
-                <asp:UpdatePanel ID="recipeSearchBar" ClientIDMode="Static" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                    <ContentTemplate>
-                        <div id="recipes_filter">
-                            <uc3:RecipesFilter ID="RecipesFilter1" runat="server" />
-                            <div id="categories" runat="server" visible="true" style="margin-top: 10px;">
-                                <div id="pathLinks" runat="server" style="margin-bottom: 10px;">
-                                </div>
-                                <div style="float: right">
-                                    <asp:Panel ID="pnlCategories" runat="server" Width="300px" Height="170px" BorderWidth="1px"
-                                        BorderColor="#656565" ScrollBars="Vertical" Style="margin: 0px auto;" Visible="false">
-                                        <table style="width: 90%">
-                                            <asp:Repeater ID="rptCategories" runat="server" OnItemDataBound="rptCategories_ItemDataBound">
-                                                <ItemTemplate>
-                                                    <tr>
-                                                        <td align="right">&nbsp;
+                <div id="recipes_filter" class="recipes-filter">
+                    <uc3:RecipesFilter ID="RecipesFilter1" runat="server"/>
+                    <div id="categories" class="categories-breadcrumbs" runat="server" visible="true">
+                        <div id="pathLinks" runat="server" style="margin-bottom: 10px;">
+                        </div>
+                        <div style="float: right">
+                            <asp:Panel ID="pnlCategories" runat="server" Width="300px" Height="170px" BorderWidth="1px"
+                                BorderColor="#656565" ScrollBars="Vertical" Style="margin: 0px auto;" Visible="false">
+                                <table style="width: 90%">
+                                    <asp:Repeater ID="rptCategories" runat="server" OnItemDataBound="rptCategories_ItemDataBound">
+                                        <ItemTemplate>
+                                            <tr>
+                                                <td align="right">&nbsp;
                                                             <asp:HyperLink ID="lnkCategory" runat="server" ForeColor="#656565"></asp:HyperLink>
-                                                        </td>
-                                                    </tr>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                        </table>
-                                    </asp:Panel>
-                                </div>
-                            </div>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </table>
+                            </asp:Panel>
                         </div>
-                        <div id="numResults">
-                            <asp:Label ID="lblNumRecipes" runat="server" />
-                        </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                    </div>
+                </div>
+                <div class="add-recipe">
+                    <asp:HyperLink ID="lnkNewRecipe" runat="server">
+                                <asp:Image runat="server" ImageUrl="~/Images/btn_AddNewRecipe_up.png" onmouseover='this.src="Images/btn_AddNewRecipe_over.png";' 
+                                    onmouseout='this.src="Images/btn_AddNewRecipe_up.png";' onmousedown='this.src="Images/btn_AddNewRecipe_Down.png";' 
+                                    nmouseup='this.src="Images/btn_AddNewRecipe_up.png";' />
+                    </asp:HyperLink>
+                </div>
+            </div>
+            <div id="numResults">
+                <asp:Label ID="lblNumRecipes" runat="server" />
             </div>
             <uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="ucRecipeCats_RefreshData" />
         </div>

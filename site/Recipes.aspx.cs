@@ -14,64 +14,6 @@ using System.Web.UI.WebControls;
 
 public partial class Recipes : BasePage
 {
-
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        try
-        {
-            //if (CurrUser != null) ucShoppingList1.UserId = CurrUser.UserId;
-
-            if (!IsPostBack)
-            {
-                if (this.Display == RecipeDisplayEnum.ByCategory)
-                {
-                    int count = this.RebindCategories(this.CategoryId);
-                    this.categories.Visible = true;
-                    if (count == 0)
-                        this.pnlCategories.Visible = false;
-                }
-                //if (this.Display == RecipeDisplayEnum.BySearchSimple)
-                //{
-                //    this.simpleSearch.Visible = true;
-                //    this.btnSearch.Visible = true;
-                //    this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
-                //    this.btnSearch.CommandArgument = "BySearchSimple";
-                //}
-                if (this.Display == RecipeDisplayEnum.BySearchAdvanced)
-                {
-                    //this.simpleSearch.Visible = true;
-                    //this.advancedSearch.Visible = true;
-                    //this.btnSearch.Visible = true;
-                    //this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
-                    //this.txtServings.Text = (!string.IsNullOrEmpty(Request["serv"])) ? Request["serv"] : "";
-                    //this.txtCategory.Text = "";
-                    //this.btnSearch.CommandArgument = "BySearchAdvanced";
-                }
-
-                //EmphasizeCurrentSearch(this.Display);
-
-                User currentUser = BusinessFacade.Instance.GetUser(((BasePage)this.Page).UserId);
-                string email = (currentUser != null) ? currentUser.Email : string.Empty;
-                //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
-
-                RebindRecipes();
-
-                // 13.10.2010
-                // Load categories at page load
-                //Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList(((BasePage)this.Page).UserId);
-                //var list = from cat in categories.Where(cat => cat.ParentCategoryId == null).ToArray()
-                //           select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.RecipesCount);
-
-                //SRL_Category[] categoryList = list.ToArray();
-                //RecipesFilter1.FillList(categoryList, this.RecipeCategoryChangeBaseUrl);
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.Write("PageLoad failed", ex, Logger.Level.Error);
-        }
-    }
-
     #region Properties
 
     public int CurrentPage
@@ -116,35 +58,39 @@ public partial class Recipes : BasePage
         }
     }
 
-    public RecipeDisplayEnum Display
-    {
-        get
-        {
-            RecipeDisplayEnum display;
+    public RecipeDisplayEnum Display { get; set; }
 
-            if (!string.IsNullOrEmpty(Request["disp"]))
-            {
-                try
-                {
-                    display = (RecipeDisplayEnum)Enum.Parse(typeof(RecipeDisplayEnum), Request["disp"], true);
-                    return display;
-                }
-                catch
-                {
-                    return RecipeDisplayEnum.All;
-                }
-            }
-            else
-            {
-                return RecipeDisplayEnum.All;
-            }
-        }
-    }
+    //public RecipeDisplayEnum Display
+    //{
+    //    get
+    //    {
+    //        RecipeDisplayEnum display;
+
+    //        if (!string.IsNullOrEmpty(Request["disp"]))
+    //        {
+    //            try
+    //            {
+    //                display = (RecipeDisplayEnum)Enum.Parse(typeof(RecipeDisplayEnum), Request["disp"], true);
+    //                return display;
+    //            }
+    //            catch
+    //            {
+    //                return RecipeDisplayEnum.All;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            return RecipeDisplayEnum.All;
+    //        }
+    //    }
+    //}
 
     public string FreeText
     {
         get { return (!string.IsNullOrEmpty(Request["term"]) ? Request["term"] : null); }
     }
+
+    private int categoryId;
 
     public int? CategoryId
     {
@@ -244,7 +190,71 @@ public partial class Recipes : BasePage
     private string orderByPublisherUrl;
 
     private string recipeCategoryChangeBaseUrl;
-    
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            //if (CurrUser != null) ucShoppingList1.UserId = CurrUser.UserId;
+
+            if (!IsPostBack)
+            {
+                if (Display == RecipeDisplayEnum.ByCategory)
+                {
+                    int count = RebindCategories(CategoryId);
+                    categories.Visible = true;
+                    if (count == 0)
+                        pnlCategories.Visible = false;
+                }
+                //if (this.Display == RecipeDisplayEnum.BySearchSimple)
+                //{
+                //    this.simpleSearch.Visible = true;
+                //    this.btnSearch.Visible = true;
+                //    this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
+                //    this.btnSearch.CommandArgument = "BySearchSimple";
+                //}
+                if (Display == RecipeDisplayEnum.BySearchAdvanced)
+                {
+                    //this.simpleSearch.Visible = true;
+                    //this.advancedSearch.Visible = true;
+                    //this.btnSearch.Visible = true;
+                    //this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
+                    //this.txtServings.Text = (!string.IsNullOrEmpty(Request["serv"])) ? Request["serv"] : "";
+                    //this.txtCategory.Text = "";
+                    //this.btnSearch.CommandArgument = "BySearchAdvanced";
+                }
+
+                //EmphasizeCurrentSearch(this.Display);
+
+                User currentUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+                string email = (currentUser != null) ? currentUser.Email : string.Empty;
+                //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
+
+                RebindRecipes();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Write("PageLoad failed", ex, Logger.Level.Error);
+        }
+
+        RecipesFilter1.CategoryChanged += RecipesFilter1_CategoryChanged;
+    }
+
+    private void RecipesFilter1_CategoryChanged(object sender, ChangeEventArgs e)
+    {
+        if (e.category == null)
+        {
+            Display = RecipeDisplayEnum.All;
+            RebindCategories(null);
+        } else
+        {
+            Display = RecipeDisplayEnum.ByCategory;
+            categoryId = Convert.ToInt32(e.category);
+            RebindCategories(categoryId);
+            RebindRecipes();
+        }
+    }
 
     private void RebindRecipes()
     {
@@ -277,8 +287,8 @@ public partial class Recipes : BasePage
         rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
         try
         {
-            recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, CategoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
-            rptRecipes.DataSource = recipes;
+            recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, categoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
+             rptRecipes.DataSource = recipes;
             rptRecipes.DataBind();
             lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
         }
@@ -638,7 +648,7 @@ public partial class Recipes : BasePage
     private int RebindCategories(int? categoryId)
     {
         int count = 0;
-        Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList(((BasePage)Page).UserId);
+        Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
         var list = from cat in categories.Where(cat => cat.ParentCategoryId == categoryId).ToArray()
                    select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.Recipes.Count());
         this.rptCategories.DataSource = list.ToArray();
@@ -655,7 +665,7 @@ public partial class Recipes : BasePage
                 pathList.Add(tmpCategory);
                 if (tmpCategory.ParentCategoryId == null)
                     break;
-                tmpCategory = tmpCategory.Categories1.SingleOrDefault(x => x.ParentCategoryId == tmpCategory.ParentCategoryId);
+                //tmpCategory = tmpCategory.Categories1.SingleOrDefault(x => x.ParentCategoryId == tmpCategory.ParentCategoryId);
             }
             while (tmpCategory != null);
         }
@@ -702,7 +712,7 @@ public partial class Recipes : BasePage
             lnk.Text = string.Format("{0} ({1})", category.CategoryName, category.RecipesCount);
             lnk.NavigateUrl = string.Format(this.RecipeCategoryChangeBaseUrl, category.CategoryId);
         }
-    }    
+    }
 
     private void EnsureRecipeCategoryChangeBaseUrlExists()
     {
@@ -710,7 +720,7 @@ public partial class Recipes : BasePage
         {
             return;
         }
-        
+
         string currentUrl = Request.Url.OriginalString;
 
         if (currentUrl.ToLower().Contains("page"))
@@ -721,7 +731,7 @@ public partial class Recipes : BasePage
 
         if (currentUrl.ToLower().Contains("disp"))
         {
-            if (!currentUrl.ToLower().Contains("disp=&")) 
+            if (!currentUrl.ToLower().Contains("disp=&"))
             {
                 this.recipeCategoryChangeBaseUrl = currentUrl.ToLower().Replace(Request["disp"].ToLower(), RecipeDisplayEnum.ByCategory.ToString());
                 currentUrl = this.recipeCategoryChangeBaseUrl;
@@ -741,8 +751,8 @@ public partial class Recipes : BasePage
 
         if (currentUrl.ToLower().Contains("cat="))
         {
-            if (!currentUrl.ToLower().Contains("cat=&")) 
-            {              
+            if (!currentUrl.ToLower().Contains("cat=&"))
+            {
                 this.recipeCategoryChangeBaseUrl = currentUrl.ToLower().Replace("cat=" + Request["cat"].ToLower(), "cat={0}");
             }
             else //should not happen - make sure and remove
@@ -752,11 +762,11 @@ public partial class Recipes : BasePage
             }
         }
         else
-        {            
+        {
             this.recipeCategoryChangeBaseUrl = currentUrl + "&cat={0}";
         }
     }
-    
+
     //protected void btnCategory_Command(object sender, CommandEventArgs e)
     //{
     //    Response.Redirect(string.Format("~/Recipes.aspx?page=1&orderby=LastUpdate&disp={0}&cat={1}", RecipeDisplayEnum.ByCategory, e.CommandArgument.ToString()));

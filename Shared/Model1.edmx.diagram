@@ -47,7 +47,6 @@
         <EntityTypeShape EntityType="MyBuyListModel.DS_ForumMessages" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MyBuyListModel.RecipesFavorit" Width="1.5" PointX="11.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MyBuyListModel.ShoppingList" Width="1.5" PointX="15.75" PointY="18.125" IsExpanded="true" />
-        <AssociationConnector Association="MyBuyListModel.FK_RecipesCategories_ParentCategory" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.FK_Meals_CourseTypes" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.FK_Food_CreatedByUser" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.FK_Food_FoodCategories" ManuallyRouted="false" />
@@ -85,9 +84,9 @@
         <AssociationConnector Association="MyBuyListModel.MenuCategories" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.MenuRecipes" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.MenusInShoppingList" ManuallyRouted="false" />
-        <AssociationConnector Association="MyBuyListModel.RecipeCategories" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.UserFavoriteMenus" ManuallyRouted="false" />
         <AssociationConnector Association="MyBuyListModel.UserFavoriteRecipes" ManuallyRouted="false" />
+        <AssociationConnector Association="MyBuyListModel.RecipeCategory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

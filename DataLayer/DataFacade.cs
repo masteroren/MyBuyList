@@ -241,9 +241,9 @@ namespace MyBuyList.DataLayer
             return new RecipesDA().GetUserFavoritesRecipes(userId);
         }
 
-        public Category[] GetRecipesCategoriesList(int userId)
+        public Category[] GetRecipesCategoriesList()
         {
-            return new RecipesDA().GetRecipesCategoriesList(userId);
+            return new RecipesDA().GetRecipesCategoriesList();
         }
 
         public Recipe[] GetRecipesByCategory(int categoryId, int userId)

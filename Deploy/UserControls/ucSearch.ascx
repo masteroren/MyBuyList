@@ -8,7 +8,13 @@
 
 <script type="text/javascript" src="Scripts/Search.js"></script>
 
-<div class="search-box flex-container" justify-content="start">
+<style>
+    .search-box {
+        width: 100%;
+    }
+</style>
+
+<div class="search-box flex-container">
     <asp:TextBox ID="TextBoxSearchValue" runat="server" CssClass="search-value" flex-grow="1"></asp:TextBox>
     <div class="flex-container">
         <asp:DropDownList ID="DropDownListSearchType" runat="server" CssClass="search-category" DataTextField="value" DataValueField="key">

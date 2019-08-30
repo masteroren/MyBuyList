@@ -34,9 +34,9 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetUserFavoritesRecipes(userId);
         }
 
-        internal Category[] GetRecipesCategoriesList(int userId)
+        internal Category[] GetRecipesCategoriesList()
         {
-            return DataFacade.Instance.GetRecipesCategoriesList(userId);
+            return DataFacade.Instance.GetRecipesCategoriesList();
         }
 
         internal Recipe[] GetRecipesByCategory(int categoryId, int userId)

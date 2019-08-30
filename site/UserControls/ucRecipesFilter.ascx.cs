@@ -1,14 +1,42 @@
-﻿using System;
+﻿using MyBuyList.BusinessLayer;
+using MyBuyList.Shared;
+using MyBuyList.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using MyBuyList.Shared.Enums;
-using MyBuyList.Shared.Entities;
+
+public delegate void ChangeEventHandler(object sender, ChangeEventArgs e);
+
+public class ChangeEventArgs
+{
+    public string category;
+    public int sortBy;
+}
 
 public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
 {
+    private string recipeCategoryChangeBaseUrl;
+
+    public event ChangeEventHandler CategoryChanged;
+    public event ChangeEventHandler SortChanged;
+
+    protected virtual void OnCategoryChanged(object sender, ChangeEventArgs e)
+    {
+        if (CategoryChanged != null)
+        {
+            CategoryChanged(this, e);
+        }
+    }
+
+    protected virtual void OnSortChanged(object sender, ChangeEventArgs e)
+    {
+        if (SortChanged != null)
+        {
+            SortChanged(this, e);
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         //string currentDisplay = Request.QueryString["disp"] == string.Empty ? "All" : Request.QueryString["disp"];
@@ -29,17 +57,27 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
         //        lnkMyFavoriteRecipes.Style["text-decoration"] = "underline";
         //        break;
         //}
+
+        if (!IsPostBack)
+        {
+            Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
+            var list = from cat in categories
+                        where cat.ParentCategoryId == null
+                        select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.Recipes.Count());
+
+            FillList(list.ToList());
+        }
+        
     }
 
-    public void FillList(SRL_Category[] categoryList, string RecipeCategoryChangeBaseUrl)
+    public void FillList(List<SRL_Category> categoryList)
     {
         lstCategories.Items.Clear();
         lstCategories.Items.Add(new ListItem("בחר קטגוריה"));
         foreach (SRL_Category mCategory in categoryList)
         {
             string Text = string.Format("{0} ({1})", mCategory.CategoryName, mCategory.RecipesCount);
-            string Url = string.Format(RecipeCategoryChangeBaseUrl, mCategory.CategoryId);
-            lstCategories.Items.Add(new ListItem(Text, Url));
+            lstCategories.Items.Add(new ListItem(Text, mCategory.CategoryId.ToString()));
         }
     }
 
@@ -77,10 +115,15 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
     //            break;
     //    }
     //}
+
     protected void lstCategories_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Response.Redirect(lstCategories.Items[lstCategories.SelectedIndex].Value);
+        OnCategoryChanged(this, new ChangeEventArgs
+        {
+            category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue
+        });
     }
+
     //protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     //{
     //    Response.Redirect(string.Format("~/Recipes.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term={0}", txtSearchTerm.Text));

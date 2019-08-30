@@ -46,7 +46,7 @@ public partial class ucSearchByCategories : System.Web.UI.UserControl
                     UserId = ((BasePage)Page).UserId;
                 }
 
-                Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList(UserId);
+                Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
 
                 var list = from category in categories
                            select new SRL_Category(category.CategoryId, category.CategoryName, category.ParentCategoryId, category.Recipes.Count());
