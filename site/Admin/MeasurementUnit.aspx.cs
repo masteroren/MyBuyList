@@ -37,7 +37,7 @@ public partial class PageMeasurementUnit : BasePage
                 if (!string.IsNullOrEmpty(this.Request["unitId"]))
                 {
                     this.UnitId = int.Parse(this.Request["unitId"]);
-                    MeasurementUnit unit = BusinessFacade.Instance.GetMeasurementUnit(this.UnitId.Value);
+                    measurementunits unit = BusinessFacade.Instance.GetMeasurementUnit(this.UnitId.Value);
                     if (unit != null)
                     {
                         this.txtUnitName.Text = unit.UnitName;
@@ -55,7 +55,7 @@ public partial class PageMeasurementUnit : BasePage
             return;
         }
 
-        MeasurementUnit unit = new MeasurementUnit();
+        measurementunits unit = new measurementunits();
         unit.UnitId = this.UnitId == null ? -1 : this.UnitId.Value;
         unit.UnitName = this.txtUnitName.Text;
 

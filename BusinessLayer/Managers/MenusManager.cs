@@ -13,17 +13,17 @@ namespace MyBuyList.BusinessLayer.Managers
 {
     class MenusManager
     {
-        internal Menu[] GetMenusList(int userId)
+        internal menus[] GetMenusList(int userId)
         {
             return DataFacade.Instance.GetMenusList(userId);
         }
 
-        internal Menu GetMenu(int menuId)
+        internal menus GetMenu(int menuId)
         {
             return DataFacade.Instance.GetMenu(menuId);
         }
 
-        internal Menu GetMenuEx(int menuId)
+        internal menus GetMenuEx(int menuId)
         {
             return DataFacade.Instance.GetMenuEx(menuId);
         }
@@ -33,22 +33,22 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetMenusNum();
         }
 
-        internal MenuType[] GetMenuTypes()
+        internal menutypes[] GetMenuTypes()
         {
             return DataFacade.Instance.GetMenuTypes();
         }
 
-        internal MenuType GetMenuType(int menuId)
+        internal menutypes GetMenuType(int menuId)
         {
             return DataFacade.Instance.GetMenuType(menuId);
         }
 
-        internal Recipe[] GetMenuRecipes(int menuId)
+        internal recipes[] GetMenuRecipes(int menuId)
         {
             return DataFacade.Instance.GetMenuRecipes(menuId);
         }
 
-        internal MealRecipe[] GetMenuMealsRecipes(int menulId)
+        internal mealrecipes[] GetMenuMealsRecipes(int menulId)
         {
             return DataFacade.Instance.GetMenuMealsRecipes(menulId);
         }
@@ -63,12 +63,12 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.CreateMenuEx(menuTypeId, userId, tempUser, menuName, description, isPublic, out menuId);
         }
 
-        internal bool CreateMenuEx1(Menu menu, int tempUser, out int menuId)
+        internal bool CreateMenuEx1(menus menu, int tempUser, out int menuId)
         {
             return DataFacade.Instance.CreateMenuEx1(menu, tempUser, out menuId);
         }
 
-        internal void CreateOrUpdateMenu(Menu menu, out int menuId)
+        internal void CreateOrUpdateMenu(menus menu, out int menuId)
         {
             DataFacade.Instance.CreateOrUpdateMenu(menu, out menuId);
         }
@@ -99,7 +99,7 @@ namespace MyBuyList.BusinessLayer.Managers
 
 
 
-        internal Menu[] GetMenusList(int userId, int tempUser)
+        internal menus[] GetMenusList(int userId, int tempUser)
         {
             return DataFacade.Instance.GetMenusList(userId, tempUser);
         }
@@ -121,11 +121,11 @@ namespace MyBuyList.BusinessLayer.Managers
 
         public Dictionary<int, List<int>> GetMenuRecipesIngrid(int menulId)
         {
-            MealRecipe[] menuMealsRecipes = this.GetMenuMealsRecipes(menulId);
+            mealrecipes[] menuMealsRecipes = this.GetMenuMealsRecipes(menulId);
 
             Dictionary<int, List<int>> recipeServ = new Dictionary<int, List<int>>();
 
-            foreach (MealRecipe curr in menuMealsRecipes)
+            foreach (mealrecipes curr in menuMealsRecipes)
             {
                 if (!recipeServ.ContainsKey(curr.RecipeId))
                 {
@@ -161,12 +161,12 @@ namespace MyBuyList.BusinessLayer.Managers
             return days.ToArray<int>();
         }
 
-        internal IEnumerable<Menu> GetMenus(int userid, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
+        internal IEnumerable<menus> GetMenus(int userid, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
         {
             return DataFacade.Instance.GetMenus(userid, orderBy, page, pageSize, out totalPages);
         }
 
-        internal Meal[] GetMenuMeals(int menuId)
+        internal meals[] GetMenuMeals(int menuId)
         {
             return DataFacade.Instance.GetMenuMeals(menuId);
         }
@@ -181,12 +181,12 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.RemoveMenuFromUserFavorites(userId, menuId, out favMenusNum);
         }
 
-        internal IEnumerable<Menu> GetMenusEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? diners, int[] menuCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numMenus)
+        internal IEnumerable<menus> GetMenusEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? diners, int[] menuCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numMenus)
         {
             return DataFacade.Instance.GetMenusEx(display, userId, freeText, categoryId, diners, menuCats, orderBy, page, pageSize, out totalPages, out numMenus);
         }
 
-        internal MCategory[] GetMenusCategoriesList(int userId)
+        internal mcategories[] GetMenusCategoriesList(int userId)
         {
             return DataFacade.Instance.GetMenusCategoriesList(userId);
         }
@@ -206,17 +206,17 @@ namespace MyBuyList.BusinessLayer.Managers
             DataFacade.Instance.RemoveMenuFromShoppingList(userId, menuId);
         }
 
-        internal Menu[] GetUserFavoritesMenus(int userId)
+        internal menus[] GetUserFavoritesMenus(int userId)
         {
             return DataFacade.Instance.GetUserFavoritesMenus(userId);
         }
 
-        internal Menu[] GetUserMenusList(int userId)
+        internal menus[] GetUserMenusList(int userId)
         {
             return DataFacade.Instance.GetUserMenusList(userId);
         }
 
-        internal Menu[] SearchMenus(string searchValue)
+        internal menus[] SearchMenus(string searchValue)
         {
             return DataFacade.Instance.SearchMenus(searchValue);
         }

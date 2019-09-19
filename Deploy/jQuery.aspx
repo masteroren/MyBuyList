@@ -19,7 +19,7 @@
     public static bool Login(string userName, string password)
     {
         //SRL_User user = BusinessFacade.Instance.GetUser(userName, password);
-        User user = BusinessFacade.Instance.GetUser(userName, password);
+        users user = BusinessFacade.Instance.GetUser(userName, password);
         HttpContext.Current.Session[AppConstants.CURR_USER] = user;
         return user != null;
     }

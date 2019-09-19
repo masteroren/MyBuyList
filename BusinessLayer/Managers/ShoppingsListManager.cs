@@ -9,12 +9,12 @@ namespace MyBuyList.BusinessLayer.Managers
 {
     class ShoppingsListManager
     {
-        internal List<UserShoppingList> GetShoppingList(int userId)
+        internal List<usershoppinglist> GetShoppingList(int userId)
         {
             return DataFacade.Instance.GetShoppingList(userId);
         }
 
-        internal ShopDepartment[] GetMenuShopDepartments(int menuId)
+        internal shopdepartments[] GetMenuShopDepartments(int menuId)
         {
             return DataFacade.Instance.GetMenuShopDepartments(menuId);
         }
@@ -24,7 +24,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetMenuShoppingList(menuId);
         }
 
-        internal ShoppingListAdditionalItem[] GetShoppingListAdditionalItems(int menuId)
+        internal shoppinglistadditionalitems[] GetShoppingListAdditionalItems(int menuId)
         {
             return DataFacade.Instance.GetShoppingListAdditionalItems(menuId);
         }
@@ -46,8 +46,7 @@ namespace MyBuyList.BusinessLayer.Managers
 
         internal string GetIngredientInGrams(ShoppingFood food, int currUnit)
         {
-
-            MeasurementUnitsConvert convert = BusinessFacade.Instance.GetMeasurementUnitsConvertList().SingleOrDefault(mc => mc.FoodId == food.FoodId &&
+            measurementunitsconverts convert = BusinessFacade.Instance.GetMeasurementUnitsConvertList().SingleOrDefault(mc => mc.FoodId == food.FoodId &&
                                                                                                                              mc.FromUnitId == currUnit &&
                                                                                                                              mc.ToUnitId == (int)AppConstants.GRAMM_UNIT_ID);
 

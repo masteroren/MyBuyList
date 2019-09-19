@@ -55,7 +55,7 @@ public partial class PageFoodsList : BasePage
         TabPanel pnl = this.Tabs.ActiveTab;
         if(pnl.HeaderText == MyGlobalResources.Other)
         {
-            Food[] foods = list.Where(f => f.FoodName.Trim() != string.Empty &&
+            food[] foods = list.Where(f => f.FoodName.Trim() != string.Empty &&
                                           (f.FoodName.Trim()[0] < 'א' ||
                                            f.FoodName.Trim()[0] > 'ת')).ToArray();
 
@@ -64,13 +64,13 @@ public partial class PageFoodsList : BasePage
         }
         else if(pnl.HeaderText == MyGlobalResources.Temporary)
         {
-            Food[] foods = list.Where(f => f.IsTemporary).ToArray();
+            food[] foods = list.Where(f => f.IsTemporary).ToArray();
             this.rptFoods.DataSource = foods;
             this.rptFoods.DataBind();
         }
         else
         {
-            Food[] foods = list.Where(f => f.FoodName.Trim().StartsWith(pnl.HeaderText[0].ToString()) || 
+            food[] foods = list.Where(f => f.FoodName.Trim().StartsWith(pnl.HeaderText[0].ToString()) || 
                                            f.FoodName.Trim().StartsWith(pnl.HeaderText[1].ToString())).ToArray();
             this.rptFoods.DataSource = foods;
             this.rptFoods.DataBind();
@@ -84,10 +84,10 @@ public partial class PageFoodsList : BasePage
         RepeaterItem rptItem = e.Item as RepeaterItem;
         LinkButton btn = rptItem.FindControl("btnUpdate") as LinkButton;
         LinkButton btnDelete = rptItem.FindControl("btnDelete") as LinkButton;
-        Food food = e.Item.DataItem as Food;
+        food food = e.Item.DataItem as food;
         if (food != null)
         {
-            btn.PostBackUrl = string.Format("~/Admin/Food.aspx?foodId={0}", food.FoodId);
+            btn.PostBackUrl = string.Format("~/Admin/food.aspx?foodId={0}", food.FoodId);
             //btnDelete.Visible = food.AllowDelete;
         }
     }

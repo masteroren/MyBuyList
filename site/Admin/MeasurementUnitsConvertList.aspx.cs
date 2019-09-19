@@ -46,10 +46,10 @@ public partial class PageMeasurementUnitsConvertList : BasePage
         ReorderListItem rolItem = e.Item as ReorderListItem;
         LinkButton btn = rolItem.FindControl("btnUpdate") as LinkButton;
         Label textLine = rolItem.FindControl("lbMeasurementUnitsConvertText") as Label;
-        MeasurementUnitsConvert MeasuresConvert = e.Item.DataItem as MeasurementUnitsConvert;
+        measurementunitsconverts MeasuresConvert = e.Item.DataItem as measurementunitsconverts;
         if (MeasuresConvert != null)
         {
-            btn.PostBackUrl = string.Format("~/Admin/MeasurementUnitsConvert.aspx?ConvertId={0}", MeasuresConvert.ConvertId);
+            btn.PostBackUrl = string.Format("~/Admin/measurementunitsconverts.aspx?ConvertId={0}", MeasuresConvert.ConvertId);
             string from = MeasuresConvert.FromQuantity.ToString();
             string[] fromStr = from.Split('.');
             if (fromStr[1] == "00")
@@ -64,9 +64,9 @@ public partial class PageMeasurementUnitsConvertList : BasePage
                 to = toStr[0];
             }
 
-            Food food = BusinessFacade.Instance.GetFood(MeasuresConvert.FoodId);
-            MeasurementUnit sourceMeasureUnit = BusinessFacade.Instance.GetMeasurementUnit(MeasuresConvert.FromUnitId);
-            MeasurementUnit targetMeasureUnit = BusinessFacade.Instance.GetMeasurementUnit(MeasuresConvert.ToUnitId);
+            food food = BusinessFacade.Instance.GetFood(MeasuresConvert.FoodId);
+            measurementunits sourceMeasureUnit = BusinessFacade.Instance.GetMeasurementUnit(MeasuresConvert.FromUnitId);
+            measurementunits targetMeasureUnit = BusinessFacade.Instance.GetMeasurementUnit(MeasuresConvert.ToUnitId);
 
             textLine.Text = string.Format("{0} {1} {2} = {3} {4}", from, sourceMeasureUnit.UnitName, food.FoodName, to, targetMeasureUnit.UnitName);
 
@@ -78,7 +78,7 @@ public partial class PageMeasurementUnitsConvertList : BasePage
 
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        MeasurementUnitsConvert newItem = new MeasurementUnitsConvert();
+        measurementunitsconverts newItem = new measurementunitsconverts();
         newItem.SortOrder = 1;
         newItem.FoodId = 0;
         newItem.FromUnitId = 0;

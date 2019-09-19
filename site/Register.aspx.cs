@@ -19,7 +19,7 @@ public partial class Register : BasePage
                     this.imgBtnRegister.Visible = false;
                     this.imgBtnSend.Visible = true;
 
-                    User currUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+                    users currUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
                     if (currUser != null)
                     {                        
                         this.txtDisplayName.Text = currUser.DisplayName;
@@ -48,7 +48,7 @@ public partial class Register : BasePage
     }
     protected void btnOk_Click(object sender, EventArgs e)
     {
-        User currUser = null;
+        users currUser = null;
 
         if (((BasePage)Page).UserId == -1 && BusinessFacade.Instance.GetUserByUserName(this.txtUserName.Text) != null)
         {
@@ -59,12 +59,14 @@ public partial class Register : BasePage
         {
             if (((BasePage)Page).UserId == -1)
             {
-                currUser = new User();
-                currUser.UserId = -1;
-                currUser.Name = this.txtUserName.Text;
-                currUser.Password = this.txtUserPassword.Text;
-                currUser.UserTypeId = 2;
-                currUser.AgreeToMail = this.cbxEmail.Checked;
+                currUser = new users
+                {
+                    UserId = -1,
+                    Name = this.txtUserName.Text,
+                    Password = this.txtUserPassword.Text,
+                    UserTypeId = 2,
+                    AgreeToMail = this.cbxEmail.Checked
+                };
             }
 
             else
@@ -93,11 +95,11 @@ public partial class Register : BasePage
                 // Save temp menus of the new user
                 if (((MasterPages_MBL)this.Master).TempUser != 0)
                 {
-                    User newUser = BusinessFacade.Instance.GetUserByUserName(currUser.Name);
-                    Menu[] userMenus = BusinessFacade.Instance.GetMenusList(int.Parse(ConfigurationManager.AppSettings["anonymous"]), Master.TempUser);
+                    users newUser = BusinessFacade.Instance.GetUserByUserName(currUser.Name);
+                    menus[] userMenus = BusinessFacade.Instance.GetMenusList(int.Parse(ConfigurationManager.AppSettings["anonymous"]), Master.TempUser);
                     if (userMenus != null)
                     {
-                        foreach (Menu currMenu in userMenus)
+                        foreach (menus currMenu in userMenus)
                         {
                             BusinessFacade.Instance.UpdateMenuUser(currMenu.MenuId, newUser.UserId);
                         }

@@ -51,7 +51,7 @@ public partial class PageCategoriesList : BasePage
     private void Rebind()
     {
         this.tvCategories.Nodes.Clear();
-        Category[] categories = BusinessFacade.Instance.GetCategoriesList();
+        categories[] categories = BusinessFacade.Instance.GetCategoriesList();
         this.BuildTree(categories, null, null);
 
         this.tvCategories.ShowCheckBoxes = TreeNodeTypes.None;
@@ -59,13 +59,13 @@ public partial class PageCategoriesList : BasePage
     }
 
 
-    private void BuildTree(Category[] cats, int? parentCategoryId, TreeNode rootNode)
+    private void BuildTree(categories[] cats, int? parentCategoryId, TreeNode rootNode)
     {
         var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
-        foreach (Category item in list)
+        foreach (categories item in list)
         {
             TreeNode node = new TreeNode(item.CategoryName, item.CategoryId.ToString());
-            node.NavigateUrl = string.Format("~/Admin/Category.aspx?catId={0}", item.CategoryId);
+            node.NavigateUrl = string.Format("~/Admin/categories.aspx?catId={0}", item.CategoryId);
             if (rootNode == null)
             {
                 this.tvCategories.Nodes.Add(node);

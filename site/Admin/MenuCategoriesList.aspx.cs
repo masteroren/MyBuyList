@@ -40,7 +40,7 @@ public partial class MenuCategoriesList : BasePage
     private void Rebind()
     {
         this.tvCategories.Nodes.Clear();
-        MCategory[] categories = BusinessFacade.Instance.GetMCategoriesList();
+        mcategories[] categories = BusinessFacade.Instance.GetMCategoriesList();
         this.BuildTree(categories, null, null);
 
         this.tvCategories.ShowCheckBoxes = TreeNodeTypes.None;
@@ -48,10 +48,10 @@ public partial class MenuCategoriesList : BasePage
     }
 
 
-    private void BuildTree(MCategory[] cats, int? parentCategoryId, TreeNode rootNode)
+    private void BuildTree(mcategories[] cats, int? parentCategoryId, TreeNode rootNode)
     {
         var list = cats.Where(c => c.ParentMCategoryId == parentCategoryId);
-        foreach (MCategory item in list)
+        foreach (mcategories item in list)
         {
             TreeNode node = new TreeNode(item.MCategoryName, item.MCategoryId.ToString());
             node.NavigateUrl = string.Format("~/Admin/MenuCategory.aspx?catId={0}", item.MCategoryId);

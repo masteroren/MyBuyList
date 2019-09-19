@@ -40,7 +40,7 @@ public partial class PageFoodCategoriesList : System.Web.UI.Page
     private void Rebind()
     {
         this.tvFoodCategories.Nodes.Clear();
-        FoodCategory[] FoodCategories = BusinessFacade.Instance.GetFoodCategoriesList();
+        foodcategories[] FoodCategories = BusinessFacade.Instance.GetFoodCategoriesList();
         this.BuildTree(FoodCategories, null, null);
 
         this.tvFoodCategories.ShowCheckBoxes = TreeNodeTypes.None;
@@ -48,13 +48,13 @@ public partial class PageFoodCategoriesList : System.Web.UI.Page
     }
 
 
-    private void BuildTree(FoodCategory[] cats, int? parentFoodCategoryId, TreeNode rootNode)
+    private void BuildTree(foodcategories[] cats, int? parentFoodCategoryId, TreeNode rootNode)
     {
         var list = cats.Where(c => c.ParentCategoryId == parentFoodCategoryId);
-        foreach (FoodCategory item in list)
+        foreach (foodcategories item in list)
         {
             TreeNode node = new TreeNode(item.FoodCategoryName, item.FoodCategoryId.ToString());
-            node.NavigateUrl = string.Format("~/Admin/FoodCategory.aspx?catId={0}", item.FoodCategoryId);
+            node.NavigateUrl = string.Format("~/Admin/foodcategories.aspx?catId={0}", item.FoodCategoryId);
             if (rootNode == null)
             {
                 this.tvFoodCategories.Nodes.Add(node);

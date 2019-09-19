@@ -3,7 +3,6 @@
 using System;
 using System.Web;
 using System.Reflection;
-using MyBuyList.Shared.Entities;
 using MyBuyList.BusinessLayer;
 using MyBuyList.Shared;
 using System.Web.Script.Serialization;
@@ -11,6 +10,7 @@ using System.Web.SessionState;
 using ProperServices.Common.Log;
 using System.Collections.Generic;
 using System.Linq;
+using MyBuyListShare.Models;
 
 [Serializable]
 internal class SearchItem
@@ -61,13 +61,13 @@ public class Handler : IHttpHandler, IRequiresSessionState
         return jsonString;
     }
 
-    #region Food
+    #region food
     public int AddFood(HttpContext context)
     {
         //try
         //{
         //    string foodName = context.Request["foodName"];
-        //    Food food = BusinessFacade.Instance.AddFood(foodName, 0);
+        //    food food = BusinessFacade.Instance.AddFood(foodName, 0);
         //    if (food != null)
         //        return food.FoodId;
         //}
@@ -83,7 +83,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
         string foodName = context.Request["foodName"];
         try
         {
-            Food food = BusinessFacade.Instance.GetFoodsList().SingleOrDefault(p=>p.FoodName == foodName);
+            food food = BusinessFacade.Instance.GetFoodsList().SingleOrDefault(p=>p.FoodName == foodName);
             if (food != null)
                 return food.FoodCategoryId;
         }
@@ -129,7 +129,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
     {
         try
         {
-            Dictionary<int, Recipe> selectedRecipes = ProperControls.General.Utils.SelectedRecipes;
+            Dictionary<int, recipes> selectedRecipes = ProperControls.General.Utils.SelectedRecipes;
             return selectedRecipes.Count.ToString();
         }
         catch (Exception ex)
@@ -147,10 +147,10 @@ public class Handler : IHttpHandler, IRequiresSessionState
 
         try
         {
-            IEnumerable<Recipe> recipes = null;
-            IEnumerable<Menu> menus = null;
+            ListResponse<RecipeModel[]> recipes = null;
+            IEnumerable<menus> menus = null;
 
-            User user;
+            users user;
             bool isLoggedIn = IsLoggedIn(context) != string.Empty;
 
             int totalPages;
@@ -160,35 +160,35 @@ public class Handler : IHttpHandler, IRequiresSessionState
             switch (category)
             {
                 case "0": // הכל
-                    recipes = BusinessFacade.Instance.SearchRecipes(value).Take(10);
+                          //recipes = BusinessFacade.Instance.SearchRecipes(value).Take(10);
                     menus = BusinessFacade.Instance.SearchMenus(value).Take(10);
                     break;
                 case "1": // מתכונים
-                    recipes = BusinessFacade.Instance.SearchRecipes(value).Take(10);
+                    recipes = HttpHelper.Get<ListResponse<RecipeModel[]>>(string.Format("recipes?pageSize=10&searchQuery={0}", value));
                     break;
                 case "2": // המתכונים שלי
                     if (isLoggedIn)
                     {
-                        user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
+                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
                         //recipes = BusinessFacade.Instance.GetUserRecipesList(user.UserId).Where(p=>p.RecipeName.Contains(value)).Take(10);
-                        recipes = BusinessFacade.Instance.GetRecipesEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfRecipes);
+                        //recipes = BusinessFacade.Instance.GetRecipesEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfRecipes);
                     }
                     break;
                 case "3": // המתכונים המועדפים שלי
                     if (isLoggedIn)
                     {
-                        user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
-                        recipes = BusinessFacade.Instance.GetUserFavoritesRecipes(user.UserId).Where(p => p.RecipeName.Contains(value)).Take(10);
+                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
+                        //recipes = BusinessFacade.Instance.GetUserFavoritesRecipes(user.UserId).Where(p => p.RecipeName.Contains(value)).Take(10);
                     }
                     break;
                 case "4": // תפריטים
-                    //menus = BusinessFacade.Instance.SearchMenus(value).Take(10);
+                          //menus = BusinessFacade.Instance.SearchMenus(value).Take(10);
                     menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, -1, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
                     break;
                 case "5": // התפריטים שלי
                     if (isLoggedIn)
                     {
-                        user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
+                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
                         //menus = BusinessFacade.Instance.GetUserMenusList(user.UserId).Where(p => p.MenuName.Contains(value)).Take(10);
                         menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.MyRecipes, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
                     }
@@ -196,7 +196,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
                 case "6": // התפריטים המועדפים שלי
                     if (isLoggedIn)
                     {
-                        user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
+                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
                         //menus = BusinessFacade.Instance.GetUserFavoritesMenus(user.UserId).Where(p => p.MenuName.Contains(value)).Take(10);
                         menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.MyFavoriteRecipes, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
                     }
@@ -208,11 +208,11 @@ public class Handler : IHttpHandler, IRequiresSessionState
             string serialize = string.Empty;
             if (recipes != null)
             {
-                results1 = from p in recipes
+                results1 = from p in recipes.results
                            select new SearchItem
                            {
-                               value = string.Format("{0}|0", p.RecipeId),
-                               label = p.RecipeName
+                               value = string.Format("{0}|0", p.id),
+                               label = p.name
                            };
             }
             if (menus != null)
@@ -258,7 +258,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
 
         if (context.Session[AppConstants.CURR_USER] != null)
         {
-            User user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
+            users user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
 
             loginResponse = new LoginResponse
             {
@@ -286,7 +286,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
             string userName = context.Request["UserName"];
             string password = context.Request["Password"];
 
-            User user = BusinessFacade.Instance.GetUser(userName, password);
+            users user = BusinessFacade.Instance.GetUser(userName, password);
             context.Session.Add(AppConstants.CURR_USER, user);
 
             loginResponse = new LoginResponse
@@ -310,9 +310,9 @@ public class Handler : IHttpHandler, IRequiresSessionState
         int foodId = 0;
         try
         {
-            User user = null;
+            users user = null;
             if (context.Session[AppConstants.CURR_USER] != null)
-                user = (User)HttpContext.Current.Session[AppConstants.CURR_USER];
+                user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
 
             if (user != null)
             {

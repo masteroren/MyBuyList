@@ -24,52 +24,52 @@ namespace MyBuyList.DataLayer
 
         #region Menus
 
-        public Menu[] GetUserFavoritesMenus(int userId)
+        public menus[] GetUserFavoritesMenus(int userId)
         {
             return new MenusDA().GetUserFavoritesMenus(userId);
         }
 
-        public Menu[] SearchMenus(string searchValue)
+        public menus[] SearchMenus(string searchValue)
         {
             return new MenusDA().SearchMenus(searchValue);
         }
 
-        public Menu[] GetUserMenusList(int userId)
+        public menus[] GetUserMenusList(int userId)
         {
             return new MenusDA().GetUserMenusList(userId);
         }
 
-        public Menu[] GetMenusList(int userId)
+        public menus[] GetMenusList(int userId)
         {
             return new MenusDA().GetMenusList(userId);
         }
 
-        public Menu GetMenu(int menuId)
+        public menus GetMenu(int menuId)
         {
             return new MenusDA().GetMenu(menuId);
         }
 
-        public Menu GetMenuEx(int menuId)
+        public menus GetMenuEx(int menuId)
         {
             return new MenusDA().GetMenuEx(menuId);
         }
 
-        public MenuType[] GetMenuTypes()
+        public menutypes[] GetMenuTypes()
         {
             return new MenusDA().GetMenuTypes();
         }
 
-        public MenuType GetMenuType(int menuId)
+        public menutypes GetMenuType(int menuId)
         {
             return new MenusDA().GetMenuType(menuId);
         }
 
-        public Recipe[] GetMenuRecipes(int menuId)
+        public recipes[] GetMenuRecipes(int menuId)
         {
             return new MenusDA().GetMenuRecipes(menuId);
         }
 
-        public MealRecipe[] GetMenuMealsRecipes(int menulId)
+        public mealrecipes[] GetMenuMealsRecipes(int menulId)
         {
             return new MenusDA().GetMenuMealsRecipes(menulId);
         }
@@ -84,12 +84,12 @@ namespace MyBuyList.DataLayer
             return new MenusDA().CreateMenuEx(menuTypeId, userId, tempUser, menuName, description, isPublic, out menuId);
         }
 
-        public bool CreateMenuEx1(Menu menu, int tempUser, out int menuId)
+        public bool CreateMenuEx1(menus menu, int tempUser, out int menuId)
         {
             return new MenusDA().CreateMenuEx1(menu, tempUser, out menuId);
         }
 
-        public void CreateOrUpdateMenu(Menu menu, out int menuId)
+        public void CreateOrUpdateMenu(menus menu, out int menuId)
         {
             new MenusDA().CreateOrUpdateMenu(menu, out menuId);
         }
@@ -123,36 +123,36 @@ namespace MyBuyList.DataLayer
 
         #region Meals
 
-        public MealRecipe[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
+        public mealrecipes[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
         {
             return new MealsDA().GetMealsWeeklyList(menuId, startDayIndex, endDayIndex);
         }
 
-        public CourseType[] GetCourseTypes()
+        public coursetypes[] GetCourseTypes()
         {
             return new MealsDA().GetCourseTypes();
         }
 
-        public MealType[] GetMealTypes()
+        public mealtypes[] GetMealTypes()
         {
             return new MealsDA().GetMealTypes();
         }
-        public Meal[] GetMealsList(int menuId)
+        public meals[] GetMealsList(int menuId)
         {
             return new MealsDA().GetMealsList(menuId);
         }
 
-        public Meal GetMeal(int mealId)
+        public meals GetMeal(int mealId)
         {
             return new MealsDA().GetMeal(mealId);
         }
 
-        public Meal GetMeal(int menuId, int courseTypeId)
+        public meals GetMeal(int menuId, int courseTypeId)
         {
             return new MealsDA().GetMeal(menuId, courseTypeId);
         }
 
-        public Meal GetMeal(int menuId, int dayIndex, int mealTypeId)
+        public meals GetMeal(int menuId, int dayIndex, int mealTypeId)
         {
             return new MealsDA().GetMeal(menuId, dayIndex, mealTypeId);
         }
@@ -167,7 +167,7 @@ namespace MyBuyList.DataLayer
             return new MealsDA().SaveMeal(menuId, dayIndex, mealTypeId, diners);
         }
 
-        public MealRecipe[] GetMealRecipesList(int menuId, int dayIndex, int mealTypeId)
+        public mealrecipes[] GetMealRecipesList(int menuId, int dayIndex, int mealTypeId)
         {
             return new MealsDA().GetMealRecipesList(menuId, dayIndex, mealTypeId);
         }
@@ -192,7 +192,7 @@ namespace MyBuyList.DataLayer
             return new MealsDA().RemoveMealRecipe(mealId, recipeId);
         }
 
-        public MealRecipe GetMealRecipe(int mealId, int recipeId)
+        public mealrecipes GetMealRecipe(int mealId, int recipeId)
         {
             return new MealsDA().GetMealRecipe(mealId, recipeId);
         }
@@ -210,17 +210,17 @@ namespace MyBuyList.DataLayer
         #endregion Meals
 
         #region Recipes
-        public Recipe[] GetRecipesListByFoodId(int foodId)
+        public recipes[] GetRecipesListByFoodId(int foodId)
         {
             return new RecipesDA().GetRecipesListByFoodId(foodId);
         }
 
-        public IQueryable<Recipe> GetRecipesListByFreeText(string freeText)
+        public IQueryable<recipes> GetRecipesListByFreeText(string freeText)
         {
             return new RecipesDA().GetRecipesListByFreeText(freeText);
         }
 
-        public Recipe[] GetRecipesListByComplexSearch(string freeText, int? servings, int[] recipeCats, int userId)
+        public recipes[] GetRecipesListByComplexSearch(string freeText, int? servings, int[] recipeCats, int userId)
         {
             //return new RecipesDA().GetRecipesListByComplexSearch(freeText, servings, recipeCats, userId);
             return null;
@@ -231,33 +231,33 @@ namespace MyBuyList.DataLayer
             new RecipesDA().AllowRecipe(recipeId);
         }
 
-        public Recipe[] GetUserRecipesList(int userId)
+        public recipes[] GetUserRecipesList(int userId)
         {
             return new RecipesDA().GetUserRecipesList(userId);
         }
 
-        public Recipe[] GetUserFavoritesRecipes(int userId)
-        {
-            return new RecipesDA().GetUserFavoritesRecipes(userId);
-        }
+        //public recipes[] GetUserFavoritesRecipes(int userId)
+        //{
+        //    return new RecipesDA().GetUserFavoritesRecipes(userId);
+        //}
 
-        public Category[] GetRecipesCategoriesList()
+        public categories[] GetRecipesCategoriesList()
         {
             return new RecipesDA().GetRecipesCategoriesList();
         }
 
-        public Recipe[] GetRecipesByCategory(int categoryId, int userId)
+        public recipes[] GetRecipesByCategory(int categoryId, int userId)
         {
             //return new RecipesDA().GetRecipesByCategory(categoryId, userId);
             return null;
         }
 
-        public Recipe GetRecipe(int recipeId)
+        public recipes GetRecipe(int recipeId)
         {
             return new RecipesDA().GetRecipe(recipeId);
         }
 
-        public Recipe[] GetRecipesList()
+        public recipes[] GetRecipesList()
         {
             return new RecipesDA().GetRecipesList();
         }
@@ -272,7 +272,7 @@ namespace MyBuyList.DataLayer
         //    return new RecipesDA().GetRecipeIngredientsViewList(recipeId);
         //}
 
-        public Ingredient[] GetRecipeIngredientsList(int recipeId)
+        public ingredients[] GetRecipeIngredientsList(int recipeId)
         {
             return new RecipesDA().GetRecipeIngredientsList(recipeId);
         }
@@ -287,22 +287,22 @@ namespace MyBuyList.DataLayer
             return new RecipesDA().AddRecipeToUserFavorites(userId, recipeId, out favRecipesNum);
         }
 
-        public bool RemoveUserFavoritesRecipe(int userId, int recipeId, out int favRecipesNum)
-        {
-            return new RecipesDA().RemoveUserFavoritesRecipe(userId, recipeId, out favRecipesNum);
-        }
+        //public bool RemoveUserFavoritesRecipe(int userId, int recipeId, out int favRecipesNum)
+        //{
+        //    return new RecipesDA().RemoveUserFavoritesRecipe(userId, recipeId, out favRecipesNum);
+        //}
 
         public int DeleteRecipe(int recipeId)
         {
             return new RecipesDA().DeleteRecipe(recipeId);
         }
 
-        public bool SaveRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories, out int recipeId)
+        public bool SaveRecipe(recipes recipe, List<ingredients> ingridiants, List<SRL_RecipeCategory> categories, out int recipeId)
         {
             return new RecipesDA().SaveRecipe(recipe, ingridiants, categories, out recipeId);
         }
 
-        public bool UpdateRecipe(Recipe recipe, List<Ingredient> ingridiants, List<SRL_RecipeCategory> categories)
+        public bool UpdateRecipe(recipes recipe, List<ingredients> ingridiants, List<SRL_RecipeCategory> categories)
         {
             return new RecipesDA().UpdateRecipe(recipe, ingridiants, categories);
         }
@@ -331,7 +331,7 @@ namespace MyBuyList.DataLayer
             new ShoppingsListDA().RemoveItemFromShoppingList(userId, foodId);
         }
 
-        public ShopDepartment[] GetMenuShopDepartments(int menuId)
+        public shopdepartments[] GetMenuShopDepartments(int menuId)
         {
             return new ShoppingsListDA().GetMenuShopDepartments(menuId);
         }
@@ -341,7 +341,7 @@ namespace MyBuyList.DataLayer
             return new ShoppingsListDA().GetMenuShoppingList(menuId);
         }
 
-        public ShoppingListAdditionalItem[] GetShoppingListAdditionalItems(int menuId)
+        public shoppinglistadditionalitems[] GetShoppingListAdditionalItems(int menuId)
         {
             return new ShoppingsListDA().GetShoppingListAdditionalItems(menuId);
         }
@@ -361,7 +361,7 @@ namespace MyBuyList.DataLayer
             return new ShoppingsListDA().GetGeneralItemsList(prefixText);
         }
 
-        public List<UserShoppingList> GetShoppingList(int userId)
+        public List<usershoppinglist> GetShoppingList(int userId)
         {
             return new ShoppingsListDA().GetShoppingList(userId);
         }
@@ -379,7 +379,7 @@ namespace MyBuyList.DataLayer
             new MissingItemsListDA().AddListItem(name, quantity, measureUnit, userId);
         }
 
-        public IQueryable<MissingListDetail> GetMissingList(int userId)
+        public IQueryable<missinglistdetails> GetMissingList(int userId)
         {
             return new MissingItemsListDA().GetList(userId);
         }
@@ -495,27 +495,27 @@ namespace MyBuyList.DataLayer
             return new AdminDA().CheckDuplicateMCategoryName(categoryId, categoryName);
         }
 
-        public Category[] GetCategoriesList()
+        public categories[] GetCategoriesList()
         {
             return new AdminDA().GetCategoriesList();
         }
 
-        public MCategory[] GetMCategoriesList()
+        public mcategories[] GetMCategoriesList()
         {
             return new AdminDA().GetMCategoriesList();
         }
 
-        public Category GetCategory(int categoryId)
+        public categories GetCategory(int categoryId)
         {
             return new AdminDA().GetCategory(categoryId);
         }
 
-        public MCategory GetMenuCategory(int categoryId)
+        public mcategories GetMenuCategory(int categoryId)
         {
             return new AdminDA().GetMenuCategory(categoryId);
         }
 
-        public bool SaveCategory(Category category)
+        public bool SaveCategory(categories category)
         {
             return new AdminDA().SaveCategory(category);
         }
@@ -553,17 +553,17 @@ namespace MyBuyList.DataLayer
             return new AdminDA().CheckDuplicateFoodName(FoodId, FoodName);
         }
 
-        public FoodCategory[] GetFoodCategoriesList()
+        public foodcategories[] GetFoodCategoriesList()
         {
             return new AdminDA().GetFoodCategoriesList();
         }
 
-        public FoodCategory GetFoodCategory(int FoodCategoryId)
+        public foodcategories GetFoodCategory(int FoodCategoryId)
         {
             return new AdminDA().GetFoodCategory(FoodCategoryId);
         }
 
-        public bool SaveFoodCategory(FoodCategory FoodCategory)
+        public bool SaveFoodCategory(foodcategories  FoodCategory)
         {
             return new AdminDA().SaveFoodCategory(FoodCategory);
         }
@@ -579,23 +579,23 @@ namespace MyBuyList.DataLayer
         }
         #endregion FoodCategory
 
-        public Food[] GetFoodsList()
+        public food[] GetFoodsList()
         {
             return new AdminDA().GetFoodsList();
         }
 
-        public Food GetFood(string name)
+        public food GetFood(string name)
         {
             return new AdminDA().GetFood(name);
         }
 
-        public Food GetFood(int foodId)
+        public food GetFood(int foodId)
         {
             return new AdminDA().GetFood(foodId);
         }
 
 
-        public bool SaveFood(Food food)
+        public bool SaveFood(food food)
         {
             return new AdminDA().SaveFood(food);
         }
@@ -610,12 +610,12 @@ namespace MyBuyList.DataLayer
             return new AdminDA().CheckDuplicateShopDepartmentName(departmentId, departmentName);
         }
 
-        public ShopDepartment[] GetShopDepartmentsList()
+        public shopdepartments[] GetShopDepartmentsList()
         {
             return new AdminDA().GetShopDepartmentsList();
         }
 
-        public ShopDepartment GetShopDepartment(int departmentId)
+        public shopdepartments GetShopDepartment(int departmentId)
         {
             return new AdminDA().GetShopDepartment(departmentId);
         }
@@ -625,12 +625,12 @@ namespace MyBuyList.DataLayer
             return new AdminDA().DeleteShopDepartment(shopDepartmentId);
         }
 
-        public bool SaveShopDepartment(ShopDepartment department)
+        public bool SaveShopDepartment(shopdepartments department)
         {
             return new AdminDA().SaveShopDepartment(department);
         }
 
-        public bool ReorderShopDepartments(ShopDepartment[] arr)
+        public bool ReorderShopDepartments(shopdepartments[] arr)
         {
             return new AdminDA().ReorderShopDepartments(arr);
         }
@@ -641,12 +641,12 @@ namespace MyBuyList.DataLayer
             return new AdminDA().CheckDuplicateGeneralItemName(departmentId, departmentName);
         }
 
-        public GeneralItem[] GetGeneralItemsList()
+        public generalitems[] GetGeneralItemsList()
         {
             return new AdminDA().GetGeneralItemsList();
         }
 
-        public GeneralItem GetGeneralItem(int departmentId)
+        public generalitems GetGeneralItem(int departmentId)
         {
             return new AdminDA().GetGeneralItem(departmentId);
         }
@@ -656,12 +656,12 @@ namespace MyBuyList.DataLayer
             return new AdminDA().DeleteGeneralItem(GeneralItemId);
         }
 
-        public bool SaveGeneralItem(GeneralItem department)
+        public bool SaveGeneralItem(generalitems department)
         {
             return new AdminDA().SaveGeneralItem(department);
         }
 
-        public bool ReorderGeneralItems(GeneralItem[] arr)
+        public bool ReorderGeneralItems(generalitems[] arr)
         {
             return new AdminDA().ReorderGeneralItems(arr);
         }
@@ -672,12 +672,12 @@ namespace MyBuyList.DataLayer
             return new AdminDA().CheckDuplicateMeasurementUnitName(unitId, unitName);
         }
 
-        public MeasurementUnit[] GetMeasurementUnitsList()
+        public measurementunits[] GetMeasurementUnitsList()
         {
             return new AdminDA().GetMeasurementUnitsList();
         }
 
-        public MeasurementUnit GetMeasurementUnit(int unitId)
+        public measurementunits GetMeasurementUnit(int unitId)
         {
             return new AdminDA().GetMeasurementUnit(unitId);
         }
@@ -687,29 +687,29 @@ namespace MyBuyList.DataLayer
             return new AdminDA().DeleteMeasurementUnit(unitId);
         }
 
-        public bool SaveMeasurementUnit(MeasurementUnit unit)
+        public bool SaveMeasurementUnit(measurementunits unit)
         {
             return new AdminDA().SaveMeasurementUnit(unit);
         }
 
-        public bool ReorderMeasurementUnits(MeasurementUnit[] arr)
+        public bool ReorderMeasurementUnits(measurementunits[] arr)
         {
             return new AdminDA().ReorderMeasurementUnits(arr);
         }
 
-        public MeasurementUnitsConvert[] GetMeasurementUnitsConvertList()
+        public measurementunitsconverts[] GetMeasurementUnitsConvertList()
         {
             return new AdminDA().GetMeasurementUnitsConvertList();
         }
 
-        public bool SaveMeasurementUnitsConvert(MeasurementUnitsConvert unit)
+        public bool SaveMeasurementUnitsConvert(measurementunitsconverts unit)
         {
             return new AdminDA().SaveMeasurementUnitsConvert(unit);
         }
 
         #endregion Admin
 
-        public MeasurementUnitsConvert GetMeasurementUnitsConvert(int ConvertId)
+        public measurementunitsconverts GetMeasurementUnitsConvert(int ConvertId)
         {
             return new AdminDA().GetMeasurementUnitsConvert(ConvertId);
         }
@@ -719,22 +719,22 @@ namespace MyBuyList.DataLayer
             return new AdminDA().GetNextTempUser(anonymous);
         }
 
-        public User GetUserByName(string username)
+        public users GetUserByName(string username)
         {
             return new AdminDA().GetUserByName(username);
         }
 
-        public User GetUser(int Id)
+        public users GetUser(int Id)
         {
             return new AdminDA().GetUser(Id);
         }
 
-        public User GetUser(string userName, string password)
+        public users GetUser(string userName, string password)
         {
             return new AdminDA().GetUser(userName, password);
         }
 
-        public User GetUserEx(int Id)
+        public users GetUserEx(int Id)
         {
             return new AdminDA().GetUserEx(Id);
         }
@@ -746,22 +746,22 @@ namespace MyBuyList.DataLayer
 
 
 
-        public bool SaveUser(User currUser)
+        public bool SaveUser(users currUser)
         {
             return new AdminDA().SaveUser(currUser);
         }
 
-        public FoodCategory GetFoodCategoryByName(string name)
+        public foodcategories GetFoodCategoryByName(string name)
         {
             return new AdminDA().GetFoodCategoryByName(name);
         }
 
-        public MealRecipe[] GetMealRecipes(int mealId)
+        public mealrecipes[] GetMealRecipes(int mealId)
         {
             return new MealsDA().GetMealRecipes(mealId);
         }
 
-        public Menu[] GetMenusList(int userId, int tempUser)
+        public menus[] GetMenusList(int userId, int tempUser)
         {
             return new MenusDA().GetMenusList(userId, tempUser);
         }
@@ -798,32 +798,32 @@ namespace MyBuyList.DataLayer
             new AdminDA().ReplaceUserIds(sourceUserId, targetUserId);
         }
 
-        public IEnumerable<Recipe> GetRecipes(RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
+        public IEnumerable<recipes> GetRecipes(RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
         {
             return new RecipesDA().GetRecipes(orderBy, page, pageSize, out totalPages);
         }
 
-        public List<Recipe> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
+        public List<recipes> GetRecipesEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? servings, int[] recipeCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numRecipes)
         {
             return new RecipesDA().GetRecipesEx(display, userId, freeText, categoryId, servings, recipeCats, orderBy, page, pageSize, out totalPages, out numRecipes);
         }
 
-        public IEnumerable<Menu> GetMenus(int userid, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
+        public IEnumerable<menus> GetMenus(int userid, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
         {
             return new MenusDA().GetMenus(userid, orderBy, page, pageSize, out totalPages);
         }
 
-        public int? GetRecipeUserFavoritesCount(int recipeId)
-        {
-            return new RecipesDA().GetRecipeUserFavoritesCount(recipeId);
-        }
+        //public int? GetRecipeUserFavoritesCount(int recipeId)
+        //{
+        //    return new RecipesDA().GetRecipeUserFavoritesCount(recipeId);
+        //}
 
         public int? GetRecipeMenusCount(int recipeId)
         {
             return new RecipesDA().GetRecipeMenusCount(recipeId);
         }
 
-        public Meal[] GetMenuMeals(int menuId)
+        public meals[] GetMenuMeals(int menuId)
         {
             return new MenusDA().GetMenuMeals(menuId);
         }
@@ -833,12 +833,12 @@ namespace MyBuyList.DataLayer
             return new SettingsDA().GetMBLSettingsWrapper();
         }
 
-        public Article GetArticleById(int articleId)
+        public articles GetArticleById(int articleId)
         {
             return new AdminDA().GetArticleById(articleId);
         }
 
-        public Article[] GetArticlesList()
+        public articles[] GetArticlesList()
         {
             return new AdminDA().GetArticlesList();
         }
@@ -853,12 +853,12 @@ namespace MyBuyList.DataLayer
             return new MenusDA().RemoveMenuFromUserFavorites(userId, menuId, out favMenusNum);
         }
 
-        public IEnumerable<Menu> GetMenusEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? diners, int[] menuCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numMenus)
+        public IEnumerable<menus> GetMenusEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? diners, int[] menuCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numMenus)
         {
             return new MenusDA().GetMenusEx(display, userId, freeText, categoryId, diners, menuCats, orderBy, page, pageSize, out totalPages, out numMenus);
         }
 
-        public MCategory[] GetMenusCategoriesList(int userId)
+        public mcategories[] GetMenusCategoriesList(int userId)
         {
             return new MenusDA().GetMenusCategoriesList(userId);
         }
@@ -888,7 +888,7 @@ namespace MyBuyList.DataLayer
             new RecipesDA().AddRecipeToShoppingList(userId, recipeId);
         }
 
-        public IQueryable<RecipesInShoppingList> GetSelectedRecipes(int userId)
+        public IQueryable<recipesinshoppinglist> GetSelectedRecipes(int userId)
         {
             return new RecipesDA().GetSelectedRecipes(userId);
         }
@@ -928,7 +928,7 @@ namespace MyBuyList.DataLayer
         //    new SavedListDA().UpdateSavedListItem(id, quantity);
         //}
 
-        public IEnumerable<Recipe> SearchRecipes(string searchedText)
+        public IEnumerable<recipes> SearchRecipes(string searchedText)
         {
             return new RecipesDA().SearchRecipes(searchedText);
         }

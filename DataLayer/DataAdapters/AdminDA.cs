@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class AdminDA : BaseContextDataAdapter<MyBuyListEntities>
+    class AdminDA : BaseContextDataAdapter<mybuylistEntities>
     {
         #region Categories
 
@@ -15,7 +15,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.Categories.Any(cat => cat.CategoryId != categoryId &&
+                    return DataContext.categories.Any(cat => cat.CategoryId != categoryId &&
                                                              cat.CategoryName.Trim() == categoryName.Trim());
                 }
                 catch
@@ -31,7 +31,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.MCategories.Any(cat => cat.MCategoryId != categoryId &&
+                    return DataContext.mcategories.Any(cat => cat.MCategoryId != categoryId &&
                                                              cat.MCategoryName.Trim() == categoryName.Trim());
                 }
                 catch
@@ -41,13 +41,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Category[] GetCategoriesList()
+        internal categories[] GetCategoriesList()
         {
             using (DataContext)
             {
                 try
                 {
-                    var list = DataContext.Categories.OrderBy(cat => cat.SortOrder);
+                    var list = DataContext.categories.OrderBy(cat => cat.SortOrder);
                     //foreach (Category item in list)
                     //{
                     //    item.ParentCategories.Load();
@@ -61,13 +61,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MCategory[] GetMCategoriesList()
+        internal mcategories[] GetMCategoriesList()
         {
             using (DataContext)
             {
                 try
                 {
-                    var list = DataContext.MCategories.OrderBy(mcat => mcat.SortOrder);
+                    var list = DataContext.mcategories.OrderBy(mcat => mcat.SortOrder);
                    
                     return list.ToArray();
                 }
@@ -78,13 +78,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Category GetCategory(int categoryId)
+        internal categories GetCategory(int categoryId)
         {
             using (DataContext)
             {
                 try
                 {
-                    Category cat = DataContext.Categories.Single(c => c.CategoryId == categoryId);
+                    categories cat = DataContext.categories.Single(c => c.CategoryId == categoryId);
                     //cat.ParentCategory = DataContext.Categories.SingleOrDefault(c => c.CategoryId == cat.ParentCategoryId);
                     //cat.AllowDelete = (cat.RecipeCategories.Count == 0);
                     //if (cat.AllowDelete)
@@ -101,13 +101,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MCategory GetMenuCategory(int categoryId)
+        internal mcategories GetMenuCategory(int categoryId)
         {
             using (DataContext)
             {
                 try
                 {
-                    MCategory cat = DataContext.MCategories.Single(c => c.MCategoryId == categoryId);
+                    mcategories cat = DataContext.mcategories.Single(c => c.MCategoryId == categoryId);
                     //cat.ParentMCategory = DataContext.MCategories.SingleOrDefault(c => c.MCategoryId == cat.ParentMCategoryId);
                     //cat.AllowDelete = (cat.MenuCategories.Count == 0);
                     //if (cat.AllowDelete)
@@ -124,24 +124,24 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveCategory(Category category)
+        internal bool SaveCategory(categories category)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.Categories.Contains(category))
+                    if (!DataContext.categories.Contains(category))
                     {
                         category.CreatedDate = DateTime.Now;
-                        category.SortOrder = DataContext.Categories.Max(cat => cat.SortOrder) + 1;
+                        category.SortOrder = DataContext.categories.Max(cat => cat.SortOrder) + 1;
                         //DataContext.Categories.InsertOnSubmit(category);
-                        DataContext.Categories.Add(category);
+                        DataContext.categories.Add(category);
                     }
                     else
                     {
                         string categoryName = category.CategoryName;
                         int? parentCategoryId = category.ParentCategoryId;
-                        category = DataContext.Categories.Single(cat => cat.CategoryId == category.CategoryId);
+                        category = DataContext.categories.Single(cat => cat.CategoryId == category.CategoryId);
                         category.CategoryName = categoryName;
                         category.ParentCategoryId = parentCategoryId;
                     }
@@ -165,17 +165,17 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
 
-                    Category category = DataContext.Categories.SingleOrDefault(cat => cat.CategoryId == categoryId);
+                    categories category = DataContext.categories.SingleOrDefault(cat => cat.CategoryId == categoryId);
                     if (category == null)
                     {
-                        category = new Category();
+                        category = new categories();
                         category.CategoryName = categoryName;
                         category.ParentCategoryId = parentCategoryId;
                         category.CreatedDate = DateTime.Now;
                         category.ModifiedDate = DateTime.Now;
-                        category.SortOrder = DataContext.Categories.Max(cat => cat.SortOrder) + 1;
+                        category.SortOrder = DataContext.categories.Max(cat => cat.SortOrder) + 1;
                         //DataContext.Categories.InsertOnSubmit(category);
-                        DataContext.Categories.Add(category);
+                        DataContext.categories.Add(category);
                     }
                     else
                     {
@@ -202,16 +202,16 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
 
-                    MCategory category = DataContext.MCategories.SingleOrDefault(cat => cat.MCategoryId == categoryId);
+                    mcategories category = DataContext.mcategories.SingleOrDefault(cat => cat.MCategoryId == categoryId);
                     if (category == null)
                     {
-                        category = new MCategory();
+                        category = new mcategories();
                         category.MCategoryName = categoryName;
                         category.ParentMCategoryId = parentCategoryId;
                         category.CreatedDate = DateTime.Now;
                         category.ModifiedDate = DateTime.Now;
-                        category.SortOrder = DataContext.Categories.Max(cat => cat.SortOrder) + 1;
-                        DataContext.MCategories.Add(category);
+                        category.SortOrder = DataContext.categories.Max(cat => cat.SortOrder) + 1;
+                        DataContext.mcategories.Add(category);
                         //DataContext.MCategories.InsertOnSubmit(category);
                     }
                     else
@@ -238,8 +238,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Category category = DataContext.Categories.Single(cat => cat.CategoryId == categoryId);
-                    DataContext.Categories.Remove(category);
+                    categories category = DataContext.categories.Single(cat => cat.CategoryId == categoryId);
+                    DataContext.categories.Remove(category);
                     DataContext.SaveChanges();
                     //DataContext.Categories.DeleteOnSubmit(category);
                     //DataContext.SubmitChanges();
@@ -259,8 +259,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    MCategory category = DataContext.MCategories.Single(cat => cat.MCategoryId == categoryId);
-                    DataContext.MCategories.Remove(category);
+                    mcategories category = DataContext.mcategories.Single(cat => cat.MCategoryId == categoryId);
+                    DataContext.mcategories.Remove(category);
                     DataContext.SaveChanges();
                     //DataContext.MCategories.DeleteOnSubmit(category);
                     //DataContext.SubmitChanges();
@@ -284,7 +284,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.FoodCategories.Any(cat => cat.FoodCategoryId != FoodCategoryId &&
+                    return DataContext.foodcategories.Any(cat => cat.FoodCategoryId != FoodCategoryId &&
                                                              cat.FoodCategoryName.Trim() == FoodCategoryName.Trim());
                 }
                 catch
@@ -300,7 +300,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.Foods.Any(f => f.FoodId != FoodId &&
+                    return DataContext.food.Any(f => f.FoodId != FoodId &&
                                                              f.FoodName.Trim() == FoodName.Trim());
                 }
                 catch
@@ -310,13 +310,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal FoodCategory[] GetFoodCategoriesList()
+        internal foodcategories[] GetFoodCategoriesList()
         {
             using (DataContext)
             {
                 try
                 {
-                    var list = DataContext.FoodCategories.OrderBy(fcat => fcat.SortOrder);
+                    var list = DataContext.foodcategories.OrderBy(fcat => fcat.SortOrder);
                     //foreach (FoodCategory item in list)
                     //{
                     //    item.FoodCategories.Load();
@@ -330,13 +330,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal FoodCategory GetFoodCategory(int FoodCategoryId)
+        internal foodcategories GetFoodCategory(int FoodCategoryId)
         {
             using (DataContext)
             {
                 try
                 {
-                    FoodCategory cat = DataContext.FoodCategories.Single(c => c.FoodCategoryId == FoodCategoryId);
+                    foodcategories cat = DataContext.foodcategories.Single(c => c.FoodCategoryId == FoodCategoryId);
                     //cat.ParentFoodCategory = DataContext.FoodCategories.SingleOrDefault(c => c.FoodCategoryId == cat.ParentCategoryId);
                     //cat.AllowDelete = (cat.FoodCategories.Count == 0);
                     //if (cat.AllowDelete)
@@ -353,24 +353,24 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveFoodCategory(FoodCategory FoodCategory)
+        internal bool SaveFoodCategory(foodcategories FoodCategory)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.FoodCategories.Contains(FoodCategory))
+                    if (!DataContext.foodcategories.Contains(FoodCategory))
                     {
                         FoodCategory.CreatedDate = DateTime.Now;
-                        FoodCategory.SortOrder = DataContext.FoodCategories.Max(cat => cat.SortOrder) + 1;
-                        DataContext.FoodCategories.Add(FoodCategory);
+                        FoodCategory.SortOrder = DataContext.foodcategories.Max(cat => cat.SortOrder) + 1;
+                        DataContext.foodcategories.Add(FoodCategory);
                         //DataContext.FoodCategories.InsertOnSubmit(FoodCategory);
                     }
                     else
                     {
                         string FoodCategoryName = FoodCategory.FoodCategoryName;
                         int? ParentCategoryId = FoodCategory.ParentCategoryId;
-                        FoodCategory = DataContext.FoodCategories.Single(cat => cat.FoodCategoryId == FoodCategory.FoodCategoryId);
+                        FoodCategory = DataContext.foodcategories.Single(cat => cat.FoodCategoryId == FoodCategory.FoodCategoryId);
                         FoodCategory.FoodCategoryName = FoodCategoryName;
                         FoodCategory.ParentCategoryId = ParentCategoryId;
                     }
@@ -396,16 +396,16 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
 
-                    FoodCategory FoodCategory = DataContext.FoodCategories.SingleOrDefault(cat => cat.FoodCategoryId == FoodCategoryId);
+                    foodcategories FoodCategory = DataContext.foodcategories.SingleOrDefault(cat => cat.FoodCategoryId == FoodCategoryId);
                     if (FoodCategory == null)
                     {
-                        FoodCategory = new FoodCategory();
+                        FoodCategory = new foodcategories();
                         FoodCategory.FoodCategoryName = FoodCategoryName;
                         FoodCategory.ParentCategoryId = ParentCategoryId;
                         FoodCategory.CreatedDate = DateTime.Now;
                         FoodCategory.ModifiedDate = DateTime.Now;
-                        FoodCategory.SortOrder = DataContext.FoodCategories.Max(cat => cat.SortOrder) + 1;
-                        DataContext.FoodCategories.Add(FoodCategory);
+                        FoodCategory.SortOrder = DataContext.foodcategories.Max(cat => cat.SortOrder) + 1;
+                        DataContext.foodcategories.Add(FoodCategory);
                         //DataContext.FoodCategories.InsertOnSubmit(FoodCategory);
                     }
                     else
@@ -432,8 +432,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    FoodCategory FoodCategory = DataContext.FoodCategories.Single(cat => cat.FoodCategoryId == FoodCategoryId);
-                    DataContext.FoodCategories.Remove(FoodCategory);
+                    foodcategories FoodCategory = DataContext.foodcategories.Single(cat => cat.FoodCategoryId == FoodCategoryId);
+                    DataContext.foodcategories.Remove(FoodCategory);
                     DataContext.SaveChanges();
                     //DataContext.FoodCategories.DeleteOnSubmit(FoodCategory);
                     //DataContext.SubmitChanges();
@@ -451,31 +451,31 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         #region Foods
 
-        internal Food[] GetFoodsList()
+        internal food[] GetFoodsList()
         {
             //DataLoadOptions dlo = new DataLoadOptions();
             //dlo.LoadWith<Food>(f => f.Ingredients);
             //DataContext.LoadOptions = dlo;
-            var list = DataContext.Foods.OrderBy(f => f.FoodName);
+            var list = DataContext.food.OrderBy(f => f.FoodName);
             return list.ToArray();
         }
 
-        internal Food GetFood(int foodId)
+        internal food GetFood(int foodId)
         {
             using (DataContext)
             {
-                Food food = DataContext.Foods.Single(f => f.FoodId == foodId);
+                food food = DataContext.food.Single(f => f.FoodId == foodId);
                 return food;
             }
         }
 
-        internal Food GetFood(string name)
+        internal food GetFood(string name)
         {
             using (DataContext)
             {
                 try
                 {
-                    Food food = DataContext.Foods.SingleOrDefault(f => f.FoodName.Trim() == name);
+                    food food = DataContext.food.SingleOrDefault(f => f.FoodName.Trim() == name);
                     return food;
                 }
                 catch
@@ -485,23 +485,23 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveFood(Food food)
+        internal bool SaveFood(food food)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.Foods.Contains(food))
+                    if (!DataContext.food.Contains(food))
                     {
                         food.CreatedDate = DateTime.Now;
                         food.IsTemporary = true;
-                        DataContext.Foods.Add(food);
+                        DataContext.food.Add(food);
                         //DataContext.Foods.InsertOnSubmit(food);
                     }
                     else
                     {
                         food.IsTemporary = false;
-                        DataContext.Foods.Attach(food);
+                        DataContext.food.Attach(food);
                         //DataContext.Refresh(RefreshMode.KeepCurrentValues, food);
                     }
 
@@ -527,7 +527,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.ShopDepartments.Any(sd => sd.ShopDepartmentId != departmentId &&
+                    return DataContext.shopdepartments.Any(sd => sd.ShopDepartmentId != departmentId &&
                                                                  sd.ShopDepartmentName.Trim() == departmentName.Trim());
                 }
                 catch
@@ -537,13 +537,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal ShopDepartment GetShopDepartment(int departmentId)
+        internal shopdepartments GetShopDepartment(int departmentId)
         {
             using (DataContext)
             {
                 try
                 {
-                    ShopDepartment dep = DataContext.ShopDepartments.Single(sd => sd.ShopDepartmentId == departmentId);
+                    shopdepartments dep = DataContext.shopdepartments.Single(sd => sd.ShopDepartmentId == departmentId);
                     return dep;
                 }
                 catch
@@ -553,7 +553,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal ShopDepartment[] GetShopDepartmentsList()
+        internal shopdepartments[] GetShopDepartmentsList()
         {
             using (DataContext)
             {
@@ -565,7 +565,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     //DataContext.LoadOptions = dlo;
 
-                    var list = DataContext.ShopDepartments.OrderBy(sd => sd.SortOrder);
+                    var list = DataContext.shopdepartments.OrderBy(sd => sd.SortOrder);
                     return list.ToArray();
                 }
                 catch
@@ -580,20 +580,20 @@ namespace MyBuyList.DataLayer.DataAdapters
             using (DataContext)
             {
                 DataLoadOptions dlo = new DataLoadOptions();
-                dlo.LoadWith<ShopDepartment>(sd => sd.FoodCategories);
+                dlo.LoadWith<shopdepartments>(sd => sd.foodcategories);
 
 
                 //DataContext.LoadOptions = dlo;
                 try
                 {
-                    ShopDepartment department = DataContext.ShopDepartments.Single(sd => sd.ShopDepartmentId == shopDepartmentId);
-                    FoodCategory[] depFoodCat = department.FoodCategories.ToArray<FoodCategory>();
-                    foreach (FoodCategory curr in depFoodCat)
+                    shopdepartments department = DataContext.shopdepartments.Single(sd => sd.ShopDepartmentId == shopDepartmentId);
+                    foodcategories[] depFoodCat = department.foodcategories.ToArray<foodcategories>();
+                    foreach (foodcategories curr in depFoodCat)
                     {
                         this.DeleteFoodCategory(curr.FoodCategoryId);
                     }
 
-                    DataContext.ShopDepartments.Remove(department);
+                    DataContext.shopdepartments.Remove(department);
                     DataContext.SaveChanges();
                     //DataContext.ShopDepartments.DeleteOnSubmit(department);
                     //DataContext.SubmitChanges();
@@ -607,23 +607,23 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveShopDepartment(ShopDepartment department)
+        internal bool SaveShopDepartment(shopdepartments department)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.ShopDepartments.Contains(department))
+                    if (!DataContext.shopdepartments.Contains(department))
                     {
                         department.CreatedDate = DateTime.Now;
-                        department.SortOrder = DataContext.ShopDepartments.Max(d => d.SortOrder) + 1;
-                        DataContext.ShopDepartments.Add(department);
+                        department.SortOrder = DataContext.shopdepartments.Max(d => d.SortOrder) + 1;
+                        DataContext.shopdepartments.Add(department);
                         //DataContext.ShopDepartments.InsertOnSubmit(department);
                     }
                     else
                     {
                         string departmentName = department.ShopDepartmentName;
-                        department = DataContext.ShopDepartments.Single(d => d.ShopDepartmentId == department.ShopDepartmentId);
+                        department = DataContext.shopdepartments.Single(d => d.ShopDepartmentId == department.ShopDepartmentId);
                         department.ShopDepartmentName = departmentName;
                     }
 
@@ -639,15 +639,15 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool ReorderShopDepartments(ShopDepartment[] arr)
+        internal bool ReorderShopDepartments(shopdepartments[] arr)
         {
             using (DataContext)
             {
                 try
                 {
-                    foreach (ShopDepartment item in arr)
+                    foreach (shopdepartments item in arr)
                     {
-                        ShopDepartment dep = DataContext.ShopDepartments.Single(sd => sd.ShopDepartmentId == item.ShopDepartmentId);
+                        shopdepartments dep = DataContext.shopdepartments.Single(sd => sd.ShopDepartmentId == item.ShopDepartmentId);
                         dep.SortOrder = item.SortOrder;
                         dep.ModifiedDate = DateTime.Now;
                         DataContext.SaveChanges();
@@ -672,7 +672,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.GeneralItems.Any(sd => sd.GeneralItemId != ItemId &&
+                    return DataContext.generalitems.Any(sd => sd.GeneralItemId != ItemId &&
                                                                  sd.GeneralItemName.Trim() == ItemName.Trim());
                 }
                 catch
@@ -682,7 +682,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal GeneralItem GetGeneralItem(int ItemId)
+        internal generalitems GetGeneralItem(int ItemId)
         {
             using (DataContext)
             {
@@ -692,7 +692,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //dlo.LoadWith<GeneralItem>(sd => sd.ShoppingListAdditionalItems);
                     //DataContext.LoadOptions = dlo;
 
-                    GeneralItem dep = DataContext.GeneralItems.Single(sd => sd.GeneralItemId == ItemId);
+                    generalitems dep = DataContext.generalitems.Single(sd => sd.GeneralItemId == ItemId);
                     return dep;
                 }
                 catch
@@ -702,7 +702,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal GeneralItem[] GetGeneralItemsList()
+        internal generalitems[] GetGeneralItemsList()
         {
             using (DataContext)
             {
@@ -712,7 +712,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //dlo.LoadWith<GeneralItem>(sd => sd.ShoppingListAdditionalItems);
                     //DataContext.LoadOptions = dlo;
 
-                    var list = DataContext.GeneralItems.OrderBy(sd => sd.SortOrder);
+                    var list = DataContext.generalitems.OrderBy(sd => sd.SortOrder);
                     return list.ToArray();
                 }
                 catch
@@ -728,8 +728,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    GeneralItem Item = DataContext.GeneralItems.Single(sd => sd.GeneralItemId == GeneralItemId);
-                    DataContext.GeneralItems.Remove(Item);
+                    generalitems Item = DataContext.generalitems.Single(sd => sd.GeneralItemId == GeneralItemId);
+                    DataContext.generalitems.Remove(Item);
                     DataContext.SaveChanges();
                     //DataContext.GeneralItems.DeleteOnSubmit(Item);
                     //DataContext.SubmitChanges();
@@ -743,23 +743,23 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveGeneralItem(GeneralItem Item)
+        internal bool SaveGeneralItem(generalitems Item)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.GeneralItems.Contains(Item))
+                    if (!DataContext.generalitems.Contains(Item))
                     {
                         // Item.CreatedDate = DateTime.Now;
-                        Item.SortOrder = DataContext.GeneralItems.Max(d => d.SortOrder) + 1;
-                        DataContext.GeneralItems.Add(Item);
+                        Item.SortOrder = DataContext.generalitems.Max(d => d.SortOrder) + 1;
+                        DataContext.generalitems.Add(Item);
                         //DataContext.GeneralItems.InsertOnSubmit(Item);
                     }
                     else
                     {
                         string ItemName = Item.GeneralItemName;
-                        Item = DataContext.GeneralItems.Single(d => d.GeneralItemId == Item.GeneralItemId);
+                        Item = DataContext.generalitems.Single(d => d.GeneralItemId == Item.GeneralItemId);
                         Item.GeneralItemName = ItemName;
                     }
 
@@ -775,15 +775,15 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool ReorderGeneralItems(GeneralItem[] arr)
+        internal bool ReorderGeneralItems(generalitems[] arr)
         {
             using (DataContext)
             {
                 try
                 {
-                    foreach (GeneralItem item in arr)
+                    foreach (generalitems item in arr)
                     {
-                        GeneralItem dep = DataContext.GeneralItems.Single(sd => sd.GeneralItemId == item.GeneralItemId);
+                        generalitems dep = DataContext.generalitems.Single(sd => sd.GeneralItemId == item.GeneralItemId);
                         dep.SortOrder = item.SortOrder;
                         //dep.ModifiedDate = DateTime.Now;
                         DataContext.SaveChanges();
@@ -808,7 +808,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    return DataContext.MeasurementUnits.Any(mu => mu.UnitId != unitId &&
+                    return DataContext.measurementunits.Any(mu => mu.UnitId != unitId &&
                                                                   mu.UnitName.Trim() == unitName.Trim());
                 }
                 catch
@@ -818,13 +818,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MeasurementUnit GetMeasurementUnit(int unitId)
+        internal measurementunits GetMeasurementUnit(int unitId)
         {
             using (DataContext)
             {
                 try
                 {
-                    MeasurementUnit unit = DataContext.MeasurementUnits.Single(mu => mu.UnitId == unitId);
+                    measurementunits unit = DataContext.measurementunits.Single(mu => mu.UnitId == unitId);
                     return unit;
                 }
                 catch
@@ -834,13 +834,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MeasurementUnit[] GetMeasurementUnitsList()
+        internal measurementunits[] GetMeasurementUnitsList()
         {
             using (DataContext)
             {
                 try
                 {
-                    return DataContext.MeasurementUnits.ToArray();
+                    return DataContext.measurementunits.ToArray();
                 }
                 catch
                 {
@@ -855,8 +855,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    MeasurementUnit unit = DataContext.MeasurementUnits.Single(mu => mu.UnitId == unitId);
-                    DataContext.MeasurementUnits.Remove(unit);
+                    measurementunits unit = DataContext.measurementunits.Single(mu => mu.UnitId == unitId);
+                    DataContext.measurementunits.Remove(unit);
                     DataContext.SaveChanges();
                     //DataContext.MeasurementUnits.DeleteOnSubmit(unit);
                     //DataContext.SubmitChanges();
@@ -870,23 +870,23 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool SaveMeasurementUnit(MeasurementUnit unit)
+        internal bool SaveMeasurementUnit(measurementunits unit)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.MeasurementUnits.Contains(unit))
+                    if (!DataContext.measurementunits.Contains(unit))
                     {
                         unit.CreatedDate = DateTime.Now;
-                        unit.SortOrder = DataContext.MeasurementUnits.Max(mu => mu.SortOrder) + 1;
-                        DataContext.MeasurementUnits.Add(unit);
+                        unit.SortOrder = DataContext.measurementunits.Max(mu => mu.SortOrder) + 1;
+                        DataContext.measurementunits.Add(unit);
                         //DataContext.MeasurementUnits.InsertOnSubmit(unit);
                     }
                     else
                     {
                         string unitName = unit.UnitName;
-                        unit = DataContext.MeasurementUnits.Single(mu => mu.UnitId == unit.UnitId);
+                        unit = DataContext.measurementunits.Single(mu => mu.UnitId == unit.UnitId);
                         unit.UnitName = unitName;
                     }
 
@@ -902,15 +902,15 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool ReorderMeasurementUnits(MeasurementUnit[] arr)
+        internal bool ReorderMeasurementUnits(measurementunits[] arr)
         {
             using (DataContext)
             {
                 try
                 {
-                    foreach (MeasurementUnit item in arr)
+                    foreach (measurementunits item in arr)
                     {
-                        MeasurementUnit unit = DataContext.MeasurementUnits.Single(mu => mu.UnitId == item.UnitId);
+                        measurementunits unit = DataContext.measurementunits.Single(mu => mu.UnitId == item.UnitId);
                         unit.SortOrder = item.SortOrder;
                         unit.ModifiedDate = DateTime.Now;
                         DataContext.SaveChanges();
@@ -928,22 +928,22 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         #endregion MeasurementUnits
 
-        internal bool SaveMeasurementUnitsConvert(MeasurementUnitsConvert convert)
+        internal bool SaveMeasurementUnitsConvert(measurementunitsconverts convert)
         {
             using (DataContext)
             {
                 try
                 {
-                    if (!DataContext.MeasurementUnitsConverts.Contains(convert))
+                    if (!DataContext.measurementunitsconverts.Contains(convert))
                     {
                         convert.CreatedDate = DateTime.Now;
                         convert.ModifiedDate = DateTime.Now;
-                        DataContext.MeasurementUnitsConverts.Add(convert);
+                        DataContext.measurementunitsconverts.Add(convert);
                         //DataContext.MeasurementUnitsConverts.InsertOnSubmit(convert);
                     }
                     else
                     {
-                        MeasurementUnitsConvert itemToSave = DataContext.MeasurementUnitsConverts.Single(muc => muc.ConvertId == convert.ConvertId);
+                        measurementunitsconverts itemToSave = DataContext.measurementunitsconverts.Single(muc => muc.ConvertId == convert.ConvertId);
                         itemToSave.FoodId = convert.FoodId;
                         itemToSave.FromUnitId = convert.FromUnitId;
                         itemToSave.FromQuantity = convert.FromQuantity;
@@ -963,7 +963,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MeasurementUnitsConvert[] GetMeasurementUnitsConvertList()
+        internal measurementunitsconverts[] GetMeasurementUnitsConvertList()
         {
             using (DataContext)
             {
@@ -976,7 +976,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                 try
                 {
-                    var list = DataContext.MeasurementUnitsConverts.OrderBy(sd => sd.SortOrder);
+                    var list = DataContext.measurementunitsconverts.OrderBy(sd => sd.SortOrder);
                     return list.ToArray();
                 }
                 catch
@@ -986,7 +986,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MeasurementUnitsConvert GetMeasurementUnitsConvert(int id)
+        internal measurementunitsconverts GetMeasurementUnitsConvert(int id)
         {
             using (DataContext)
             {
@@ -998,7 +998,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                 try
                 {
-                    MeasurementUnitsConvert unit = DataContext.MeasurementUnitsConverts.SingleOrDefault(mu => mu.ConvertId == id);
+                    measurementunitsconverts unit = DataContext.measurementunitsconverts.SingleOrDefault(mu => mu.ConvertId == id);
 
                     return unit;
                 }
@@ -1009,7 +1009,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal User GetUserByName(string Name)
+        internal users GetUserByName(string Name)
         {
             using (DataContext)
             {
@@ -1025,7 +1025,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
 
-                    User user = DataContext.Users.SingleOrDefault(u => u.Name.Trim() == Name.Trim());
+                    users user = DataContext.users.SingleOrDefault(u => u.Name.Trim() == Name.Trim());
 
                     return user;
                 }
@@ -1043,7 +1043,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
                     //int anonymous = int.Parse(ConfigurationManager.AppSettings["anonymous"]);
-                    int? lastTempUser = (from m in DataContext.Menus
+                    int? lastTempUser = (from m in DataContext.menus
                                          where m.UserId == anonymous
                                          select m.TempUserId)
                                         .Max();
@@ -1078,7 +1078,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                 try
                 {
-                    return DataContext.Users.Count();
+                    return DataContext.users.Count();
                 }
                 catch
                 {
@@ -1087,13 +1087,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal User GetUser(int Id)
+        internal users GetUser(int Id)
         {
             //using (DataContext)
             //{
                 try
                 {
-                    User user = DataContext.Users.SingleOrDefault(u => u.UserId == Id);
+                users user = DataContext.users.SingleOrDefault(u => u.UserId == Id);
 
                     return user;
                 }
@@ -1104,16 +1104,16 @@ namespace MyBuyList.DataLayer.DataAdapters
             //}
         }
 
-        internal User GetUser(string userName, string password)
+        internal users GetUser(string userName, string password)
         {
             //using (DataContext)
             //{
-                User user = DataContext.Users.SingleOrDefault(u => u.Name == userName && u.Password == password);
+            users user = DataContext.users.SingleOrDefault(u => u.Name == userName && u.Password == password);
                 return user;
             //}
         }
 
-        internal User GetUserEx(int Id)
+        internal users GetUserEx(int Id)
         {
             using (DataContext)
             {
@@ -1126,7 +1126,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                 try
                 {
-                    User user = DataContext.Users.SingleOrDefault(u => u.UserId == Id);
+                    users user = DataContext.users.SingleOrDefault(u => u.UserId == Id);
 
                     return user;
                 }
@@ -1138,22 +1138,22 @@ namespace MyBuyList.DataLayer.DataAdapters
         }
 
 
-        internal bool SaveUser(User userToSave)
+        internal bool SaveUser(users userToSave)
         {
             using (DataContext)
             {
-                User user = DataContext.Users.SingleOrDefault(p => p.Name == userToSave.Name && p.Password == userToSave.Password);
+                users user = DataContext.users.SingleOrDefault(p => p.Name == userToSave.Name && p.Password == userToSave.Password);
                 if (user == null)
                 {
                     DateTime currentDate = DateTime.Now;
                     userToSave.UserId = 0;
 
-                    DataContext.Users.Add(userToSave);
+                    DataContext.users.Add(userToSave);
                     //DataContext.Users.InsertOnSubmit(userToSave);
                 }
                 else
                 {
-                    User update = DataContext.Users.Single(u => u.UserId == userToSave.UserId);
+                    users update = DataContext.users.Single(u => u.UserId == userToSave.UserId);
                     update.DisplayName = userToSave.DisplayName;
                     update.Email = userToSave.Email;
                     update.FirstName = userToSave.FirstName;
@@ -1169,13 +1169,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal FoodCategory GetFoodCategoryByName(string name)
+        internal foodcategories GetFoodCategoryByName(string name)
         {
             using (DataContext)
             {
                 try
                 {
-                    FoodCategory cat = DataContext.FoodCategories.Single(c => c.FoodCategoryName == name.Trim());
+                    foodcategories cat = DataContext.foodcategories.Single(c => c.FoodCategoryName == name.Trim());
                     //cat.ParentFoodCategory = DataContext.FoodCategories.SingleOrDefault(c => c.FoodCategoryId == cat.ParentCategoryId);
                     //cat.AllowDelete = (cat.FoodCategories.Count == 0);
                     //if (cat.AllowDelete)
@@ -1197,7 +1197,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             using (DataContext)
             {
                 // foods
-                var foods = from f in DataContext.Foods
+                var foods = from f in DataContext.food
                             where f.CreatedBy == sourceUserId
                             select f;
 
@@ -1206,7 +1206,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     food.CreatedBy = targetUserId;
                 }
 
-                var foods2 = from f in DataContext.Foods
+                var foods2 = from f in DataContext.food
                              where f.ModifiedBy == sourceUserId
                              select f;
 
@@ -1216,7 +1216,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
 
                 // menus
-                var menus = from m in DataContext.Menus
+                var menus = from m in DataContext.menus
                             where m.UserId == sourceUserId
                             select m;
 
@@ -1226,7 +1226,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
 
                 // recipes
-                var recipes = from r in DataContext.Recipes
+                var recipes = from r in DataContext.recipes
                               where r.UserId == sourceUserId
                               select r;
 
@@ -1260,8 +1260,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Food Item = DataContext.Foods.Single(f => f.FoodId == foodId);
-                    DataContext.Foods.Remove(Item);
+                    food Item = DataContext.food.Single(f => f.FoodId == foodId);
+                    DataContext.food.Remove(Item);
                     DataContext.SaveChanges();
                     //DataContext.Foods.DeleteOnSubmit(Item);
                     //DataContext.SubmitChanges();
@@ -1274,7 +1274,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Article GetArticleById(int articleId)
+        internal articles GetArticleById(int articleId)
         {
             using (DataContext)
             {
@@ -1284,7 +1284,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //dlo.LoadWith<Article>(art => art.ArticleId);
                     //DataContext.LoadOptions = dlo;
 
-                    Article article = DataContext.Articles.SingleOrDefault(a => a.ArticleId == articleId );
+                    articles article = DataContext.articles.SingleOrDefault(a => a.ArticleId == articleId );
 
                     return article;
                 }
@@ -1295,7 +1295,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Article[] GetArticlesList()
+        internal articles[] GetArticlesList()
         {
             using (DataContext)
             {
@@ -1305,7 +1305,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //dlo.LoadWith<Article>(art => art.ArticleId);
                     //DataContext.LoadOptions = dlo;
 
-                    var list = from ar in DataContext.Articles.Where(ar => ar.ArticleId != 6 )
+                    var list = from ar in DataContext.articles.Where(ar => ar.ArticleId != 6 )
                                select ar;
 
                     return list.ToArray();                    
@@ -1328,13 +1328,13 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //dlo.LoadWith<Article>(art => art.ArticleId);
                     //DataContext.LoadOptions = dlo;
 
-                    Article article = DataContext.Articles.SingleOrDefault(art => art.ArticleId == id);
+                    articles article = DataContext.articles.SingleOrDefault(art => art.ArticleId == id);
 
                     bool isNew = false;
 
                     if (article == null)
                     {
-                        article = new Article();
+                        article = new articles();
                         article.CreatedDate = DateTime.Now;
                         isNew = true;
                     }
@@ -1347,7 +1347,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     if (isNew)
                     {
-                        DataContext.Articles.Add(article);
+                        DataContext.articles.Add(article);
                         //DataContext.Articles.InsertOnSubmit(article);
                     }
 

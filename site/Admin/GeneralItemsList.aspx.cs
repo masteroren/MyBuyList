@@ -6,10 +6,10 @@ using System.Web.UI.WebControls;
 
 public partial class PageGeneralItemsList : BasePage
 {
-    GeneralItem[] Data
+    generalitems[] Data
     {
-        get { return (GeneralItem[]) this.Cache["GeneralItems"]; }
-        set { this.Cache["GeneralItems"] = value; }
+        get { return (generalitems[]) Cache["GeneralItems"]; }
+        set { Cache["GeneralItems"] = value; }
     }
     
     protected void Page_Load(object sender, EventArgs e)
@@ -22,16 +22,16 @@ public partial class PageGeneralItemsList : BasePage
             }
             else
             {
-                this.Rebind();
+                Rebind();
             }     
         }
     }
 
     private void Rebind()
     {
-        this.Data = BusinessFacade.Instance.GetGeneralItemsList();
-        this.rolGeneralItems.DataSource = this.Data;
-        this.rolGeneralItems.DataBind();
+        Data = BusinessFacade.Instance.GetGeneralItemsList();
+        rolGeneralItems.DataSource = Data;
+        rolGeneralItems.DataBind();
     }
 
 
@@ -39,10 +39,10 @@ public partial class PageGeneralItemsList : BasePage
     {
         ReorderListItem rolItem = e.Item as ReorderListItem;
         LinkButton btn = rolItem.FindControl("btnUpdate") as LinkButton;
-        GeneralItem Item = e.Item.DataItem as GeneralItem;
+        generalitems Item = e.Item.DataItem as generalitems;
         if (Item != null)
         {
-            btn.PostBackUrl = string.Format("~/Admin/GeneralItem.aspx?ItemId={0}", Item.GeneralItemId);
+            btn.PostBackUrl = string.Format("~/Admin/generalitems.aspx?ItemId={0}", Item.GeneralItemId);
         }
 
         btn = rolItem.FindControl("btnDelete") as LinkButton;
@@ -58,19 +58,19 @@ public partial class PageGeneralItemsList : BasePage
             int ItemId = int.Parse(btn.Attributes["ItemId"]);
             if (BusinessFacade.Instance.DeleteGeneralItem(ItemId))
             {
-                this.Rebind();
+                Rebind();
             }
         }
     }
 
     protected void rolGeneralItems_ItemReorder(object sender, ReorderListItemReorderEventArgs e)
     {
-       this.DoReorder(e.OldIndex, e.NewIndex);
+       DoReorder(e.OldIndex, e.NewIndex);
     }
 
     private void DoReorder(int oldIndex, int newIndex)
     {
-        GeneralItem[] arr = this.Data;
+        generalitems[] arr = Data;
 
         if (oldIndex < newIndex) //item moved down
         {
@@ -97,7 +97,7 @@ public partial class PageGeneralItemsList : BasePage
 
         if (BusinessFacade.Instance.ReorderGeneralItems(arr))
         {
-            this.Rebind();
+            Rebind();
         }
     }
 }

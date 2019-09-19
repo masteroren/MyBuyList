@@ -12,7 +12,7 @@ namespace MyBuyList.Shared
     using System;
     using System.Collections.Generic;
     
-    public partial class Log
+    public partial class log
     {
         public int Id { get; set; }
         public System.DateTime Date { get; set; }

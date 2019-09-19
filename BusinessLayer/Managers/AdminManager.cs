@@ -17,27 +17,27 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.CheckDuplicateMCategoryName(categoryId, categoryName);
         }
 
-        internal Category[] GetCategoriesList()
+        internal categories[] GetCategoriesList()
         {
             return DataFacade.Instance.GetCategoriesList();
         }
 
-        internal MCategory[] GetMCategoriesList()
+        internal mcategories[] GetMCategoriesList()
         {
             return DataFacade.Instance.GetMCategoriesList();
         }
 
-        internal Category GetCategory(int categoryId)
+        internal categories GetCategory(int categoryId)
         {
             return DataFacade.Instance.GetCategory(categoryId);
         }
 
-        internal MCategory GetMenuCategory(int categoryId)
+        internal mcategories GetMenuCategory(int categoryId)
         {
             return DataFacade.Instance.GetMenuCategory(categoryId);
         }
 
-        internal bool SaveCategory(Category category)
+        internal bool SaveCategory(categories category)
         {
             return DataFacade.Instance.SaveCategory(category);
         }
@@ -64,7 +64,7 @@ namespace MyBuyList.BusinessLayer.Managers
         #endregion Category
 
 
-        #region FoodCategory
+        #region foodcategories
         internal bool CheckDuplicateFoodCategoryName(int FoodCategoryId, string FoodCategoryName)
         {
             return DataFacade.Instance.CheckDuplicateFoodCategoryName(FoodCategoryId, FoodCategoryName);
@@ -75,19 +75,19 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.CheckDuplicateFoodName(FoodId, FoodName);
         }
 
-        internal FoodCategory[] GetFoodCategoriesList()
+        internal foodcategories[] GetFoodCategoriesList()
         {
             return DataFacade.Instance.GetFoodCategoriesList();
         }
 
-        internal FoodCategory GetFoodCategory(int FoodCategoryId)
+        internal foodcategories GetFoodCategory(int FoodCategoryId)
         {
             return DataFacade.Instance.GetFoodCategory(FoodCategoryId);
         }
 
-        internal bool SaveFoodCategory(FoodCategory FoodCategory)
+        internal bool SaveFoodCategory(foodcategories foodcategories)
         {
-            return DataFacade.Instance.SaveFoodCategory(FoodCategory);
+            return DataFacade.Instance.SaveFoodCategory(foodcategories);
         }
 
         internal bool SaveFoodCategory(int FoodCategoryId, string FoodCategoryName, int? parentFoodCategoryId)
@@ -99,29 +99,29 @@ namespace MyBuyList.BusinessLayer.Managers
         {
             return DataFacade.Instance.DeleteFoodCategory(FoodCategoryId);
         }
-        #endregion FoodCategory
+        #endregion foodcategories
 
-        internal Food[] GetFoodsList()
+        internal food[] GetFoodsList()
         {
             return DataFacade.Instance.GetFoodsList();
         }
 
-        internal Food GetFood(int foodId)
+        internal food GetFood(int foodId)
         {
             return DataFacade.Instance.GetFood(foodId);
         }
 
-        internal Food GetFood(string name)
+        internal food GetFood(string name)
         {
             return DataFacade.Instance.GetFood(name);
         }
 
-        //internal FoodCategory[] GetFoodCategoriesList()
+        //internal foodcategories[] GetFoodCategoriesList()
         //{
         //    return DataFacade.Instance.GetFoodCategoriesList();
         //}
 
-        internal ShopDepartment[] GetShopDepartmentsList()
+        internal shopdepartments[] GetShopDepartmentsList()
         {
             return DataFacade.Instance.GetShopDepartmentsList();
         }
@@ -131,7 +131,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.CheckDuplicateShopDepartmentName(departmentId, departmentName);
         }
 
-        internal ShopDepartment GetShopDepartment(int departmentId)
+        internal shopdepartments GetShopDepartment(int departmentId)
         {
             return DataFacade.Instance.GetShopDepartment(departmentId);
         }
@@ -141,18 +141,18 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.DeleteShopDepartment(shopDepartmentId);
         }
 
-        internal bool SaveShopDepartment(ShopDepartment department)
+        internal bool SaveShopDepartment(shopdepartments department)
         {
             return DataFacade.Instance.SaveShopDepartment(department);
         }
 
-        internal bool ReorderShopDepartments(ShopDepartment[] arr)
+        internal bool ReorderShopDepartments(shopdepartments[] arr)
         {
             return DataFacade.Instance.ReorderShopDepartments(arr);
         }
 
         //item
-        internal GeneralItem[] GetGeneralItemsList()
+        internal generalitems[] GetGeneralItemsList()
         {
             return DataFacade.Instance.GetGeneralItemsList();
         }
@@ -162,7 +162,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.CheckDuplicateGeneralItemName(ItemId, ItemName);
         }
 
-        internal GeneralItem GetGeneralItem(int ItemId)
+        internal generalitems GetGeneralItem(int ItemId)
         {
             return DataFacade.Instance.GetGeneralItem(ItemId);
         }
@@ -172,12 +172,12 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.DeleteGeneralItem(GeneralItemId);
         }
 
-        internal bool SaveGeneralItem(GeneralItem Item)
+        internal bool SaveGeneralItem(generalitems Item)
         {
             return DataFacade.Instance.SaveGeneralItem(Item);
         }
 
-        internal bool ReorderGeneralItems(GeneralItem[] arr)
+        internal bool ReorderGeneralItems(generalitems[] arr)
         {
             return DataFacade.Instance.ReorderGeneralItems(arr);
         }
@@ -189,12 +189,12 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.CheckDuplicateMeasurementUnitName(unitId, unitName);
         }
 
-        internal MeasurementUnit GetMeasurementUnit(int unitId)
+        internal measurementunits GetMeasurementUnit(int unitId)
         {
             return DataFacade.Instance.GetMeasurementUnit(unitId);
         }
 
-        internal MeasurementUnit[] GetMeasurementUnitsList()
+        internal measurementunits[] GetMeasurementUnitsList()
         {
             return DataFacade.Instance.GetMeasurementUnitsList();
         }
@@ -204,27 +204,27 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.DeleteMeasurementUnit(unitId);
         }
 
-        internal bool SaveMeasurementUnit(MeasurementUnit unit)
+        internal bool SaveMeasurementUnit(measurementunits unit)
         {
             return DataFacade.Instance.SaveMeasurementUnit(unit);
         }
 
-        internal bool ReorderMeasurementUnits(MeasurementUnit[] arr)
+        internal bool ReorderMeasurementUnits(measurementunits[] arr)
         {
             return DataFacade.Instance.ReorderMeasurementUnits(arr);
         }
 
-        internal bool SaveMeasurementUnitsConvert(MeasurementUnitsConvert unit)
+        internal bool SaveMeasurementUnitsConvert(measurementunitsconverts unit)
         {
             return DataFacade.Instance.SaveMeasurementUnitsConvert(unit);
         }
 
-        internal MeasurementUnitsConvert[] GetMeasurementUnitsConvertList()
+        internal measurementunitsconverts[] GetMeasurementUnitsConvertList()
         {
             return DataFacade.Instance.GetMeasurementUnitsConvertList();
         }
 
-        internal MeasurementUnitsConvert GetMeasurementUnitsConvert(int ConvertId)
+        internal measurementunitsconverts GetMeasurementUnitsConvert(int ConvertId)
         {
             return DataFacade.Instance.GetMeasurementUnitsConvert(ConvertId);
         }
@@ -234,32 +234,32 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.GetNextTempUser( anonymous);
         }
 
-        internal User GetUser(int Id)
+        internal users GetUser(int Id)
         {
             return DataFacade.Instance.GetUser(Id);
         }
 
-        public User GetUser(string userName, string password)
+        public users GetUser(string userName, string password)
         {
             return DataFacade.Instance.GetUser(userName, password);
         }
 
-        internal User GetUserEx(int Id)
+        internal users GetUserEx(int Id)
         {
             return DataFacade.Instance.GetUserEx(Id);
         }
 
-        internal bool SaveUser(User currUser)
+        internal bool SaveUser(users currUser)
         {
             return DataFacade.Instance.SaveUser(currUser);
         }
 
-        internal User GetUserByUserName(string userName)
+        internal users GetUserByUserName(string userName)
         {
             return DataFacade.Instance.GetUserByName(userName);
         }
 
-        internal FoodCategory GetFoodCategoryByName(string name)
+        internal foodcategories GetFoodCategoryByName(string name)
         {
             return DataFacade.Instance.GetFoodCategoryByName(name);
         }
@@ -274,12 +274,12 @@ namespace MyBuyList.BusinessLayer.Managers
              return DataFacade.Instance.DeleteFood(foodId);
         }
 
-        internal Article GetArticleById(int articleId)
+        internal articles GetArticleById(int articleId)
         {
             return DataFacade.Instance.GetArticleById(articleId);
         }
 
-        internal Article[] GetArticlesList()
+        internal articles[] GetArticlesList()
         {
             return DataFacade.Instance.GetArticlesList();
         }

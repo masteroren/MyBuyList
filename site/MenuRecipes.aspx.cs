@@ -305,8 +305,8 @@ public partial class PageMenuRecipes : BasePage
         string url;
         if (this.MenuTypeId == (int)MenuTypeEnum.QuickMenu) 
         {
-            Meal meal = BusinessFacade.Instance.GetMeal(this.MenuId, 0);
-            if (meal == null || meal.MealRecipes.Count == 0)
+            meals meal = BusinessFacade.Instance.GetMeal(this.MenuId, 0);
+            if (meal == null || meal.mealrecipes.Count == 0)
             {
                 BusinessFacade.Instance.CreateQuickListMealRecipes(this.MenuId);
 

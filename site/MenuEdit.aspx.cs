@@ -12,7 +12,6 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Menu = MyBuyList.Shared.Menu;
 
 public partial class MenuEdit : BasePage
 {
@@ -31,10 +30,10 @@ public partial class MenuEdit : BasePage
         }
     }
 
-    //change to save Menu to EntityState instead of Session
-    Menu CurrentMenu
+    //change to save menus to EntityState instead of Session
+    menus CurrentMenu
     {
-        get { return HttpContext.Current.Session["currentMenu"] as Menu; }
+        get { return HttpContext.Current.Session["currentMenu"] as menus; }
         set { HttpContext.Current.Session["currentMenu"] = value; }
     }
 
@@ -98,18 +97,18 @@ public partial class MenuEdit : BasePage
 
     protected void NewMenu()
     {
-        Menu menu = new Menu();
+        menus menu = new menus();
 
-        Dictionary<int, Recipe> selectedRecipes = Utils.SelectedRecipes;
+        Dictionary<int, recipes> selectedRecipes = Utils.SelectedRecipes;
 
         if (selectedRecipes != null && selectedRecipes.Count != 0)
         {
-            foreach (KeyValuePair<int, Recipe> r in selectedRecipes)
+            foreach (KeyValuePair<int, recipes> r in selectedRecipes)
             {
-                Recipe recipe = new Recipe();
+                recipes recipe = new recipes();
                 recipe.RecipeId = r.Key;
                 recipe = r.Value;
-                menu.Recipes.Add(recipe);
+                menu.recipes.Add(recipe);
             }
         }
 
@@ -136,7 +135,7 @@ public partial class MenuEdit : BasePage
         {
             titleImg.ImageUrl = "~/Images/Header_EditMenu.png";
 
-            Menu menu = BusinessFacade.Instance.GetMenuEx(menuId);
+            menus menu = BusinessFacade.Instance.GetMenuEx(menuId);
 
             if (menu != null)
             {
@@ -145,35 +144,35 @@ public partial class MenuEdit : BasePage
                     AppEnv.MoveToDefaultPage();
                 }
 
-                Dictionary<int, Recipe> selectedRecipes = Utils.SelectedRecipes;
+                Dictionary<int, recipes> selectedRecipes = Utils.SelectedRecipes;
 
-                foreach (Recipe mr in menu.Recipes)
+                foreach (recipes mr in menu.recipes)
                 {
                     selectedRecipes.Add(mr.RecipeId, mr);
                 }
 
                 if (selectedRecipes != null && selectedRecipes.Count != 0)
                 {
-                    foreach (KeyValuePair<int, Recipe> r in selectedRecipes)
+                    foreach (KeyValuePair<int, recipes> r in selectedRecipes)
                     {
-                        Recipe menuRecipe = new Recipe { RecipeId = r.Key };
+                        recipes menuRecipe = new recipes { RecipeId = r.Key };
 
                         bool containsRecipe = false;
-                        foreach (Recipe mr in menu.Recipes)
+                        foreach (recipes mr in menu.recipes)
                         {
                             if (mr.RecipeId == r.Key)
                             {
                                 containsRecipe = true;
                                 r.Value.Servings = mr.Servings;
 
-                                MealRecipe mealRecipe = (from p in menu.Meals
-                                                         from p1 in p.MealRecipes
+                                mealrecipes mealRecipe = (from p in menu.meals
+                                                         from p1 in p.mealrecipes
                                                          where p.MealId == p1.MealId && p.MenuId == menu.MenuId && p1.RecipeId == r.Key
-                                                         select new MealRecipe
+                                                         select new mealrecipes
                                                          {
                                                              RecipeId = r.Key,
                                                              Servings = p1.Servings,
-                                                             Recipe = r.Value,
+                                                             recipes = r.Value,
                                                              MealId = p.MealId
                                                          }).SingleOrDefault();
 
@@ -186,7 +185,7 @@ public partial class MenuEdit : BasePage
                         }
                         if (!containsRecipe)
                         {
-                            menu.Recipes.Add(menuRecipe);
+                            menu.recipes.Add(menuRecipe);
                         }
                     }
                 }
@@ -218,11 +217,11 @@ public partial class MenuEdit : BasePage
 
     protected void RebindMenuRecipes()
     {
-        Menu menu = CurrentMenu;
+        menus menu = CurrentMenu;
 
-        Dictionary<int, Recipe> recipes = new Dictionary<int, Recipe>();
+        Dictionary<int, recipes> recipes = new Dictionary<int, recipes>();
 
-        foreach (Recipe r in menu.Recipes)
+        foreach (recipes r in menu.recipes)
         {
             recipes.Add(r.RecipeId, r);
         }
@@ -242,7 +241,7 @@ public partial class MenuEdit : BasePage
 
     protected void RebindMenuDetails()
     {
-        Menu menu = CurrentMenu;
+        menus menu = CurrentMenu;
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
         {
@@ -255,9 +254,9 @@ public partial class MenuEdit : BasePage
             ddlChooseDay.Visible = false;
             ddlChooseMeal.Visible = false;
 
-            if (menu.Meals.Count > 0)
+            if (menu.meals.Count > 0)
             {
-                txtNumDiners.Text = menu.Meals.ToArray()[0].Diners.ToString(); //all meals (courses) should have the same diners number.
+                txtNumDiners.Text = menu.meals.ToArray()[0].Diners.ToString(); //all meals (courses) should have the same diners number.
             }
         }
         else
@@ -278,14 +277,14 @@ public partial class MenuEdit : BasePage
         txtMenuDescription.Text = menu.Description;
         txtMenuTags.Text = menu.Tags;
         txtEmbeddedVideo.Text = menu.EmbeddedVideo;
-        txtCategories.Text = this.GetCategoriesString(menu.MCategories.ToArray());
+        txtCategories.Text = this.GetCategoriesString(menu.mcategories.ToArray());
 
         RebindMealsDetails();
     }
 
     protected void RebindMealsDetails()
     {
-        Menu menu = CurrentMenu;
+        menus menu = CurrentMenu;
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
         {
@@ -303,7 +302,7 @@ public partial class MenuEdit : BasePage
 
     protected void rptDays_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
         {
@@ -354,9 +353,9 @@ public partial class MenuEdit : BasePage
 
     protected void rptCourses_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
-        Meal currentMeal = null;
+        meals currentMeal = null;
         MealDayOfWeek currentWeekDay = null;
         int currentWeekDayId = 0;
         string currentMealSignature = "";
@@ -392,7 +391,7 @@ public partial class MenuEdit : BasePage
 
         if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal)
         {
-            foreach (Meal m in this.CurrentMenu.Meals.ToArray())
+            foreach (meals m in this.CurrentMenu.meals.ToArray())
             {
                 if (m.CourseTypeId == currentCourseOrMenuTypeId)
                     currentMeal = m;
@@ -411,7 +410,7 @@ public partial class MenuEdit : BasePage
         }
         if (menu.MenuTypeId == (int)MenuTypeEnum.Weekly)
         {
-            foreach (Meal m in this.CurrentMenu.Meals.ToArray())
+            foreach (meals m in this.CurrentMenu.meals.ToArray())
             {
                 if (m.MealTypeId == currentCourseOrMenuTypeId && m.DayIndex == currentWeekDayId)
                     currentMeal = m;
@@ -441,7 +440,7 @@ public partial class MenuEdit : BasePage
             tdMealRecipes.Controls.Add(new LiteralControl("&nbsp;")); //for IE
             return;
         }
-        if (currentMeal.MealRecipes.Count == 0)
+        if (currentMeal.mealrecipes.Count == 0)
         {
             tdMealRecipes.Controls.Add(new LiteralControl("&nbsp;")); //for IE
         }
@@ -475,7 +474,7 @@ public partial class MenuEdit : BasePage
 
         if (rpt != null)
         {
-            rpt.DataSource = currentMeal.MealRecipes.ToArray();
+            rpt.DataSource = currentMeal.mealrecipes.ToArray();
             rpt.DataBind();
         }
 
@@ -483,13 +482,13 @@ public partial class MenuEdit : BasePage
 
     protected void rptRecipes_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
-        Meal meal = null;
-        MealRecipe currentMealRecipe = e.Item.DataItem as MealRecipe;
+        meals meal = null;
+        mealrecipes currentMealRecipe = e.Item.DataItem as mealrecipes;
         if (currentMealRecipe != null)
         {
-            meal = currentMealRecipe.Meal;
+            meal = currentMealRecipe.meals;
         } 
 
         LinkButton lnkBtn = e.Item.FindControl("removeFromMeal") as LinkButton;
@@ -525,7 +524,7 @@ public partial class MenuEdit : BasePage
     {
         try
         {
-            Menu menu = CurrentMenu;
+            menus menu = CurrentMenu;
 
             int menuTypeId = 0;
             bool isPublic = false;
@@ -586,7 +585,7 @@ public partial class MenuEdit : BasePage
 
             if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal || menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
             {
-                foreach (Meal meal in menu.Meals.ToArray())
+                foreach (meals meal in menu.meals.ToArray())
                 {
                     meal.Diners = diners;
                 }
@@ -599,15 +598,15 @@ public partial class MenuEdit : BasePage
 
             menu.IsPublic = isPublic;
 
-            for (int i = 0; i < menu.Meals.ToArray().Length; i++)
+            for (int i = 0; i < menu.meals.ToArray().Length; i++)
             {
-                if (menu.Meals.ToArray()[i].MealRecipes.Count == 0)
+                if (menu.meals.ToArray()[i].mealrecipes.Count == 0)
                 {
-                    menu.Meals.Remove(menu.Meals.ToArray()[i]);
+                    menu.meals.Remove(menu.meals.ToArray()[i]);
                 }
             }
 
-            Meal[] meals = menu.Meals.ToArray();
+            meals[] meals = menu.meals.ToArray();
             RepeaterItem daysItem = null;
 
             for (int mealInd = 0; mealInd < meals.Length; mealInd++)
@@ -709,9 +708,9 @@ public partial class MenuEdit : BasePage
 
     protected void dlRecipes_ItemDataBound(object sender, DataListItemEventArgs e)
     {
-        if (e.Item.DataItem is KeyValuePair<int, Recipe>)
+        if (e.Item.DataItem is KeyValuePair<int, recipes>)
         {
-            KeyValuePair<int, Recipe> recipe = (KeyValuePair<int, Recipe>)e.Item.DataItem;
+            KeyValuePair<int, recipes> recipe = (KeyValuePair<int, recipes>)e.Item.DataItem;
 
             LinkButton lnkBtn = e.Item.FindControl("lnkRemove") as LinkButton;
             if (lnkBtn != null)
@@ -751,9 +750,9 @@ public partial class MenuEdit : BasePage
             if (cbe != null)
             {
                 bool isRecipeInMenuMeals = false;
-                foreach (Meal meal in this.CurrentMenu.Meals)
+                foreach (meals meal in this.CurrentMenu.meals)
                 {
-                    if (meal.MealRecipes.SingleOrDefault(mr => mr.RecipeId == recipe.Key) != null)
+                    if (meal.mealrecipes.SingleOrDefault(mr => mr.RecipeId == recipe.Key) != null)
                     {
                         isRecipeInMenuMeals = true;
                     }
@@ -777,10 +776,10 @@ public partial class MenuEdit : BasePage
     //flow seems "smoother".
     protected void btnTmpOK_Click(object sender, EventArgs e)
     {
-        Menu menu = CurrentMenu;
+        menus menu = CurrentMenu;
 
         //get relevant meal, or create it if it doesn't exist.
-        Meal meal;
+        meals meal;
         int? dayIndex = null, courseTypeId = null;
         int mealTypeId;
 
@@ -790,7 +789,7 @@ public partial class MenuEdit : BasePage
                 mealTypeId = 4;
                 courseTypeId = 0;
 
-                meal = menu.Meals.SingleOrDefault(me => me.MealTypeId == mealTypeId);
+                meal = menu.meals.SingleOrDefault(me => me.MealTypeId == mealTypeId);
                 break;
             case MenuTypeEnum.OneMeal:
                 courseTypeId = int.Parse(ddlChooseCourse.SelectedItem.Value);
@@ -801,7 +800,7 @@ public partial class MenuEdit : BasePage
 
                 mealTypeId = 4;
 
-                meal = menu.Meals.SingleOrDefault(me => me.CourseTypeId == courseTypeId);
+                meal = menu.meals.SingleOrDefault(me => me.CourseTypeId == courseTypeId);
                 break;
             default:
                 dayIndex = int.Parse(ddlChooseDay.SelectedItem.Value);
@@ -811,13 +810,13 @@ public partial class MenuEdit : BasePage
                     return;
                 }
 
-                meal = menu.Meals.SingleOrDefault(me => me.DayIndex == dayIndex && me.MealTypeId == mealTypeId);
+                meal = menu.meals.SingleOrDefault(me => me.DayIndex == dayIndex && me.MealTypeId == mealTypeId);
                 break;
         }
 
         if (meal == null)
         {
-            meal = new Meal
+            meal = new meals
                 {
                     MealId = 0,
                     CourseTypeId = courseTypeId,
@@ -827,22 +826,22 @@ public partial class MenuEdit : BasePage
                     ModifiedDate = DateTime.Now
                 };
 
-            menu.Meals.Add(meal);
+            menu.meals.Add(meal);
         }
 
-        //get recipe id, create MealRecipe, and add to MealRecipes of the current / new meal.
+        //get recipe id, create mealrecipes, and add to mealrecipes of the current / new meal.
         int recipeId;
         int servingsNum;
 
         bool succeeded = int.TryParse(hfRecipeId.Value, out recipeId);
         if (succeeded)
         {
-            MealRecipe mealRecipe = new MealRecipe();
+            mealrecipes mealRecipe = new mealrecipes();
 
-            Recipe menuRecipe = menu.Recipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
+            recipes menuRecipe = menu.recipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
             if (menuRecipe != null)
             {
-                mealRecipe.Recipe = menuRecipe;
+                mealRecipe.recipes = menuRecipe;
 
                 int expectedServings;
                 bool tryParse = int.TryParse(hfExpectedServings.Value, out expectedServings);
@@ -852,10 +851,10 @@ public partial class MenuEdit : BasePage
                 }
             }
 
-            MealRecipe sameMealRecipe = meal.MealRecipes.SingleOrDefault(smr => smr.RecipeId == mealRecipe.RecipeId);
+            mealrecipes sameMealRecipe = meal.mealrecipes.SingleOrDefault(smr => smr.RecipeId == mealRecipe.RecipeId);
             if (sameMealRecipe == null)
             {
-                meal.MealRecipes.Add(mealRecipe);
+                meal.mealrecipes.Add(mealRecipe);
             }
         }
 
@@ -876,9 +875,9 @@ public partial class MenuEdit : BasePage
     [WebMethod]
     public static void AddToMenu_DnD(int recipeId, string mealSignature)
     {
-        Menu menu = HttpContext.Current.Session["currentMenu"] as Menu;
+        menus menu = HttpContext.Current.Session["currentMenu"] as menus;
 
-        Meal meal = null;
+        meals meal = null;
 
         int[] mealIdentifiers = GetMealIdentifiers(mealSignature);
 
@@ -891,46 +890,48 @@ public partial class MenuEdit : BasePage
         {
             if (menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu) //only one meal in the menu
             {
-                meal = menu.Meals.SingleOrDefault(me => me.MealTypeId == mealTypeId);
+                meal = menu.meals.SingleOrDefault(me => me.MealTypeId == mealTypeId);
             }
             else if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal)
             {
-                meal = menu.Meals.SingleOrDefault(me => me.CourseTypeId == courseTypeId);
+                meal = menu.meals.SingleOrDefault(me => me.CourseTypeId == courseTypeId);
             }
             else
             {
-                meal = menu.Meals.SingleOrDefault(me => me.DayIndex == dayIndex && me.MealTypeId == mealTypeId);
+                meal = menu.meals.SingleOrDefault(me => me.DayIndex == dayIndex && me.MealTypeId == mealTypeId);
             }
 
             if (meal == null)
             {
-                meal = new Meal();
-                meal.MealId = 0;
-                meal.CourseTypeId = courseTypeId;
-                meal.DayIndex = dayIndex;
-                meal.MealTypeId = mealTypeId;
-                meal.CreatedDate = DateTime.Now;
-                meal.ModifiedDate = DateTime.Now;
+                meal = new meals
+                {
+                    MealId = 0,
+                    CourseTypeId = courseTypeId,
+                    DayIndex = dayIndex,
+                    MealTypeId = mealTypeId,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                };
 
-                menu.Meals.Add(meal);
+                menu.meals.Add(meal);
             }
 
             //Page page = HttpContext.Current.Handler as Page; 
         }
 
-        MealRecipe mealRecipe = new MealRecipe();
+        mealrecipes mealRecipe = new mealrecipes();
 
-        Recipe menuRec = menu.Recipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
+        recipes menuRec = menu.recipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
         if (menuRec != null)
         {
-            mealRecipe.Recipe = menuRec;
+            mealRecipe.recipes = menuRec;
             mealRecipe.Servings = menuRec.Servings;
         }
 
-        MealRecipe sameMealRecipe = meal.MealRecipes.SingleOrDefault(smr => smr.RecipeId == mealRecipe.RecipeId);
+        mealrecipes sameMealRecipe = meal.mealrecipes.SingleOrDefault(smr => smr.RecipeId == mealRecipe.RecipeId);
         if (sameMealRecipe == null)
         {
-            meal.MealRecipes.Add(mealRecipe);
+            meal.mealrecipes.Add(mealRecipe);
         }
         
         HttpContext.Current.Session["currentMenu"] = menu;
@@ -939,30 +940,30 @@ public partial class MenuEdit : BasePage
 
     protected void lnkRemove_Click(object sender, EventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
         LinkButton lnkBtn = sender as LinkButton;
 
         int recipeId;
         if (lnkBtn != null && int.TryParse(lnkBtn.Attributes["recipeId"], out recipeId))
         { 
-            foreach (Meal meal in menu.Meals)
+            foreach (meals meal in menu.meals)
             {
-                MealRecipe mealRecipeToRemove = meal.MealRecipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
+                mealrecipes mealRecipeToRemove = meal.mealrecipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
                 if (mealRecipeToRemove != null)
                 {
-                    meal.MealRecipes.Remove(mealRecipeToRemove);
+                    meal.mealrecipes.Remove(mealRecipeToRemove);
                 }
             }
 
-            Recipe menuRecipeToRemove = menu.Recipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
+            recipes menuRecipeToRemove = menu.recipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
 
             if (menuRecipeToRemove != null)
             {
-                menu.Recipes.Remove(menuRecipeToRemove);
+                menu.recipes.Remove(menuRecipeToRemove);
             }
 
-            Dictionary<int, Recipe> selectedRecipes = Utils.SelectedRecipes;
+            Dictionary<int, recipes> selectedRecipes = Utils.SelectedRecipes;
             selectedRecipes.Remove(recipeId);
         }
 
@@ -978,7 +979,7 @@ public partial class MenuEdit : BasePage
 
     protected void removeFromMeal_Click(object sender, EventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
         LinkButton lnkBtn = sender as LinkButton;
         if (lnkBtn != null)
@@ -990,43 +991,43 @@ public partial class MenuEdit : BasePage
             {
                 int[] mealIdentifiers = GetMealIdentifiers(mealSignature);
 
-                Meal currentMeal = null;              //no mealId at this stage. meal is identified by day / meal type / course type.
+                meals currentMeal = null;              //no mealId at this stage. meal is identified by day / meal type / course type.
 
                 switch (menu.MenuTypeId)
                 {
                     case (int)MenuTypeEnum.QuickMenu:
-                        currentMeal = menu.Meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
+                        currentMeal = menu.meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
                         break;
                     case (int)MenuTypeEnum.OneMeal:
-                        currentMeal = menu.Meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
+                        currentMeal = menu.meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
                         break;
                     case (int)MenuTypeEnum.Weekly:
-                        currentMeal = menu.Meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
+                        currentMeal = menu.meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
                         break;
                 }
 
                 //if (menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu) //only one meal in the menu
                 //{
-                //    currentMeal = menu.Meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
+                //    currentMeal = menu.meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
                 //}
                 //if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal)
                 //{
-                //    currentMeal = menu.Meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
+                //    currentMeal = menu.meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
                 //}
                 //else
                 //{
-                //    currentMeal = menu.Meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
+                //    currentMeal = menu.meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
                 //}
 
                 if (currentMeal != null)
                 {
-                    MealRecipe recipe = currentMeal.MealRecipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
+                    mealrecipes recipe = currentMeal.mealrecipes.SingleOrDefault(mr => mr.RecipeId == recipeId);
                     if (recipe != null)
                     {
-                        currentMeal.MealRecipes.Remove(recipe);
-                        //if (currentMeal.MealRecipes.Count == 0)
+                        currentMeal.mealrecipes.Remove(recipe);
+                        //if (currentMeal.mealrecipes.Count == 0)
                         //{
-                        //    menu.Meals.Remove(currentMeal);
+                        //    menu.meals.Remove(currentMeal);
                         //}
                     }
                 }
@@ -1043,7 +1044,7 @@ public partial class MenuEdit : BasePage
 
     protected void txtServings_TextChanged(object sender, EventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
         TextBox txtServings = sender as TextBox;
         if (txtServings != null)
@@ -1052,26 +1053,26 @@ public partial class MenuEdit : BasePage
             int[] mealIdentifiers = GetMealIdentifiers(txtServings.Attributes["mealSignature"]);
             if (int.TryParse(txtServings.Attributes["recipeId"], out recipeId) && mealIdentifiers != null && mealIdentifiers.Length == 3)
             {
-                Meal mealToChange = null;
+                meals mealToChange = null;
                 // TODO: change all the occurances of this code to "switch", and try to do it with a delegate, that point to different methods
                 // according to the menuTypeId. These methods will get a menu object (menuToSave) and a meal object (from menu) or the whole menu object (menu)
 
                 switch (menu.MenuTypeId)
                 {
                     case (int)MenuTypeEnum.QuickMenu:
-                        mealToChange = menu.Meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
+                        mealToChange = menu.meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
                         break;
                     case (int)MenuTypeEnum.OneMeal:
-                        mealToChange = menu.Meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
+                        mealToChange = menu.meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
                         break;
                     case (int)MenuTypeEnum.Weekly:
-                        mealToChange = menu.Meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
+                        mealToChange = menu.meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
                         break;
                 }
 
                 if (mealToChange != null)
                 {
-                    MealRecipe recipeToChange = mealToChange.MealRecipes.SingleOrDefault(re => re.RecipeId == recipeId);
+                    mealrecipes recipeToChange = mealToChange.mealrecipes.SingleOrDefault(re => re.RecipeId == recipeId);
                     if (recipeToChange != null)
                     {
                         recipeToChange.Servings = int.Parse(txtServings.Text);
@@ -1083,26 +1084,26 @@ public partial class MenuEdit : BasePage
 
     protected void txtDinersNum_TextChanged(object sender, EventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
         int dinersNumber;
         TextBox txtDinersNum = sender as TextBox;
 
         if (txtDinersNum != null && int.TryParse(txtDinersNum.Text, out dinersNumber))
         {
-            Meal mealToChange = null;
+            meals mealToChange = null;
             int[] mealIdentifiers = GetMealIdentifiers(txtDinersNum.Attributes["mealSignature"]);
 
             if (menu.MenuTypeId == (int)MenuTypeEnum.QuickMenu)
             {
-                mealToChange = menu.Meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
+                mealToChange = menu.meals.SingleOrDefault(me => me.MealTypeId == mealIdentifiers[1]);
             }
             if (menu.MenuTypeId == (int)MenuTypeEnum.OneMeal)
             {
-                mealToChange = menu.Meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
+                mealToChange = menu.meals.SingleOrDefault(me => me.CourseTypeId == mealIdentifiers[2]);
             }
             else
             {
-                mealToChange = menu.Meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
+                mealToChange = menu.meals.SingleOrDefault(me => me.DayIndex == mealIdentifiers[0] && me.MealTypeId == mealIdentifiers[1]);
             }
 
             if (mealToChange != null)
@@ -1114,16 +1115,16 @@ public partial class MenuEdit : BasePage
 
     protected void btnCatOK_Click(object sender, EventArgs e)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
-        menu.MCategories.Clear();
+        menu.mcategories.Clear();
         string updatedCategoriesStr = "";
         foreach (TreeNode node in this.tvCategories.CheckedNodes)
         {
-            MCategory mcat = new MCategory();
+            mcategories mcat = new mcategories();
             mcat.MCategoryId = menu.MenuId;
             mcat.MCategoryId = int.Parse(node.Value);
-            menu.MCategories.Add(mcat);
+            menu.mcategories.Add(mcat);
             updatedCategoriesStr += node.Text + ", ";
         }
         updatedCategoriesStr = updatedCategoriesStr.Remove(updatedCategoriesStr.Length - 2);
@@ -1137,7 +1138,7 @@ public partial class MenuEdit : BasePage
     protected void BindMenuCategories()
     {
         this.tvCategories.Nodes.Clear();
-        MCategory[] categories = BusinessFacade.Instance.GetMCategoriesList();
+        mcategories[] categories = BusinessFacade.Instance.GetMCategoriesList();
         this.BuildTree(categories, null, null);
 
         this.tvCategories.ShowCheckBoxes = TreeNodeTypes.All;
@@ -1146,16 +1147,16 @@ public partial class MenuEdit : BasePage
         this.upTreeViewCategories.Update();
     }
 
-    private void BuildTree(MCategory[] cats, int? parentCategoryId, TreeNode rootNode)
+    private void BuildTree(mcategories[] cats, int? parentCategoryId, TreeNode rootNode)
     {
-        Menu menu = this.CurrentMenu;
+        menus menu = this.CurrentMenu;
 
         var list = cats.Where(mc => mc.ParentMCategoryId == parentCategoryId);
-        foreach (MCategory item in list)
+        foreach (mcategories item in list)
         {
             TreeNode node = new TreeNode(item.MCategoryName, item.MCategoryId.ToString());
-            if (menu.MCategories != null &&
-                menu.MCategories.SingleOrDefault(mc => mc.MCategoryId == item.MCategoryId) != null)
+            if (menu.mcategories != null &&
+                menu.mcategories.SingleOrDefault(mc => mc.MCategoryId == item.MCategoryId) != null)
             {
                 node.Checked = true;
             }
@@ -1173,7 +1174,7 @@ public partial class MenuEdit : BasePage
         }
     }
 
-    protected string GetMealSignature(Meal meal)
+    protected string GetMealSignature(meals meal)
     {
         string mealSignature = "";
 
@@ -1210,10 +1211,10 @@ public partial class MenuEdit : BasePage
         return identifiers;
     }
 
-    protected string GetCategoriesString(MCategory[] categories)
+    protected string GetCategoriesString(mcategories[] categories)
     {
         string str = "";
-        foreach (MCategory cat in categories)
+        foreach (mcategories cat in categories)
         {
             str += cat.MCategoryName + ", ";
         }
@@ -1254,21 +1255,21 @@ public partial class MenuEdit : BasePage
     protected void ChangeServings(object sender, CommandEventArgs e)
     {
         int recipeId = Convert.ToInt32(e.CommandArgument);
-        Menu menu = CurrentMenu;
+        menus menu = CurrentMenu;
 
-        //Recipe recipe1 = BusinessFacade.Instance.GetRecipe(recipeId);
+        //recipes recipe1 = BusinessFacade.Instance.GetRecipe(recipeId);
 
-        //Recipe menuRecipe = menu.Recipes.SingleOrDefault(x => x.RecipeId == recipeId);
+        //recipes menuRecipe = menu.Recipes.SingleOrDefault(x => x.RecipeId == recipeId);
         //if (menuRecipe != null)
         //{
-        //    MealRecipe mealRecipe = (from p in menu.Meals
-        //                             from p1 in p.MealRecipes
-        //                             where p.MealId == p1.MealId && p.MenuId == menu.MenuId && p1.RecipeId == recipeId && p1.Meal != null
-        //                             select new MealRecipe
+        //    mealrecipes mealRecipe = (from p in menu.meals
+        //                             from p1 in p.mealrecipes
+        //                             where p.MealId == p1.MealId && p.MenuId == menu.MenuId && p1.RecipeId == recipeId && p1.meals != null
+        //                             select new mealrecipes
         //                                 {
         //                                     RecipeId = recipeId,
         //                                     Servings = p1.Servings,
-        //                                     Recipe = menuRecipe.Recipe,
+        //                                     recipes = menuRecipe.recipes,
         //                                     MealId = p.MealId
         //                                 }).SingleOrDefault();
 
@@ -1277,15 +1278,15 @@ public partial class MenuEdit : BasePage
         //        switch (e.CommandName)
         //        {
         //            case "Increase":
-        //                mealRecipe.Servings += menuRecipe.Recipe.Servings;
+        //                mealRecipe.Servings += menuRecipe.recipes.Servings;
         //                break;
         //            case "Decrease":
-        //                if (mealRecipe.Servings > menuRecipe.Recipe.Servings)
-        //                    mealRecipe.Servings -= menuRecipe.Recipe.Servings;
+        //                if (mealRecipe.Servings > menuRecipe.recipes.Servings)
+        //                    mealRecipe.Servings -= menuRecipe.recipes.Servings;
         //                break;
         //        }
 
-        //        MealRecipe recipe = menuRecipe.Recipe.MealRecipes.SingleOrDefault(x => x.MealId == mealRecipe.MealId && x.Meal != null);
+        //        mealrecipes recipe = menuRecipe.recipes.mealrecipes.SingleOrDefault(x => x.MealId == mealRecipe.MealId && x.meals != null);
         //        if (recipe != null) recipe.Servings = mealRecipe.Servings;
         //    }
         //}

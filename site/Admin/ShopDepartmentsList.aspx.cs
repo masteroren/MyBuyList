@@ -6,9 +6,9 @@ using System.Web.UI.WebControls;
 
 public partial class PageShopDepartmentsList : BasePage
 {
-    ShopDepartment[] Data
+    shopdepartments[] Data
     {
-        get { return (ShopDepartment[]) this.Cache["ShopDepartments"]; }
+        get { return (shopdepartments[]) this.Cache["ShopDepartments"]; }
         set { this.Cache["ShopDepartments"] = value; }
     }
     
@@ -39,10 +39,10 @@ public partial class PageShopDepartmentsList : BasePage
     {
         ReorderListItem rolItem = e.Item as ReorderListItem;
         LinkButton btn = rolItem.FindControl("btnUpdate") as LinkButton;
-        ShopDepartment dep = e.Item.DataItem as ShopDepartment;
+        shopdepartments dep = e.Item.DataItem as shopdepartments;
         if (dep != null)
         {
-            btn.PostBackUrl = string.Format("~/Admin/ShopDepartment.aspx?depId={0}", dep.ShopDepartmentId);
+            btn.PostBackUrl = string.Format("~/Admin/shopdepartments.aspx?depId={0}", dep.ShopDepartmentId);
         }
 
         btn = rolItem.FindControl("btnDelete") as LinkButton;
@@ -55,7 +55,7 @@ public partial class PageShopDepartmentsList : BasePage
         if (!string.IsNullOrEmpty(btn.Attributes["depId"]))
         {
             int departmentId = int.Parse(btn.Attributes["depId"]);
-            ShopDepartment sd = BusinessFacade.Instance.GetShopDepartment(departmentId);
+            shopdepartments sd = BusinessFacade.Instance.GetShopDepartment(departmentId);
 
             string name = string.Empty;
 
@@ -66,7 +66,7 @@ public partial class PageShopDepartmentsList : BasePage
 
             if (BusinessFacade.Instance.DeleteShopDepartment(departmentId))
             {
-                FoodCategory f = BusinessFacade.Instance.GetFoodCategoryByName(name);
+                foodcategories f = BusinessFacade.Instance.GetFoodCategoryByName(name);
 
                 if(f != null)
                 {
@@ -85,7 +85,7 @@ public partial class PageShopDepartmentsList : BasePage
 
     private void DoReorder(int oldIndex, int newIndex)
     {
-        ShopDepartment[] arr = this.Data;
+        shopdepartments[] arr = this.Data;
 
         if (oldIndex < newIndex) //item moved down
         {

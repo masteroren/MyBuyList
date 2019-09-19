@@ -36,7 +36,7 @@ public partial class PageFood : BasePage
     {
         if (!IsPostBack)
         {
-            User u = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+            users u = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
             if (u != null)
             {
                 if (u.UserTypeId != AppEnv.USER_ADMIN)
@@ -58,7 +58,7 @@ public partial class PageFood : BasePage
                     if (!string.IsNullOrEmpty(this.Request["foodId"]))
                     {
                         this.FoodId = int.Parse(this.Request["foodId"]);
-                        Food food = BusinessFacade.Instance.GetFood(this.FoodId);
+                        food food = BusinessFacade.Instance.GetFood(this.FoodId);
                         if (food != null)
                         {
                             this.txtFoodName.Text = food.FoodName;
@@ -77,7 +77,7 @@ public partial class PageFood : BasePage
 
                             this.cbPrint.Checked = food.PrintPicture;
 
-                            Recipe[] recipes = BusinessFacade.Instance.GetRecipesListByFoodId(food.FoodId);
+                            recipes[] recipes = BusinessFacade.Instance.GetRecipesListByFoodId(food.FoodId);
                             if (recipes.Length > 0)
                             {
                                 this.lblRecipesCaption.Visible = true;
@@ -130,7 +130,7 @@ public partial class PageFood : BasePage
             return;
         }
 
-        Food food = new Food();
+        food food = new food();
         if (this.FoodId == 0)
         {
             food.CreatedBy = ((BasePage)Page).UserId;
@@ -183,7 +183,7 @@ public partial class PageFood : BasePage
         if (e.Item.ItemType != ListItemType.Header)
         {
             RepeaterItem rptItem = e.Item as RepeaterItem;
-            Recipe recipe = e.Item.DataItem as Recipe;
+            recipes recipe = e.Item.DataItem as recipes;
             HyperLink link = rptItem.FindControl("lnkShowRecipe") as HyperLink;
             link.NavigateUrl = string.Format("~/RecipeDetails.aspx?recipeId={0}", recipe.RecipeId);
         }

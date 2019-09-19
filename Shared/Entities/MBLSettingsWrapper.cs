@@ -5,9 +5,9 @@ namespace MyBuyList.Shared.Entities
 {
     public class MBLSettingsWrapper
     {     
-        public MBLSettingsWrapper(MBLSetting[] settings)
+        public MBLSettingsWrapper(mblsettings[] settings)
         {
-            foreach (MBLSetting set in settings)
+            foreach (mblsettings set in settings)
             {
                 if (set.SettingKey == "RecentMenus")
                 {

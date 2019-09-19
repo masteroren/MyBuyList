@@ -10,11 +10,15 @@
     var select = $('#header div.search-box select');
     //select.addClass('search-value');
 
+
     $('#header div.search-box input[type=text]').autocomplete({
+        classes: {
+            'ui-autocomplete': 'search-results'
+        },
         source: function(request, response){
             var data = { method: 'SearchValues', category: searchCategory, term: request.term };
             $.post('Handler.ashx', data, function (result) {
-                if (result != '') {
+                if (result !== '') {
                     var filteredData = $.parseJSON(result);
                     response(filteredData);
                 }
@@ -59,7 +63,7 @@
         open: function () {
             searchCategory = select.val();
             var text = $(this).val();
-            $('ul.ui-autocomplete li a').each(function () {
+            $('ul.ui-autocomplete li div').each(function () {
                 var listText = $(this).html();
                 var newListText = listText.replace(text, '<span style="color: orange"><b>' + text + '</b></span>');
                 $(this).html(newListText);
@@ -80,7 +84,7 @@
                 //    window.location = 'MenuDetails.aspx?menuId=' + value;
                 break;
             case '1':
-                if (searchValue != '')
+                if (searchValue !== '')
                     window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term=' + searchValue + '&category=' + searchCategory;
                 else
                     window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=All';
@@ -92,7 +96,7 @@
                 window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=MyFavoriteRecipes&term=' + searchValue + '&category=' + searchCategory;
                 break;
             case '4':
-                if (searchValue != '')
+                if (searchValue !== '')
                     window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term=' + searchValue + '&category=' + searchCategory;
                 else
                     window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=All';
@@ -115,7 +119,7 @@
         if (requireLogin) {
             var data = { method: 'IsLoggedIn' };
             $.post('Handler.ashx', data, function (data) {
-                if (data == '') {
+                if (data === '') {
                     OpenLoginDialog();
                 }
             });
@@ -130,7 +134,7 @@ function SetSearchOptions(options)
     var select = $('#header div.search-box select');
     select.html('');
 
-    var options =
+    options =
         [
             { "value": 1, "text": "מתכונים" },
             { "value": 2, "text": "המתכונים שלי", "class": "requireLogin" },

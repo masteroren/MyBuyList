@@ -12,7 +12,7 @@ namespace MyBuyList.Shared
     using System;
     using System.Collections.Generic;
     
-    public partial class UserShoppingList
+    public partial class usershoppinglist
     {
         public int FOOD_ID { get; set; }
         public string FOOD_NAME { get; set; }

@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 public partial class UserControls_RecipePrint : System.Web.UI.UserControl
 {
-    Recipe recipe;
+    recipes recipe;
     int RecipeId
     {
         get { return recipe == null ? 0 : recipe.RecipeId; }
@@ -17,7 +17,7 @@ public partial class UserControls_RecipePrint : System.Web.UI.UserControl
     public void Bind(int recipeId, int[] ServingsList)
     {
         recipe = BusinessFacade.Instance.GetRecipe(recipeId);
-        Ingredient[] recipeIngredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+        ingredients[] recipeIngredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
 
         if (ServingsList == null)
         {
@@ -34,14 +34,14 @@ public partial class UserControls_RecipePrint : System.Web.UI.UserControl
             this.lvServs.Visible = false;
         }
 
-        Ingredient[] toPrint = recipeIngredients.Where(i => i.Food.PrintPicture == true).ToArray();
+        ingredients[] toPrint = recipeIngredients.Where(i => i.food.PrintPicture == true).ToArray();
         Dictionary<int, string> foodArray = new Dictionary<int, string>();
 
-        foreach (Ingredient ing in toPrint)
+        foreach (ingredients ing in toPrint)
         {
             if (!foodArray.ContainsKey(ing.FoodId))
             {
-                foodArray.Add(ing.FoodId, ing.Food.FoodName);
+                foodArray.Add(ing.FoodId, ing.food.FoodName);
             }
         }
 
@@ -111,8 +111,8 @@ public partial class UserControls_RecipePrint : System.Web.UI.UserControl
 
         UserControls_PrintIngredients uc = lvItem.FindControl("printIngredients") as UserControls_PrintIngredients;
 
-        Ingredient[] recipeIngredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
-        uc.Bind(recipeIngredients.ToArray<Ingredient>(), recipe.Servings, (int)lvItem.DataItem);
+        ingredients[] recipeIngredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+        uc.Bind(recipeIngredients.ToArray<ingredients>(), recipe.Servings, (int)lvItem.DataItem);
 
     }
 }

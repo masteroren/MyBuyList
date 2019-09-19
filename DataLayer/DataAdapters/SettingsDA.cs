@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class SettingsDA : BaseContextDataAdapter<MyBuyListEntities>
+    class SettingsDA : BaseContextDataAdapter<mybuylistEntities>
     {
         internal MBLSettingsWrapper GetMBLSettingsWrapper()
         {
@@ -12,7 +12,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    var list = from settingItem in DataContext.MBLSettings
+                    var list = from settingItem in DataContext.mblsettings
                                select settingItem;
                     MBLSettingsWrapper settingsWrapper = new MBLSettingsWrapper(list.ToArray());
 
@@ -32,16 +32,16 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
                     bool succeeded = false;
-                    MBLSetting recentItemsSetting;
+                    mblsettings recentItemsSetting;
 
                     if (itemType == "recipe")
                     {
-                        recentItemsSetting = DataContext.MBLSettings.SingleOrDefault(s => s.SettingKey == "RecentRecipes");
+                        recentItemsSetting = DataContext.mblsettings.SingleOrDefault(s => s.SettingKey == "RecentRecipes");
                         recentItemsSetting.SettingValue = recentItems;
                     }
                     else if (itemType == "menu")
                     {
-                        recentItemsSetting = DataContext.MBLSettings.SingleOrDefault(s => s.SettingKey == "RecentMenus");
+                        recentItemsSetting = DataContext.mblsettings.SingleOrDefault(s => s.SettingKey == "RecentMenus");
                         recentItemsSetting.SettingValue = recentItems;
                     }
 

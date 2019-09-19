@@ -43,20 +43,20 @@ public class SRL_Recipe
     public string RecipeName { get; set; }
     public string Name { get; set; }
 
-    public SRL_Recipe(Recipe item)
+    public SRL_Recipe(recipes item)
     {
-        this.RecipeId = item.RecipeId;
-        this.RecipeName = item.RecipeName;
+        RecipeId = item.RecipeId;
+        RecipeName = item.RecipeName;
 
-        if (item.Users != null)
+        if (item.users != null)
         {
-            if (!string.IsNullOrEmpty(item.User.DisplayName))
+            if (!string.IsNullOrEmpty(item.users.DisplayName))
             {
-                this.Name = item.User.DisplayName;
+                Name = item.users.DisplayName;
             }
             else
             {
-                this.Name = item.User.Name;
+                Name = item.users.Name;
             }
         }
     }
@@ -70,12 +70,12 @@ public class SRL_MealRecipe
     public string RecipeName { get; set; }
     public int Servings { get; set; }
 
-    public SRL_MealRecipe(MealRecipe item)
+    public SRL_MealRecipe(mealrecipes item)
     {
-        this.MealId = item.MealId;
-        this.RecipeId = item.RecipeId;
-        this.RecipeName = item.Recipe.RecipeName;
-        this.Servings = item.Servings;
+        MealId = item.MealId;
+        RecipeId = item.RecipeId;
+        RecipeName = item.recipes.RecipeName;
+        Servings = item.Servings;
     }
 }
 
@@ -89,19 +89,19 @@ public class SRL_Meal
     public int? Diners { get; set; }
     public SRL_MealRecipe[] MealRecipes { get; set; }
 
-    public SRL_Meal(Meal meal)
+    public SRL_Meal(meals meal)
     {
-        this.MealId = meal.MealId;
-        this.MealTypeId = meal.MealTypeId;
-        this.DayIndex = meal.DayIndex;
-        this.CourseTypeId = meal.CourseTypeId;
-        this.Diners = meal.Diners;
+        MealId = meal.MealId;
+        MealTypeId = meal.MealTypeId;
+        DayIndex = meal.DayIndex;
+        CourseTypeId = meal.CourseTypeId;
+        Diners = meal.Diners;
 
-        if (meal.MealRecipes != null)
+        if (meal.mealrecipes != null)
         {
-            var list = from item in meal.MealRecipes
+            var list = from item in meal.mealrecipes
                        select new SRL_MealRecipe(item);
-            this.MealRecipes = list.ToArray();
+            MealRecipes = list.ToArray();
         }
     }
 }
@@ -116,14 +116,14 @@ public class SRL_Category
 
     public SRL_Category(int categoryId, string categoryName, int? parentCategoryId)
     {
-        this.CategoryId = categoryId;
-        this.CategoryName = categoryName;
-        this.ParentCategoryId = parentCategoryId;
+        CategoryId = categoryId;
+        CategoryName = categoryName;
+        ParentCategoryId = parentCategoryId;
     }
 
     public SRL_Category(int categoryId, string categoryName, int? parentCategoryId, int recipesCount) :
         this(categoryId, categoryName, parentCategoryId)
     {
-        this.RecipesCount = recipesCount;
+        RecipesCount = recipesCount;
     }
 }

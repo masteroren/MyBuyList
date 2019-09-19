@@ -9,7 +9,7 @@ public partial class UC_FooterControl : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Article footerArticle = BusinessFacade.Instance.GetArticleById(FOOTER_ARTICLE_ID);
+        articles footerArticle = BusinessFacade.Instance.GetArticleById(FOOTER_ARTICLE_ID);
         if (footerArticle != null) this.footerContent.InnerHtml = footerArticle.Body;
     }
 }

@@ -25,18 +25,18 @@ public partial class Admin_EditArticles : BasePage
                 id = FOOTER_ID;
             }
 
-            Article article = BusinessFacade.Instance.GetArticleById(id);
+            articles article = BusinessFacade.Instance.GetArticleById(id);
 
             if (article != null)
             {
                 this.RebindArticleData(article);
             }            
 
-            Article[] allArticles = BusinessFacade.Instance.GetArticlesList();
+            articles[] allArticles = BusinessFacade.Instance.GetArticlesList();
 
             Dictionary<int, string> articleList = new Dictionary<int, string>();
 
-            foreach (Article art in allArticles)
+            foreach (articles art in allArticles)
             {
                 articleList.Add(art.ArticleId, art.Title);
             }
@@ -52,11 +52,11 @@ public partial class Admin_EditArticles : BasePage
 
     protected void ddlArticles_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Article article = BusinessFacade.Instance.GetArticleById(int.Parse(this.ddlArticles.SelectedValue));
+        articles article = BusinessFacade.Instance.GetArticleById(int.Parse(this.ddlArticles.SelectedValue));
         this.RebindArticleData(article);        
     }
 
-    private void RebindArticleData(Article article)
+    private void RebindArticleData(articles article)
     {
         if (article != null)
         {
@@ -85,7 +85,7 @@ public partial class Admin_EditArticles : BasePage
             }
             else
             {
-                Response.Redirect(string.Format("~/Article.aspx?ArticleId={0}", returnedArticleId));
+                Response.Redirect(string.Format("~/articles.aspx?ArticleId={0}", returnedArticleId));
             }
         }
     }

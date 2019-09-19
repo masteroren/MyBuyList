@@ -15,7 +15,7 @@ public partial class PageUser : BasePage
                 if (((BasePage)Page).UserId != -1)
                 {
 
-                    User currUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+                    users currUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
                     if (currUser != null)
                     {
                         this.txtDisplayName.Text = currUser.DisplayName;
@@ -46,13 +46,15 @@ public partial class PageUser : BasePage
         }
         else
         {
-            User currUser;
+            users currUser;
             //bool b = true;
             if (((BasePage)Page).UserId == -1)
             {
-                currUser = new User();
-                currUser.UserId = -1;
-                currUser.Password = this.txtUserPassword.Text;
+                currUser = new users
+                {
+                    UserId = -1,
+                    Password = this.txtUserPassword.Text
+                };
             }
             else
             {

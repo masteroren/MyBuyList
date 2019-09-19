@@ -24,8 +24,8 @@ public partial class ucFavoritesRecipes : System.Web.UI.UserControl
 
     public void ShowData()
     {
-        this.rptRecipesList.DataSource = BusinessFacade.Instance.GetUserFavoritesRecipes(((BasePage)Page).UserId);
-        this.rptRecipesList.DataBind();
+        //this.rptRecipesList.DataSource = BusinessFacade.Instance.GetUserFavoritesRecipes(((BasePage)Page).UserId);
+        //this.rptRecipesList.DataBind();
     }
 
     protected void btnViewRecipe_Click(object sender, EventArgs e)
@@ -46,10 +46,10 @@ public partial class ucFavoritesRecipes : System.Web.UI.UserControl
         {
             int recipeId = int.Parse(btn.Attributes["recipeId"]);
             int x = 0; //added code
-            if (BusinessFacade.Instance.RemoveUserFavoritesRecipe(((BasePage)Page).UserId, recipeId, out x)) //added code
-            {
-                this.ShowData();
-            }
+            //if (BusinessFacade.Instance.RemoveUserFavoritesRecipe(((BasePage)Page).UserId, recipeId, out x)) //added code
+            //{
+            //    this.ShowData();
+            //}
         }
     }
 }

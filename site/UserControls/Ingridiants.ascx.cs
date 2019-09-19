@@ -21,7 +21,7 @@ public partial class UserControls_Ingridiants : UserControl
         return jsonString;
     }
 
-    public List<Ingredient> ListOfIngediants
+    public List<ingredients> ListOfIngediants
     {
         get
         {
@@ -30,7 +30,7 @@ public partial class UserControls_Ingridiants : UserControl
                 if (!string.IsNullOrEmpty(hfIngridiants.Value))
                 {
                     JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-                    List<Ingredient> ingredients = jsSerializer.Deserialize<List<Ingredient>>(hfIngridiants.Value);
+                    List<ingredients> ingredients = jsSerializer.Deserialize<List<ingredients>>(hfIngridiants.Value);
                     return ingredients;
                 }
                 return null;

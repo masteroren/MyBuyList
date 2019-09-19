@@ -12,12 +12,12 @@ namespace MyBuyList.Shared
     using System;
     using System.Collections.Generic;
     
-    public partial class SavedList
+    public partial class savedlist
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SavedList()
+        public savedlist()
         {
-            this.SavedListDetails = new HashSet<SavedListDetail>();
+            this.savedlistdetails = new HashSet<savedlistdetails>();
         }
     
         public int ID { get; set; }
@@ -28,6 +28,6 @@ namespace MyBuyList.Shared
         public Nullable<System.DateTime> CREATE_DATE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SavedListDetail> SavedListDetails { get; set; }
+        public virtual ICollection<savedlistdetails> savedlistdetails { get; set; }
     }
 }

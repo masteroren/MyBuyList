@@ -89,11 +89,11 @@ namespace MyBuyList.Shared.Entities
             }
         }
 
-        public ShoppingFood(Food food)
+        public ShoppingFood(food food)
         {
             this.FoodId = food.FoodId;
             this.FoodName = food.FoodName;
-            this.ShopDepartmentId = food.FoodCategory.ShopDepartmentId;
+            this.ShopDepartmentId = food.foodcategories.ShopDepartmentId;
             this.CalculateUnitId = food.CalculateUnitId;
             
             this.Picture = food.Picture;

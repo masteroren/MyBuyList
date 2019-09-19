@@ -5,31 +5,31 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class ShoppingsListDA : BaseContextDataAdapter<MyBuyListEntities>
+    class ShoppingsListDA : BaseContextDataAdapter<mybuylistEntities>
     {
-        internal List<UserShoppingList> GetShoppingList(int userId)
+        internal List<usershoppinglist> GetShoppingList(int userId)
         {
             using (DataContext)
             {
-                List<UserShoppingList> shoppingList = DataContext.Database.SqlQuery<UserShoppingList>("exec spShoppingList @UserId={0}", userId).ToList();
+                List<usershoppinglist> shoppingList = DataContext.Database.SqlQuery<usershoppinglist>("exec spShoppingList @UserId={0}", userId).ToList();
                 return shoppingList;
             }
         }
 
 
-        internal ShopDepartment[] GetMenuShopDepartments(int menuId)
+        internal shopdepartments[] GetMenuShopDepartments(int menuId)
         {
             using (DataContext)
             {
                 try
                 {
-                    var departments =   from sd in DataContext.ShopDepartments
-                                        join fc in DataContext.FoodCategories on sd.ShopDepartmentId equals fc.ShopDepartmentId
-                                        join f in DataContext.Foods on fc.FoodCategoryId equals f.FoodCategoryId
-                                        join i in DataContext.Ingredients on f.FoodId equals i.FoodId
-                                        join r in DataContext.Recipes on i.RecipeId equals r.RecipeId
-                                        join mr in DataContext.MealRecipes on r.RecipeId equals mr.RecipeId
-                                        join m in DataContext.Meals.Where(m => m.MenuId == menuId) on mr.MealId equals m.MealId
+                    var departments =   from sd in DataContext.shopdepartments
+                                        join fc in DataContext.foodcategories on sd.ShopDepartmentId equals fc.ShopDepartmentId
+                                        join f in DataContext.food on fc.FoodCategoryId equals f.FoodCategoryId
+                                        join i in DataContext.ingredients on f.FoodId equals i.FoodId
+                                        join r in DataContext.recipes on i.RecipeId equals r.RecipeId
+                                        join mr in DataContext.mealrecipes on r.RecipeId equals mr.RecipeId
+                                        join m in DataContext.meals.Where(m => m.MenuId == menuId) on mr.MealId equals m.MealId
                                         select sd;
 
                     var list = departments.Distinct();
@@ -50,17 +50,17 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    var measurmentUnits = DataContext.MeasurementUnits;
+                    var measurmentUnits = DataContext.measurementunits;
 
-                    var measureConverts = DataContext.MeasurementUnitsConverts;
+                    var measureConverts = DataContext.measurementunitsconverts;
                     
-                    var ingredients = from i in DataContext.Ingredients
-                                      join r in DataContext.Recipes on i.RecipeId equals r.RecipeId
-                                      join mr in DataContext.MealRecipes on r.RecipeId equals mr.RecipeId
-                                      join m in DataContext.Meals.Where(m => m.MenuId == menuId) on mr.MealId equals m.MealId
+                    var ingredients = from i in DataContext.ingredients
+                                      join r in DataContext.recipes on i.RecipeId equals r.RecipeId
+                                      join mr in DataContext.mealrecipes on r.RecipeId equals mr.RecipeId
+                                      join m in DataContext.meals.Where(m => m.MenuId == menuId) on mr.MealId equals m.MealId
                                       select new { Ingredient = i, TotalServings = mr.Servings /1.00M/ r.Servings };
 
-                    ShoppingFood[] list  = (from f in DataContext.Foods
+                    ShoppingFood[] list  = (from f in DataContext.food
                                             where ingredients.Any(i => i.Ingredient.FoodId == f.FoodId)
                                             select new ShoppingFood(f)).ToArray();
 
@@ -86,7 +86,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             }
                             else
                             {
-                                MeasurementUnitsConvert convert = measureConverts.SingleOrDefault(mc => mc.FoodId == sf.FoodId &&
+                                measurementunitsconverts convert = measureConverts.SingleOrDefault(mc => mc.FoodId == sf.FoodId &&
                                                                                                   mc.FromUnitId == item.Ingredient.MeasurementUnitId &&
                                                                                                   mc.ToUnitId == sf.CalculateUnitId);
                                 if (convert != null)
@@ -119,7 +119,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                         //fill DisplayQuantity of shopping food accordingly data in dictMeasureUnitsTotalQty
                         foreach(KeyValuePair<int, decimal> item in dictMeasureUnitsTotalQty)
                         {
-                            MeasurementUnit measurementUnitUsed = measurmentUnits.Single(mu => mu.UnitId == item.Key);
+                            measurementunits measurementUnitUsed = measurmentUnits.Single(mu => mu.UnitId == item.Key);
                             sf.CalculateUnitId = measurementUnitUsed.UnitId;
                             sf.CalculateUnitName = measurementUnitUsed.UnitName;
                             sf.Quantity = item.Value;
@@ -136,13 +136,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal ShoppingListAdditionalItem[] GetShoppingListAdditionalItems(int menuId)
+        internal shoppinglistadditionalitems[] GetShoppingListAdditionalItems(int menuId)
         {
             using (DataContext)
             {
                 try
                 {
-                    var list = DataContext.ShoppingListAdditionalItems.Where(slai => slai.MenuId == menuId);
+                    var list = DataContext.shoppinglistadditionalitems.Where(slai => slai.MenuId == menuId);
                     return list.ToArray();
                 }
                 catch
@@ -158,8 +158,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    ShoppingListAdditionalItem additionalItem = DataContext.ShoppingListAdditionalItems.Single(slai => slai.ShoppingListItemId == itemId);
-                    DataContext.ShoppingListAdditionalItems.Remove(additionalItem);
+                    shoppinglistadditionalitems additionalItem = DataContext.shoppinglistadditionalitems.Single(slai => slai.ShoppingListItemId == itemId);
+                    DataContext.shoppinglistadditionalitems.Remove(additionalItem);
                     DataContext.SaveChanges();
 
                     return true;
@@ -177,9 +177,9 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    ShoppingListAdditionalItem additionalItem = new ShoppingListAdditionalItem {MenuId = menuId};
+                    shoppinglistadditionalitems additionalItem = new shoppinglistadditionalitems {MenuId = menuId};
 
-                    GeneralItem generalItem = DataContext.GeneralItems.SingleOrDefault(gi => gi.GeneralItemName.Trim() == itemName.Trim());
+                    generalitems generalItem = DataContext.generalitems.SingleOrDefault(gi => gi.GeneralItemName.Trim() == itemName.Trim());
                     if (generalItem != null)
                     {
                         additionalItem.GeneralItemId = generalItem.GeneralItemId;
@@ -189,7 +189,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                         additionalItem.ItemName = itemName;
                     }
                     
-                    DataContext.ShoppingListAdditionalItems.Add(additionalItem);
+                    DataContext.shoppinglistadditionalitems.Add(additionalItem);
                     DataContext.SaveChanges();
 
                     return true;
@@ -207,7 +207,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    var list = from e in DataContext.GeneralItems.Where(gi => gi.GeneralItemName.StartsWith(prefixText))
+                    var list = from e in DataContext.generalitems.Where(gi => gi.GeneralItemName.StartsWith(prefixText))
                                select e.GeneralItemName;
                     
                     return list.ToArray();
@@ -221,7 +221,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal void CheckShoppingListItem(int userId, int foodId, bool active)
         {
-            UserShoppingList userShoppingList = DataContext.UserShoppingLists.SingleOrDefault(p => p.USER_ID == userId && p.FOOD_ID == foodId);
+            usershoppinglist userShoppingList = DataContext.usershoppinglist.SingleOrDefault(p => p.USER_ID == userId && p.FOOD_ID == foodId);
             if (userShoppingList != null)
             {
                 userShoppingList.ACTIVE = active;
@@ -232,13 +232,13 @@ namespace MyBuyList.DataLayer.DataAdapters
 
         internal void RemoveItemFromShoppingList(int userId, int foodId)
         {
-            MissingList missingListRow = DataContext.MissingLists.SingleOrDefault(x => x.CREATED_BY == userId);
+            missinglists missingListRow = DataContext.missinglists.SingleOrDefault(x => x.CREATED_BY == userId);
             if (missingListRow != null)
             {
-                MissingListDetail missingListDetailsRow = DataContext.MissingListDetails.SingleOrDefault(x => x.LIST_ID == missingListRow.ID && x.FOOD_ID == foodId);
+                missinglistdetails missingListDetailsRow = DataContext.missinglistdetails.SingleOrDefault(x => x.LIST_ID == missingListRow.ID && x.FOOD_ID == foodId);
                 if (missingListDetailsRow != null)
                 {
-                    DataContext.MissingListDetails.Remove(missingListDetailsRow);
+                    DataContext.missinglistdetails.Remove(missingListDetailsRow);
                     DataContext.SaveChanges();
                 }
             }

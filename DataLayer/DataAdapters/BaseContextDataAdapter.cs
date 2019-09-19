@@ -3,7 +3,7 @@
 namespace MyBuyList.DataLayer.DataAdapters
 {
     internal class BaseContextDataAdapter<T>
-        where T: Shared.MyBuyListEntities
+        where T: Shared.mybuylistEntities
     {
         private T _dataContext;
         protected T DataContext

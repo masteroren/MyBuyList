@@ -14,7 +14,7 @@ namespace MyBuyList.Shared.Entities
         {
         }
 
-        public SRL_User(User fullUser)
+        public SRL_User(users fullUser)
         {
             this.UserId = fullUser.UserId;
             this.UserType = fullUser.UserTypeId;

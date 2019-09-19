@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Linq;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Web.Script.Serialization;
@@ -55,7 +56,7 @@ public partial class ucRecipe : UserControl
     {
         this.RecipeCategories_Rebind(arr);
         //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "setDirty", "setDirty();", true);
-        //updateCategories.Update();
+        updateCategories.Update();
     }
 
     public void UpdatePicture(Binary picture)
@@ -67,7 +68,7 @@ public partial class ucRecipe : UserControl
     {
         if (recipeId != 0)
         {
-            Recipe recipe = BusinessFacade.Instance.GetRecipe(recipeId);
+            recipes recipe = BusinessFacade.Instance.GetRecipe(recipeId);
             if (recipe == null)
             {
                 return;
@@ -113,9 +114,9 @@ public partial class ucRecipe : UserControl
             }
 
 
-            var list = from item in recipe.Categories
-                       select new SRL_RecipeCategory(0, item.CategoryId, item.CategoryName);
-            RecipeCategories_Rebind(list.ToArray());
+            //var list = from item in recipe.categories
+            //           select new SRL_RecipeCategory(0, item.CategoryId, item.CategoryName);
+            //RecipeCategories_Rebind(list.ToArray());
 
             //Ingredients = new List<SRL_Ingredient>();
             ////Ingredients = new List<Ingredient>();
@@ -145,7 +146,7 @@ public partial class ucRecipe : UserControl
         RecipeId = recipeId;
         if (recipeId != 0)
         {
-            Recipe recipe = BusinessFacade.Instance.GetRecipe(recipeId);
+            recipes recipe = BusinessFacade.Instance.GetRecipe(recipeId);
             SetValues(recipe);
         }
         else
@@ -166,7 +167,7 @@ public partial class ucRecipe : UserControl
         set { ViewState["ReadOnly"] = value; }
     }
 
-    private void SetValues(Recipe recipe)
+    private void SetValues(recipes recipe)
     {
         try
         {
@@ -216,16 +217,16 @@ public partial class ucRecipe : UserControl
 
                 Logger.Write("ucRecipe.SetValues -> Set Categories", Logger.Level.Info);
 
-                var list = from item in recipe.Categories
-                           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
+                //var list = from item in recipe.categories
+                //           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
 
-                RecipeCategories_Rebind(list.ToArray());
+                //RecipeCategories_Rebind(list.ToArray());
 
                 Logger.Write("ucRecipe.SetValues -> Set Ingrediants", Logger.Level.Info);
 
-                Ingredient[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+                ingredients[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
                 List<FlatIngredient> flatIngredients = new List<FlatIngredient>();
-                foreach(Ingredient ing in ingredients)
+                foreach(ingredients ing in ingredients)
                 {
                     flatIngredients.Add(new FlatIngredient
                     {
@@ -339,12 +340,12 @@ public partial class ucRecipe : UserControl
                 return;
             }
 
-            Recipe recipe;
+            recipes recipe;
             bool isNewRecipe = false;
 
             if (RecipeId == 0)
             {
-                recipe = new Recipe();
+                recipe = new recipes();
                 isNewRecipe = true;
             }
             else
@@ -437,6 +438,13 @@ public partial class ucRecipe : UserControl
         }
         catch (Exception ex)
         {
+            //string Source = "MyBuyList";
+            //if (!EventLog.SourceExists(Source))
+            //{
+            //    EventLog.CreateEventSource(Source, "Application");
+            //}
+            //EventLog.WriteEntry(Source, ex.Message, EventLogEntryType.Error);
+
             Logger.Write("Save recipe failed", ex, Logger.Level.Error);
         }
     }

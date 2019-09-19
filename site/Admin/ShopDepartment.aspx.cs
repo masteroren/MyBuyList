@@ -24,7 +24,7 @@ public partial class PageShopDepartment : BasePage
                 if (!string.IsNullOrEmpty(this.Request["depId"]))
                 {
                     this.DepartmentId = int.Parse(this.Request["depId"]);
-                    ShopDepartment department = BusinessFacade.Instance.GetShopDepartment(this.DepartmentId.Value);
+                    shopdepartments department = BusinessFacade.Instance.GetShopDepartment(this.DepartmentId.Value);
                     if (department != null)
                     {
                         this.txtDepName.Text = department.ShopDepartmentName;
@@ -42,19 +42,19 @@ public partial class PageShopDepartment : BasePage
             return;
         }
 
-        ShopDepartment dep = new ShopDepartment();
+        shopdepartments dep = new shopdepartments();
         dep.ShopDepartmentId = this.DepartmentId == null ? -1 : this.DepartmentId.Value;
         dep.ShopDepartmentName = this.txtDepName.Text;
 
-        FoodCategory f = null;
+        foodcategories f = null;
         if (dep.ShopDepartmentId == -1)
         {
-            f = new FoodCategory();
+            f = new foodcategories();
             f.FoodCategoryId = -1;
         }
         else
         {
-            ShopDepartment department = BusinessFacade.Instance.GetShopDepartment(this.DepartmentId.Value);
+            shopdepartments department = BusinessFacade.Instance.GetShopDepartment(this.DepartmentId.Value);
             f = BusinessFacade.Instance.GetFoodCategoryByName(department.ShopDepartmentName);
         }
 

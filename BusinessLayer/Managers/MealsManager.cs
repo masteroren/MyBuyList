@@ -33,38 +33,38 @@ namespace MyBuyList.BusinessLayer.Managers
 
     class MealsManager
     {
-        internal MealRecipe[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
+        internal mealrecipes[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
         {
             
             return DataFacade.Instance.GetMealsWeeklyList(menuId, startDayIndex, endDayIndex);
         }
 
-        internal CourseType[] GetCourseTypes()
+        internal coursetypes[] GetCourseTypes()
         {
             return DataFacade.Instance.GetCourseTypes();
         }
 
-        internal MealType[] GetMealTypes()
+        internal mealtypes[] GetMealTypes()
         {
             return DataFacade.Instance.GetMealTypes();
         }
 
-        internal Meal[] GetMealsList(int menuId)
+        internal meals[] GetMealsList(int menuId)
         {
             return DataFacade.Instance.GetMealsList(menuId);
         }
 
-        internal Meal GetMeal(int mealId)
+        internal meals GetMeal(int mealId)
         {
             return DataFacade.Instance.GetMeal(mealId);
         }
 
-        internal Meal GetMeal(int menuId, int courseTypeId)
+        internal meals GetMeal(int menuId, int courseTypeId)
         {
             return DataFacade.Instance.GetMeal(menuId, courseTypeId);
         }
 
-        internal Meal GetMeal(int menuId, int dayIndex, int mealTypeId)
+        internal meals GetMeal(int menuId, int dayIndex, int mealTypeId)
         {
             return DataFacade.Instance.GetMeal(menuId, dayIndex, mealTypeId);
         }
@@ -79,7 +79,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.SaveMeal(menuId, dayIndex, mealTypeId, diners);
         }
 
-        internal MealRecipe[] GetMealRecipesList(int menuId, int dayIndex, int mealTypeId)
+        internal mealrecipes[] GetMealRecipesList(int menuId, int dayIndex, int mealTypeId)
         {
             return DataFacade.Instance.GetMealRecipesList(menuId, dayIndex, mealTypeId);
         }
@@ -104,7 +104,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.RemoveMealRecipe(mealId, recipeId);
         }
 
-        internal MealRecipe GetMealRecipe(int mealId, int recipeId)
+        internal mealrecipes GetMealRecipe(int mealId, int recipeId)
         {
             return DataFacade.Instance.GetMealRecipe(mealId, recipeId);
         }
@@ -119,7 +119,7 @@ namespace MyBuyList.BusinessLayer.Managers
             return DataFacade.Instance.SaveMealRecipe(mealId, recipeId, servings);
         }
 
-        internal MealRecipe[] GetMealRecipes(int mealId)
+        internal mealrecipes[] GetMealRecipes(int mealId)
         {
             return DataFacade.Instance.GetMealRecipes(mealId);
         }

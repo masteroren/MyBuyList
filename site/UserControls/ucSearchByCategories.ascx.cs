@@ -46,12 +46,12 @@ public partial class ucSearchByCategories : System.Web.UI.UserControl
                     UserId = ((BasePage)Page).UserId;
                 }
 
-                Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
+                categories[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
 
-                var list = from category in categories
-                           select new SRL_Category(category.CategoryId, category.CategoryName, category.ParentCategoryId, category.Recipes.Count());
+                //var list = from category in categories
+                //           select new SRL_Category(category.CategoryId, category.CategoryName, category.ParentCategoryId, category.recipes.Count());
 
-                this.ViewState["Categories"] = list.ToArray();
+                //this.ViewState["Categories"] = list.ToArray();
             }
             return (SRL_Category[])this.ViewState["Categories"]; 
         }

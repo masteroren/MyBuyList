@@ -12,13 +12,13 @@ namespace MyBuyList.Shared
     using System;
     using System.Collections.Generic;
     
-    public partial class RecipesInShoppingList
+    public partial class recipesinshoppinglist
     {
         public int RECIPE_ID { get; set; }
         public Nullable<int> SERVINGS { get; set; }
         public int USER_ID { get; set; }
     
-        public virtual Recipe Recipe { get; set; }
-        public virtual User User { get; set; }
+        public virtual recipes recipes { get; set; }
+        public virtual users users { get; set; }
     }
 }

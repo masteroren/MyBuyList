@@ -41,9 +41,9 @@ public partial class PageMeasurementUnitsConvert : BasePage
                 {
                     ConvertId = int.Parse(this.Request["ConvertId"]);
 
-                    MeasurementUnitsConvert convert = BusinessFacade.Instance.GetMeasurementUnitsConvert(ConvertId);
+                    measurementunitsconverts convert = BusinessFacade.Instance.GetMeasurementUnitsConvert(ConvertId);
 
-                    Food food = BusinessFacade.Instance.GetFood(convert.FoodId);
+                    food food = BusinessFacade.Instance.GetFood(convert.FoodId);
 
                     if (convert != null)
                     {
@@ -63,8 +63,8 @@ public partial class PageMeasurementUnitsConvert : BasePage
         this.Validate();
         if (this.IsValid)
         {
-            Food selectedFood = BusinessFacade.Instance.GetFood(this.txtIngredientName.Text);
-            MeasurementUnitsConvert convert = new MeasurementUnitsConvert();
+            food selectedFood = BusinessFacade.Instance.GetFood(this.txtIngredientName.Text);
+            measurementunitsconverts convert = new measurementunitsconverts();
             convert.ConvertId = this.ConvertId;
             convert.FoodId = selectedFood.FoodId;
             convert.FromQuantity = decimal.Parse(this.txtFromQuantity.Text);
@@ -85,7 +85,7 @@ public partial class PageMeasurementUnitsConvert : BasePage
     {
         if (!string.IsNullOrEmpty(this.txtIngredientName.Text))
         {
-            Food selected = BusinessFacade.Instance.GetFood(this.txtIngredientName.Text);
+            food selected = BusinessFacade.Instance.GetFood(this.txtIngredientName.Text);
             if (selected == null)
             {
                 args.IsValid = false;

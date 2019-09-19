@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MissingItemsListDA : BaseContextDataAdapter<MyBuyListEntities>
+    class MissingItemsListDA : BaseContextDataAdapter<mybuylistEntities>
     {
         internal int AddList(int userId)
         {
             using (DataContext)
             {
-                MissingList missingList = DataContext.MissingLists.SingleOrDefault(p => p.CREATED_BY == userId && p.ACTIVE.HasValue ? p.ACTIVE.Value : false);
+                missinglists missingList = DataContext.missinglists.SingleOrDefault(p => p.CREATED_BY == userId && p.ACTIVE.HasValue ? p.ACTIVE.Value : false);
 
                 if (missingList == null)
                 {
-                    missingList = new MissingList { CREATED_BY = userId, CREATE_DATE = DateTime.Today, ACTIVE = true };
-                    DataContext.MissingLists.Add(missingList);
+                    missingList = new missinglists { CREATED_BY = userId, CREATE_DATE = DateTime.Today, ACTIVE = true };
+                    DataContext.missinglists.Add(missingList);
                     DataContext.SaveChanges();
                     //DataContext.MissingLists.InsertOnSubmit(missingList);
                     //DataContext.SubmitChanges();
@@ -30,28 +30,28 @@ namespace MyBuyList.DataLayer.DataAdapters
             int missingListId;
             using (DataContext)
             {
-                MissingList missingList = DataContext.MissingLists.SingleOrDefault(p => p.CREATED_BY == userId && p.ACTIVE.HasValue ? p.ACTIVE.Value : false);
+                missinglists missingList = DataContext.missinglists.SingleOrDefault(p => p.CREATED_BY == userId && p.ACTIVE.HasValue ? p.ACTIVE.Value : false);
 
                 if (missingList != null)
                 {
                     missingListId = missingList.ID;
 
-                    MissingListDetail missingListDetail = null;
+                    missinglistdetails missingListDetail = null;
 
-                    Food food = DataContext.Foods.SingleOrDefault(p => p.FoodName == name);
+                    food food = DataContext.food.SingleOrDefault(p => p.FoodName == name);
 
                     if (food == null)
                     {
-                        food = new Food
+                        food = new food
                         {
                             FoodName = name,
                             CreatedBy = userId,
                         };
                         new AdminDA().SaveFood(food);
-                        food = DataContext.Foods.SingleOrDefault(p => p.FoodName == name);
+                        food = DataContext.food.SingleOrDefault(p => p.FoodName == name);
                     }
 
-                    missingListDetail = DataContext.MissingListDetails.SingleOrDefault(p => p.LIST_ID == missingListId && p.FOOD_ID == food.FoodId);
+                    missingListDetail = DataContext.missinglistdetails.SingleOrDefault(p => p.LIST_ID == missingListId && p.FOOD_ID == food.FoodId);
 
                     if (missingListDetail != null)
                     {
@@ -59,14 +59,14 @@ namespace MyBuyList.DataLayer.DataAdapters
                     }
                     else
                     {
-                        missingListDetail = new MissingListDetail
+                        missingListDetail = new missinglistdetails
                         {
                             FOOD_ID = food.FoodId,
                             LIST_ID = missingListId,
                             QUANTITY = quantity,
                             MEASUREMENT_UNIT_ID = measureUnit
                         };
-                        DataContext.MissingListDetails.Add(missingListDetail);
+                        DataContext.missinglistdetails.Add(missingListDetail);
                         //DataContext.MissingListDetails.InsertOnSubmit(missingListDetail);
                     }
                 }
@@ -76,13 +76,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal IQueryable<MissingListDetail> GetList(int userId)
+        internal IQueryable<missinglistdetails> GetList(int userId)
         {
-            MissingList missingList = DataContext.MissingLists.SingleOrDefault(p => p.CREATED_BY == userId);
+            missinglists missingList = DataContext.missinglists.SingleOrDefault(p => p.CREATED_BY == userId);
 
             if (missingList != null)
             {
-                IQueryable<MissingListDetail> missingListDetail = DataContext.MissingListDetails.Where(p => p.LIST_ID == missingList.ID);
+                IQueryable<missinglistdetails> missingListDetail = DataContext.missinglistdetails.Where(p => p.LIST_ID == missingList.ID);
                 return missingListDetail;
             }
 
@@ -93,10 +93,10 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                MissingList missingList = DataContext.MissingLists.SingleOrDefault(p => p.ID == listId);
+                missinglists missingList = DataContext.missinglists.SingleOrDefault(p => p.ID == listId);
                 if (missingList != null)
                 {
-                    DataContext.MissingLists.Remove(missingList);
+                    DataContext.missinglists.Remove(missingList);
                     DataContext.SaveChanges();
                     //DataContext.MissingLists.DeleteOnSubmit(missingList);
                     //DataContext.SubmitChanges();
@@ -109,17 +109,17 @@ namespace MyBuyList.DataLayer.DataAdapters
             using (DataContext)
             {
                 int listId = 0;
-                MissingListDetail missingListDetail = DataContext.MissingListDetails.SingleOrDefault(p => p.ID == id);
+                missinglistdetails missingListDetail = DataContext.missinglistdetails.SingleOrDefault(p => p.ID == id);
                 if (missingListDetail != null)
                 {
                     listId = missingListDetail.LIST_ID;
-                    DataContext.MissingListDetails.Remove(missingListDetail);
+                    DataContext.missinglistdetails.Remove(missingListDetail);
                     DataContext.SaveChanges();
                     //DataContext.MissingListDetails.DeleteOnSubmit(missingListDetail);
                     //DataContext.SubmitChanges();
                 }
 
-                if (!DataContext.MissingListDetails.Any())
+                if (!DataContext.missinglistdetails.Any())
                 {
                     DeleteList(listId);
                 }
@@ -130,7 +130,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                MissingListDetail missingListDetail = DataContext.MissingListDetails.SingleOrDefault(p => p.ID == id);
+                missinglistdetails missingListDetail = DataContext.missinglistdetails.SingleOrDefault(p => p.ID == id);
                 if (missingListDetail != null)
                 {
                     missingListDetail.QUANTITY = quantity;

@@ -13,7 +13,7 @@ public partial class RecipeDetailsScreenshot : System.Web.UI.Page
         if (string.IsNullOrEmpty(Request["recipeId"])) return;
         
         int RecipeId = int.Parse(Request["recipeId"]);
-        Recipe currRecipe = BusinessFacade.Instance.GetRecipe(RecipeId);
+        recipes currRecipe = BusinessFacade.Instance.GetRecipe(RecipeId);
         string category = "ReciepsScreenShots";
         
         byte[] data;

@@ -10,15 +10,18 @@
             else
                 window.location = 'RecipeEdit.aspx';
         });
-    })
+    });
 
-    //$('#' + lblRecipesClientId).css('color', '#8dac34');
     $('#' + ButtonRecipesRefreshClientID).hide();
 
     baseUrl = window.mblRestHost;
-})
+});
 
 var userId = null;
+
+getRecipes = () => {
+    
+};
 
 function addRemoveRecipe(obj, recipeId) {
 

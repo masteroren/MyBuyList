@@ -55,7 +55,7 @@ public partial class ucAllRecipesList : System.Web.UI.UserControl
             this.gridRecipesList.AllowPaging = true;
         }
 
-        Recipe[] data;
+        recipes[] data = null;
 
         if (option == 1) //user recipes
         {
@@ -70,7 +70,7 @@ public partial class ucAllRecipesList : System.Web.UI.UserControl
         }
         else if (option == 2) //user favorites recipes
         {
-            data = BusinessFacade.Instance.GetUserFavoritesRecipes(((BasePage)Page).UserId);
+            //data = BusinessFacade.Instance.GetUserFavoritesRecipes(((BasePage)Page).UserId);
         }
         else //all recipes
         {

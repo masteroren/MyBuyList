@@ -12,15 +12,15 @@ namespace MyBuyList.Shared
     using System;
     using System.Collections.Generic;
     
-    public partial class Food
+    public partial class food
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Food()
+        public food()
         {
-            this.Ingredients = new HashSet<Ingredient>();
-            this.NutValues = new HashSet<NutValue>();
-            this.MissingListDetails = new HashSet<MissingListDetail>();
-            this.SavedListDetails = new HashSet<SavedListDetail>();
+            this.ingredients = new HashSet<ingredients>();
+            this.nutvalues = new HashSet<nutvalues>();
+            this.missinglistdetails = new HashSet<missinglistdetails>();
+            this.savedlistdetails = new HashSet<savedlistdetails>();
         }
     
         public int FoodId { get; set; }
@@ -37,16 +37,16 @@ namespace MyBuyList.Shared
         public bool PrintPicture { get; set; }
         public byte[] Picture { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual FoodCategory FoodCategory { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual users users { get; set; }
+        public virtual foodcategories foodcategories { get; set; }
+        public virtual users users1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ingredient> Ingredients { get; set; }
+        public virtual ICollection<ingredients> ingredients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NutValue> NutValues { get; set; }
+        public virtual ICollection<nutvalues> nutvalues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MissingListDetail> MissingListDetails { get; set; }
+        public virtual ICollection<missinglistdetails> missinglistdetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SavedListDetail> SavedListDetails { get; set; }
+        public virtual ICollection<savedlistdetails> savedlistdetails { get; set; }
     }
 }

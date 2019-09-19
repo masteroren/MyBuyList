@@ -6,148 +6,63 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MenusDA : BaseContextDataAdapter<MyBuyListEntities>
+    class MenusDA : BaseContextDataAdapter<mybuylistEntities>
     {
         public const int USER_ADMIN = 1;
 
-        internal Menu[] SearchMenus(string searchValue)
+        internal menus[] SearchMenus(string searchValue)
         {
             using (DataContext)
             {
-                try
-                {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Menu>(m => m.MenuType);
-                    //DataContext.LoadOptions = dlo;
-
-                    var list = DataContext.Menus.Where(mnu => mnu.MenuName.Contains(searchValue) && mnu.IsDeleted == false);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.menus.Where(mnu => mnu.MenuName.Contains(searchValue) && mnu.IsDeleted == false);
+                return list.ToArray();
             }
         }
 
-        internal Menu[] GetMenusList(int userId)
+        internal menus[] GetMenusList(int userId)
         {
             using (DataContext)
             {
-                try
-                {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Menu>(m => m.MenuType);
-                    //DataContext.LoadOptions = dlo;
-
-                    var list = DataContext.Menus.Where(mnu => mnu.UserId == userId && mnu.IsDeleted == false);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.menus.Where(mnu => mnu.UserId == userId && mnu.IsDeleted == false);
+                return list.ToArray();
             }
         }
 
-        internal Menu[] GetMenusList(int userId, int tempUser)
+        internal menus[] GetMenusList(int userId, int tempUser)
         {
             using (DataContext)
             {
-                try
-                {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Menu>(m => m.MenuType);
-                    //DataContext.LoadOptions = dlo;
-
-                    var list = DataContext.Menus.Where(mnu => mnu.UserId == userId && mnu.TempUserId == tempUser);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.menus.Where(mnu => mnu.UserId == userId && mnu.TempUserId == tempUser);
+                return list.ToArray();
             }
         }
 
-        internal Menu GetMenu(int menuId)
+        internal menus GetMenu(int menuId)
         {
             using (DataContext)
             {
-                try
-                {
-                    //    DataLoadOptions dlo = new DataLoadOptions();
-                    //    dlo.LoadWith<Menu>(m => m.MenuType);
-                    //    dlo.LoadWith<Menu>(m => m.User);
-                    //    dlo.LoadWith<Menu>(m => m.UserFavoriteMenus);
-                    //    DataContext.LoadOptions = dlo;
-
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu;
-                }
-                catch
-                {
-                    return null;
-                }
+                menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
+                return menu;
             }
         }
 
-        internal Menu GetMenuEx(int menuId)
-        {
-            //using (MyBuyListDBContext context = new MyBuyListDBContext(DBUtils.GetConnection()))
-            //using (DataContext)
-            //{
-                try
-                {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Menu>(m => m.MenuType);
-                    //dlo.LoadWith<Menu>(m => m.User);
-                    //dlo.LoadWith<Menu>(m => m.Meals);
-                    //dlo.LoadWith<Menu>(m => m.MenuRecipes);
-                    //dlo.LoadWith<Menu>(m => m.MenuCategories);
-                    //dlo.LoadWith<Menu>(m => m.UserFavoriteMenus);
-                    //dlo.LoadWith<MenuRecipe>(mr => mr.Recipe);
-                    //dlo.LoadWith<Meal>(m => m.MealRecipes);
-                    //dlo.LoadWith<Meal>(m => m.MealType);
-                    //dlo.LoadWith<MealRecipe>(m => m.Recipe);
-                    //dlo.LoadWith<MenuCategory>(mc => mc.MCategory);
-
-
-                    //DataContext.LoadOptions = dlo;
-
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu;
-                }
-                catch
-                {
-                    return null;
-                }
-            //}
-        }
-
-        internal Meal[] GetMenuMeals(int menuId)
+        internal menus GetMenuEx(int menuId)
         {
             using (DataContext)
             {
-                try
-                {
-                    //DataLoadOptions dlo = new DataLoadOptions();
+                menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
+                return menu;
+            }
+        }
 
-                    //dlo.LoadWith<Menu>(m => m.Meals);
-                    //dlo.LoadWith<Meal>(m => m.MealRecipes);
-                    //dlo.LoadWith<MealRecipe>(m => m.Recipe);
-
-                    //DataContext.LoadOptions = dlo;
-
-                    var list = from meal in DataContext.Meals
-                               where meal.MenuId == menuId
-                               select meal;
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+        internal meals[] GetMenuMeals(int menuId)
+        {
+            using (DataContext)
+            {
+                var list = from meal in DataContext.meals
+                           where meal.MenuId == menuId
+                           select meal;
+                return list.ToArray();
             }
         }
 
@@ -155,77 +70,39 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
-                {
-                    return DataContext.Menus.Count();
-                }
-                catch
-                {
-                    return -1;
-                }
+                return DataContext.menus.Count();
             }
         }
 
-        internal MenuType[] GetMenuTypes()
+        internal menutypes[] GetMenuTypes()
         {
             using (DataContext)
             {
-                try
-                {
-                    var list = DataContext.MenuTypes.OrderBy(mt => mt.SortOrder);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.menutypes.OrderBy(mt => mt.SortOrder);
+                return list.ToArray();
             }
         }
 
-        internal MealRecipe[] GetMenuMealsRecipes(int menulId)
+        internal mealrecipes[] GetMenuMealsRecipes(int menulId)
         {
             using (DataContext)
             {
-                try
-                {
-                    //DataLoadOptions dlo = new DataLoadOptions();
+                var mealsIdList = from meal in DataContext.meals
+                                  where meal.MenuId == menulId
+                                  select meal.MealId;
 
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Recipe);
-                    //dlo.LoadWith<Recipe>(r => r.Ingredients);
-                    //dlo.LoadWith<Ingredient>(i => i.Food);
-                    //dlo.LoadWith<Ingredient>(i => i.FoodName);
-                    //dlo.LoadWith<Ingredient>(i => i.MeasurementUnit);
-                    //DataContext.LoadOptions = dlo;
+                var list = DataContext.mealrecipes.Where(m => mealsIdList.Contains(m.MealId));
 
-                    var mealsIdList = from meal in DataContext.Meals
-                                      where meal.MenuId == menulId
-                                      select meal.MealId;
-
-                    var list = DataContext.MealRecipes.Where(m => mealsIdList.Contains(m.MealId));
-
-                    return list.ToArray();
-
-                }
-                catch
-                {
-                    return null;
-                }
+                return list.ToArray();
             }
         }
 
-        internal MenuType GetMenuType(int menuId)
+        internal menutypes GetMenuType(int menuId)
         {
             using (DataContext)
             {
-                try
-                {
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu.MenuType;
-                }
-                catch
-                {
-                    return null;
-                }
+                menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
+                return menu.menutypes;
             }
         }
 
@@ -233,15 +110,8 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
-                {
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu.UserId;
-                }
-                catch
-                {
-                    return null;
-                }
+                menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
+                return menu.UserId;
             }
         }
 
@@ -249,34 +119,20 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
-                {
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
-                    return menu.TempUserId;
-                }
-                catch
-                {
-                    return null;
-                }
+                menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
+                return menu.TempUserId;
             }
         }
 
-        internal Recipe[] GetMenuRecipes(int menuId)
+        internal recipes[] GetMenuRecipes(int menuId)
         {
             using (DataContext)
             {
-                try
-                {
-                    var list = from a in DataContext.Recipes
-                               from b in a.Menus
-                               where b.MenuId == menuId
-                               select a;
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = from a in DataContext.recipes
+                           from b in a.menus
+                           where b.MenuId == menuId
+                           select a;
+                return list.ToArray();
             }
         }
 
@@ -284,24 +140,8 @@ namespace MyBuyList.DataLayer.DataAdapters
         //{
         //    using (DataContext)
         //    {
-        //        try
-        //        {
-        //            DataLoadOptions dlo = new DataLoadOptions();
-        //            dlo.LoadWith<MenuRecipe>(mr => mr.Recipe);
-        //            dlo.LoadWith<Recipe>(r => r.Ingredients);
-        //            dlo.LoadWith<Ingredient>(i => i.Food);
-        //            dlo.LoadWith<Ingredient>(i => i.FoodName);
-        //            dlo.LoadWith<Ingredient>(i => i.MeasurementUnit);
-        //            //dlo.LoadWith<Ingredient>(i => i.);
-        //            DataContext.LoadOptions = dlo;
-
         //            var list = DataContext.MenuRecipes.Where(mr => mr.MenuId == menuId);
         //            return list.ToArray();
-        //        }
-        //        catch
-        //        {
-        //            return null;
-        //        }
         //    }
         //}                
 
@@ -309,47 +149,38 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
+                string menuTypeName = DataContext.menutypes.Single(mt => mt.MenuTypeId == menuTypeId).MenuTypeName;
+                DateTime currentDate = DateTime.Now;
+
+                menus menu = new menus
                 {
+                    MenuName = menuTypeName + " " + currentDate.ToString("dd/MM/yyyy HH:mm:ss"),
+                    MenuTypeId = menuTypeId,
+                    CreatedDate = currentDate,
+                    ModifiedDate = currentDate,
+                    UserId = userId
+                };
 
-                    string menuTypeName = DataContext.MenuTypes.Single(mt => mt.MenuTypeId == menuTypeId).MenuTypeName;
-                    DateTime currentDate = DateTime.Now;
-
-                    Menu menu = new Menu();
-                    menu.MenuName = menuTypeName + " " + currentDate.ToString("dd/MM/yyyy HH:mm:ss");
-                    menu.MenuTypeId = menuTypeId;
-                    menu.CreatedDate = currentDate;
-                    menu.ModifiedDate = currentDate;
-                    menu.UserId = userId;
-
-                    if (tempUser != 0)
-                    {
-                        menu.TempUserId = tempUser;
-                    }
-
-                    var list = DataContext.Menus.Where(m => m.UserId == userId);
-                    if (list.ToArray().Length == 0)
-                    {
-                        menu.SortOrder = 1;
-                    }
-                    else
-                    {
-                        menu.SortOrder = list.Max(m => m.SortOrder) + 1;
-                    }
-
-                    DataContext.Menus.Add(menu);
-                    DataContext.SaveChanges();
-                    //DataContext.Menus.InsertOnSubmit(menu);
-                    //DataContext.SubmitChanges();
-
-                    menuId = menu.MenuId;
-                    return true;
-                }
-                catch
+                if (tempUser != 0)
                 {
-                    menuId = 0;
-                    return false;
+                    menu.TempUserId = tempUser;
                 }
+
+                var list = DataContext.menus.Where(m => m.UserId == userId);
+                if (list.ToArray().Length == 0)
+                {
+                    menu.SortOrder = 1;
+                }
+                else
+                {
+                    menu.SortOrder = list.Max(m => m.SortOrder) + 1;
+                }
+
+                DataContext.menus.Add(menu);
+                DataContext.SaveChanges();
+
+                menuId = menu.MenuId;
+                return true;
             }
         }
 
@@ -360,7 +191,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                 try
                 {
 
-                    string menuTypeName = DataContext.MenuTypes.Single(mt => mt.MenuTypeId == menuTypeId).MenuTypeName;
+                    string menuTypeName = DataContext.menutypes.Single(mt => mt.MenuTypeId == menuTypeId).MenuTypeName;
                     DateTime currentDate = DateTime.Now;
 
                     if (menuName == string.Empty)
@@ -368,21 +199,23 @@ namespace MyBuyList.DataLayer.DataAdapters
                         menuName = menuTypeName + " " + currentDate.ToString("dd/MM/yyyy HH:mm:ss");
                     }
 
-                    Menu menu = new Menu();
-                    menu.MenuName = menuName;
-                    menu.MenuTypeId = menuTypeId;
-                    menu.CreatedDate = currentDate;
-                    menu.ModifiedDate = currentDate;
-                    menu.UserId = userId;
-                    menu.Description = description;
-                    menu.IsPublic = isPublic;
+                    menus menu = new menus
+                    {
+                        MenuName = menuName,
+                        MenuTypeId = menuTypeId,
+                        CreatedDate = currentDate,
+                        ModifiedDate = currentDate,
+                        UserId = userId,
+                        Description = description,
+                        IsPublic = isPublic
+                    };
 
                     if (tempUser != 0)
                     {
                         menu.TempUserId = tempUser;
                     }
 
-                    var list = DataContext.Menus.Where(m => m.UserId == userId);
+                    var list = DataContext.menus.Where(m => m.UserId == userId);
                     if (list.ToArray().Length == 0)
                     {
                         menu.SortOrder = 1;
@@ -392,7 +225,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                         menu.SortOrder = list.Max(m => m.SortOrder) + 1;
                     }
 
-                    DataContext.Menus.Add(menu);
+                    DataContext.menus.Add(menu);
                     DataContext.SaveChanges();
                     //DataContext.Menus.InsertOnSubmit(menu);
                     //DataContext.SubmitChanges();
@@ -408,13 +241,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal bool CreateMenuEx1(Menu menu, int tempUser, out int menuId)
+        internal bool CreateMenuEx1(menus menu, int tempUser, out int menuId)
         {
             using (DataContext)
             {
                 try
                 {
-                    string menuTypeName = DataContext.MenuTypes.Single(mt => mt.MenuTypeId == menu.MenuTypeId).MenuTypeName;
+                    string menuTypeName = DataContext.menutypes.Single(mt => mt.MenuTypeId == menu.MenuTypeId).MenuTypeName;
                     DateTime currentDate = DateTime.Now;
 
                     if (menu.MenuName == string.Empty)
@@ -430,7 +263,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                         menu.TempUserId = tempUser;
                     }
 
-                    var list = DataContext.Menus.Where(m => m.UserId == menu.UserId);
+                    var list = DataContext.menus.Where(m => m.UserId == menu.UserId);
                     if (list.ToArray().Length == 0)
                     {
                         menu.SortOrder = 1;
@@ -440,15 +273,17 @@ namespace MyBuyList.DataLayer.DataAdapters
                         menu.SortOrder = list.Max(m => m.SortOrder) + 1;
                     }
 
-                    Menu newMenu = new Menu();
-                    newMenu.MenuName = menu.MenuName;
-                    newMenu.MenuTypeId = menu.MenuTypeId;
-                    newMenu.Description = menu.Description;
-                    newMenu.CreatedDate = menu.CreatedDate;
-                    newMenu.ModifiedDate = menu.ModifiedDate;
-                    newMenu.SortOrder = menu.SortOrder;
-                    newMenu.UserId = menu.UserId;
-                    newMenu.IsPublic = menu.IsPublic;
+                    menus newMenu = new menus
+                    {
+                        MenuName = menu.MenuName,
+                        MenuTypeId = menu.MenuTypeId,
+                        Description = menu.Description,
+                        CreatedDate = menu.CreatedDate,
+                        ModifiedDate = menu.ModifiedDate,
+                        SortOrder = menu.SortOrder,
+                        UserId = menu.UserId,
+                        IsPublic = menu.IsPublic
+                    };
 
                     //Array.ForEach(
                     //    menu.MenuRecipes.ToArray(),
@@ -460,7 +295,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //                                    RecipeId = mr.RecipeId
                     //                                }));
 
-                    DataContext.Menus.Add(newMenu);
+                    DataContext.menus.Add(newMenu);
                     DataContext.SaveChanges();
                     //DataContext.Menus.InsertOnSubmit(newMenu);
                     //DataContext.SubmitChanges();
@@ -476,52 +311,37 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal void CreateOrUpdateMenu(Menu menu, out int menuId)
+        internal void CreateOrUpdateMenu(menus menu, out int menuId)
         {
             //using (MyBuyListDBContext context = new MyBuyListDBContext(DBUtils.GetConnection()))
             using (DataContext)
             {
                 //try
                 //{
-                    string menuTypeName = DataContext.MenuTypes.Single(mt => mt.MenuTypeId == menu.MenuTypeId).MenuTypeName;
+                    string menuTypeName = DataContext.menutypes.Single(mt => mt.MenuTypeId == menu.MenuTypeId).MenuTypeName;
                     DateTime currentDate = DateTime.Now;
                     if (menu.MenuName == string.Empty)
                     {
                         menu.MenuName = menuTypeName + " " + currentDate.ToString("dd/MM/yyyy HH:mm:ss");
                     }
 
-                    Menu menuToSave;
+                menus menuToSave;
 
                     if (menu.MenuId != 0)
                     {
-                        //DataLoadOptions dlo = new DataLoadOptions();
-                        //dlo.LoadWith<Menu>(m => m.MenuType);
-                        //dlo.LoadWith<Menu>(m => m.User);
-                        //dlo.LoadWith<Menu>(m => m.Meals);
-                        //dlo.LoadWith<Menu>(m => m.MenuRecipes);
-                        //dlo.LoadWith<Menu>(m => m.MenuCategories);
-                        //dlo.LoadWith<MenuRecipe>(mr => mr.Recipe);
-                        //dlo.LoadWith<Meal>(m => m.MealRecipes);
-                        //dlo.LoadWith<Meal>(m => m.MealType);
-                        //dlo.LoadWith<MealRecipe>(m => m.Recipe);
-                        //dlo.LoadWith<MenuCategory>(mc => mc.MCategory);
-
-                        //context.LoadOptions = dlo;
-
-                        menuToSave = DataContext.Menus.Single(m => m.MenuId == menu.MenuId);
-
+                        menuToSave = DataContext.menus.Single(m => m.MenuId == menu.MenuId);
                         menuToSave.ModifiedDate = currentDate;
                     }
                     else
                     {
-                        menuToSave = new Menu
-                            {
+                        menuToSave = new menus
+                        {
                                 CreatedDate = currentDate,
                                 ModifiedDate = currentDate,
                                 UserId = menu.UserId
                             };
 
-                        var list = DataContext.Menus.Where(m => m.UserId == menu.UserId);
+                        var list = DataContext.menus.Where(m => m.UserId == menu.UserId);
                         if (list.ToArray().Length == 0)
                         {
                             menu.SortOrder = 1;
@@ -576,12 +396,12 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //    }
                     //}
 
-                    foreach (Meal meal in menu.Meals.ToArray())
+                    foreach (meals meal in menu.meals.ToArray())
                     {
                         if (meal.MealId == 0)
                         {
-                            Meal newMeal = new Meal
-                                {
+                        meals newMeal = new meals
+                        {
                                     CourseTypeId = meal.CourseTypeId,
                                     DayIndex = meal.DayIndex,
                                     MealTypeId = meal.MealTypeId,
@@ -590,17 +410,17 @@ namespace MyBuyList.DataLayer.DataAdapters
                                     Diners = meal.Diners
                                 };
 
-                            foreach (MealRecipe mealRecipe in meal.MealRecipes.ToArray())
+                            foreach (mealrecipes mealRecipe in meal.mealrecipes.ToArray())
                             {
                                 //newMeal.MealRecipes.Add(new MealRecipe() { RecipeId = mealRecipe.RecipeId, Servings = mealRecipe.Servings });
                                 //newMeal.MealRecipes.Add(new MealRecipe() { RecipeId = mealRecipe.RecipeId, Servings = mealRecipe.ExpectedServings });
                             }
 
-                            menuToSave.Meals.Add(newMeal);
+                            menuToSave.meals.Add(newMeal);
                         }
                         else
                         {
-                            Meal sameMeal = menuToSave.Meals.SingleOrDefault(sm => sm.MealId == meal.MealId);
+                            meals sameMeal = menuToSave.meals.SingleOrDefault(sm => sm.MealId == meal.MealId);
                             if (sameMeal != null)
                             {
                                 bool modified = false;
@@ -609,12 +429,12 @@ namespace MyBuyList.DataLayer.DataAdapters
                                     sameMeal.Diners = meal.Diners;
                                     modified = true;
                                 }
-                                foreach (MealRecipe mealRecipe in meal.MealRecipes.ToArray())
+                                foreach (mealrecipes mealRecipe in meal.mealrecipes.ToArray())
                                 {
-                                    MealRecipe sameMealRecipe = sameMeal.MealRecipes.SingleOrDefault(smr => smr.RecipeId == mealRecipe.RecipeId);
+                                    mealrecipes sameMealRecipe = sameMeal.mealrecipes.SingleOrDefault(smr => smr.RecipeId == mealRecipe.RecipeId);
                                     if (sameMealRecipe == null)
                                     {
-                                        sameMeal.MealRecipes.Add(new MealRecipe() { RecipeId = mealRecipe.RecipeId, Servings = mealRecipe.Servings });
+                                        sameMeal.mealrecipes.Add(new mealrecipes() { RecipeId = mealRecipe.RecipeId, Servings = mealRecipe.Servings });
                                         modified = true;
                                     }
                                     else if (sameMealRecipe.Servings != mealRecipe.Servings)
@@ -634,44 +454,44 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     if (menu.MenuId != 0)
                     {
-                        for (int i = 0; i < menuToSave.Meals.ToArray().Length; i++)
+                        for (int i = 0; i < menuToSave.meals.ToArray().Length; i++)
                         {
-                            Meal menuToSaveMeal = menuToSave.Meals.ToArray()[i];
+                        meals menuToSaveMeal = menuToSave.meals.ToArray()[i];
 
-                            Meal menuMeal = null;
+                        meals menuMeal = null;
                             if (menuToSave.MenuTypeId == 1) //one meal
                             {
-                                menuMeal = menu.Meals.SingleOrDefault(mm => mm.CourseTypeId == menuToSaveMeal.CourseTypeId);
+                                menuMeal = menu.meals.SingleOrDefault(mm => mm.CourseTypeId == menuToSaveMeal.CourseTypeId);
                             }
                             if (menuToSave.MenuTypeId == 4) //quick meal
                             {
-                                menuMeal = menu.Meals.SingleOrDefault(mm => mm.MealTypeId == menuToSaveMeal.MealTypeId);
+                                menuMeal = menu.meals.SingleOrDefault(mm => mm.MealTypeId == menuToSaveMeal.MealTypeId);
                             }
                             if (menuToSave.MenuTypeId == 2) //weekly
                             {
-                                menuMeal = menu.Meals.SingleOrDefault(mm => mm.DayIndex == menuToSaveMeal.DayIndex && mm.MealTypeId == menuToSaveMeal.MealTypeId);
+                                menuMeal = menu.meals.SingleOrDefault(mm => mm.DayIndex == menuToSaveMeal.DayIndex && mm.MealTypeId == menuToSaveMeal.MealTypeId);
                             }
 
                             if (menuMeal == null)   //meal that was erased (emptied) during edit - delete all meal recipes and then delete meal.
                             {
-                                for (int j = 0; j < menuToSaveMeal.MealRecipes.ToArray().Length; j++)
+                                for (int j = 0; j < menuToSaveMeal.mealrecipes.ToArray().Length; j++)
                                 {
-                                DataContext.MealRecipes.Remove(menuToSaveMeal.MealRecipes.ToArray()[j]);
+                                DataContext.mealrecipes.Remove(menuToSaveMeal.mealrecipes.ToArray()[j]);
                                 //DataContext.MealRecipes.DeleteOnSubmit(menuToSaveMeal.MealRecipes.ToArray()[j]);
                             }
 
-                            DataContext.Meals.Remove(menuToSaveMeal);
+                            DataContext.meals.Remove(menuToSaveMeal);
                             //DataContext.Meals.DeleteOnSubmit(menuToSaveMeal);
                         }
                             else    //meal that still exists - check all meal recipes if any were erased. is so - erase meal recipe from menuToSaveMeal.
                             {
-                                for (int j = 0; j < menuToSaveMeal.MealRecipes.ToArray().Length; j++)
+                                for (int j = 0; j < menuToSaveMeal.mealrecipes.ToArray().Length; j++)
                                 {
-                                    if (menuMeal.MealRecipes.SingleOrDefault(mmr => mmr.RecipeId == menuToSaveMeal.MealRecipes.ToArray()[j].RecipeId) == null)
+                                    if (menuMeal.mealrecipes.SingleOrDefault(mmr => mmr.RecipeId == menuToSaveMeal.mealrecipes.ToArray()[j].RecipeId) == null)
                                     {
-                                    DataContext.MealRecipes.Remove(menuToSaveMeal.MealRecipes.ToArray()[j]);
+                                    DataContext.mealrecipes.Remove(menuToSaveMeal.mealrecipes.ToArray()[j]);
                                     //DataContext.MealRecipes.DeleteOnSubmit(menuToSaveMeal.MealRecipes.ToArray()[j]);
-                                    menuToSaveMeal.MealRecipes.Remove(menuToSaveMeal.MealRecipes.ToArray()[j]);
+                                    menuToSaveMeal.mealrecipes.Remove(menuToSaveMeal.mealrecipes.ToArray()[j]);
                                     }
                                 }
                             }
@@ -680,7 +500,7 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     if (menu.MenuId == 0)
                 {
-                    DataContext.Menus.Add(menuToSave);
+                    DataContext.menus.Add(menuToSave);
                     //DataContext.Menus.InsertOnSubmit(menuToSave);
                     }
 
@@ -704,7 +524,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
+                    menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
                     menu.MenuName = menuName;
                     menu.Description = description;
                     menu.ModifiedDate = DateTime.Now;
@@ -726,7 +546,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
+                    menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
                     menu.UserId = userId;
                     //menu.ModifiedDate = DateTime.Now;
 
@@ -747,7 +567,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    Menu menu = DataContext.Menus.Single(m => m.MenuId == menuId);
+                    menus menu = DataContext.menus.Single(m => m.MenuId == menuId);
                     menu.IsDeleted = true;
                     menu.ModifiedDate = DateTime.Now;
 
@@ -757,11 +577,11 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     //DataContext.MenuRecipes.DeleteAllOnSubmit(menuRecipesToDelete);
 
-                    var mealsToDelete = from ml in DataContext.Meals
+                    var mealsToDelete = from ml in DataContext.meals
                                         where ml.MenuId == menuId
                                         select ml;
 
-                    DataContext.Meals.RemoveRange(mealsToDelete);
+                    DataContext.meals.RemoveRange(mealsToDelete);
                     DataContext.SaveChanges();
                     //DataContext.Meals.DeleteAllOnSubmit(mealsToDelete);
                     //DataContext.SubmitChanges();
@@ -786,10 +606,10 @@ namespace MyBuyList.DataLayer.DataAdapters
                     //DataContext.SubmitChanges();
 
                     //delete this recipe from all meals for menuId
-                    MealRecipe[] mealRecipes = DataContext.MealRecipes.Where(mr => mr.RecipeId == recipeId &&
-                                                                                   mr.Meal.MenuId == menuId).ToArray();
+                    mealrecipes[] mealRecipes = DataContext.mealrecipes.Where(mr => mr.RecipeId == recipeId &&
+                                                                                   mr.meals.MenuId == menuId).ToArray();
 
-                    DataContext.MealRecipes.RemoveRange(mealRecipes);
+                    DataContext.mealrecipes.RemoveRange(mealRecipes);
                     DataContext.SaveChanges();
                     //DataContext.MealRecipes.DeleteAllOnSubmit(mealRecipes);
                     //DataContext.SubmitChanges();
@@ -809,8 +629,8 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    bool check = DataContext.MealRecipes.Any(mr => mr.RecipeId == recipeId &&
-                                                             mr.Meal.MenuId == menuId);
+                    bool check = DataContext.mealrecipes.Any(mr => mr.RecipeId == recipeId &&
+                                                             mr.meals.MenuId == menuId);
                     //if (list != null)
                     //{
                     //    return true;
@@ -916,7 +736,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             {
                 try
                 {
-                    var days = from meal in DataContext.Meals
+                    var days = from meal in DataContext.meals
                                where meal.MenuId == menuId
                                select meal.DayIndex;
 
@@ -930,7 +750,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal IEnumerable<Menu> GetMenus(int userid, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
+        internal IEnumerable<menus> GetMenus(int userid, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages)
         {
             //using (MyBuyListDBContext context = new MyBuyListDBContext(DBUtils.GetConnection()))
             using (DataContext)
@@ -942,25 +762,25 @@ namespace MyBuyList.DataLayer.DataAdapters
 
                     //DataContext.LoadOptions = dlo;
 
-                    var count = (from m in DataContext.Menus
+                    var count = (from m in DataContext.menus
                                  where m.IsDeleted == false && (m.IsPublic == true || m.UserId == userid)
                                  select m).Count();
 
                     totalPages = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
-                    var list = from m in DataContext.Menus
+                    var list = from m in DataContext.menus
                                where m.IsDeleted == false && (m.IsPublic == true || m.UserId == userid)
                                select m;
 
                     if (userid == 1)
                     {
-                        count = (from m in DataContext.Menus
+                        count = (from m in DataContext.menus
                                  where m.IsDeleted == false
                                  select m).Count();
 
                         totalPages = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
-                        list = from m in DataContext.Menus
+                        list = from m in DataContext.menus
                                where m.IsDeleted == false
                                select m;
                     }
@@ -974,7 +794,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(m => m.MenuName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(m => m.User.DisplayName);
+                            list = list.OrderBy(m => m.users.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(m => m.ModifiedDate);
@@ -995,47 +815,46 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal IEnumerable<Menu> GetMenusEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? diners, int[] menuCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numMenus)
+        internal IEnumerable<menus> GetMenusEx(RecipeDisplayEnum display, int userId, string freeText, int? categoryId, int? diners, int[] menuCats, RecipeOrderEnum orderBy, int page, int pageSize, out int totalPages, out int numMenus)
         {
-            //using (MyBuyListDBContext context = new MyBuyListDBContext(DBUtils.GetConnection()))
             using (DataContext)
             {
                 try
                 {
-                    List<Menu> MenusList = null;
+                    List<menus> MenusList = null;
 
                     switch (display)
                     {
                         case RecipeDisplayEnum.All:
-                            MenusList = this.GetAllMenus(userId).ToList();
+                            MenusList = GetAllMenus(userId).ToList();
                             break;
                         case RecipeDisplayEnum.MyRecipes:
                             if (!string.IsNullOrEmpty(freeText))
-                                MenusList = this.GetUserMenusList(userId).Where(r => r.MenuName.Contains(freeText)).ToList();
+                                MenusList = GetUserMenusList(userId).Where(r => r.MenuName.Contains(freeText)).ToList();
                             else
-                                MenusList = this.GetUserMenusList(userId).ToList();
+                                MenusList = GetUserMenusList(userId).ToList();
                             break;
                         case RecipeDisplayEnum.MyFavoriteRecipes:
                             if (!string.IsNullOrEmpty(freeText))
-                                MenusList = this.GetUserFavoritesMenus(userId).Where(r => r.MenuName.Contains(freeText)).ToList();
+                                MenusList = GetUserFavoritesMenus(userId).Where(r => r.MenuName.Contains(freeText)).ToList();
                             else
-                                MenusList = this.GetUserFavoritesMenus(userId).ToList();
+                                MenusList = GetUserFavoritesMenus(userId).ToList();
                             break;
                         case RecipeDisplayEnum.ByCategory:
                             if (categoryId.HasValue)
                             {
-                                MenusList = this.GetMenusByCategory(categoryId.Value, userId).ToList();
+                                MenusList = GetMenusByCategory(categoryId.Value, userId).ToList();
                             }
                             else
                             {
-                                MenusList = this.GetAllMenus(userId).ToList();
+                                MenusList = GetAllMenus(userId).ToList();
                             }
                             break;
                         case RecipeDisplayEnum.BySearchSimple:
-                            MenusList = this.GetMenusListByFreeText(freeText, userId).ToList();
+                            MenusList = GetMenusListByFreeText(freeText, userId).ToList();
                             break;
                         case RecipeDisplayEnum.BySearchAdvanced:
-                            MenusList = this.GetMenusListByComplexSearch(freeText, diners, menuCats, userId).ToList();
+                            MenusList = GetMenusListByComplexSearch(freeText, diners, menuCats, userId).ToList();
                             break;
                     }
 
@@ -1055,7 +874,7 @@ namespace MyBuyList.DataLayer.DataAdapters
                             list = list.OrderBy(m => m.MenuName);
                             break;
                         case RecipeOrderEnum.Publisher:
-                            list = list.OrderBy(m => m.User.DisplayName);
+                            list = list.OrderBy(m => m.users.DisplayName);
                             break;
                         case RecipeOrderEnum.LastUpdate:
                             list = list.OrderByDescending(m => m.ModifiedDate);
@@ -1076,46 +895,25 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
             }
         }
-        
-        internal Menu[] GetAllMenus(int userId)
+
+        internal menus[] GetAllMenus(int userId)
         {
-            //using (DataContext)
-            //{
-            //    try
-            //    {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Menu>(m => m.User);
-                    //dlo.LoadWith<Menu>(m => m.UserFavoriteMenus);                    
-                    //DataContext.LoadOptions = dlo;
+            var list = from m in DataContext.menus.Where(m => m.IsDeleted == false && m.IsPublic == true)
+                       select m;
 
-                    var list = from m in DataContext.Menus.Where(m => m.IsDeleted == false && m.IsPublic == true)
-                               select m;
+            //var list = from m in DataContext.Menus.Where(m => m.IsDeleted == false && (m.IsPublic == true || m.UserId == userId || userId == USER_ADMIN))
+            //           select m;
 
-                    //var list = from m in DataContext.Menus.Where(m => m.IsDeleted == false && (m.IsPublic == true || m.UserId == userId || userId == USER_ADMIN))
-                    //           select m;
-
-                    return list.ToArray();
-            //    }
-            //    catch
-            //    {
-            //        return null;
-            //    }
-            //}
+            return list.ToArray();
         }
 
-        internal Menu[] GetUserMenusList(int userId)
+        internal menus[] GetUserMenusList(int userId)
         {
             using (DataContext)
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<Menu>(m => m.User);
-                    //dlo.LoadWith<Menu>(m => m.UserFavoriteMenus);
-
-                    //DataContext.LoadOptions = dlo;
-
-                    var list = DataContext.Menus.Where(m => m.IsDeleted == false && m.UserId == userId);
+                    var list = DataContext.menus.Where(m => m.IsDeleted == false && m.UserId == userId);
                     return list.ToArray();
                 }
                 catch
@@ -1125,33 +923,19 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Menu[] GetUserFavoritesMenus(int userId)
+        internal menus[] GetUserFavoritesMenus(int userId)
         {
             using (DataContext)
             {
-                //try
-                //{
-                //    //    DataLoadOptions dlo = new DataLoadOptions();
-                //    //    dlo.LoadWith<Menu>(m => m.User);
-                //    //    dlo.LoadWith<Menu>(m => m.UserFavoriteMenus);
-
-                //    //    DataContext.LoadOptions = dlo;
-
                 //    var list = from m in DataContext.Menus.Where(m => m.IsDeleted == false && (m.IsPublic == true || m.UserId == userId || userId == USER_ADMIN))
                 //               join ufm in DataContext.UserFavoriteMenus.Where(ufm => ufm.UserId == userId) on m.MenuId equals ufm.MenuId
                 //               select m;
                 //    return list.ToArray();
-                //}
-                //catch
-                //{
-                //    return null;
-                //}
-
                 return null;
             }
         }
 
-        internal Menu[] GetMenusListByFreeText(string freeText, int userId)
+        internal menus[] GetMenusListByFreeText(string freeText, int userId)
         {
             //var menuRecipes = from m in DataContext.Menus.Where(m => m.IsDeleted == false && m.IsPublic == true)
             //                  join mr in DataContext.MenuRecipes.Where(mr => mr.Recipe.RecipeName.Trim().IndexOf(freeText.Trim()) != -1 ||
@@ -1233,7 +1017,7 @@ namespace MyBuyList.DataLayer.DataAdapters
         //    }
         //}
 
-        internal Menu[] GetMenusListByComplexSearch(string freeText, int? diners, int[] menuCats, int userId)
+        internal menus[] GetMenusListByComplexSearch(string freeText, int? diners, int[] menuCats, int userId)
         {
             using (DataContext)
             {
@@ -1311,7 +1095,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal Menu[] GetMenusByCategory(int categoryId, int userId)
+        internal menus[] GetMenusByCategory(int categoryId, int userId)
         {
             return null;
 
@@ -1319,11 +1103,6 @@ namespace MyBuyList.DataLayer.DataAdapters
             //{
             //    try
             //    {
-            //        //DataLoadOptions dlo = new DataLoadOptions();
-            //        //dlo.LoadWith<Menu>(m => m.User);
-            //        //dlo.LoadWith<Menu>(m => m.UserFavoriteMenus);
-            //        //DataContext.LoadOptions = dlo;
-
             //        var list = from m in DataContext.Menus.Where(m => m.IsDeleted == false && (m.IsPublic == true || m.UserId == userId || userId == USER_ADMIN))
             //                   join mcat in DataContext.MenuCategories.Where(mc => mc.MCategoryId == categoryId ||
             //                                                                mc.MCategory.ParentMCategoryId == categoryId)
@@ -1341,7 +1120,7 @@ namespace MyBuyList.DataLayer.DataAdapters
             //}
         }
 
-        internal MCategory[] GetMenusCategoriesList(int userId)
+        internal mcategories[] GetMenusCategoriesList(int userId)
         {
             return null;
 

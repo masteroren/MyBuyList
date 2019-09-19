@@ -4,19 +4,19 @@ using System.Linq;
 
 namespace MyBuyList.DataLayer.DataAdapters
 {
-    class MealsDA : BaseContextDataAdapter<MyBuyListEntities>
+    class MealsDA : BaseContextDataAdapter<mybuylistEntities>
     {
-        internal MealRecipe[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
+        internal mealrecipes[] GetMealsWeeklyList(int menuId, int startDayIndex, int endDayIndex)
         {
             using (DataContext)
             {
                 try
                 {
-                    var meals = DataContext.Meals.Where(m => m.MenuId == menuId &&
+                    var meals = DataContext.meals.Where(m => m.MenuId == menuId &&
                                                         m.DayIndex >= startDayIndex &&
                                                         m.DayIndex <= endDayIndex);
 
-                    var list = from mr in DataContext.MealRecipes
+                    var list = from mr in DataContext.mealrecipes
                                join m in meals on mr.MealId equals m.MealId
                                select mr;
                     return list.ToArray();
@@ -29,114 +29,76 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal CourseType[] GetCourseTypes()
+        internal coursetypes[] GetCourseTypes()
         {
             using (DataContext)
             {
-                try
-                {
-                    var list = DataContext.CourseTypes.OrderBy(ct => ct.SortOrder);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.coursetypes.OrderBy(ct => ct.SortOrder);
+                return list.ToArray();
             }
         }
 
-        internal MealType[] GetMealTypes()
+        internal mealtypes[] GetMealTypes()
         {
             using (DataContext)
             {
-                try
-                {
-                    var list = DataContext.MealTypes.OrderBy(mt => mt.SortOrder);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.mealtypes.OrderBy(mt => mt.SortOrder);
+                return list.ToArray();
             }
         }
 
-        internal Meal[] GetMealsList(int menuId)
+        internal meals[] GetMealsList(int menuId)
         {
             using (DataContext)
             {
-                try
-                {
-                    var list = DataContext.Meals.Where(m => m.MenuId == menuId);
-                    return list.ToArray();
-                }
-                catch
-                {
-                    return null;
-                }
+                var list = DataContext.meals.Where(m => m.MenuId == menuId);
+                return list.ToArray();
             }
         }
 
-        internal Meal GetMeal(int mealId)
+        internal meals GetMeal(int mealId)
         {
             using (DataContext)
             {
-                try
-                {
-                    Meal item = DataContext.Meals.SingleOrDefault(m => m.MealId == mealId);
-
-                    return item;
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
-
-        internal Meal GetMeal(int menuId, int dayIndex, int mealTypeId)
-        {
-            using (DataContext)
-            { 
-                return GetMeal(DataContext, menuId, dayIndex, mealTypeId);
-            }
-        }
-
-        internal Meal GetMeal(int menuId, int courseTypeId)
-        {
-            using (DataContext)
-            {
-                return GetMeal(DataContext, menuId, courseTypeId);
-            }
-        }
-
-        private Meal GetMeal(MyBuyListEntities dc, int menuId, int courseTypeId)
-        {
-            try
-            {
-                Meal item = dc.Meals.SingleOrDefault(m => m.MenuId == menuId &&
-                                                          m.CourseTypeId == courseTypeId);
-
+                meals item = DataContext.meals.SingleOrDefault(m => m.MealId == mealId);
                 return item;
             }
-            catch
+        }
+
+        //internal meals GetMeal(int menuId, int dayIndex, int mealTypeId)
+        //{
+        //    using (DataContext)
+        //    { 
+        //        return GetMeal(menuId, dayIndex, mealTypeId);
+        //    }
+        //}
+
+        //internal meals GetMeal(int menuId, int courseTypeId)
+        //{
+        //    using (DataContext)
+        //    {
+        //        return GetMeal(menuId, courseTypeId);
+        //    }
+        //}
+
+        internal meals GetMeal(int menuId, int courseTypeId)
+        {
+            using (DataContext)
             {
-                return null;
+                meals item = DataContext.meals.SingleOrDefault(m => m.MenuId == menuId &&
+                                                          m.CourseTypeId == courseTypeId);
+                return item;
             }
         }
 
-        private Meal GetMeal(MyBuyListEntities dc, int menuId, int dayIndex, int mealTypeId)
+        internal meals GetMeal(int menuId, int dayIndex, int mealTypeId)
         {
-            try
+            using (DataContext)
             {
-                Meal item = dc.Meals.SingleOrDefault(m => m.MenuId == menuId &&
+                meals item = DataContext.meals.SingleOrDefault(m => m.MenuId == menuId &&
                                                           m.DayIndex == dayIndex &&
                                                           m.MealTypeId == mealTypeId);
                 return item;
-            }
-            catch
-            {
-                return null;
             }
         }
 
@@ -145,74 +107,57 @@ namespace MyBuyList.DataLayer.DataAdapters
             using (DataContext)
             {
                 int mealId = 0;
-                return SaveMeal(DataContext, menuId, courseTypeId, diners, out mealId);
+                return SaveMeal(menuId, courseTypeId, diners, out mealId);
             }
         }
 
         internal bool SaveMeal(int menuId, int dayIndex, int mealTypeId, int? diners)
         {
+            int mealId = 0;
+            return SaveMeal(menuId, dayIndex, mealTypeId, diners, out mealId);
+        }
+
+        private bool SaveMeal(int menuId, int courseTypeId, int? diners, out int mealId)
+        {
             using (DataContext)
             {
-                int mealId = 0;
-                return SaveMeal(DataContext, menuId, dayIndex, mealTypeId, diners, out mealId);
-            }
-        }
-
-        private bool SaveMeal(MyBuyListEntities dc, int menuId, int courseTypeId, int? diners, out int mealId)
-        {
-            try
-            {
-                Meal item = dc.Meals.SingleOrDefault(m => m.MenuId == menuId &&
-                                                          m.CourseTypeId == courseTypeId);
+                meals item = DataContext.meals.SingleOrDefault(m => m.MenuId == menuId &&
+                                                      m.CourseTypeId == courseTypeId);
 
                 int mealTypeId = 4; //Others
-                return this.SaveMeal(dc, item, menuId, mealTypeId, null, courseTypeId, diners, out mealId);
+                return this.SaveMeal(item, menuId, mealTypeId, null, courseTypeId, diners, out mealId);
             }
 
-            catch
-            {
-                mealId = 0;
-                return false;
-            }
-        }
-        
-        private bool SaveMeal(MyBuyListEntities dc, int menuId, int dayIndex, int mealTypeId, int? diners, out int mealId)
-        {
-            try
-            {
-                Meal item = dc.Meals.SingleOrDefault(m => m.MenuId == menuId &&
-                                                          m.DayIndex == dayIndex &&
-                                                          m.MealTypeId == mealTypeId);
-
-                return this.SaveMeal(dc, item, menuId, mealTypeId, dayIndex, null, diners, out mealId);
-            }
-
-            catch
-            {
-                mealId = 0;
-                return false;
-            }
         }
 
-        private bool SaveMeal(MyBuyListEntities dc, Meal item, int menuId, int mealTypeId, int? dayIndex, int? courseTypeId, int? diners, out int mealId)
+        private bool SaveMeal(int menuId, int dayIndex, int mealTypeId, int? diners, out int mealId)
         {
-            try
-            {
+            meals item = DataContext.meals.SingleOrDefault(m => m.MenuId == menuId &&
+                                                         m.DayIndex == dayIndex &&
+                                                         m.MealTypeId == mealTypeId);
+
+            return this.SaveMeal(item, menuId, mealTypeId, dayIndex, null, diners, out mealId);
+        }
+
+        private bool SaveMeal(meals item, int menuId, int mealTypeId, int? dayIndex, int? courseTypeId, int? diners, out int mealId)
+        {
+            using (DataContext)
+            { 
                 if (item == null)
                 {
                     if (diners != null)
                     {
-                        item = new Meal();
+                        item = new meals();
                         item.MenuId = menuId;
                         item.MealTypeId = mealTypeId;
                         item.DayIndex = dayIndex;
                         item.CourseTypeId = courseTypeId;
-                        
+
                         item.Diners = diners;
                         item.CreatedDate = DateTime.Now;
                         item.ModifiedDate = DateTime.Now;
-                        dc.Meals.Add(item);                        
-                        dc.SaveChanges();
+                        DataContext.meals.Add(item);
+                        DataContext.SaveChanges();
 
                         mealId = item.MealId;
                         return true;
@@ -228,45 +173,34 @@ namespace MyBuyList.DataLayer.DataAdapters
                     if (diners != null)
                     {
                         item.Diners = diners;
-                        item.ModifiedDate = DateTime.Now;                       
-                        mealId = item.MealId;                       
+                        item.ModifiedDate = DateTime.Now;
+                        mealId = item.MealId;
                     }
                     else
                     {
-                        dc.Meals.Remove(item);
+                        DataContext.meals.Remove(item);
                         //dc.Meals.DeleteOnSubmit(item);
                         mealId = 0;
                     }
 
-                    dc.SaveChanges();
+                    DataContext.SaveChanges();
                     //dc.SubmitChanges();
                     return true;
-                }               
-            }
-
-            catch
-            {
-                mealId = 0;
-                return false;
+                }
             }
         }
 
-        internal MealRecipe[] GetMealRecipesList(int menuId, int dayIndex, int mealTypeId)
+        internal mealrecipes[] GetMealRecipesList(int menuId, int dayIndex, int mealTypeId)
         {
             using (DataContext)
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Meal);
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Recipe);
-                    //DataContext.LoadOptions = dlo;
-
-                    var meals = DataContext.Meals.Where(m => m.MenuId == menuId &&
+                    var meals = DataContext.meals.Where(m => m.MenuId == menuId &&
                                                              m.DayIndex == dayIndex &&
                                                              m.MealTypeId == mealTypeId);
 
-                    var list = from mr in DataContext.MealRecipes
+                    var list = from mr in DataContext.mealrecipes
                                join m in meals on mr.MealId equals m.MealId
                                select mr;
                     return list.ToArray();
@@ -279,19 +213,13 @@ namespace MyBuyList.DataLayer.DataAdapters
             }
         }
 
-        internal MealRecipe[] GetMealRecipes(int mealId)
+        internal mealrecipes[] GetMealRecipes(int mealId)
         {
             using (DataContext)
             {
                 try
                 {
-                    //DataLoadOptions dlo = new DataLoadOptions();
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Meal);
-                    //dlo.LoadWith<MealRecipe>(mr => mr.Recipe);
-                    //DataContext.LoadOptions = dlo;
-
-                    var list = DataContext.MealRecipes.Where(m => m.MealId == mealId);
-
+                    var list = DataContext.mealrecipes.Where(m => m.MealId == mealId);
                     return list.ToArray();
 
                 }
@@ -301,11 +229,11 @@ namespace MyBuyList.DataLayer.DataAdapters
                 }
             }
         }
-        private int GetRecipeServings(MyBuyListEntities dc, int recipeId)
+        private int GetRecipeServings(mybuylistEntities dc, int recipeId)
         {
             try
             {
-                Recipe recipe = dc.Recipes.Single(r => r.RecipeId == recipeId);
+                recipes recipe = dc.recipes.Single(r => r.RecipeId == recipeId);
                 return recipe.Servings;
             }
 
@@ -314,32 +242,25 @@ namespace MyBuyList.DataLayer.DataAdapters
                 return 0;
             }
         }
-        private bool AddMealRecipe(MyBuyListEntities dc, int mealId, int recipeId, int servings)
+        private bool AddMealRecipe(mybuylistEntities dc, int mealId, int recipeId, int servings)
         {
-            try
+            using(DataContext)
             {
-                MealRecipe mealRecipe = dc.MealRecipes.SingleOrDefault(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
+                mealrecipes mealRecipe = DataContext.mealrecipes.SingleOrDefault(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
                 if (mealRecipe == null)
                 {
-                    mealRecipe = new MealRecipe();
+                    mealRecipe = new mealrecipes();
                     mealRecipe.MealId = mealId;
                     mealRecipe.RecipeId = recipeId;
                     mealRecipe.Servings = servings;
-                    dc.MealRecipes.Add(mealRecipe);
-                    dc.SaveChanges();
-                    //dc.MealRecipes.InsertOnSubmit(mealRecipe);
-                    //dc.SubmitChanges();
+                    DataContext.mealrecipes.Add(mealRecipe);
+                    DataContext.SaveChanges();
                     return true;
                 }
                 else
                 {
                     return false;
                 }               
-            }
-
-            catch
-            {
-                return false;
             }
         }
 
@@ -354,35 +275,27 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
+                meals meal = GetMeal(menuId, courseTypeId);
+
+                int servings = this.GetRecipeServings(DataContext, recipeId);
+                if (meal == null)
                 {
-                    Meal meal = this.GetMeal(DataContext, menuId, courseTypeId);
 
-                    int servings = this.GetRecipeServings(DataContext, recipeId);
-                    if (meal == null)
+
+                    mealId = 0;
+                    if (SaveMeal(menuId, courseTypeId, servings, out mealId))
                     {
-                        
-
-                        mealId = 0;
-                        if (SaveMeal(DataContext, menuId, courseTypeId, servings, out mealId))
-                        {
-                           return this.AddMealRecipe(DataContext, mealId, recipeId, servings);
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return this.AddMealRecipe(DataContext, mealId, recipeId, servings);
                     }
                     else
                     {
-                        mealId = meal.MealId;
-                        return this.AddMealRecipe(DataContext, meal.MealId, recipeId, servings);
+                        return false;
                     }
                 }
-                catch
+                else
                 {
-                    mealId = 0;
-                    return false;
+                    mealId = meal.MealId;
+                    return this.AddMealRecipe(DataContext, meal.MealId, recipeId, servings);
                 }
             }
         }
@@ -391,51 +304,36 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
+                meals meal = GetMeal(menuId, dayIndex, mealTypeId);
+
+                int servings = this.GetRecipeServings(DataContext, recipeId);
+
+                if (meal == null)
                 {
-                    Meal meal = this.GetMeal(DataContext, menuId, dayIndex, mealTypeId);
-
-                    int servings = this.GetRecipeServings(DataContext, recipeId);
-
-                    if (meal == null)
+                    mealId = 0;
+                    if (SaveMeal(menuId, dayIndex, mealTypeId, servings, out mealId))
                     {
-                        mealId = 0;
-                        if (SaveMeal(DataContext, menuId, dayIndex, mealTypeId, servings, out mealId))
-                        {
-                            return this.AddMealRecipe(DataContext, mealId, recipeId, servings);
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return this.AddMealRecipe(DataContext, mealId, recipeId, servings);
                     }
                     else
                     {
-                        mealId = meal.MealId;
-                        return this.AddMealRecipe(DataContext, meal.MealId, recipeId, servings);
+                        return false;
                     }
                 }
-                catch
+                else
                 {
-                    mealId = 0;
-                    return false;
+                    mealId = meal.MealId;
+                    return this.AddMealRecipe(DataContext, meal.MealId, recipeId, servings);
                 }
             }
         }
 
-        internal MealRecipe GetMealRecipe(int mealId, int recipeId)
+        internal mealrecipes GetMealRecipe(int mealId, int recipeId)
         {
             using (DataContext)
             {
-                try
-                {
-                    MealRecipe mealRecipe = DataContext.MealRecipes.Single(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
-                    return mealRecipe;
-                }
-                catch
-                {
-                    return null;
-                }
+                mealrecipes mealRecipe = DataContext.mealrecipes.Single(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
+                return mealRecipe;
             }
         }
 
@@ -445,20 +343,10 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
-                {
-                    MealRecipe mealRecipe = DataContext.MealRecipes.Single(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
-                    DataContext.MealRecipes.Remove(mealRecipe);
-                    DataContext.SaveChanges();
-                    //DataContext.MealRecipes.DeleteOnSubmit(mealRecipe);
-                    //DataContext.SubmitChanges();
-
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                mealrecipes mealRecipe = DataContext.mealrecipes.Single(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
+                DataContext.mealrecipes.Remove(mealRecipe);
+                DataContext.SaveChanges();
+                return true;
             }
         }
 
@@ -466,19 +354,10 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
-                {
-                    var list = DataContext.Meals.Where(m => m.MenuId == menuId);
-                    DataContext.Meals.RemoveRange(list); //Delete also all recipes for each meal (DeleteRule Constraint between tables)
-                    DataContext.SaveChanges();
-                    //DataContext.Meals.DeleteAllOnSubmit(list); //Delete also all recipes for each meal (DeleteRule Constraint between tables)
-                    //DataContext.SubmitChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                var list = DataContext.meals.Where(m => m.MenuId == menuId);
+                DataContext.meals.RemoveRange(list); //Delete also all recipes for each meal (DeleteRule Constraint between tables)
+                DataContext.SaveChanges();
+                return true;
             }
         }
 
@@ -486,20 +365,11 @@ namespace MyBuyList.DataLayer.DataAdapters
         {
             using (DataContext)
             {
-                try
-                {
-                    MealRecipe mealRecipe = DataContext.MealRecipes.Single(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
-                    mealRecipe.Servings = servings;
+                mealrecipes mealRecipe = DataContext.mealrecipes.Single(mr => mr.MealId == mealId && mr.RecipeId == recipeId);
+                mealRecipe.Servings = servings;
 
-                    DataContext.SaveChanges();
-                    //DataContext.SubmitChanges();
-                    return true;
-                }
-
-                catch
-                {
-                    return false;
-                }
+                DataContext.SaveChanges();
+                return true;
             }
         }
 

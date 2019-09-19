@@ -19,7 +19,7 @@ public partial class PasswordRecovery : BasePage
     {
         if (!string.IsNullOrEmpty(this.txtUserName.Text))
         {
-            User u = BusinessFacade.Instance.GetUserByUserName(this.txtUserName.Text);
+            users u = BusinessFacade.Instance.GetUserByUserName(this.txtUserName.Text);
             lblResult.Visible = true;
 
             if (u != null)

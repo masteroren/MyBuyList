@@ -163,11 +163,11 @@ public partial class ucSearchSimple : System.Web.UI.UserControl, IPostBackEventH
     {
         int receipeId = int.Parse(eventArgument);
 
-        User currUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+        users currUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
         
         if (currUser != null)
         {
-            Recipe currRecipe = BusinessFacade.Instance.GetRecipe(receipeId);
+            recipes currRecipe = BusinessFacade.Instance.GetRecipe(receipeId);
 
             if ((currUser.UserTypeId == 1) || (currUser.UserId == currRecipe.UserId))
             {

@@ -37,7 +37,7 @@ public partial class PageGeneralItem : BasePage
                 if (!string.IsNullOrEmpty(this.Request["ItemId"]))
                 {
                     this.ItemId = int.Parse(this.Request["ItemId"]);
-                    GeneralItem Item = BusinessFacade.Instance.GetGeneralItem(this.ItemId.Value);
+                    generalitems Item = BusinessFacade.Instance.GetGeneralItem(this.ItemId.Value);
                     if (Item != null)
                     {
                         this.txtItemName.Text = Item.GeneralItemName;
@@ -55,7 +55,7 @@ public partial class PageGeneralItem : BasePage
             return;
         }
 
-        GeneralItem Item = new GeneralItem();
+        generalitems Item = new generalitems();
         Item.GeneralItemId = this.ItemId == null ? -1 : this.ItemId.Value;
         Item.GeneralItemName = this.txtItemName.Text;
 

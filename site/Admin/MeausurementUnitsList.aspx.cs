@@ -6,10 +6,10 @@ using System.Web.UI.WebControls;
 
 public partial class PageMeausurementUnitsList : BasePage
 {
-    MeasurementUnit[] Data
+    measurementunits[] Data
     {
-        get { return (MeasurementUnit[])this.Cache["MeasurementUnits"]; }
-        set { this.Cache["MeasurementUnits"] = value; }
+        get { return (measurementunits[])Cache["MeasurementUnits"]; }
+        set { Cache["MeasurementUnits"] = value; }
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -22,17 +22,17 @@ public partial class PageMeausurementUnitsList : BasePage
             }
             else
             {
-                this.Rebind();
+                Rebind();
             }
         }
     }
 
     private void Rebind()
     {
-        this.Data = BusinessFacade.Instance.GetMeasurementUnitsList();
-        //Array.Sort(this.Data);
-        this.rolMeasurementUnits.DataSource = this.Data;
-        this.rolMeasurementUnits.DataBind();
+        Data = BusinessFacade.Instance.GetMeasurementUnitsList();
+        //Array.Sort(Data);
+        rolMeasurementUnits.DataSource = Data;
+        rolMeasurementUnits.DataBind();
     }
 
 
@@ -40,10 +40,10 @@ public partial class PageMeausurementUnitsList : BasePage
     {
         ReorderListItem rolItem = e.Item as ReorderListItem;
         LinkButton btn = rolItem.FindControl("btnUpdate") as LinkButton;
-        MeasurementUnit unit = e.Item.DataItem as MeasurementUnit;
+        measurementunits unit = e.Item.DataItem as measurementunits;
         if (unit != null)
         {
-            btn.PostBackUrl = string.Format("~/Admin/MeasurementUnit.aspx?unitId={0}", unit.UnitId);
+            btn.PostBackUrl = string.Format("~/Admin/measurementunits.aspx?unitId={0}", unit.UnitId);
         }
 
         btn = rolItem.FindControl("btnDelete") as LinkButton;
@@ -58,19 +58,19 @@ public partial class PageMeausurementUnitsList : BasePage
             int unitId = int.Parse(btn.Attributes["unitId"]);
             if (BusinessFacade.Instance.DeleteMeasurementUnit(unitId))
             {
-                this.Rebind();
+                Rebind();
             }
         }
     }
 
     protected void rolMeasurementUnits_ItemReorder(object sender, ReorderListItemReorderEventArgs e)
     {
-        this.DoReorder(e.OldIndex, e.NewIndex);
+        DoReorder(e.OldIndex, e.NewIndex);
     }
 
     private void DoReorder(int oldIndex, int newIndex)
     {
-        MeasurementUnit[] arr = this.Data;
+        measurementunits[] arr = Data;
 
         if (oldIndex < newIndex) //item moved down
         {
@@ -97,7 +97,7 @@ public partial class PageMeausurementUnitsList : BasePage
 
         if (BusinessFacade.Instance.ReorderMeasurementUnits(arr))
         {
-            this.Rebind();
+            Rebind();
         }
     }
 }

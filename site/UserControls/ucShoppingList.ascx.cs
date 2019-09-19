@@ -11,7 +11,7 @@ namespace UserControls
     public partial class UcShoppingList : System.Web.UI.UserControl
     {
         public int UserId;
-        IEnumerable<UserShoppingList> shoppingListItems;
+        IEnumerable<usershoppinglist> shoppingListItems;
 
         public int NumOfSelectedRecipes
         {
@@ -103,8 +103,8 @@ namespace UserControls
             int currentUserId = ((BasePage)Page).UserId;
             if (currentUserId != -1)
             {
-                MyBuyList.Shared.Menu[] userMenus = BusinessFacade.Instance.GetMenusList(currentUserId);
-                MyBuyList.Shared.Menu[] userMenus1 = userMenus.OrderBy(um => um.MenuName).ToArray();
+                menus[] userMenus = BusinessFacade.Instance.GetMenusList(currentUserId);
+                menus[] userMenus1 = userMenus.OrderBy(um => um.MenuName).ToArray();
                 rptUserMenus.DataSource = userMenus1;
                 rptUserMenus.DataBind();
             }
@@ -113,12 +113,12 @@ namespace UserControls
         protected void rptUserMenus_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             HyperLink hp = e.Item.FindControl("lnkMenu") as HyperLink;
-            hp.NavigateUrl = string.Format("~/MenuEdit.aspx?menuId={0}", ((MyBuyList.Shared.Menu)e.Item.DataItem).MenuId);
+            hp.NavigateUrl = string.Format("~/MenuEdit.aspx?menuId={0}", ((menus)e.Item.DataItem).MenuId);
         }
 
         private void BindShoppingList()
         {
-            User user = ((BasePage)Page).CurrUser;
+            users user = ((BasePage)Page).CurrUser;
             if (user != null)
             {
                 UserId = user.UserId;
@@ -126,10 +126,10 @@ namespace UserControls
 
                 if (UserId != -1)
                 {
-                    Dictionary<int, Recipe> selectedRecipes = Utils.SelectedRecipes;
-                    foreach (KeyValuePair<int, Recipe> item in Utils.SelectedRecipes)
+                    Dictionary<int, recipes> selectedRecipes = Utils.SelectedRecipes;
+                    foreach (KeyValuePair<int, recipes> item in Utils.SelectedRecipes)
                     {
-                        Recipe recipe = (Recipe)item.Value;
+                        recipes recipe = (recipes)item.Value;
                         BusinessFacade.Instance.AddRecipeToShoppingList(UserId, recipe.RecipeId);
                     }
                 }
@@ -178,7 +178,7 @@ namespace UserControls
         {
             if (e.Item.ItemType != ListItemType.Header)
             {
-                IGrouping<int, UserShoppingList> categoryItem = (IGrouping<int, UserShoppingList>)e.Item.DataItem;
+                IGrouping<int, usershoppinglist> categoryItem = (IGrouping<int, usershoppinglist>)e.Item.DataItem;
                 if (categoryItem != null)
                 {
                     Literal shoppingListCategory = (Literal)e.Item.FindControl("ShoppingListCategory");
@@ -196,7 +196,7 @@ namespace UserControls
         {
             if (e.Item.ItemType != ListItemType.Header)
             {
-                UserShoppingList userShoppingList = (UserShoppingList)e.Item.DataItem;
+                usershoppinglist userShoppingList = (usershoppinglist)e.Item.DataItem;
                 bool canDelete = userShoppingList.CAN_DELETE.HasValue ? userShoppingList.CAN_DELETE.Value : false;
                 PlaceHolder canDeletePlaceHolder = (PlaceHolder)e.Item.FindControl("PlaceHolder1");
                 canDeletePlaceHolder.Visible = canDelete;

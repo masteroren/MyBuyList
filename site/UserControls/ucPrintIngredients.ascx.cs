@@ -10,7 +10,7 @@ public partial class UserControls_PrintIngredients : System.Web.UI.UserControl
 
     }
 
-    public void Bind(Ingredient[] ingredients, int recipeServ, int servings)
+    public void Bind(ingredients[] ingredients, int recipeServ, int servings)
     {
         if (ingredients.Length > 0)
         {
@@ -26,7 +26,7 @@ public partial class UserControls_PrintIngredients : System.Web.UI.UserControl
             //}
 
             // List<Ingredient> ingredientList = new List<Ingredient>();
-            foreach (Ingredient currIngredient in ingredients)
+            foreach (ingredients currIngredient in ingredients)
             {
                 //Ingredient tempIngredien = cuurIngredien;
                 if (recipeServ != 0)
@@ -53,7 +53,7 @@ public partial class UserControls_PrintIngredients : System.Web.UI.UserControl
     protected void IngridItem_DataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rptItem = e.Item as RepeaterItem;
-        Ingredient ingridItem = (Ingredient)rptItem.DataItem;
+        ingredients ingridItem = (ingredients)rptItem.DataItem;
 
         Label value = rptItem.FindControl("lblIngrValue") as Label;
 

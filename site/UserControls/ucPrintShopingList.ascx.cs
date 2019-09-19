@@ -48,7 +48,7 @@ public partial class UserControls_ucPrintShopingList : System.Web.UI.UserControl
     protected void Dep_DataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rptItem = e.Item as RepeaterItem;
-        int shopDepId = (rptItem.DataItem as ShopDepartment).ShopDepartmentId;
+        int shopDepId = (rptItem.DataItem as shopdepartments).ShopDepartmentId;
 
         if (this.foodsList != null)
         {
@@ -96,13 +96,13 @@ public partial class UserControls_ucPrintShopingList : System.Web.UI.UserControl
     protected void AdditionalsItem_DataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rptItem = e.Item as RepeaterItem;
-        ShoppingListAdditionalItem shopAdditional = (rptItem.DataItem as ShoppingListAdditionalItem);
+        shoppinglistadditionalitems shopAdditional = (rptItem.DataItem as shoppinglistadditionalitems);
 
         Label name = rptItem.FindControl("lblItemName") as Label;
 
-        if (shopAdditional.GeneralItem != null)
+        if (shopAdditional.generalitems != null)
         {
-            name.Text = shopAdditional.GeneralItem.GeneralItemName;
+            name.Text = shopAdditional.generalitems.GeneralItemName;
         }
         else if (shopAdditional.ItemName != null)
         {

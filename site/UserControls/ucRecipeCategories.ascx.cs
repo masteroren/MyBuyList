@@ -25,13 +25,13 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
     {
         if (tvCategories.CheckedNodes.Count != 0)
         {
-            setCheckedCategory();
+            SetCheckedCategory();
         }
 
         tvCategories.Nodes.Clear();
 
-        Category[] categories = BusinessFacade.Instance.GetCategoriesList();
-        BuildTree(categories, null, null);
+        categories[] categories = BusinessFacade.Instance.GetCategoriesList();
+        //BuildTree(categories, null, null);
 
         tvCategories.ShowCheckBoxes = TreeNodeTypes.All;
         tvCategories.DataBind();
@@ -43,13 +43,13 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
     {        
         if (recipeId != 0)
         {
-            Recipe recipe = BusinessFacade.Instance.GetRecipe(recipeId);
+            recipes recipe = BusinessFacade.Instance.GetRecipe(recipeId);
             if (recipe != null)
             {
-                var list = from item in recipe.Categories
-                           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
-                RecipeCategories = list.ToArray();
-                RecipeId = recipe.RecipeId;
+                //var list = from item in recipe.categories
+                //           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
+                //RecipeCategories = list.ToArray();
+                //RecipeId = recipe.RecipeId;
             }
         }
     }
@@ -60,7 +60,7 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
         this.RecipeCategories = recipeCategories;
 
         this.tvCategories.Nodes.Clear();
-        Category[] categories = BusinessFacade.Instance.GetCategoriesList();
+        categories[] categories = BusinessFacade.Instance.GetCategoriesList();
         this.BuildTree(categories, null, null);
 
         this.tvCategories.ShowCheckBoxes = TreeNodeTypes.All;
@@ -77,7 +77,7 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
         this.RecipeCategories = recipeCategories;
 
         this.tvCategories.Nodes.Clear();
-        Category[] categories = BusinessFacade.Instance.GetCategoriesList();
+        categories[] categories = BusinessFacade.Instance.GetCategoriesList();
         this.BuildTree(categories, null, null);
 
         this.tvCategories.ShowCheckBoxes = TreeNodeTypes.All;
@@ -87,33 +87,30 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
         this.mpeCategories.Show();
     }
 
-    private void BuildTree(Category[] cats, int? parentCategoryId, TreeNode rootNode)
+    private void BuildTree(categories[] cats, int? parentCategoryId, TreeNode rootNode)
     {
-        //if (parentCategoryId != null)
-        //{
-            var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
-            foreach (Category item in list)
+        var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
+        foreach (categories item in list)
+        {
+            TreeNode node = new TreeNode(item.CategoryName, item.CategoryId.ToString());
+            if (this.RecipeCategories != null &&
+                this.RecipeCategories.SingleOrDefault(rc => rc.RecipeId == this.RecipeId &&
+                                                            rc.CategoryId == item.CategoryId) != null)
             {
-                TreeNode node = new TreeNode(item.CategoryName, item.CategoryId.ToString());
-                if (this.RecipeCategories != null &&
-                    this.RecipeCategories.SingleOrDefault(rc => rc.RecipeId == this.RecipeId &&
-                                                                rc.CategoryId == item.CategoryId) != null)
-                {
-                    node.Checked = true;
-                }
-
-                if (rootNode == null)
-                {
-                    this.tvCategories.Nodes.Add(node);
-                }
-                else
-                {
-                    rootNode.ChildNodes.Add(node);
-                }
-
-                BuildTree(cats, item.CategoryId, node);
+                node.Checked = true;
             }
-        //}
+
+            if (rootNode == null)
+            {
+                this.tvCategories.Nodes.Add(node);
+            }
+            else
+            {
+                rootNode.ChildNodes.Add(node);
+            }
+
+            BuildTree(cats, item.CategoryId, node);
+        }
     }
 
     protected void btnSave_Click(object sender, EventArgs e)
@@ -121,7 +118,7 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
         mpeCategories.Hide();
     }
 
-    private void setCheckedCategory()
+    private void SetCheckedCategory()
     {
         List<SRL_RecipeCategory> list = new List<SRL_RecipeCategory>();
         foreach (TreeNode node in tvCategories.CheckedNodes)

@@ -24,7 +24,7 @@ namespace MyBuyList.BusinessLayer.Managers
             DataFacade.Instance.DeleteMissingListItem(ingredientId);
         }
 
-        internal IQueryable<MissingListDetail> GetMissingList(int userId)
+        internal IQueryable<missinglistdetails> GetMissingList(int userId)
         {
             return DataFacade.Instance.GetMissingList(userId);
         }

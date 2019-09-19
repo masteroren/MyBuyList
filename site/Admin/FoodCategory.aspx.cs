@@ -43,18 +43,18 @@ public partial class PageFoodCategory : BasePage
                 if (!string.IsNullOrEmpty(this.Request["catId"]))
                 {
                     this.FoodCategoryId = int.Parse(this.Request["catId"]);
-                    FoodCategory FoodCategory = BusinessFacade.Instance.GetFoodCategory(FoodCategoryId);
-                    if (FoodCategory != null)
+                    foodcategories foodcategories = BusinessFacade.Instance.GetFoodCategory(FoodCategoryId);
+                    if (foodcategories != null)
                     {
-                        this.txtFoodCategoryName.Text = FoodCategory.FoodCategoryName;
-                        if (FoodCategory.ParentCategoryId.HasValue)
+                        this.txtFoodCategoryName.Text = foodcategories.FoodCategoryName;
+                        if (foodcategories.ParentCategoryId.HasValue)
                         {
-                            FoodCategory ParentFoodCategory = BusinessFacade.Instance.GetFoodCategory(FoodCategory.ParentCategoryId.Value);
+                            foodcategories ParentFoodCategory = BusinessFacade.Instance.GetFoodCategory(foodcategories.ParentCategoryId.Value);
 
                             if (ParentFoodCategory != null)
                             {
                                 this.txtParentFoodCategory.Text = ParentFoodCategory.FoodCategoryName;
-                                this.ParentFoodCategoryId = FoodCategory.ParentCategoryId;
+                                this.ParentFoodCategoryId = foodcategories.ParentCategoryId;
                             }
                             else
                             {
@@ -63,7 +63,7 @@ public partial class PageFoodCategory : BasePage
                             }
                         }
 
-                        //this.btnDelete.Visible = FoodCategory.AllowDelete;
+                        //this.btnDelete.Visible = foodcategories.AllowDelete;
                     }
                     else
                     {
@@ -76,7 +76,7 @@ public partial class PageFoodCategory : BasePage
                 }
 
                 this.tvFoodCategories.Nodes.Clear();
-                FoodCategory[] FoodCategories = BusinessFacade.Instance.GetFoodCategoriesList();
+                foodcategories[] FoodCategories = BusinessFacade.Instance.GetFoodCategoriesList();
                 this.BuildTree(FoodCategories, null, null);
 
                 this.tvFoodCategories.ShowCheckBoxes = TreeNodeTypes.None;
@@ -85,10 +85,10 @@ public partial class PageFoodCategory : BasePage
         }
     }
 
-    private void BuildTree(FoodCategory[] cats, int? parentFoodCategoryId, TreeNode rootNode)
+    private void BuildTree(foodcategories[] cats, int? parentFoodCategoryId, TreeNode rootNode)
     {
         var list = cats.Where(c => c.ParentCategoryId == parentFoodCategoryId);
-        foreach (FoodCategory item in list)
+        foreach (foodcategories item in list)
         {
             if (item.FoodCategoryId == this.FoodCategoryId)
             {

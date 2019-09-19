@@ -13,7 +13,6 @@ using MyBuyList.Shared.Entities;
 using MyBuyList.BusinessLayer;
 using ProperControls.General;
 using MyBuyList.Shared;
-using Menu = MyBuyList.Shared.Menu;
 
 public partial class About : BasePage
 {
@@ -177,32 +176,32 @@ public partial class About : BasePage
 
     protected void RebindRecentRecipes(int recipeId1, int recipeId2)
     {
-        Recipe recipe1 = BusinessFacade.Instance.GetRecipe(recipeId1);
-        Recipe recipe2 = BusinessFacade.Instance.GetRecipe(recipeId2);
+        recipes recipe1 = BusinessFacade.Instance.GetRecipe(recipeId1);
+        recipes recipe2 = BusinessFacade.Instance.GetRecipe(recipeId2);
 
-        this.rptRecentRecipes.DataSource = new Recipe[2] { recipe1, recipe2 };
+        this.rptRecentRecipes.DataSource = new recipes[2] { recipe1, recipe2 };
         this.rptRecentRecipes.DataBind();
     }
 
     protected void RebindRecentMenus(int menuId1, int menuId2)
     {
-        Menu menu1 = BusinessFacade.Instance.GetMenu(menuId1);
-        Menu menu2 = BusinessFacade.Instance.GetMenu(menuId2);
+        menus menu1 = BusinessFacade.Instance.GetMenu(menuId1);
+        menus menu2 = BusinessFacade.Instance.GetMenu(menuId2);
 
-        this.rptRecentMenus.DataSource = new Menu[2] { menu1, menu2 };
+        this.rptRecentMenus.DataSource = new menus[2] { menu1, menu2 };
         this.rptRecentMenus.DataBind();
     }
 
     protected void rpt_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        Recipe recipe;
-        Menu menu;
+        recipes recipe;
+        menus menu;
 
-        recipe = e.Item.DataItem as Recipe;
+        recipe = e.Item.DataItem as recipes;
 
         if (recipe == null)
         {
-            menu = e.Item.DataItem as Menu;
+            menu = e.Item.DataItem as menus;
             HyperLink lblMenuName = e.Item.FindControl("lblMenuName") as HyperLink;
             if (lblMenuName != null)
             {

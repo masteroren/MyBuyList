@@ -3,7 +3,7 @@
 <script src="Scripts/Login.js"></script>
 
 <!-- Login -->
-<div id="popuplogin">
+<div id="popuplogin" style="display: none">
     <div class="credentials">
         <label>
             <span>שם משתמש</span>

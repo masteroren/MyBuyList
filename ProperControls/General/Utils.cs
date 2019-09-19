@@ -189,17 +189,17 @@ namespace ProperControls.General
             }
         }
 
-        public static Dictionary<int, Recipe> SelectedRecipes 
+        public static Dictionary<int, recipes> SelectedRecipes 
         { 
             get 
             {
                 if (HttpContext.Current.Session["selectedRecipes"] != null)
                 {
-                    return HttpContext.Current.Session["selectedRecipes"] as Dictionary<int, Recipe>;
+                    return HttpContext.Current.Session["selectedRecipes"] as Dictionary<int, recipes>;
                 }
                 else
                 {
-                    return new Dictionary<int, Recipe>();
+                    return new Dictionary<int, recipes>();
                 }
             }
             set { HttpContext.Current.Session["selectedRecipes"] = value; }

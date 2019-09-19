@@ -207,7 +207,7 @@ public class BasePage : Page
         }
     }
 
-    public User CurrUser
+    public users CurrUser
     {
         get
         {
@@ -221,7 +221,7 @@ public class BasePage : Page
                 return null;
             }
 
-            return (User)Session[AppConstants.CURR_USER];
+            return (users)Session[AppConstants.CURR_USER];
 
         }
         set

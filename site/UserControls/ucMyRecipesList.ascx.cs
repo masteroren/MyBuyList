@@ -8,9 +8,9 @@ using System.Web.UI.WebControls;
 
 public partial class ucMyRecipesList : System.Web.UI.UserControl
 {
-    private Recipe[] Result
+    private recipes[] Result
     {
-        get { return (Recipe[])ViewState["Result"]; }
+        get { return (recipes[])ViewState["Result"]; }
         set { ViewState["Result"] = value; }
     }
     protected void Page_Load(object sender, EventArgs e)
@@ -27,7 +27,7 @@ public partial class ucMyRecipesList : System.Web.UI.UserControl
 
     public void ShowData()
     {
-        Recipe[] result;
+        recipes[] result;
 
         if (((BasePage)Page).UserType == AppEnv.USER_ADMIN)
         {
@@ -75,7 +75,7 @@ public partial class ucMyRecipesList : System.Web.UI.UserControl
         if (((BasePage)Page).UserType == AppEnv.USER_ADMIN)
         {
             RepeaterItem rptItem = e.Item as RepeaterItem;
-            Recipe curr = (Recipe)rptItem.DataItem;
+            recipes curr = (recipes)rptItem.DataItem;
   
             Label lbl = (Label)rptItem.FindControl("lblUserName");
             lbl.Visible = true;

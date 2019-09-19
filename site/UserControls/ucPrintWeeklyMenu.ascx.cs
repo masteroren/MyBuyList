@@ -111,9 +111,9 @@ public partial class UserControls_PrintWeeklyMenu : System.Web.UI.UserControl
     protected void DayMeals_DataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rptItem = e.Item as RepeaterItem;
-        MealType mealType = (rptItem.DataItem as MealType);
+        mealtypes mealType = (rptItem.DataItem as mealtypes);
 
-        Meal[] meals = (BusinessFacade.Instance.GetMealsList(this.MenuId)).Where(m => m.DayIndex == this.Day && m.MealTypeId == mealType.MealTypeId).ToArray<Meal>();
+        meals[] meals = (BusinessFacade.Instance.GetMealsList(this.MenuId)).Where(m => m.DayIndex == this.Day && m.MealTypeId == mealType.MealTypeId).ToArray<meals>();
         if (meals.Count() == 1)
         {
             Label lblDiners = rptItem.FindControl("lblDiners") as Label;
@@ -122,7 +122,7 @@ public partial class UserControls_PrintWeeklyMenu : System.Web.UI.UserControl
             lblDiners.Text = meals[0].Diners.ToString() + " סועדים";
 
             Repeater rpMealRecipes = rptItem.FindControl("rpMealRecipes") as Repeater;
-            rpMealRecipes.DataSource = meals[0].MealRecipes;
+            rpMealRecipes.DataSource = meals[0].mealrecipes;
             rpMealRecipes.DataBind();
         }
 

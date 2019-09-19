@@ -12,7 +12,7 @@ namespace MyBuyList.Shared
     using System;
     using System.Collections.Generic;
     
-    public partial class UserList
+    public partial class userlist
     {
         public int LIST_TYPE { get; set; }
         public int FOOD_ID { get; set; }
@@ -27,6 +27,6 @@ namespace MyBuyList.Shared
         public Nullable<bool> CAN_DELETE { get; set; }
         public byte[] IMAGE { get; set; }
     
-        public virtual UserListsType UserListsType { get; set; }
+        public virtual userliststypes userliststypes { get; set; }
     }
 }

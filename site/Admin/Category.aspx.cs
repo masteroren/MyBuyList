@@ -43,14 +43,14 @@ public partial class PageCategory : BasePage
                 if (!string.IsNullOrEmpty(this.Request["catId"]))
                 {
                     this.CategoryId = int.Parse(this.Request["catId"]);
-                    Category category = BusinessFacade.Instance.GetCategory(this.CategoryId);
+                    categories category = BusinessFacade.Instance.GetCategory(this.CategoryId);
                     if (category != null)
                     {
                         this.txtCategoryName.Text = category.CategoryName;
 
                         if (category.ParentCategoryId.HasValue)
                         {
-                            Category parentCategory = BusinessFacade.Instance.GetCategory(category.ParentCategoryId.Value);
+                            categories parentCategory = BusinessFacade.Instance.GetCategory(category.ParentCategoryId.Value);
 
                             if (parentCategory != null)
                             {
@@ -77,7 +77,7 @@ public partial class PageCategory : BasePage
                 }
 
                 this.tvCategories.Nodes.Clear();
-                Category[] categories = BusinessFacade.Instance.GetCategoriesList();
+                categories[] categories = BusinessFacade.Instance.GetCategoriesList();
                 this.BuildTree(categories, null, null);
 
                 this.tvCategories.ShowCheckBoxes = TreeNodeTypes.None;
@@ -86,10 +86,10 @@ public partial class PageCategory : BasePage
         }
     }
 
-    private void BuildTree(Category[] cats, int? parentCategoryId, TreeNode rootNode)
+    private void BuildTree(categories[] cats, int? parentCategoryId, TreeNode rootNode)
     {
         var list = cats.Where(c => c.ParentCategoryId == parentCategoryId);
-        foreach (Category item in list)
+        foreach (categories item in list)
         {
             if (item.CategoryId == this.CategoryId)
             {

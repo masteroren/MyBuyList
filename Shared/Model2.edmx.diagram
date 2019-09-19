@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8c36bc6865044fb9b192d41ec1029288" Name="Diagram1" ZoomLevel="80" ShowGrid="true">
+        <EntityTypeShape EntityType="mybuylistModel.articles" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.categories" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.coursetypes" Width="1.5" PointX="6" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.food" Width="1.5" PointX="15.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.foodcategories" Width="1.5" PointX="13.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.generalitems" Width="1.5" PointX="3" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.ingredients" Width="1.5" PointX="18" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.log" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.mblsettings" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.mcategories" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.mealrecipes" Width="1.5" PointX="13.5" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.meals" Width="1.5" PointX="8.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.mealtypes" Width="1.5" PointX="6" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.measurementunits" Width="1.5" PointX="15.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.measurementunitsconverts" Width="1.5" PointX="18" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.menus" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.menutypes" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.missinglistdetails" Width="1.5" PointX="18" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.missinglists" Width="1.5" PointX="15.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.nutcategories" Width="1.5" PointX="16.5" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.nutitems" Width="1.5" PointX="18.75" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.nutvalues" Width="1.5" PointX="21" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.recieplist" Width="2.125" PointX="5.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.recieplistdetails" Width="1.5" PointX="8.625" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.recipes" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.recipesinshoppinglist" Width="1.5" PointX="7.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.savedlist" Width="1.5" PointX="15.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.savedlistdetails" Width="1.5" PointX="18" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.shopdepartments" Width="1.5" PointX="11.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.shoppinglistadditionalitems" Width="1.5" PointX="5.25" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.sysdiagrams" Width="1.5" PointX="12.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.userlist" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.userlistindex" Width="1.5" PointX="8.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.userliststypes" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.users" Width="1.5" PointX="10.5" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.usershoppinglist" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.usertypes" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.recipesfavorits" Width="1.5" PointX="20.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mybuylistModel.shoppinglists" Width="1.5" PointX="12.75" PointY="16.625" IsExpanded="true" />
+        <AssociationConnector Association="mybuylistModel.FK_Meals_CourseTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Food_CreatedByUser" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Food_FoodCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Food_ModifiedByUser" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Ingredients_Food" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_NutValues_Food" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.MissingListDetails_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.SavedListDetails_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_FoodCategories_ParentCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_FoodCategories_ShopDepartments" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_ShoppingListAdditionalItems_GeneralItems" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Ingredients_MeasurementUnits" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_MenusCategories_ParentMenusCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_MealRecipes_Meals" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_MealRecipes_Recipes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Meals_MealTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Meals_Menus" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_MeasurementUnitsConverts_ToUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.MissingListDetails_fk3" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.RoutineListDetails_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Menus_MenuTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Menus_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_ShoppingListAdditionalItems_Menus" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.MissingListDetails_fk2" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_NutItems_NutCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_NutValues_NutItems" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Recipes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.RecipesInShoppingList_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.RecipesInShoppingList_fk2" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.RoutineListDetails_fk2" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_UserList_UserListTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.FK_Users_UserTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.ShoppingLists_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.menucategories" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.menurecipes" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.menusinshoppinglist" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.userfavoritemenus" ManuallyRouted="false" />
+        <AssociationConnector Association="mybuylistModel.ReciepsListDetails_fk" />
+        <AssociationConnector Association="mybuylistModel.userfavoriterecipes" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

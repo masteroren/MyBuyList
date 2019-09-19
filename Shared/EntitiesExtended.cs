@@ -2,7 +2,7 @@
 
 namespace MyBuyList.Shared
 {
-    public partial class Ingredient
+    public partial class ingredients
     {
         private string _measureUnitName;
         private string _foodName;
@@ -59,8 +59,8 @@ namespace MyBuyList.Shared
                     }
                 }
                 return string.Format("{0} {1} {2} {3}", displayQuantity,
-                                     MeasurementUnit.UnitName,
-                                     Food.FoodName, string.IsNullOrEmpty(this.Remarks) ? "" : this.Remarks);
+                                     measurementunits.UnitName,
+                                     food.FoodName, string.IsNullOrEmpty(this.Remarks) ? "" : this.Remarks);
             }
 
         }
@@ -68,9 +68,9 @@ namespace MyBuyList.Shared
         {
             get
             {
-                if (Food != null)
+                if (food != null)
                 {
-                    return Food.FoodName;
+                    return food.FoodName;
                 }
                 return _foodName;
             }
@@ -83,9 +83,9 @@ namespace MyBuyList.Shared
         {
             get
             {
-                if (MeasurementUnit != null)
+                if (measurementunits != null)
                 {
-                    return MeasurementUnit.UnitName;
+                    return measurementunits.UnitName;
                 }
                 return _measureUnitName;
             }

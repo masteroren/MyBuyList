@@ -18,7 +18,7 @@
         .recipes-filter {
             display: flex;
             flex-direction: column;
-            padding-top: 5px;
+            /*/*/*/*padding-top: 5px;*/*/*/*/
         }
 
         .categories-breadcrumbs {
@@ -125,7 +125,7 @@
                 </asp:UpdatePanel>
             </div>--%>
             <div class="recipes">
-                <asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" OnClick="ButtonRecipesRefresh_Click" />
+                <asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" Visible="false" OnClick="ButtonRecipesRefresh_Click" />
                 <asp:UpdatePanel ID="upRecipes" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" />
@@ -152,11 +152,11 @@
                                         <div class="body">
                                             <div class="recipe_inner_box">
                                                 <div class="recipe_title">
-                                                    <asp:HyperLink ID="lnkRecipe" runat="server" Text='<%# Eval("RecipeName") %>' NavigateUrl=""></asp:HyperLink>
+                                                    <asp:HyperLink ID="lnkRecipe" runat="server" Text='<%# Eval("name") %>' NavigateUrl=""></asp:HyperLink>
                                                 </div>
                                                 <div class="recipe_actions_box">
                                                     <asp:LinkButton ID="ShoppingListAddRemove" runat="server"
-                                                        CssClass="recipe_action" CausesValidation="True" OnClientClick='<%# String.Format("addRemoveRecipe(this, \"{0}\")",  Eval("RecipeID"))  %>' />
+                                                        CssClass="recipe_action" CausesValidation="True" OnClientClick='<%# String.Format("addRemoveRecipe(this, \"{0}\")",  Eval("id"))  %>' />
                                                 </div>
                                                 <div id="infoTags" style="clear: both; min-height: 30px; padding-top: 10px;">
                                                     <div id="myFavoritesInfoTag" runat="server" class="myFavoritesInfoTag" title="קיים במועדפים שלי">
@@ -174,17 +174,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="recipe_tags">
-                                                    <asp:Label ID="lblRecipeTags" runat="server" Text='<%# Eval("Tags") %>'></asp:Label>
+                                                    <asp:Label ID="lblRecipeTags" runat="server" Text='<%# Eval("tags") %>'></asp:Label>
                                                 </div>
                                                 <div class="recipe_description">
-                                                    <asp:Label ID="lblRecipeDescription" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
+                                                    <asp:Label ID="lblRecipeDescription" runat="server" Text='<%# Eval("description") %>'></asp:Label>
                                                 </div>
                                                 <div class="publisher_box">
                                                     <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
                                                     <asp:HyperLink ID="lnkPublisher" runat="server" NavigateUrl="" CssClass="published_value"></asp:HyperLink>&nbsp;&nbsp;&nbsp;
                                         <div class="published_date">
                                             <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
-                                            <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("CreatedDate") %>' CssClass="published_value"></asp:Label>
+                                            <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>
                                         </div>
                                                 </div>
                                             </div>

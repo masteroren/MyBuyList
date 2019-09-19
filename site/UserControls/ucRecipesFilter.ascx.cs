@@ -1,9 +1,6 @@
-﻿using MyBuyList.BusinessLayer;
-using MyBuyList.Shared;
-using MyBuyList.Shared.Enums;
+﻿using MyBuyListShare.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.UI.WebControls;
 
 public delegate void ChangeEventHandler(object sender, ChangeEventArgs e);
@@ -60,24 +57,28 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
 
         if (!IsPostBack)
         {
-            Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
-            var list = from cat in categories
-                        where cat.ParentCategoryId == null
-                        select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.Recipes.Count());
-
-            FillList(list.ToList());
+            var categories = HttpHelper.Get<ListResponse<IEnumerable<CategoryModel>>>("categories");
+            FillList(categories.results);
         }
-        
     }
 
-    public void FillList(List<SRL_Category> categoryList)
+    protected void lstCategories_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        OnCategoryChanged(this, new ChangeEventArgs
+        {
+            category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue
+        });
+    }
+
+    public void FillList(IEnumerable<CategoryModel> categoryList)
     {
         lstCategories.Items.Clear();
         lstCategories.Items.Add(new ListItem("בחר קטגוריה"));
-        foreach (SRL_Category mCategory in categoryList)
+
+        foreach (CategoryModel category in categoryList)
         {
-            string Text = string.Format("{0} ({1})", mCategory.CategoryName, mCategory.RecipesCount);
-            lstCategories.Items.Add(new ListItem(Text, mCategory.CategoryId.ToString()));
+            string Text = string.Format("{0} ({1})", category.CategoryName, category.recipes);
+            lstCategories.Items.Add(new ListItem(Text, category.CategoryId.ToString()));
         }
     }
 
@@ -115,14 +116,6 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
     //            break;
     //    }
     //}
-
-    protected void lstCategories_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        OnCategoryChanged(this, new ChangeEventArgs
-        {
-            category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue
-        });
-    }
 
     //protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     //{

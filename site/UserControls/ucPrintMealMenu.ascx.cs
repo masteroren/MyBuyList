@@ -51,9 +51,9 @@ public partial class UserControls_ucPrintMenu : System.Web.UI.UserControl
     protected void Course_DataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rptItem = e.Item as RepeaterItem;
-        CourseType courseType = (rptItem.DataItem as CourseType);
+        coursetypes courseType = (rptItem.DataItem as coursetypes);
 
-        Meal[] Meal = (BusinessFacade.Instance.GetMealsList(this.MenuId)).Where(m => m.CourseTypeId == courseType.CourseTypeId).ToArray<Meal>();
+        meals[] Meal = (BusinessFacade.Instance.GetMealsList(this.MenuId)).Where(m => m.CourseTypeId == courseType.CourseTypeId).ToArray<meals>();
 
         if (Meal.Count() == 1)
         {
@@ -61,7 +61,7 @@ public partial class UserControls_ucPrintMenu : System.Web.UI.UserControl
             lblDiners.Text = Meal[0].Diners.ToString();
 
             Repeater rpRecipes = rptItem.FindControl("rpMealRecipes") as Repeater;
-            rpRecipes.DataSource = Meal[0].MealRecipes;
+            rpRecipes.DataSource = Meal[0].mealrecipes;
             rpRecipes.DataBind();
         }
     }

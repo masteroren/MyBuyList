@@ -51,7 +51,7 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
 
                     if (HttpContext.Current.User.Identity.IsAuthenticated == true)
                     {
-                        User user = BusinessFacade.Instance.GetUserByUserName(HttpContext.Current.User.Identity.Name);
+                        users user = BusinessFacade.Instance.GetUserByUserName(HttpContext.Current.User.Identity.Name);
 
                         if (user != null)
                         {

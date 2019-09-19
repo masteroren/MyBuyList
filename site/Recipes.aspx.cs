@@ -2,11 +2,13 @@
 using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
+using MyBuyListShare.Models;
 using ProperControls.General;
 using ProperServices.Common.Extensions;
 using ProperServices.Common.Log;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -90,7 +92,7 @@ public partial class Recipes : BasePage
         get { return (!string.IsNullOrEmpty(Request["term"]) ? Request["term"] : null); }
     }
 
-    private int categoryId;
+    private int? categoryId;
 
     public int? CategoryId
     {
@@ -191,6 +193,8 @@ public partial class Recipes : BasePage
 
     private string recipeCategoryChangeBaseUrl;
 
+    private string ApiUrl = ConfigurationManager.AppSettings["ApiUrl"];
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -201,7 +205,7 @@ public partial class Recipes : BasePage
             {
                 if (Display == RecipeDisplayEnum.ByCategory)
                 {
-                    int count = RebindCategories(CategoryId);
+                    int count = RebindCategories();
                     categories.Visible = true;
                     if (count == 0)
                         pnlCategories.Visible = false;
@@ -226,7 +230,7 @@ public partial class Recipes : BasePage
 
                 //EmphasizeCurrentSearch(this.Display);
 
-                User currentUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+                users currentUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
                 string email = (currentUser != null) ? currentUser.Email : string.Empty;
                 //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
 
@@ -246,12 +250,12 @@ public partial class Recipes : BasePage
         if (e.category == null)
         {
             Display = RecipeDisplayEnum.All;
-            RebindCategories(null);
+            RebindCategories();
         } else
         {
             Display = RecipeDisplayEnum.ByCategory;
             categoryId = Convert.ToInt32(e.category);
-            RebindCategories(categoryId);
+            RebindCategories();
             RebindRecipes();
         }
     }
@@ -261,7 +265,7 @@ public partial class Recipes : BasePage
         int count;
         int userId = -1;
 
-        List<Recipe> recipes;
+        //List<recipes> recipes;
 
         if (CurrUser != null && CurrUser.UserId != -1)
         {
@@ -285,22 +289,42 @@ public partial class Recipes : BasePage
 
         rptRecipes.ItemCreated += rptRecipes_ItemCreated;// for the pagers
         rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
-        try
+        GetRecipes();
+
+        //try
+        //{
+        //recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, categoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
+        //    rptRecipes.DataSource = recipes;
+        //    rptRecipes.DataBind();
+        //    lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
+        //}
+        //catch (Exception ex)
+        //{
+        //    Master.ConsoleLog(ex.Message);
+        //}
+    }
+
+    private void GetRecipes()
+    {
+        RecipesResults recipesResults;
+
+        if (categoryId == null)
         {
-            recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, categoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
-             rptRecipes.DataSource = recipes;
-            rptRecipes.DataBind();
-            lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("recipes?pageIndex={0}", CurrentPage - 1));
         }
-        catch (Exception ex)
+        else
         {
-            Master.ConsoleLog(ex.Message);
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("categories/{0}/recipes?pageIndex={1}", categoryId, CurrentPage - 1));
         }
+        rptRecipes.DataSource = recipesResults.results;
+        totalPages = recipesResults.metadata.pages;
+        lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", recipesResults.metadata.totalItems);
+        rptRecipes.DataBind();
     }
 
     void rptRecipes_ItemCreated(object sender, RepeaterItemEventArgs e)
     {
-        // init pagers
+        // init pagers 
         if (e.Item.ItemType == ListItemType.Header || e.Item.ItemType == ListItemType.Footer)
         {
             PlaceHolder phPager = (PlaceHolder)e.Item.FindControl("phPager");
@@ -309,17 +333,17 @@ public partial class Recipes : BasePage
 
             bool isEnd = false, isStart = false;
 
-            int startPage = 20 * ((this.CurrentPage - 1) / 20) + 1;
-            int endpage = 20 * ((this.CurrentPage - 1) / 20) + 20;
+            int startPage = 20 * ((CurrentPage - 1) / 20) + 1;
+            int endpage = 20 * ((CurrentPage - 1) / 20) + 20;
 
             if (startPage == 1)
             {
                 isStart = true;
             }
-            if (endpage >= this.totalPages)
+            if (endpage >= totalPages)
             {
                 isEnd = true;
-                endpage = this.totalPages;
+                endpage = totalPages;
             }
 
             if (!isStart)
@@ -385,28 +409,28 @@ public partial class Recipes : BasePage
 
     void rptRecipes_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        Recipe recipe = e.Item.DataItem as Recipe;
+        RecipeModel recipe = e.Item.DataItem as RecipeModel;
 
         if (recipe != null && e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
             HyperLink lnkRecipe = (HyperLink)e.Item.FindControl("lnkRecipe");
-            lnkRecipe.NavigateUrl = ResolveUrl(string.Format("~/RecipeDetails.aspx?RecipeId={0}", recipe.RecipeId));
+            lnkRecipe.NavigateUrl = ResolveUrl(string.Format("~/RecipeDetails.aspx?RecipeId={0}", recipe.id));
 
             LinkButton linkBtn = e.Item.FindControl("blkAddRemove") as LinkButton;
             if (linkBtn != null)
             {
-                linkBtn.Attributes["recipeID"] = recipe.RecipeId.ToString();
+                linkBtn.Attributes["id"] = recipe.id.ToString();
             }
 
             bool inShoppingList = false;
 
             if (CurrUser != null)
-                inShoppingList = Utils.SelectedRecipes.SingleOrDefault(r => r.Key == recipe.RecipeId).Value != null;
+                inShoppingList = Utils.SelectedRecipes.SingleOrDefault(r => r.Key == recipe.id).Value != null;
 
             LinkButton linkBtnShoppingList = e.Item.FindControl("ShoppingListAddRemove") as LinkButton;
             if (linkBtnShoppingList != null)
             {
-                linkBtnShoppingList.Attributes["recipeID"] = recipe.RecipeId.ToString();
+                linkBtnShoppingList.Attributes["id"] = recipe.id.ToString();
                 linkBtnShoppingList.Text = inShoppingList ? "הסר מרשימת הקניות" : "הוסף לרשימת הקניות";
                 linkBtnShoppingList.Style["color "] = inShoppingList ? "Red" : "#656565";
                 linkBtnShoppingList.CssClass += inShoppingList ? " remove-recipe" : " add-recipe";
@@ -415,41 +439,38 @@ public partial class Recipes : BasePage
             linkBtn = e.Item.FindControl("btnSendToFriend") as LinkButton;
             if (linkBtn != null)
             {
-                linkBtn.Attributes["recipeId"] = recipe.RecipeId.ToString();
+                linkBtn.Attributes["recipeId"] = recipe.id.ToString();
             }
             
             HtmlGenericControl divMyFavoritesInfoTag = e.Item.FindControl("myFavoritesInfoTag") as HtmlGenericControl;
 
             bool inMyFavorites = false;
             inMyFavorites = false;
-            if (recipe.Users.Any() && CurrUser != null)
-                inMyFavorites = recipe.Users.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
+            //if (recipe.users != null && CurrUser != null)
+            //    inMyFavorites = recipe.users.SingleOrDefault(ufr => ufr.UserId == CurrUser.UserId) != null;
             divMyFavoritesInfoTag.Visible = inMyFavorites;
 
             Label lblAllFavorites = e.Item.FindControl("lblAllFavorites") as Label;
             Label lblAllMenus = e.Item.FindControl("lblAllMenus") as Label;
 
             Label mainCategor = e.Item.FindControl("lblMainCategory") as Label;
-            Category[] recipeCategories = (from a in recipe.Categories select a).ToArray();
+            categories[] recipeCategories = (from a in recipe.categories select new categories { CategoryName = a }).ToArray();
             if (recipeCategories.Length > 0)
             {
                 mainCategor.Text = recipeCategories[0].CategoryName;
             }
 
             HyperLink publisher = e.Item.FindControl("lnkPublisher") as HyperLink;
-            if (recipe.Users != null)
-            {
-                publisher.Text = recipe.User.DisplayName;
-            }
+            publisher.Text = recipe.publishedBy;
 
-            Image image = e.Item.FindControl("imgThumbnail") as Image;
-            if (recipe.Picture == null)
-            {
-                image.ImageUrl = "~/Images/Img_Default_small.jpg";
-            } else
-            {
+            //Image image = e.Item.FindControl("imgThumbnail") as Image;
+            //if (recipe.Picture == null)
+            //{
+            //    image.ImageUrl = "~/Images/Img_Default_small.jpg";
+            //} else
+            //{
                 //image.ImageUrl = recipe.Picture;
-            }
+            //}
             
 
             //lblAllFavorites.Text = ((Recipe)e.Item.DataItem).NumUsersFavorite.ToString();
@@ -634,7 +655,7 @@ public partial class Recipes : BasePage
 
     protected void lnkCategories_Click(object sender, EventArgs e)
     {
-        this.RebindCategories(null);
+        this.RebindCategories();
         this.pnlCategories.Visible = true;
 
         //this.simpleSearch.Visible = false;
@@ -645,20 +666,21 @@ public partial class Recipes : BasePage
         //this.upSearch.Update();
     }
 
-    private int RebindCategories(int? categoryId)
+    private int RebindCategories()
     {
         int count = 0;
-        Category[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
-        var list = from cat in categories.Where(cat => cat.ParentCategoryId == categoryId).ToArray()
-                   select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.Recipes.Count());
-        this.rptCategories.DataSource = list.ToArray();
-        this.rptCategories.DataBind();
-        count = list.ToArray().Length;
+        var categories = HttpHelper.Get<ListResponse<IEnumerable<CategoryModel>>>("categories");
+        //categories[] categories = BusinessFacade.Instance.GetRecipesCategoriesList();
+        //var list = from cat in categories.Where(cat => cat.ParentCategoryId == categoryId).ToArray()
+        //           select new SRL_Category(cat.CategoryId, cat.CategoryName, cat.ParentCategoryId, cat.recipes.Count());
+        //this.rptCategories.DataSource = list.ToArray();
+        //this.rptCategories.DataBind();
+        //count = list.ToArray().Length;
 
-        List<Category> pathList = new List<Category>();
+        List<CategoryModel> pathList = new List<CategoryModel>();
         if (categoryId != null)
         {
-            Category tmpCategory = categories.SingleOrDefault(ct => ct.CategoryId == categoryId.Value);
+            CategoryModel tmpCategory = categories.results.SingleOrDefault(ct => ct.CategoryId == categoryId.Value);
 
             do
             {
@@ -683,7 +705,7 @@ public partial class Recipes : BasePage
         this.pathLinks.Controls.Add(primaryCatLink);
 
         pathList.Reverse();
-        foreach (Category category in pathList)
+        foreach (CategoryModel category in pathList)
         {
             Label arrows = new Label();
             arrows.Text = " >> ";
@@ -774,7 +796,7 @@ public partial class Recipes : BasePage
 
     protected void primaryCatLink_Click(object sender, EventArgs e)
     {
-        this.RebindCategories(null);
+        this.RebindCategories();
 
         //this.simpleSearch.Visible = false;
         //this.btnSearch.Visible = false;
@@ -935,7 +957,7 @@ public partial class Recipes : BasePage
         int.TryParse(hfRecipeId.Value, out recipeId);
         string recipeName = hfRecipeName.Value;
 
-        Dictionary<int, Recipe> selectedRecipes = Utils.SelectedRecipes;
+        Dictionary<int, recipes> selectedRecipes = Utils.SelectedRecipes;
         if (selectedRecipes.ContainsKey(recipeId))
         {
             selectedRecipes.Remove(recipeId);

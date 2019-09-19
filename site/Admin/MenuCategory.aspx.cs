@@ -44,7 +44,7 @@ public partial class MenuCategory : BasePage
                 {
                     this.CategoryId = int.Parse(this.Request["catId"]); 
                     //start changing
-                    MCategory category = BusinessFacade.Instance.GetMenuCategory(this.CategoryId);
+                    mcategories category = BusinessFacade.Instance.GetMenuCategory(this.CategoryId);
                     if (category != null)
                     {
                         this.txtCategoryName.Text = category.MCategoryName;
@@ -72,7 +72,7 @@ public partial class MenuCategory : BasePage
                 }
 
                 this.tvCategories.Nodes.Clear();
-                MCategory[] categories = BusinessFacade.Instance.GetMCategoriesList();
+                mcategories[] categories = BusinessFacade.Instance.GetMCategoriesList();
                 this.BuildTree(categories, null, null);
 
                 this.tvCategories.ShowCheckBoxes = TreeNodeTypes.None;
@@ -81,10 +81,10 @@ public partial class MenuCategory : BasePage
         }
     }
 
-    private void BuildTree(MCategory[] cats, int? parentCategoryId, TreeNode rootNode)
+    private void BuildTree(mcategories[] cats, int? parentCategoryId, TreeNode rootNode)
     {
         var list = cats.Where(c => c.ParentMCategoryId == parentCategoryId);
-        foreach (MCategory item in list)
+        foreach (mcategories item in list)
         {
             if (item.MCategoryId == this.CategoryId)
             {
