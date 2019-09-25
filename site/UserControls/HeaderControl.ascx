@@ -5,7 +5,8 @@
     <div class="header-top">
         <div class="welcome">
             <asp:Label ID="lblHeaderUserName" runat="server" Font-Bold="true" CssClass="hello-user" Text="שלום, אורח" />
-            <a class="login">כניסה</a>
+            <asp:HyperLink ID="loginButton" runat="server" CssClass="login">כניסה</asp:HyperLink>
+            <%--<a class="login">כניסה</a>--%>
         </div>
         <div class="links">
             <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Recipes.aspx">מתכונים</asp:HyperLink>

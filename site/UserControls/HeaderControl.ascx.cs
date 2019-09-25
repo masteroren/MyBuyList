@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.Security;
-
-using ProperControls.General;
-using ProperControls.Pages;
-using MyBuyList.Shared.Entities;
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared;
+﻿using MyBuyListShare.Classes;
+using System;
 
 public partial class UC_HeaderControl : System.Web.UI.UserControl
 {
@@ -21,6 +10,14 @@ public partial class UC_HeaderControl : System.Web.UI.UserControl
      
     protected void Page_Load(object sender, EventArgs e)
     {
-        PlaceHolderJoin.Visible = ((BasePage)Page).CurrUser == null;
+        if (((BasePage)Page).CurrUser != null)
+        {
+            UserInfo userInfo = ((BasePage)Page).CurrUser;
+            lblHeaderUserName.Text = "שלום " + userInfo.DisplayName;
+            loginButton.Text = "יציאה";
+        } else
+        {
+            PlaceHolderJoin.Visible = ((BasePage)Page).CurrUser == null;
+        }
     }
 }

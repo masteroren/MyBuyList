@@ -13,7 +13,7 @@
     })
 })
 
-$(document).ready(function () {
+$(document).ready(() => {
 
     isLoggedIn(function (user) {
         if (user === null) {

@@ -1,5 +1,6 @@
 ﻿using MyBuyList.BusinessLayer;
 using MyBuyList.Shared;
+using MyBuyListShare.Classes;
 using ProperControls.General;
 using System;
 using System.Collections.Generic;
@@ -118,7 +119,7 @@ namespace UserControls
 
         private void BindShoppingList()
         {
-            users user = ((BasePage)Page).CurrUser;
+            UserInfo user = ((BasePage)Page).CurrUser;
             if (user != null)
             {
                 UserId = user.UserId;

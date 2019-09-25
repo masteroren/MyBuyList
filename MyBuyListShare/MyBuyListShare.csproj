@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Encryption.cs" />
     <Compile Include="Classes\ListResponse.cs" />
+    <Compile Include="Classes\UserInfo.cs" />
     <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Ingrediant.cs" />
     <Compile Include="Classes\Metadata.cs" />

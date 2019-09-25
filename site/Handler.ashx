@@ -11,6 +11,7 @@ using ProperServices.Common.Log;
 using System.Collections.Generic;
 using System.Linq;
 using MyBuyListShare.Models;
+using MyBuyListShare.Classes;
 
 [Serializable]
 internal class SearchItem
@@ -19,17 +20,10 @@ internal class SearchItem
     public string label { get; set; }
 }
 
-public class LoginResponse
-{
-    public int UserId { get; set; }
-    public int UserTypeId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-}
-
 public class Handler : IHttpHandler, IRequiresSessionState
 {
-    public void ProcessRequest (HttpContext context) {
+    public void ProcessRequest(HttpContext context)
+    {
         context.Response.ContentType = "text/plain";
 
         string method = context.Request["method"];
@@ -45,8 +39,10 @@ public class Handler : IHttpHandler, IRequiresSessionState
         }
     }
 
-    public bool IsReusable {
-        get {
+    public bool IsReusable
+    {
+        get
+        {
             return false;
         }
     }
@@ -83,7 +79,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
         string foodName = context.Request["foodName"];
         try
         {
-            food food = BusinessFacade.Instance.GetFoodsList().SingleOrDefault(p=>p.FoodName == foodName);
+            food food = BusinessFacade.Instance.GetFoodsList().SingleOrDefault(p => p.FoodName == foodName);
             if (food != null)
                 return food.FoodCategoryId;
         }
@@ -151,7 +147,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
             IEnumerable<menus> menus = null;
 
             users user;
-            bool isLoggedIn = IsLoggedIn(context) != string.Empty;
+            bool isLoggedIn = IsLoggedIn(context);
 
             int totalPages;
             int numOfMenus;
@@ -252,23 +248,25 @@ public class Handler : IHttpHandler, IRequiresSessionState
         }
     }
 
-    public string IsLoggedIn(HttpContext context)
+    public bool IsLoggedIn(HttpContext context)
     {
-        LoginResponse loginResponse = null;
+        return context.Session[AppConstants.CURR_USER] != null;
 
-        if (context.Session[AppConstants.CURR_USER] != null)
-        {
-            users user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
+        //UserInfo loginResponse = null;
 
-            loginResponse = new LoginResponse
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserId = user.UserId,
-                UserTypeId = user.UserTypeId
-            };
-        }
-        return JsonSerializer<LoginResponse>(loginResponse);
+        //if (context.Session[AppConstants.CURR_USER] != null)
+        //{
+        //    UserInfo user = (UserInfo)HttpContext.Current.Session[AppConstants.CURR_USER];
+
+        //    loginResponse = new UserInfo
+        //    {
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        UserId = user.UserId,
+        //        UserTypeId = user.UserTypeId
+        //    };
+        //}
+        //return JsonSerializer<UserInfo>(loginResponse);
     }
 
     public void Logout(HttpContext context)
@@ -279,30 +277,21 @@ public class Handler : IHttpHandler, IRequiresSessionState
     public string Login(HttpContext context)
     {
         Logger.Info("Login", new object[] { });
-        LoginResponse loginResponse = null;
+        UserInfo userInfo = null;
 
         try
         {
             string userName = context.Request["UserName"];
             string password = context.Request["Password"];
-
-            users user = BusinessFacade.Instance.GetUser(userName, password);
-            context.Session.Add(AppConstants.CURR_USER, user);
-
-            loginResponse = new LoginResponse
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserId = user.UserId,
-                UserTypeId = user.UserTypeId
-            };
+            userInfo = LoginHelper.Login(userName, password);
+            context.Session.Add(AppConstants.CURR_USER, userInfo);
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Login", new object[] { });
         }
 
-        return JsonSerializer<LoginResponse>(loginResponse);
+        return JsonSerializer<UserInfo>(userInfo);
     }
 
     public bool RemoveFromMissingList(HttpContext context)
@@ -321,7 +310,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
                 return true;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger.Error(ex, "RemoveFromMissingList -> Remove Item {0} Failed", new object[] { foodId });
         }

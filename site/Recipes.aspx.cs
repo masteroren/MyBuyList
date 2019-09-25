@@ -22,16 +22,12 @@ public partial class Recipes : BasePage
     {
         get
         {
-            int page;
-
-            if (!string.IsNullOrEmpty(Request["page"]) && int.TryParse(Request["page"], out page))
-            {
-                return page;
-            }
-            else
-            {
-                return 1;
-            }
+            object page = ViewState["page"];
+            return (page == null) ? 1 : (int)page;
+        }
+        set
+        {
+            ViewState["page"] = value;
         }
     }
 
@@ -182,7 +178,7 @@ public partial class Recipes : BasePage
             EnsureUrlsForSortingAreGenerated();
             return orderByPublisherUrl;
         }
-    } 
+    }
     #endregion
 
     bool urlsGenerated = false;
@@ -199,7 +195,7 @@ public partial class Recipes : BasePage
     {
         try
         {
-            //if (CurrUser != null) ucShoppingList1.UserId = CurrUser.UserId;
+            //lnkNewRecipe.Visible = CurrUser != null;
 
             if (!IsPostBack)
             {
@@ -234,7 +230,6 @@ public partial class Recipes : BasePage
                 string email = (currentUser != null) ? currentUser.Email : string.Empty;
                 //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
 
-                RebindRecipes();
             }
         }
         catch (Exception ex)
@@ -243,21 +238,25 @@ public partial class Recipes : BasePage
         }
 
         RecipesFilter1.CategoryChanged += RecipesFilter1_CategoryChanged;
+        rptRecipes.ItemCreated += rptRecipes_ItemCreated;
+        rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
+        RebindRecipes();
     }
 
     private void RecipesFilter1_CategoryChanged(object sender, ChangeEventArgs e)
     {
+        CurrentPage = 1;
         if (e.category == null)
         {
             Display = RecipeDisplayEnum.All;
-            RebindCategories();
-        } else
+        }
+        else
         {
             Display = RecipeDisplayEnum.ByCategory;
             categoryId = Convert.ToInt32(e.category);
-            RebindCategories();
-            RebindRecipes();
         }
+        RebindCategories();
+        RebindRecipes();
     }
 
     private void RebindRecipes()
@@ -287,28 +286,9 @@ public partial class Recipes : BasePage
             userId = CurrUser.UserId;
         }
 
-        rptRecipes.ItemCreated += rptRecipes_ItemCreated;// for the pagers
-        rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
-        GetRecipes();
-
-        //try
-        //{
-        //recipes = BusinessFacade.Instance.GetRecipesEx(Display, userId, FreeText, categoryId, Servings, RecipeCategories, OrderBy, CurrentPage, PageSize, out totalPages, out count);
-        //    rptRecipes.DataSource = recipes;
-        //    rptRecipes.DataBind();
-        //    lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", count);
-        //}
-        //catch (Exception ex)
-        //{
-        //    Master.ConsoleLog(ex.Message);
-        //}
-    }
-
-    private void GetRecipes()
-    {
         RecipesResults recipesResults;
 
-        if (categoryId == null)
+        if (categoryId == null || categoryId == 0)
         {
             recipesResults = HttpHelper.Get<RecipesResults>(string.Format("recipes?pageIndex={0}", CurrentPage - 1));
         }
@@ -316,20 +296,21 @@ public partial class Recipes : BasePage
         {
             recipesResults = HttpHelper.Get<RecipesResults>(string.Format("categories/{0}/recipes?pageIndex={1}", categoryId, CurrentPage - 1));
         }
-        rptRecipes.DataSource = recipesResults.results;
+
         totalPages = recipesResults.metadata.pages;
         lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", recipesResults.metadata.totalItems);
+
+        rptRecipes.DataSource = recipesResults.results;
         rptRecipes.DataBind();
     }
 
     void rptRecipes_ItemCreated(object sender, RepeaterItemEventArgs e)
     {
-        // init pagers 
         if (e.Item.ItemType == ListItemType.Header || e.Item.ItemType == ListItemType.Footer)
         {
             PlaceHolder phPager = (PlaceHolder)e.Item.FindControl("phPager");
 
-            phPager.Controls.Clear();
+            //phPager.Controls.Clear();
 
             bool isEnd = false, isStart = false;
 
@@ -348,9 +329,12 @@ public partial class Recipes : BasePage
 
             if (!isStart)
             {
-                HyperLink lnkArrow = new HyperLink();
+                LinkButton lnkArrow = new LinkButton();
+                lnkArrow.CommandArgument = (startPage - 20).ToString();
+                lnkArrow.Click += LnkPage_Click;
+
+                lnkArrow.Font.Size = FontUnit.Larger;
                 lnkArrow.Text = "&lt;&lt;";
-                lnkArrow.NavigateUrl = string.Format("~/Recipes.aspx?page={0}&orderby={1}{2}{3}{4}{5}{6}", (startPage - 20).ToString(), this.OrderBy.ToString(), (!string.IsNullOrEmpty(Request["disp"])) ? string.Format("&disp={0}", Request["disp"]) : "", (!string.IsNullOrEmpty(Request["term"])) ? string.Format("&term={0}", Request["term"]) : "", (!string.IsNullOrEmpty(Request["serv"])) ? string.Format("&serv={0}", Request["serv"]) : "", (!string.IsNullOrEmpty(Request["categories"])) ? string.Format("&categories={0}", Request["categories"]) : "", (!string.IsNullOrEmpty(Request["cat"])) ? string.Format("&cat={0}", Request["cat"]) : "");
                 phPager.Controls.Add(lnkArrow);
                 phPager.Controls.Add(new LiteralControl("&nbsp;&nbsp;&nbsp;"));
             }
@@ -360,13 +344,20 @@ public partial class Recipes : BasePage
                 if (page == this.CurrentPage)
                 {
                     Label lblPage = new Label();
+                    lblPage.Font.Size = FontUnit.Large;
+                    lblPage.Font.Underline = false;
+                    lblPage.Font.Bold = true;
                     lblPage.Text = page.ToString();
                     phPager.Controls.Add(lblPage);
                 }
                 else
                 {
-                    HyperLink lnkPage = new HyperLink();
-                    lnkPage.NavigateUrl = string.Format("~/Recipes.aspx?page={0}&orderby={1}{2}{3}{4}{5}{6}", page, this.OrderBy.ToString(), (!string.IsNullOrEmpty(Request["disp"])) ? string.Format("&disp={0}", Request["disp"]) : "", (!string.IsNullOrEmpty(Request["term"])) ? string.Format("&term={0}", Request["term"]) : "", (!string.IsNullOrEmpty(Request["serv"])) ? string.Format("&serv={0}", Request["serv"]) : "", (!string.IsNullOrEmpty(Request["categories"])) ? string.Format("&categories={0}", Request["categories"]) : "", (!string.IsNullOrEmpty(Request["cat"])) ? string.Format("&cat={0}", Request["cat"]) : "");
+                    LinkButton lnkPage = new LinkButton();
+                    lnkPage.CommandArgument = page.ToString();
+                    lnkPage.Click += LnkPage_Click;
+
+                    lnkPage.Font.Size = FontUnit.Larger;
+                    lnkPage.Font.Bold = true;
                     lnkPage.Text = page.ToString();
                     phPager.Controls.Add(lnkPage);
                 }
@@ -376,35 +367,23 @@ public partial class Recipes : BasePage
 
             if (!isEnd)
             {
-                HyperLink lnkArrow = new HyperLink();
+                LinkButton lnkArrow = new LinkButton();
+                lnkArrow.CommandArgument = (startPage + 20).ToString();
+                lnkArrow.Click += LnkPage_Click;
+
+                lnkArrow.Font.Size = FontUnit.Larger;
                 lnkArrow.Text = "&gt;&gt;";
-                lnkArrow.NavigateUrl = string.Format("~/Recipes.aspx?page={0}&orderby={1}{2}{3}{4}{5}{6}", (startPage + 20).ToString(), this.OrderBy.ToString(), (!string.IsNullOrEmpty(Request["disp"])) ? string.Format("&disp={0}", Request["disp"]) : "", (!string.IsNullOrEmpty(Request["term"])) ? string.Format("&term={0}", Request["term"]) : "", (!string.IsNullOrEmpty(Request["serv"])) ? string.Format("&serv={0}", Request["serv"]) : "", (!string.IsNullOrEmpty(Request["categories"])) ? string.Format("&categories={0}", Request["categories"]) : "", (!string.IsNullOrEmpty(Request["cat"])) ? string.Format("&cat={0}", Request["cat"]) : "");
                 phPager.Controls.Add(new LiteralControl("&nbsp;&nbsp;&nbsp;"));
                 phPager.Controls.Add(lnkArrow);
             }
-
-            //for (int page = 1; page <= this.totalPages; page++)
-            //{
-            //    if (page == this.CurrentPage)
-            //    {
-            //        Label lblPage = new Label();
-            //        lblPage.Text = page.ToString();
-            //        phPager.Controls.Add(lblPage);
-            //    }
-            //    else
-            //    {
-            //        HyperLink lnkPage = new HyperLink();
-            //        lnkPage.NavigateUrl = string.Format("~/Recipes.aspx?page={0}&orderby={1}", page, this.OrderBy.ToString());
-            //        lnkPage.Text = page.ToString();
-            //        phPager.Controls.Add(lnkPage);
-            //    }
-
-            //    if (page < this.totalPages)
-            //    {
-            //        phPager.Controls.Add(new LiteralControl("&nbsp;"));
-            //    }
-            //}
         }
+    }
+
+    private void LnkPage_Click(object sender, EventArgs e)
+    {
+        CurrentPage = Convert.ToInt32((sender as LinkButton).CommandArgument);
+        categoryId = RecipesFilter1.Category;
+        RebindRecipes();
     }
 
     void rptRecipes_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -413,14 +392,11 @@ public partial class Recipes : BasePage
 
         if (recipe != null && e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
-            HyperLink lnkRecipe = (HyperLink)e.Item.FindControl("lnkRecipe");
-            lnkRecipe.NavigateUrl = ResolveUrl(string.Format("~/RecipeDetails.aspx?RecipeId={0}", recipe.id));
-
-            LinkButton linkBtn = e.Item.FindControl("blkAddRemove") as LinkButton;
-            if (linkBtn != null)
-            {
-                linkBtn.Attributes["id"] = recipe.id.ToString();
-            }
+            //LinkButton linkBtn = e.Item.FindControl("blkAddRemove") as LinkButton;
+            //if (linkBtn != null)
+            //{
+            //    linkBtn.Attributes["id"] = recipe.id.ToString();
+            //}
 
             bool inShoppingList = false;
 
@@ -436,12 +412,12 @@ public partial class Recipes : BasePage
                 linkBtnShoppingList.CssClass += inShoppingList ? " remove-recipe" : " add-recipe";
             }
 
-            linkBtn = e.Item.FindControl("btnSendToFriend") as LinkButton;
-            if (linkBtn != null)
-            {
-                linkBtn.Attributes["recipeId"] = recipe.id.ToString();
-            }
-            
+            //LinkButton linkBtn = e.Item.FindControl("btnSendToFriend") as LinkButton;
+            //if (linkBtn != null)
+            //{
+            //    linkBtn.Attributes["recipeId"] = recipe.id.ToString();
+            //}
+
             HtmlGenericControl divMyFavoritesInfoTag = e.Item.FindControl("myFavoritesInfoTag") as HtmlGenericControl;
 
             bool inMyFavorites = false;
@@ -460,18 +436,15 @@ public partial class Recipes : BasePage
                 mainCategor.Text = recipeCategories[0].CategoryName;
             }
 
-            HyperLink publisher = e.Item.FindControl("lnkPublisher") as HyperLink;
-            publisher.Text = recipe.publishedBy;
-
             //Image image = e.Item.FindControl("imgThumbnail") as Image;
             //if (recipe.Picture == null)
             //{
             //    image.ImageUrl = "~/Images/Img_Default_small.jpg";
             //} else
             //{
-                //image.ImageUrl = recipe.Picture;
+            //image.ImageUrl = recipe.Picture;
             //}
-            
+
 
             //lblAllFavorites.Text = ((Recipe)e.Item.DataItem).NumUsersFavorite.ToString();
             //lblAllMenus.Text = ((Recipe)e.Item.DataItem).NumMenusInclude.ToString();
@@ -700,7 +673,7 @@ public partial class Recipes : BasePage
         HyperLink primaryCatLink = new HyperLink();
         primaryCatLink.Text = "הכל";
         primaryCatLink.Style["background-color"] = "#A4CB3A";
-        primaryCatLink.NavigateUrl = string.Format("~/Recipes.aspx?disp={0}{1}", RecipeDisplayEnum.ByCategory.ToString(), (Request["orderBy"] != null)?string.Format("&orderBy={0}", Request["orderBy"]):"");
+        primaryCatLink.NavigateUrl = string.Format("~/Recipes.aspx?disp={0}{1}", RecipeDisplayEnum.ByCategory.ToString(), (Request["orderBy"] != null) ? string.Format("&orderBy={0}", Request["orderBy"]) : "");
         this.pathLinks.Controls.Clear();
         this.pathLinks.Controls.Add(primaryCatLink);
 
@@ -975,7 +948,7 @@ public partial class Recipes : BasePage
         ((BasePage)Page).DisplayMessage = preStr + "<br/>" + recipeName;
 
         RebindRecipes();
-        upRecipes.Update();
+        //upRecipes.Update();
         //ucShoppingList1.UpdateList();
         //upShoppingList.Update();
     }

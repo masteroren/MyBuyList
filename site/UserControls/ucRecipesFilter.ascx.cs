@@ -18,6 +18,8 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
     public event ChangeEventHandler CategoryChanged;
     public event ChangeEventHandler SortChanged;
 
+    public int Category { get; set; }
+
     protected virtual void OnCategoryChanged(object sender, ChangeEventArgs e)
     {
         if (CategoryChanged != null)
@@ -60,10 +62,20 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
             var categories = HttpHelper.Get<ListResponse<IEnumerable<CategoryModel>>>("categories");
             FillList(categories.results);
         }
+
+        if (lstCategories.SelectedIndex != 0)
+        {
+            Category = Convert.ToInt32(lstCategories.SelectedValue);
+            OnCategoryChanged(this, new ChangeEventArgs
+            {
+                category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue
+            });
+        }
     }
 
     protected void lstCategories_SelectedIndexChanged(object sender, EventArgs e)
     {
+
         OnCategoryChanged(this, new ChangeEventArgs
         {
             category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue

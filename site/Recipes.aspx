@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true" CodeFile="Recipes.aspx.cs" Inherits="Recipes" %>
+
 <%@ MasterType VirtualPath="~/MasterPages/MBL.master" %>
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
@@ -18,7 +19,7 @@
         .recipes-filter {
             display: flex;
             flex-direction: column;
-            /*/*/*/*padding-top: 5px;*/*/*/*/
+            /*/*/ * /*padding-top: 5px;*/ * /*/*/
         }
 
         .categories-breadcrumbs {
@@ -34,7 +35,6 @@
     <script src="Scripts/Recipes.js"></script>
 
     <script>
-        var ButtonRecipesRefreshClientID = '<%=ButtonRecipesRefresh.ClientID%>';
         var RecipeIdClientID = '<%=hfRecipeId.ClientID%>';
         var RecipeNameClientID = '<%=hfRecipeName.ClientID%>';
         var lnkNewRecipeClientId = '<%=lnkNewRecipe.ClientID%>';
@@ -72,16 +72,10 @@
         <div class="header">
             <div class="top" style="display: none">
                 <asp:Image runat="server" ImageUrl="~/Images/Header_Recipes.png" />
-                <p class="hide">
-                    דף זה מכיל מתכונים מגוונים של גולשים, חברי קהילת Mybuylist, מומחים מתחום התזונה
-            ויצרני מזון. בלחיצה על לחצן "הוסף מתכון חדש" תוכלו גם אתם להוסיף מתכונים חדשים עבורכם ועבור קהילת המייבליסטים.  
-            <br />
-                    <b>להוספת מצרכי המתכון לרשימת הקניות</b> יש ללחוץ  "הוסף לרשימת קניות/לתפריט" בכל מתכון רצוי. הרשימה המצטברת מופיעה בראש הדף (צמוד ללוגו האתר).
-                </p>
             </div>
             <div class="search">
                 <div id="recipes_filter" class="recipes-filter">
-                    <uc3:RecipesFilter ID="RecipesFilter1" runat="server"/>
+                    <uc3:RecipesFilter ID="RecipesFilter1" runat="server" />
                     <div id="categories" class="categories-breadcrumbs" runat="server" visible="true">
                         <div id="pathLinks" runat="server" style="margin-bottom: 10px;">
                         </div>
@@ -103,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="add-recipe">
+                <div class="add-recipe" style="display: none">
                     <asp:HyperLink ID="lnkNewRecipe" runat="server">
                                 <asp:Image runat="server" ImageUrl="~/Images/btn_AddNewRecipe_up.png" onmouseover='this.src="Images/btn_AddNewRecipe_over.png";' 
                                     onmouseout='this.src="Images/btn_AddNewRecipe_up.png";' onmousedown='this.src="Images/btn_AddNewRecipe_Down.png";' 
@@ -112,7 +106,11 @@
                 </div>
             </div>
             <div id="numResults">
-                <asp:Label ID="lblNumRecipes" runat="server" />
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
+                        <asp:Label ID="lblNumRecipes" runat="server" />
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
             <uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="ucRecipeCats_RefreshData" />
         </div>
@@ -125,11 +123,11 @@
                 </asp:UpdatePanel>
             </div>--%>
             <div class="recipes">
-                <asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" Visible="false" OnClick="ButtonRecipesRefresh_Click" />
-                <asp:UpdatePanel ID="upRecipes" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                    <Triggers>
+                <%--<asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" Visible="false" OnClick="ButtonRecipesRefresh_Click" />--%>
+                <asp:UpdatePanel ID="upRecipes" runat="server">
+                    <%--<Triggers>
                         <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" />
-                    </Triggers>
+                    </Triggers>--%>
                     <ContentTemplate>
                         <div class="recipe_list">
                             <asp:Repeater ID="rptRecipes" runat="server">
@@ -152,7 +150,7 @@
                                         <div class="body">
                                             <div class="recipe_inner_box">
                                                 <div class="recipe_title">
-                                                    <asp:HyperLink ID="lnkRecipe" runat="server" Text='<%# Eval("name") %>' NavigateUrl=""></asp:HyperLink>
+                                                    <asp:HyperLink ID="lnkRecipe" runat="server" Text='<%# Eval("name") %>' NavigateUrl='<%# String.Format("RecipeDetails.aspx?RecipeId={0}", Eval("id")) %>'></asp:HyperLink>
                                                 </div>
                                                 <div class="recipe_actions_box">
                                                     <asp:LinkButton ID="ShoppingListAddRemove" runat="server"
@@ -181,7 +179,7 @@
                                                 </div>
                                                 <div class="publisher_box">
                                                     <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
-                                                    <asp:HyperLink ID="lnkPublisher" runat="server" NavigateUrl="" CssClass="published_value"></asp:HyperLink>&nbsp;&nbsp;&nbsp;
+                                                    <asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>'></asp:HyperLink>&nbsp;&nbsp;&nbsp;
                                         <div class="published_date">
                                             <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
                                             <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>

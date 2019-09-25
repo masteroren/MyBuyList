@@ -6,6 +6,7 @@ using ProperControls.Pages.Compression;
 using ProperControls.Pages.Persistence;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared;
+using MyBuyListShare.Classes;
 
 public class BasePage : Page
 {
@@ -207,7 +208,7 @@ public class BasePage : Page
         }
     }
 
-    public users CurrUser
+    public UserInfo CurrUser
     {
         get
         {
@@ -221,7 +222,7 @@ public class BasePage : Page
                 return null;
             }
 
-            return (users)Session[AppConstants.CURR_USER];
+            return (UserInfo)Session[AppConstants.CURR_USER];
 
         }
         set
