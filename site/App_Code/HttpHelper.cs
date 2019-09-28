@@ -39,4 +39,14 @@ public class HttpHelper
 
         return results;
     }
+
+    public static string JsonSerializer<T>(T t)
+    {
+        System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
+        System.IO.MemoryStream ms = new System.IO.MemoryStream();
+        ser.WriteObject(ms, t);
+        string jsonString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
+        ms.Close();
+        return jsonString;
+    }
 }

@@ -4,22 +4,17 @@
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/ucRecipeCategories.ascx" TagPrefix="uc2" TagName="RecipeCategories" %>
-<%@ Register Src="UserControls/ucRecipesFilter.ascx" TagName="RecipesFilter" TagPrefix="uc3" %>
 <%@ Register Src="~/UserControls/ucShoppingList.ascx" TagName="ucShoppingList" TagPrefix="uc1" %>
+<%@ Register Src="~/UserControls/AddRecipeButton.ascx" TagPrefix="uc1" TagName="AddRecipeButton" %>
+<%@ Register Src="~/UserControls/ucRecipesFilter.ascx" TagPrefix="uc1" TagName="ucRecipesFilter" %>
+
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
     <style>
-        .search {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            align-items: flex-start;
-        }
-
         .recipes-filter {
             display: flex;
             flex-direction: column;
-            /*/*/ * /*padding-top: 5px;*/ * /*/*/
         }
 
         .categories-breadcrumbs {
@@ -32,78 +27,27 @@
 
     <!-- Recipes -->
 
-    <script src="Scripts/Recipes.js"></script>
-
     <script>
         var RecipeIdClientID = '<%=hfRecipeId.ClientID%>';
         var RecipeNameClientID = '<%=hfRecipeName.ClientID%>';
-        var lnkNewRecipeClientId = '<%=lnkNewRecipe.ClientID%>';
     </script>
 
     <div id="reciep-wrapper">
-        <script type="text/javascript">
-            function changeSort(ddl) {
-                //            var sort = ddl.options[ddl.selectedIndex].value;
-                //            var recipesPage = '<%= ResolveUrl("~/Recipes.aspx") %>';
-                //            document.location = recipesPage + "?orderby=" + sort;
-
-                var sort = ddl.options[ddl.selectedIndex].value;
-
-                switch (sort) {
-                    case 'LastUpdate':
-                        document.location = '<%= OrderByLastUpdateUrl %>';
-                        break;
-                    case 'Name':
-                        document.location = '<%= OrderByNameUrl %>';
-                        break;
-                    case 'Publisher':
-                        document.location = '<%= OrderByPublisherUrl %>';
-                        break;
-                }
-            }
-
+        <%--<script type="text/javascript">
             function passParametersToSendToFriend(sender) {
                 var recipeId = sender.getAttribute('recipeId');
                 var recipeName = sender.getAttribute('recipeName');
                 setParameters(recipeId, recipeName);
                 showSendMailToFriendBox();
             }
-        </script>
+        </script>--%>
         <div class="header">
             <div class="top" style="display: none">
                 <asp:Image runat="server" ImageUrl="~/Images/Header_Recipes.png" />
             </div>
             <div class="search">
-                <div id="recipes_filter" class="recipes-filter">
-                    <uc3:RecipesFilter ID="RecipesFilter1" runat="server" />
-                    <div id="categories" class="categories-breadcrumbs" runat="server" visible="true">
-                        <div id="pathLinks" runat="server" style="margin-bottom: 10px;">
-                        </div>
-                        <div style="float: right">
-                            <asp:Panel ID="pnlCategories" runat="server" Width="300px" Height="170px" BorderWidth="1px"
-                                BorderColor="#656565" ScrollBars="Vertical" Style="margin: 0px auto;" Visible="false">
-                                <table style="width: 90%">
-                                    <asp:Repeater ID="rptCategories" runat="server" OnItemDataBound="rptCategories_ItemDataBound">
-                                        <ItemTemplate>
-                                            <tr>
-                                                <td align="right">&nbsp;
-                                                            <asp:HyperLink ID="lnkCategory" runat="server" ForeColor="#656565"></asp:HyperLink>
-                                                </td>
-                                            </tr>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                </table>
-                            </asp:Panel>
-                        </div>
-                    </div>
-                </div>
-                <div class="add-recipe" style="display: none">
-                    <asp:HyperLink ID="lnkNewRecipe" runat="server">
-                                <asp:Image runat="server" ImageUrl="~/Images/btn_AddNewRecipe_up.png" onmouseover='this.src="Images/btn_AddNewRecipe_over.png";' 
-                                    onmouseout='this.src="Images/btn_AddNewRecipe_up.png";' onmousedown='this.src="Images/btn_AddNewRecipe_Down.png";' 
-                                    nmouseup='this.src="Images/btn_AddNewRecipe_up.png";' />
-                    </asp:HyperLink>
-                </div>
+                <uc1:ucRecipesFilter runat="server" ID="ucRecipesFilter" />
+                <uc1:AddRecipeButton runat="server" ID="AddRecipeButton" />
             </div>
             <div id="numResults">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -123,11 +67,7 @@
                 </asp:UpdatePanel>
             </div>--%>
             <div class="recipes">
-                <%--<asp:Button ID="ButtonRecipesRefresh" runat="server" Text="Button" Visible="false" OnClick="ButtonRecipesRefresh_Click" />--%>
                 <asp:UpdatePanel ID="upRecipes" runat="server">
-                    <%--<Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ButtonRecipesRefresh" EventName="Click" />
-                    </Triggers>--%>
                     <ContentTemplate>
                         <div class="recipe_list">
                             <asp:Repeater ID="rptRecipes" runat="server">
@@ -180,15 +120,15 @@
                                                 <div class="publisher_box">
                                                     <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
                                                     <asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>'></asp:HyperLink>&nbsp;&nbsp;&nbsp;
-                                        <div class="published_date">
-                                            <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
-                                            <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>
-                                        </div>
+                                                    <div class="published_date">
+                                                        <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
+                                                        <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="recipe_thumbnail_box">
                                                 <div class="recipe_thumbnail" style="width: 123px; height: 94px;">
-                                                    <asp:Image ID="imgThumbnail" runat="server" Style="max-height: 94px; max-width: 123px;" />
+                                                    <asp:Image ID="imgThumbnail" runat="server" />
                                                 </div>
                                             </div>
                                         </div>
@@ -212,6 +152,8 @@
 
     <asp:HiddenField ID="hfRecipeId" runat="server" />
     <asp:HiddenField ID="hfRecipeName" runat="server" />
+
+    <script src="Scripts/Recipes.js"></script>
 
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphFooter" runat="Server">

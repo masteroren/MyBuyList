@@ -18,5 +18,9 @@
   {
     "outputFile": "App_Themes/Standard/recipes.css",
     "inputFile": "App_Themes/Standard/recipes.scss"
+  },
+  {
+    "outputFile": "App_Themes/Standard/recipes-details.css",
+    "inputFile": "App_Themes/Standard/recipes-details.scss"
   }
 ]

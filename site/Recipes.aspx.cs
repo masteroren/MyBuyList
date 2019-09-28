@@ -2,6 +2,7 @@
 using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
+using MyBuyListShare;
 using MyBuyListShare.Models;
 using ProperControls.General;
 using ProperServices.Common.Extensions;
@@ -89,23 +90,24 @@ public partial class Recipes : BasePage
     }
 
     private int? categoryId;
+    private SortBy sortBy;
 
-    public int? CategoryId
-    {
-        get
-        {
-            int catId = 0;
+    //public int? CategoryId
+    //{
+    //    get
+    //    {
+    //        int catId = 0;
 
-            if (!string.IsNullOrEmpty(Request["cat"]) && int.TryParse(Request["cat"], out catId))
-            {
-                return catId;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+    //        if (!string.IsNullOrEmpty(Request["cat"]) && int.TryParse(Request["cat"], out catId))
+    //        {
+    //            return catId;
+    //        }
+    //        else
+    //        {
+    //            return null;
+    //        }
+    //    }
+    //}
 
     public int? Servings
     {
@@ -199,13 +201,13 @@ public partial class Recipes : BasePage
 
             if (!IsPostBack)
             {
-                if (Display == RecipeDisplayEnum.ByCategory)
-                {
-                    int count = RebindCategories();
-                    categories.Visible = true;
-                    if (count == 0)
-                        pnlCategories.Visible = false;
-                }
+                //if (Display == RecipeDisplayEnum.ByCategory)
+                //{
+                //    int count = RebindCategories();
+                //    categories.Visible = true;
+                //    if (count == 0)
+                //        pnlCategories.Visible = false;
+                //}
                 //if (this.Display == RecipeDisplayEnum.BySearchSimple)
                 //{
                 //    this.simpleSearch.Visible = true;
@@ -237,15 +239,17 @@ public partial class Recipes : BasePage
             Logger.Write("PageLoad failed", ex, Logger.Level.Error);
         }
 
-        RecipesFilter1.CategoryChanged += RecipesFilter1_CategoryChanged;
+        ucRecipesFilter.FilterChanged += UcRecipesFilter_FilterChanged;
         rptRecipes.ItemCreated += rptRecipes_ItemCreated;
         rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
         RebindRecipes();
     }
 
-    private void RecipesFilter1_CategoryChanged(object sender, ChangeEventArgs e)
+    private void UcRecipesFilter_FilterChanged(object sender, ChangeEventArgs e)
     {
         CurrentPage = 1;
+        sortBy = e.sortBy;
+
         if (e.category == null)
         {
             Display = RecipeDisplayEnum.All;
@@ -255,6 +259,7 @@ public partial class Recipes : BasePage
             Display = RecipeDisplayEnum.ByCategory;
             categoryId = Convert.ToInt32(e.category);
         }
+
         RebindCategories();
         RebindRecipes();
     }
@@ -290,11 +295,11 @@ public partial class Recipes : BasePage
 
         if (categoryId == null || categoryId == 0)
         {
-            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("recipes?pageIndex={0}", CurrentPage - 1));
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("recipes?pageIndex={0}&sortBy={1}", CurrentPage - 1, sortBy));
         }
         else
         {
-            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("categories/{0}/recipes?pageIndex={1}", categoryId, CurrentPage - 1));
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("categories/{0}/recipes?pageIndex={1}&sortBy={2}", categoryId, CurrentPage - 1, sortBy));
         }
 
         totalPages = recipesResults.metadata.pages;
@@ -336,7 +341,7 @@ public partial class Recipes : BasePage
                 lnkArrow.Font.Size = FontUnit.Larger;
                 lnkArrow.Text = "&lt;&lt;";
                 phPager.Controls.Add(lnkArrow);
-                phPager.Controls.Add(new LiteralControl("&nbsp;&nbsp;&nbsp;"));
+                phPager.Controls.Add(new LiteralControl("&nbsp;"));
             }
 
             for (int page = startPage; page <= endpage; page++)
@@ -373,7 +378,6 @@ public partial class Recipes : BasePage
 
                 lnkArrow.Font.Size = FontUnit.Larger;
                 lnkArrow.Text = "&gt;&gt;";
-                phPager.Controls.Add(new LiteralControl("&nbsp;&nbsp;&nbsp;"));
                 phPager.Controls.Add(lnkArrow);
             }
         }
@@ -382,7 +386,7 @@ public partial class Recipes : BasePage
     private void LnkPage_Click(object sender, EventArgs e)
     {
         CurrentPage = Convert.ToInt32((sender as LinkButton).CommandArgument);
-        categoryId = RecipesFilter1.Category;
+        //categoryId = RecipesFilter1.Category;
         RebindRecipes();
     }
 
@@ -582,7 +586,7 @@ public partial class Recipes : BasePage
         //this.simpleSearch.Visible = true;
         //this.btnSearch.Visible = true;
         //this.advancedSearch.Visible = false;
-        this.categories.Visible = false;
+        //this.categories.Visible = false;
         //EmphasizeCurrentSearch(RecipeDisplayEnum.BySearchSimple);
         //this.upSearch.Update();
     }
@@ -594,7 +598,7 @@ public partial class Recipes : BasePage
         //this.simpleSearch.Visible = true;
         //this.btnSearch.Visible = true;
         //this.advancedSearch.Visible = true;
-        this.categories.Visible = false;
+        //this.categories.Visible = false;
         //EmphasizeCurrentSearch(RecipeDisplayEnum.BySearchAdvanced);
         //this.upSearch.Update();
     }
@@ -629,12 +633,12 @@ public partial class Recipes : BasePage
     protected void lnkCategories_Click(object sender, EventArgs e)
     {
         this.RebindCategories();
-        this.pnlCategories.Visible = true;
+        //this.pnlCategories.Visible = true;
 
         //this.simpleSearch.Visible = false;
         //this.btnSearch.Visible = false;
         //this.advancedSearch.Visible = false;
-        this.categories.Visible = true;
+        //this.categories.Visible = true;
         //EmphasizeCurrentSearch(RecipeDisplayEnum.ByCategory);
         //this.upSearch.Update();
     }
@@ -674,8 +678,8 @@ public partial class Recipes : BasePage
         primaryCatLink.Text = "הכל";
         primaryCatLink.Style["background-color"] = "#A4CB3A";
         primaryCatLink.NavigateUrl = string.Format("~/Recipes.aspx?disp={0}{1}", RecipeDisplayEnum.ByCategory.ToString(), (Request["orderBy"] != null) ? string.Format("&orderBy={0}", Request["orderBy"]) : "");
-        this.pathLinks.Controls.Clear();
-        this.pathLinks.Controls.Add(primaryCatLink);
+        //this.pathLinks.Controls.Clear();
+        //this.pathLinks.Controls.Add(primaryCatLink);
 
         pathList.Reverse();
         foreach (CategoryModel category in pathList)
@@ -683,30 +687,17 @@ public partial class Recipes : BasePage
             Label arrows = new Label();
             arrows.Text = " >> ";
             arrows.Style["background-color"] = "#A4CB3A";
-            this.pathLinks.Controls.Add(arrows);
+            //this.pathLinks.Controls.Add(arrows);
 
             HyperLink link = new HyperLink();
             link.Text = category.CategoryName;
             link.Style["background-color"] = "#A4CB3A";
             link.NavigateUrl = string.Format(this.RecipeCategoryChangeBaseUrl, category.CategoryId);
             //link.Command += new CommandEventHandler(link_Command);
-            this.pathLinks.Controls.Add(link);
+            //this.pathLinks.Controls.Add(link);
         }
 
         return count;
-    }
-
-    protected void rptCategories_ItemDataBound(object sender, RepeaterItemEventArgs e)
-    {
-        SRL_Category category = e.Item.DataItem as SRL_Category;
-        if (category != null)
-        {
-            //LinkButton btn = e.Item.FindControl("btnCategory") as LinkButton;
-            //btn.Text += " (" + category.RecipesCount + ")";
-            HyperLink lnk = (HyperLink)e.Item.FindControl("lnkCategory");
-            lnk.Text = string.Format("{0} ({1})", category.CategoryName, category.RecipesCount);
-            lnk.NavigateUrl = string.Format(this.RecipeCategoryChangeBaseUrl, category.CategoryId);
-        }
     }
 
     private void EnsureRecipeCategoryChangeBaseUrlExists()
@@ -774,7 +765,7 @@ public partial class Recipes : BasePage
         //this.simpleSearch.Visible = false;
         //this.btnSearch.Visible = false;
         //this.advancedSearch.Visible = false;
-        this.categories.Visible = true;
+        //this.categories.Visible = true;
         //this.upSearch.Update();
     }
 

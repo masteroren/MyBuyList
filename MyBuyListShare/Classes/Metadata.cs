@@ -10,8 +10,9 @@
         public int pages { get; set; }
         public int totalItems { get; set; }
         public string searchQuery { get; set; }
+        public SortBy sortBy { get; set; }
 
-        public MetaData(int _totalItems, int _pageSize, int _pageIndex, string _searchQuery)
+        public MetaData(int _totalItems, int _pageSize = 5, int _pageIndex = 0, string _searchQuery = null, SortBy _sortBy = 0)
         {
             if (_totalItems == 0)
             {
@@ -22,6 +23,7 @@
             pageSize = _pageSize;
             pageIndex = _pageIndex;
             searchQuery = _searchQuery;
+            sortBy = _sortBy;
 
             pages = totalItems / pageSize;
             if (totalItems % pageSize != 0)

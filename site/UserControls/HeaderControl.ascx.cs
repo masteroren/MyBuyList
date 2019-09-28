@@ -10,9 +10,9 @@ public partial class UC_HeaderControl : System.Web.UI.UserControl
      
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (((BasePage)Page).CurrUser != null)
+        UserInfo userInfo = ((BasePage)Page).CurrUser;
+        if (userInfo != null && userInfo.UserId != 0)
         {
-            UserInfo userInfo = ((BasePage)Page).CurrUser;
             lblHeaderUserName.Text = "שלום " + userInfo.DisplayName;
             loginButton.Text = "יציאה";
         } else

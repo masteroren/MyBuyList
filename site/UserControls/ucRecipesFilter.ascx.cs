@@ -1,4 +1,5 @@
-﻿using MyBuyListShare.Models;
+﻿using MyBuyListShare;
+using MyBuyListShare.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
@@ -8,31 +9,22 @@ public delegate void ChangeEventHandler(object sender, ChangeEventArgs e);
 public class ChangeEventArgs
 {
     public string category;
-    public int sortBy;
+    public SortBy sortBy;
 }
 
 public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
 {
     private string recipeCategoryChangeBaseUrl;
 
-    public event ChangeEventHandler CategoryChanged;
-    public event ChangeEventHandler SortChanged;
+    public event ChangeEventHandler FilterChanged;
 
     public int Category { get; set; }
 
-    protected virtual void OnCategoryChanged(object sender, ChangeEventArgs e)
+    protected virtual void OnFilterChanged(object sender, ChangeEventArgs e)
     {
-        if (CategoryChanged != null)
+        if (FilterChanged != null)
         {
-            CategoryChanged(this, e);
-        }
-    }
-
-    protected virtual void OnSortChanged(object sender, ChangeEventArgs e)
-    {
-        if (SortChanged != null)
-        {
-            SortChanged(this, e);
+            FilterChanged(this, e);
         }
     }
 
@@ -66,19 +58,21 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
         if (lstCategories.SelectedIndex != 0)
         {
             Category = Convert.ToInt32(lstCategories.SelectedValue);
-            OnCategoryChanged(this, new ChangeEventArgs
-            {
-                category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue
-            });
+            OnFilterChange();
         }
     }
 
     protected void lstCategories_SelectedIndexChanged(object sender, EventArgs e)
     {
+        OnFilterChange();
+    }
 
-        OnCategoryChanged(this, new ChangeEventArgs
+    private void OnFilterChange()
+    {
+        OnFilterChanged(this, new ChangeEventArgs
         {
-            category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue
+            category = lstCategories.SelectedIndex == 0 ? null : lstCategories.SelectedValue,
+            sortBy = (SortBy)(Convert.ToInt32(ddlSortBy.SelectedValue))
         });
     }
 
@@ -91,6 +85,19 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
         {
             string Text = string.Format("{0} ({1})", category.CategoryName, category.recipes);
             lstCategories.Items.Add(new ListItem(Text, category.CategoryId.ToString()));
+        }
+    }
+
+    protected void rptCategories_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        SRL_Category category = e.Item.DataItem as SRL_Category;
+        if (category != null)
+        {
+            //LinkButton btn = e.Item.FindControl("btnCategory") as LinkButton;
+            //btn.Text += " (" + category.RecipesCount + ")";
+            HyperLink lnk = (HyperLink)e.Item.FindControl("lnkCategory");
+            lnk.Text = string.Format("{0} ({1})", category.CategoryName, category.RecipesCount);
+            //lnk.NavigateUrl = string.Format(this.RecipeCategoryChangeBaseUrl, category.CategoryId);
         }
     }
 
@@ -133,4 +140,9 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
     //{
     //    Response.Redirect(string.Format("~/Recipes.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term={0}", txtSearchTerm.Text));
     //}
+
+    protected void ddlSortBy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        OnFilterChange();
+    }
 }

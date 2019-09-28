@@ -1,5 +1,10 @@
 ﻿$(document).ready(() => {
 
+    notificatiosCallbacks = [];
+    this.registerToLoginNotifications = (callback) => {
+        notificatiosCallbacks.push(callback);
+    };
+
     $("#popuplogin").dialog({
         autoOpen: false,
         title: "כניסת חברים",
@@ -33,16 +38,15 @@
 
     var loginBtn = $('#header a.login');
     loginBtn.click(() => {
+        $('.hide-on-logout').hide();
         var n = isLoggedIn();
-        n.done((loggedIn) => {
-            if (loggedIn === 'False') {
-                $(".add-recipe").hide();
+        n.done((userInfo) => {
+            if (userInfo !== '' && userInfo !== null) {
+                logout();
+            } else {
                 openLoginDialog(() => {
                     window.location = window.location.href;
                 });
-            } else {
-                $(".add-recipe").show();
-                logout();
             }
         });
     });
@@ -70,12 +74,25 @@
                         loginBtn.html('יציאה');
                         $('.hello-user').html('שלום, ' + user.DisplayName);
                         $("#popuplogin").dialog('close');
-                        $('.add-recipe').show();
                         break;
                 }
+
+                notificatiosCallbacks.forEach((callback) => {
+                    callback({
+                        loggedIn: true,
+                        userId: user.UserId
+                    });
+                });
             }
             else {
                 alert('Login failed');
+
+                notificatiosCallbacks.forEach((callback) => {
+                    callback({
+                        loggedIn: false
+                    });
+                });
+
                 return;
             }
         });
@@ -98,18 +115,28 @@
             loginBtn.html('כניסה');
             $('.hello-user').html('שלום, אורח');
             ResetSearch(1);
-            window.location = 'recipes.aspx';
             window.userId = null;
+
+
+            notificatiosCallbacks.forEach((callback) => {
+                callback({
+                    loggedIn: false
+                });
+            });
         });
     };
 
     (() => {
         var n = isLoggedIn();
-        n.done((loggedIn) => {
-            if (loggedIn === 'False') {
-                $(".add-recipe").hide();
-            } else {
-                $(".add-recipe").show();
+        n.done((userInfo) => {
+            if (userInfo !== '' && userInfo !== null) {
+                var user = $.parseJSON(userInfo);
+                notificatiosCallbacks.forEach((callback) => {
+                    callback({
+                        loggedIn: user !== null,
+                        userId: user.UserId
+                    });
+                });
             }
         });
     })();

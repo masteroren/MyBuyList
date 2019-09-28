@@ -3,26 +3,28 @@
 
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/RecipeDetailsActions.ascx" TagPrefix="MBL" TagName="RecipeDetailsActions" %>
+<%@ Register Src="~/UserControls/AddRecipeButton.ascx" TagPrefix="MBL" TagName="AddRecipeButton" %>
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
     <meta name="Description" id="PageDescription" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="Server">
     <script type="text/javascript">
-    function AddRecipeToFavorites(recipeId) {
-        PageMethods.AddRecipeToUserFavorites(recipeId, OnAddSucceeded, OnFailed);
-    }
-    function RemoveRecipeFromFavorites(recipeId) {
-        PageMethods.RemoveRecipeFromFavorites(recipeId, OnRemoveSucceeded, OnFailed);
-    }
-    function OnAddSucceeded(results) {
-        $get('<%= btnAddRecipeToFavorites.ClientID %>').style.display = 'none';
-            $get('<%= btnRemoveRecipeFromFavorites.ClientID %>').style.display = 'inline';
+        function AddRecipeToFavorites(recipeId) {
+            PageMethods.AddRecipeToUserFavorites(recipeId, OnAddSucceeded, OnFailed);
         }
-        function OnRemoveSucceeded(results) {
+        function RemoveRecipeFromFavorites(recipeId) {
+            PageMethods.RemoveRecipeFromFavorites(recipeId, OnRemoveSucceeded, OnFailed);
+        }
+        <%--function OnAddSucceeded(results) {
+            $get('<%= btnAddRecipeToFavorites.ClientID %>').style.display = 'none';
+        $get('<%= btnRemoveRecipeFromFavorites.ClientID %>').style.display = 'inline';
+        }--%>
+        <%--function OnRemoveSucceeded(results) {
             $get('<%= btnAddRecipeToFavorites.ClientID %>').style.display = 'inline';
             $get('<%= btnRemoveRecipeFromFavorites.ClientID %>').style.display = 'none';
-        }
+        }--%>
 
 
         function OnFailed(results) {
@@ -51,36 +53,23 @@
             modal.hide();
         }
 
-        var hfRecipeId = '<%=hfRecipeId.ClientID%>';
     </script>
 
     <script src="Scripts/RecipeDetails.js"></script>
 
-    <script>
-        var lnkNewRecipe = '<%=lnkNewRecipe.ClientID%>';
-    </script>
-
     <div style="clear: both; height: 1px;">
     </div>
-    <div id="recipe-details">
+    <div class="recipe-details">
         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
             <ContentTemplate>
                 <div class="recipe-name-wrapper">
-                    <div style="clear: both; min-height: 30px; width:784px;float:left;margin-left:10px;">
-                        <div class="recipe_name">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/Header_Recipe.png" Style="margin-left: 11px;" />
-                            <div>
-                                <asp:Label ID="lblRecipeName" runat="server" />
-                            </div>
-                        </div>
-                        <div class="add-recipe">
-                            <asp:HyperLink ID="lnkNewRecipe" runat="server">
-                                <asp:Image ID="Image2" runat="server" ImageUrl="~/Images/btn_AddNewRecipe_up.png"
-                                    onmouseover='this.src="Images/btn_AddNewRecipe_over.png";' onmouseout='this.src="Images/btn_AddNewRecipe_up.png";'
-                                    onmousedown='this.src="Images/btn_AddNewRecipe_Down.png";' nmouseup='this.src="Images/btn_AddNewRecipe_up.png";' />
-                            </asp:HyperLink>
+                    <div class="recipe_name">
+                        <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/Header_Recipe.png" Style="margin-left: 11px;" />
+                        <div>
+                            <asp:Label ID="lblRecipeName" runat="server" />
                         </div>
                     </div>
+                    <MBL:AddRecipeButton runat="server" ID="AddRecipeButton" />
                 </div>
                 <asp:UpdatePanel ID="upTopTags" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
@@ -171,66 +160,10 @@
                                         data-show-faces="true" data-href="<%=FBUrl %>">
                                     </div>
                                 </div>
-                                <%--<div style="float: left; margin-left: 20px;">
-                                    <!-- AddThis Button BEGIN -->
-                                    <script type="text/javascript">
-                                        var addthis_config = { "data_track_clickback": true };
-                                    </script>
-                                    <div class="addthis_toolbox addthis_default_style">
-                                        <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=dalit" class="addthis_button_compact"
-                                            style="color: #fcab14; font-weight: bold">שתף</a> <span class="addthis_separator">|</span>
-                                        <a class="addthis_button_facebook"></a><a class="addthis_button_myspace"></a><a class="addthis_button_google">
-                                        </a><a class="addthis_button_twitter"></a>
-                                    </div>
-                                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=dalit"></script>
-                                    <!-- AddThis Button END -->
-                                </div>--%>
-                            </div>
-                            <div style="height: 30px">
                             </div>
 
                             <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions" />
 
-                            <!--<div id="recipe_actions">
-                                <asp:LinkButton ID="blkAddRemove" runat="server" OnClientClick="StartHeaderInterval();" OnClick="blkAddRemove_Click" Font-Bold="true"
-                                    ForeColor="#a4cb3a" />
-                                <asp:Label ID="lblAddRemoveSeperator" runat="server">|</asp:Label>
-                                <asp:LinkButton ID="btnAddRecipeToFavorites" runat="server" Text='הוסף למועדפים שלי'
-                                    OnClick="btnAddRecipeToFavorites_Click" />
-                                <asp:LinkButton ID="btnRemoveRecipeFromFavorites" runat="server" ForeColor="Red"
-                                    Text='הסר ממועדפים שלי' OnClick="btnRemoveRecipeFromFavorites_Click" />
-                                <asp:Label ID="lblAddToFavoritesSeparator" runat="server">|</asp:Label>
-                                <asp:HyperLink ID="btnRecipe" runat="server" Target="print" Text='הדפס' />
-                                <asp:Label ID="Label1" runat="server">|</asp:Label>
-                                <asp:LinkButton ID="btnSaveAs" runat="server" OnClick="SaveImage">שמור כתמונה</asp:LinkButton>
-                                <%--<asp:Label ID="lblSeparator1" runat="server">|</asp:Label>
-                                <asp:LinkButton ID="btnSendMail" runat="server" Text='שלח לחבר' OnClientClick="showSendMailToFriendBox()" />--%>
-                                <asp:Label ID="lblEditRecipeSeparator" runat="server">|</asp:Label>
-                                <%--<asp:LinkButton ID="btnEditRecipe" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'
-                                    OnClick="btnEditRecipe_Click" />--%>
-                                <asp:PlaceHolder ID="PlaceHolder1" runat="server">
-                                    <a href="RecipeEdit.aspx?recipeId=<%=RecipeId %>">
-                                        <asp:Literal ID="Literal1" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'></asp:Literal>
-                                    </a>
-                                </asp:PlaceHolder>
-                                <asp:Label ID="lblEditRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'
-                                    Font-Underline="true" ForeColor="LightGray" Visible="false" />
-                                <asp:Label ID="lblSeparator3" runat="server" Visible="false">|</asp:Label>
-                                <asp:LinkButton ID="btnCopyRecipe" runat="server" Text='<%$ Resources:MyGlobalResources, CopyRecipe %>'
-                                    OnClick="btnCopyRecipe_Click" Visible="false" />
-                                <asp:Label ID="lblCopyRecipeSeperator" runat="server">|</asp:Label>
-
-                                <%--<asp:LinkButton ID="btnDeleteRecipe" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
-                                    OnClick="btnDeleteRecipe_Click" />--%>
-                                <a id="removeRecipe" class="cursor">מחיקה</a>
-                                <asp:Label ID="lblDeleteRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
-                                    Font-Underline="true" ForeColor="LightGray" Visible="false" />
-
-                                <%--<ajaxToolkit:ConfirmButtonExtender ID="cbeDeleteRecipe" runat="server" TargetControlID="btnDeleteRecipe"
-                                    ConfirmText="האם אתה בטוח שברצונך למחוק את המתכון?" />--%>
-                                <asp:Label ID="lblResult" runat="server" Text="" Visible="false"></asp:Label>
-                            </div>-->
-                            <%--<a href="#">content</a>--%>
                             <div id="recipe_picture">
                                 <div style="float: left; text-align: center; width: 300px; height: 231px;">
                                     <asp:Image ID="imgRecipePicture" runat="server" BorderColor="#656565" BorderWidth="1px"
@@ -276,8 +209,7 @@
                                     <tr>
                                         <asp:Repeater ID="rptNutritionalValues" runat="server" OnItemDataBound="NutValue_ItemDataBound">
                                             <ItemTemplate>
-                                                <td id="tdRepeater" runat="server" style="text-align: center; vertical-align: top;
-                                                    width: auto; padding: 8px 3px 3px 3px;">
+                                                <td id="tdRepeater" runat="server" style="text-align: center; vertical-align: top; width: auto; padding: 8px 3px 3px 3px;">
                                                     <div style="vertical-align: top;">
                                                         <asp:Label ID="lblNutItemName1" runat="server" class="nutritional_value_name" Text='<%# Eval("NutItemName") %>' />
                                                     </div>
@@ -292,8 +224,7 @@
                                     <tr>
                                         <asp:Repeater ID="rptNutritionalValues1" runat="server" OnItemDataBound="NutValue_ItemDataBound">
                                             <ItemTemplate>
-                                                <td id="tdRepeater" runat="server" style="text-align: center; vertical-align: top;
-                                                    padding-top: 7px; height: 34px;">
+                                                <td id="tdRepeater" runat="server" style="text-align: center; vertical-align: top; padding-top: 7px; height: 34px;">
                                                     <asp:Label ID="lblDisplayTotalValue1" CssClass="nutritional_value_value" Style="color: white;"
                                                         runat="server" Text='<%# Eval("DisplayTotalValue") %>' />
                                                 </td>
@@ -305,7 +236,7 @@
                         </div>
                         <!-- AddThis Button BEGIN -->
                         <script type="text/javascript">
-    var addthis_config = { "data_track_clickback": true };
+                            var addthis_config = { "data_track_clickback": true };
                         </script>
                         <div class="social-plugins" style="margin-left: 20px">
                             <div style="float: left; margin-top: -3px;">
@@ -330,8 +261,7 @@
                     <div class="wrapper_bottom_tab2">
                         <table cellpadding="0" cellspacing="0">
                             <tr>
-                                <td class="wrapper_bottom_tab2_1" style="">
-                                    &nbsp;
+                                <td class="wrapper_bottom_tab2_1" style="">&nbsp;
                                 </td>
                                 <td style="width: 20px;">
                                     <asp:Image ID="Image8" runat="server" ImageUrl="~/Images/bgr_TabIndexReciepesRight.png" />
@@ -339,44 +269,6 @@
                                 <td class="wrapper_bottom_tab2_3" style="" nowrap="nowrap">
 
                                     <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions1" />
-
-                                    <!--<div id="recipe_actions_bottom">
-                                        <asp:LinkButton ID="blkAddRemove_bottom" runat="server" OnClick="blkAddRemove_Click"
-                                            Font-Bold="true" ForeColor="#a4cb3a" />
-                                        <asp:Label ID="lblAddRemoveSeperator_bottom" runat="server">|</asp:Label>
-                                        <asp:LinkButton ID="btnAddRecipeToFavorites_bottom" runat="server" Text='הוסף למועדפים שלי'
-                                            OnClick="btnAddRecipeToFavorites_Click" />
-                                        <asp:LinkButton ID="btnRemoveRecipeFromFavorites_bottom" runat="server" ForeColor="Red"
-                                            Text='הסר ממועדפים שלי' OnClick="btnRemoveRecipeFromFavorites_Click" />
-                                        <asp:Label ID="lblAddToFavoritesSeparator_bottom" runat="server">|</asp:Label>
-                                        <asp:HyperLink ID="btnRecipe_bottom" runat="server" Target="print" Text='הדפס' />
-                                        <asp:Label ID="Label2" runat="server">|</asp:Label>
-                                        <%--<a class="btnSaveAs" style="cursor: pointer;">שמור</a>--%>
-                                        <asp:LinkButton ID="btnSaveAsBottom" runat="server" OnClick="SaveImage">שמור כתמונה</asp:LinkButton>
-                                        <%--<asp:Label ID="lblSeparator1_bottom" runat="server">|</asp:Label>
-                                        <asp:LinkButton ID="btnSendMail_bottom" runat="server" Text='שלח לחבר' OnClientClick="showSendMailToFriendBox()" />--%>
-                                        <asp:Label ID="lblEditRecipeSeparator_bottom" runat="server">|</asp:Label>
-                                        <%--<asp:LinkButton ID="btnEditRecipe_bottom" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'
-                                            OnClick="btnEditRecipe_Click" />--%>
-                                        <asp:PlaceHolder ID="PlaceHolder2" runat="server">
-                                            <a href="RecipeEdit.aspx?recipeId=<%=RecipeId %>">
-                                                <asp:Literal ID="Literal2" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'></asp:Literal>
-                                            </a>
-                                        </asp:PlaceHolder>
-                                        <asp:Label ID="lblEditRecipeDisabled_bottom" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'
-                                            Font-Underline="true" ForeColor="LightGray" Visible="false" />
-                                        <asp:Label ID="lblSeparator3_bottom" runat="server" Visible="false">|</asp:Label>
-                                        <asp:LinkButton ID="btnCopyRecipe_bottom" runat="server" Text='<%$ Resources:MyGlobalResources, CopyRecipe %>'
-                                            OnClick="btnCopyRecipe_Click" Visible="false" />
-                                        <asp:Label ID="lblCopyRecipeSeperator_bottom" runat="server">|</asp:Label>
-                                        <%--<asp:LinkButton ID="btnDeleteRecipe_bottom" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
-                                            OnClick="btnDeleteRecipe_Click" />--%>
-                                        <asp:Label ID="lblDeleteRecipeDisabled_bottom" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
-                                            Font-Underline="true" ForeColor="LightGray" Visible="false" />
-                                       <%-- <ajaxToolkit:ConfirmButtonExtender ID="cbeDeleteRecipe_bottom" runat="server" TargetControlID="btnDeleteRecipe_bottom"
-                                            ConfirmText="האם אתה בטוח שברצונך למחוק את המתכון?" />--%>
-                                        <asp:Label ID="lblResult_bottom" runat="server" Text="" Visible="false"></asp:Label>
-                                    </div>-->
 
                                 </td>
                                 <td style="width: 20px;">

@@ -1,23 +1,11 @@
-﻿$(function () {
-    $('#' + lnkNewRecipe).click(function () {
-        var data = { method: 'IsLoggedIn' };
-        $.post('Handler.ashx', data, function (data) {
-            if (data === '') {
-                OpenLoginDialog(function () {
-                    window.location = 'RecipeEdit.aspx';
-                });
-            }
-            else
-                window.location = 'RecipeEdit.aspx';
-        });
-    })
-})
+﻿$(document).ready(() => {
 
-$(document).ready(() => {
-
-    isLoggedIn(function (user) {
-        if (user === null) {
-            $('#removeRecipe').hide();
+    registerToLoginNotifications((loginNotification) => {
+        if (loginNotification.loggedIn) {
+            $('.hide-on-logout').show();
+            checkFavorits(loginNotification.userId);
+        } else {
+            $('.hide-on-logout').hide();
         }
     });
 
@@ -38,5 +26,25 @@ $(document).ready(() => {
                     console.log(error);
                 }
             });
-    })
+    });
+
+    var checkFavorits = (userId) => {
+        var recipeId = $('#hfRecipeId').val();
+        var data = {
+            method: 'IsUserFavoritRecipe',
+            recipeId,
+            userId
+        };
+
+        $.post('ASHX/Recipes.ashx', data, (res) => {
+            var oRes = $.parseJSON(res);
+            $('.add-to-favorites').hide();
+            $('.remove-from-favorites').hide();
+            if (oRes !== null) {
+                $('.remove-from-favorites').show();
+            } else {
+                $('.add-to-favorites').show();
+            }
+        });
+    };
 });

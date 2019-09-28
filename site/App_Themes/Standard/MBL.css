@@ -10,7 +10,7 @@
     -ms-scrollbar-3dlight-color: #e9e9e9;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0px;
-    /*overflow: hidden;*/
+    overflow: overlay;
 }
 
 A {
@@ -597,16 +597,25 @@ a.published_value {
 
 div.pager {
     font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
     div.pager span {
         color: #a4cb3a;
         text-decoration: underline;
+        border: 1px solid;
+        padding: 3px;
+        width: 25px;
     }
 
     div.pager a {
         color: #656565;
         text-decoration: none;
+        border: 1px solid;
+        padding: 3px;
+        width: 20px;
     }
 
         div.pager a:hover {

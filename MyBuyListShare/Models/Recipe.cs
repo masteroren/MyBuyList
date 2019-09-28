@@ -28,6 +28,12 @@ namespace MyBuyListShare.Models
         public bool isPublic { get; set; }
     }
 
+    public class FavoritRecipesModel
+    {
+        public int userId { get; set; }
+        public int recipeId { get; set; }
+    }
+
     public class RecipeResponse
     {
         public RecipeModel recipe { get; set; }

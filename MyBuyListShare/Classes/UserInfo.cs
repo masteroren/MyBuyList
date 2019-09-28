@@ -1,4 +1,6 @@
-﻿namespace MyBuyListShare.Classes
+﻿using System;
+
+namespace MyBuyListShare.Classes
 {
     public class UserInfo
     {

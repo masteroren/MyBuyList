@@ -45,8 +45,6 @@
     <script src="Scripts/config.js"></script>
     <script src="Scripts/MBL.js"></script>
 
-
-
     <asp:ContentPlaceHolder ID="cphFooter" runat="server">
     </asp:ContentPlaceHolder>
 </body>
