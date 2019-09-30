@@ -507,13 +507,13 @@ a.recipe_forum_link {
         float: right;
     }
 
-.recipe_main_category {
+/*.recipe_main_category {
     text-align: center;
     width: 72px;
     font-size: 16px;
     font-weight: bold;
     color: #8DAC34;
-}
+}*/
 
 .recipe_inner_box {
     width: 514px;
@@ -578,7 +578,7 @@ a.published_value {
     color: #8AAC33;
 }
 
-.recipe_thumbnail_box {
+/*.recipe_thumbnail_box {
     float: left;
     text-align: center;
     vertical-align: middle;
@@ -593,7 +593,7 @@ a.published_value {
     .recipe_thumbnail img {
         max-width: 127px;
         max-height: 98px;
-    }
+    }*/
 
 div.pager {
     font-size: 10px;
@@ -694,7 +694,7 @@ div.pager {
     background-repeat: no-repeat;
 }
 
-.wrapper_bottom_tab2 {
+/*.wrapper_bottom_tab2 {
     clear: both;
     min-height: 25px;
     width: 942px;
@@ -719,7 +719,6 @@ div.pager {
 
 .wrapper_bottom_tab2_3 {
     background-image: url('../../Images/bgr_TabIndexReciepesCenter.png');
-    /*background-position:bottom;*/
     background-repeat: repeat-x;
     vertical-align: top;
 }
@@ -730,7 +729,7 @@ div.pager {
     background-image: url('../../Images/bgr_TabIndexReciepesLeft.png');
     background-position: left bottom;
     background-repeat: no-repeat;
-}
+}*/
 
 div.menu_pager {
     font-size: 11px;
@@ -842,27 +841,26 @@ div.field_row {
     margin-top: 24px;
 }
 
-#recipe_wrapper {
+/*#recipe_wrapper {
     width: 945px;
     padding-right: 19px;
     padding-left: 19px;
-    /*margin-top: 65px;*/
-}
+}*/
 
-#recipe_wrapper_top {
+/*#recipe_wrapper_top {
     background-image: url('../../Images/bgr_InnerRecipe_Top.png');
     background-repeat: no-repeat;
     height: 6px;
-}
+}*/
 
-#recipe_wrapper_middle {
+/*#recipe_wrapper_middle {
     background-image: url('../../Images/bgr_InnerRecipe_Middle.png');
     background-repeat: repeat-y;
     padding-top: 26px;
     vertical-align: top;
-}
+}*/
 
-#recipe_wrapper_bottom {
+/*#recipe_wrapper_bottom {
     background-image: url('../../Images/bgr_InnerRecipe_Bottom.png');
     background-repeat: no-repeat;
     height: 19px;
@@ -878,7 +876,7 @@ div.field_row {
     float: left;
     width: 444px;
     padding: 0px 5px 40px 24px;
-}
+}*/
 
 #menus_filter {
     margin-bottom: 7px;
@@ -1136,7 +1134,7 @@ td.mealDetails_mealNames {
     padding-right: 20px;
 }
 
-#servingsInfoTag {
+/*#servingsInfoTag {
     background-image: url('../../Images/icon_Portion.jpg');
     background-repeat: no-repeat;
     height: 43px;
@@ -1169,7 +1167,7 @@ td.mealDetails_mealNames {
     padding-left: 6px;
     font-weight: bold;
     color: #656565;
-}
+}*/
 
 .myFavoritesTopTag {
     background-image: url('../../Images/icon_Add.jpg');

@@ -78,61 +78,61 @@
                                     </div>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <div class="recipe_main_category">
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Right.png); width: 19px; height: 30px; background-repeat: no-repeat;"></div>
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Center.png); width: 220px; height: 30px; background-repeat: repeat-x;">
-                                            <div style="height: 10px;"></div>
-                                            <asp:Label ID="lblMainCategory" runat="server"></asp:Label>
+                                    <div class="recipe-box-wrapper">
+                                        <div class="recipe-category">
+                                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/bgr_Header_BoxIndex_Right.png" />
+                                            <asp:Label ID="lblMainCategory" runat="server" CssClass="category-name"></asp:Label>
+                                            <asp:Image ID="Image2" runat="server" ImageUrl="~/Images/bgr_Header_BoxIndex_Left.png" />
                                         </div>
-                                        <div style="float: right; background-image: url(Images/bgr_Header_BoxIndex_Left.png); width: 19px; height: 30px; background-repeat: no-repeat;"></div>
-                                    </div>
-                                    <div class="recipe_box">
-                                        <div class="body">
-                                            <div class="recipe_inner_box">
-                                                <div class="recipe_title">
-                                                    <asp:HyperLink ID="lnkRecipe" runat="server" Text='<%# Eval("name") %>' NavigateUrl='<%# String.Format("RecipeDetails.aspx?RecipeId={0}", Eval("id")) %>'></asp:HyperLink>
-                                                </div>
-                                                <div class="recipe_actions_box">
-                                                    <asp:LinkButton ID="ShoppingListAddRemove" runat="server"
-                                                        CssClass="recipe_action" CausesValidation="True" OnClientClick='<%# String.Format("addRemoveRecipe(this, \"{0}\")",  Eval("id"))  %>' />
-                                                </div>
-                                                <div id="infoTags" style="clear: both; min-height: 30px; padding-top: 10px;">
-                                                    <div id="myFavoritesInfoTag" runat="server" class="myFavoritesInfoTag" title="קיים במועדפים שלי">
+                                        <div class="recipe_box">
+                                            <div class="body">
+                                                <div class="recipe_inner_box">
+                                                    <div class="recipe_title">
+                                                        <asp:HyperLink ID="lnkRecipe" runat="server" Text='<%# Eval("name") %>' NavigateUrl='<%# String.Format("RecipeDetails.aspx?RecipeId={0}", Eval("id")) %>'></asp:HyperLink>
                                                     </div>
-                                                    <div id="allFavoritesInfoTag" title="גולשים אוהבים מתכון זה">
-                                                        <div style="width: 15px; text-align: center;">
-                                                            <asp:Label ID="lblAllFavorites" runat="server" />
+                                                    <div class="recipe_actions_box">
+                                                        <asp:LinkButton ID="ShoppingListAddRemove" runat="server"
+                                                            CssClass="recipe_action" CausesValidation="True" OnClientClick='<%# String.Format("addRemoveRecipe(this, \"{0}\")",  Eval("id"))  %>' />
+                                                    </div>
+                                                    <div id="infoTags" style="clear: both; min-height: 30px; padding-top: 10px;">
+                                                        <div id="myFavoritesInfoTag" runat="server" class="myFavoritesInfoTag" title="קיים במועדפים שלי">
                                                         </div>
-                                                    </div>
-                                                    <div id="allMenusInfoTag" title="תפריטים כוללים מתכון זה">
-                                                        <div style="width: 16px; text-align: center;">
-                                                            <asp:Label ID="lblAllMenus" runat="server" />
+                                                        <div id="allFavoritesInfoTag" title="גולשים אוהבים מתכון זה">
+                                                            <div style="width: 15px; text-align: center;">
+                                                                <asp:Label ID="lblAllFavorites" runat="server" />
+                                                            </div>
+                                                        </div>
+                                                        <div id="allMenusInfoTag" title="תפריטים כוללים מתכון זה">
+                                                            <div style="width: 16px; text-align: center;">
+                                                                <asp:Label ID="lblAllMenus" runat="server" />
 
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="recipe_tags">
-                                                    <asp:Label ID="lblRecipeTags" runat="server" Text='<%# Eval("tags") %>'></asp:Label>
-                                                </div>
-                                                <div class="recipe_description">
-                                                    <asp:Label ID="lblRecipeDescription" runat="server" Text='<%# Eval("description") %>'></asp:Label>
-                                                </div>
-                                                <div class="publisher_box">
-                                                    <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
-                                                    <asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>'></asp:HyperLink>&nbsp;&nbsp;&nbsp;
+                                                    <div class="recipe_tags">
+                                                        <asp:Label ID="lblRecipeTags" runat="server" Text='<%# Eval("tags") %>'></asp:Label>
+                                                    </div>
+                                                    <div class="recipe_description">
+                                                        <asp:Label ID="lblRecipeDescription" runat="server" Text='<%# Eval("description") %>'></asp:Label>
+                                                    </div>
+                                                    <div class="publisher_box">
+                                                        <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
+                                                        <asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>'></asp:HyperLink>&nbsp;&nbsp;&nbsp;
                                                     <div class="published_date">
                                                         <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
                                                         <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>
                                                     </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="recipe_thumbnail_box">
-                                                <div class="recipe_thumbnail" style="width: 123px; height: 94px;">
-                                                    <asp:Image ID="imgThumbnail" runat="server" />
+                                                <div class="recipe_thumbnail_box">
+                                                    <div class="recipe_thumbnail">
+                                                        <asp:Image ID="imgThumbnail" runat="server" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </ItemTemplate>
                                 <FooterTemplate>
                                     <!-- pager -->

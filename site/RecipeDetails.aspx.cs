@@ -208,7 +208,7 @@ public partial class PageRecipeDetails : BasePage
         }
         else
         {
-            this.recipe_remarks.Visible = false;
+            //this.recipe_remarks.Visible = false;
         }
 
         if (!string.IsNullOrEmpty(recipe.preparationMethod))
@@ -243,12 +243,12 @@ public partial class PageRecipeDetails : BasePage
         //        str += rc.CategoryName + ", ";
         //    }
         //    str = str.Remove(str.Length - 2);
-        //    lblRecipeCategories.Text = str;
+        lblRecipeCategories.Text = string.Join(", ", recipe.categories);
         //}
 
-        ingredients[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.id);
-        dlistIngredients.ItemDataBound += DlistIngredients_ItemDataBound;
-        dlistIngredients.DataSource = ingredients;
+        //ingredients[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.id);
+        //dlistIngredients.ItemDataBound += DlistIngredients_ItemDataBound;
+        dlistIngredients.DataSource = recipe.ingrediants;
         dlistIngredients.DataBind();
 
         bool allowRecipeEdit = (bool)((recipe.userId == ((BasePage)Page).UserId) || (((BasePage)Page).UserType == 1));
@@ -374,14 +374,14 @@ public partial class PageRecipeDetails : BasePage
         UpdatePanel1.Update();
     }
 
-    private void DlistIngredients_ItemDataBound(object sender, DataListItemEventArgs e)
-    {
-        ingredients ingredient = (ingredients)e.Item.DataItem;
-        if (ingredient != null)
-        {
+    //private void DlistIngredients_ItemDataBound(object sender, DataListItemEventArgs e)
+    //{
+    //    IngrediantModel ingredient = (IngrediantModel)e.Item.DataItem;
+    //    if (ingredient != null)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
     private void RefreshTopTags()
     {

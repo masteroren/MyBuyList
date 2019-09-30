@@ -1,21 +1,29 @@
 ﻿$(document).ready(function () {
 
+    registerToLoginNotifications((loginNotification) => {
+        if (loginNotification.loggedIn) {
+            $('.show-on-logged-in').show();
+        } else {
+            $('.show-on-logged-in').hide();
+        }
+    });
+
     var searchValue;
     var searchText;
     var searchCategory;
 
-    var searchValueBox = $('#header div.search-box input[type=text]');
-    //searchValueBox.addClass('search-value');
-
+    var input = $('#header div.search-box input');
     var select = $('#header div.search-box select');
-    //select.addClass('search-value');
+    var searchBtn = $('.search-button');
+    input.addClass('search-value');
 
+    $('.show-on-logged-in').hide();
 
-    $('#header div.search-box input[type=text]').autocomplete({
+    input.autocomplete({
         classes: {
             'ui-autocomplete': 'search-results'
         },
-        source: function(request, response){
+        source: function (request, response) {
             var data = { method: 'SearchValues', category: searchCategory, term: request.term };
             $.post('Handler.ashx', data, function (result) {
                 if (result !== '') {
@@ -25,7 +33,7 @@
             });
         },
         minLength: 3,
-        select: function (event, ui) {
+        select: (event, ui) => {
             searchValue = ui.item.value;
             searchText = ui.item.label;
 
@@ -57,10 +65,10 @@
                     break;
             }
         },
-        search: function(event, ui){
+        search: (event, ui) => {
             searchCategory = select.val();
         },
-        open: function () {
+        open: () => {
             searchCategory = select.val();
             var text = $(this).val();
             $('ul.ui-autocomplete li div').each(function () {
@@ -71,10 +79,10 @@
         }
     });
 
-    $('.search-button').click(function () {
+    searchBtn.click(() => {
 
         searchCategory = select.val();
-        var searchValue = $('#header div.search-box input[type=text]').val();
+        var searchValue = input.val();
 
         switch (searchCategory) {
             case '0':
@@ -129,8 +137,7 @@
     });
 })
 
-function SetSearchOptions(options)
-{
+function SetSearchOptions(options) {
     var select = $('#header div.search-box select');
     select.html('');
 
@@ -147,9 +154,9 @@ function SetSearchOptions(options)
     for (var i = 0; i < options.length; i++) {
         select
             .append($('<option/>')
-            .text(options[i].text)
-            .val(options[i].value)
-            .addClass(options[i].class));
+                .text(options[i].text)
+                .val(options[i].value)
+                .addClass(options[i].class));
     }
 }
 
@@ -157,8 +164,7 @@ function SetSearchOption(selected) {
     $('#header div.search-box select').val(selected);
 }
 
-function ResetSearch()
-{
+function ResetSearch() {
     SetSearchOption(1);
     $('#header div.search-box input[type=text]').val('');
 }

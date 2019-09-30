@@ -1,4 +1,13 @@
 ﻿.recipe-details {
+
+    .m-t-10 {
+        margin-top: 10px;
+    }
+
+    .m-l-5 {
+        margin-left: 5px;
+    }
+
     .recipe-name-wrapper {
         height: 30px;
         display: flex;
@@ -39,41 +48,146 @@
         }
     }
 
-    .recipe_wrapper {
+    .recipe-wrapper {
+        display: flex;
+        flex-direction: column;
 
-        .recipe_sub_header {
-            clear: both;
+        .green-title {
             color: #8bac31;
-            font-size: 13px;
-            text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 16px;
         }
 
-        .publisher_box {
-            margin-top: 26px;
+        &__top {
         }
 
-        #recipe_ingredients {
-            margin-top: 20px;
+        &__middle {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 10px;
+
+            &__top {
+                display: flex;
+                justify-content: space-between;
+
+                .right, .left {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .right {
+                    width: 60%;
+
+                    .recipe-categories {
+                        clear: both;
+                        color: #8bac31;
+                        font-size: 13px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .recipe-tags {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .recipe-publisher-box {
+                    }
+
+                    .recipe-description {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .recipe-ingredients {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .recipe-tools {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .recipe-difficulty {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+
+                .left {
+                    &__top-actions {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    .recipe-picture {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 10px;
+
+                        &__tags {
+                            display: flex;
+                            flex-direction: column;
+                            margin-left: 20px;
+
+                            .tag {
+                                height: 43px;
+                                background-repeat: no-repeat;
+                                padding-top: 25px;
+                                font-weight: bold;
+                                color: #656565;
+                                display: block;
+                                width: 100%;
+                                text-align: left;
+                                background-position: right;
+                            }
+
+                            #servingsInfoTag {
+                                background-image: url('../../Images/icon_Portion.jpg');
+                                width: 101px;
+                                padding-left: 25px;
+                            }
+
+                            #prepTimeInfoTag {
+                                margin-top: 14px;
+                                background-image: url('../../Images/icon_Preparation.jpg');
+                                width: 120px;
+                                padding-left: 6px;
+                            }
+
+                            #cookTimeInfoTag {
+                                margin-top: 14px;
+                                background-image: url('../../Images/icon_Cooking.jpg');
+                                width: 120px;
+                                padding-left: 6px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &__bottom {
+                display: flex;
+                flex-direction: column;
+
+                .recipe-remarks {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .recipe-instructions {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
         }
 
-        #recipe_tools {
-            margin-top: 20px;
-        }
 
-        #recipe_difficulty {
-            margin-top: 20px;
-        }
-
-        .recipe_remarks {
-            margin-top: 20px;
-        }
-
-        #recipe_instructions {
-            margin-top: 20px;
-        }
-
-        #recipe_nutrients {
+        .recipe_nutrients {
             padding-right: 22px;
             padding-bottom: 44px;
         }
@@ -81,6 +195,8 @@
         .recipe-actions {
             text-align: left;
             color: #666666;
+            background-color: #fff;
+            height: 26px;
 
             ul li a {
                 color: #666666;
@@ -96,8 +212,43 @@
                     text-decoration: none;
                 }
             }
+        }
 
-            
+        .wrapper_bottom_tab2 {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+
+            .wrapper_bottom_tab2_1 {
+                height: 30px;
+                width: 100%;
+                background-image: url('../../Images/bgr_IndexRecipesBottom.png');
+                background-position: right top;
+                background-repeat: no-repeat;
+            }
+
+            .wrapper_bottom_tab2_2 {
+                height: 30px;
+                min-width: 20px;
+                background-image: url('../../Images/bgr_TabIndexReciepesRight.png');
+                background-position: right bottom;
+                background-repeat: no-repeat;
+            }
+
+            .wrapper_bottom_tab2_3 {
+                background-image: url('../../Images/bgr_TabIndexReciepesCenter.png');
+                /*background-position:bottom;*/
+                background-repeat: repeat-x;
+                vertical-align: top;
+            }
+
+            .wrapper_bottom_tab2_4 {
+                height: 30px;
+                min-width: 20px;
+                background-image: url('../../Images/bgr_TabIndexReciepesLeft.png');
+                background-position: left bottom;
+                background-repeat: no-repeat;
+            }
         }
     }
 }

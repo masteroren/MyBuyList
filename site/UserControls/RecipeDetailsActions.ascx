@@ -43,11 +43,16 @@
             <asp:LinkButton ID="btnSaveAs" runat="server" OnClick="btnSaveAs_Click1">שמור כתמונה</asp:LinkButton>
         </li>
         <li class="hide-on-logout">
-            <asp:Label ID="lblAddToFavoritesSeparator" runat="server">|</asp:Label>
-            <asp:LinkButton ID="btnAddRecipeToFavorites" CssClass="add-to-favorites" runat="server" Text='הוסף למועדפים שלי'
-                OnClick="btnAddRecipeToFavorites_Click" />
-            <asp:LinkButton ID="btnRemoveRecipeFromFavorites" CssClass="remove-from-favorites" runat="server"
-                Text='הסר ממועדפים שלי' OnClick="btnRemoveRecipeFromFavorites_Click" />
+            <div class="add-to-favorites" style="display: none">
+                <asp:Label ID="lblAddToFavoritesSeparator" runat="server">|</asp:Label>
+                <asp:LinkButton ID="btnAddRecipeToFavorites" runat="server" Text='הוסף למועדפים שלי'
+                    OnClick="btnAddRecipeToFavorites_Click" />
+            </div>
+            <div class="remove-from-favorites" style="display: none">
+                <asp:Label ID="Label2" runat="server">|</asp:Label>
+                <asp:LinkButton ID="btnRemoveRecipeFromFavorites" runat="server"
+                    Text='הסר ממועדפים שלי' OnClick="btnRemoveRecipeFromFavorites_Click" />
+            </div>
         </li>
         <li class="hide-on-logout">
             <asp:Label ID="Label1" runat="server">|</asp:Label>

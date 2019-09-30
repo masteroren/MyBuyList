@@ -74,6 +74,7 @@
                         loginBtn.html('יציאה');
                         $('.hello-user').html('שלום, ' + user.DisplayName);
                         $("#popuplogin").dialog('close');
+                        $('.hide-on-login').hide();
                         break;
                 }
 
@@ -116,7 +117,7 @@
             $('.hello-user').html('שלום, אורח');
             ResetSearch(1);
             window.userId = null;
-
+            $('.hide-on-login').show();
 
             notificatiosCallbacks.forEach((callback) => {
                 callback({
@@ -131,12 +132,15 @@
         n.done((userInfo) => {
             if (userInfo !== '' && userInfo !== null) {
                 var user = $.parseJSON(userInfo);
+                $('.hide-on-login').hide();
                 notificatiosCallbacks.forEach((callback) => {
                     callback({
                         loggedIn: user !== null,
                         userId: user.UserId
                     });
                 });
+            } else {
+                $('.hide-on-login').show();
             }
         });
     })();

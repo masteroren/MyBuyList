@@ -12,21 +12,25 @@
     .search-box {
         width: 100%;
     }
+
+    .search-value, .search-category {
+        font-size: large;
+    }
 </style>
 
 <div class="search-box flex-container">
     <asp:TextBox ID="TextBoxSearchValue" runat="server" CssClass="search-value" flex-grow="1"></asp:TextBox>
-    <div class="flex-container">
-        <asp:DropDownList ID="DropDownListSearchType" runat="server" CssClass="search-category" DataTextField="value" DataValueField="key">
+    <div>
+        <asp:DropDownList ID="SearchType" runat="server" CssClass="search-category" DataTextField="value" DataValueField="key">
             <asp:ListItem Value="1">מתכונים</asp:ListItem>
-            <asp:ListItem Value="2" class="requireLogin">המתכונים שלי</asp:ListItem>
-            <asp:ListItem Value="3" class="requireLogin">המתכונים המועדפים שלי</asp:ListItem>
+            <asp:ListItem Value="2" class="show-on-logged-in">המתכונים שלי</asp:ListItem>
+            <asp:ListItem Value="3" class="show-on-logged-in">המתכונים המועדפים שלי</asp:ListItem>
             <asp:ListItem Value="4">תפריטים</asp:ListItem>
-            <asp:ListItem Value="5" class="requireLogin">התפריטים שלי</asp:ListItem>
-            <asp:ListItem Value="6" class="requireLogin">התפריטים המועדפים שלי</asp:ListItem>
+            <asp:ListItem Value="5" class="show-on-logged-in">התפריטים שלי</asp:ListItem>
+            <asp:ListItem Value="6" class="show-on-logged-in">התפריטים המועדפים שלי</asp:ListItem>
         </asp:DropDownList>
         <div class="search-btn">
-            <asp:ImageButton ID="ImageButtonSearch" runat="server" ImageUrl="~/Images/Very-Basic-Search-icon.png" CssClass="search-button" OnClientClick="return false;" />
+            <asp:ImageButton ID="ImageButtonSearch" runat="server" ImageUrl="~/Images/Very-Basic-Search-icon.png" CssClass="search-button" OnClick="ImageButtonSearch_Click" OnClientClick="return false;" />
         </div>
     </div>
 </div>

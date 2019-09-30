@@ -440,14 +440,15 @@ public partial class Recipes : BasePage
                 mainCategor.Text = recipeCategories[0].CategoryName;
             }
 
-            //Image image = e.Item.FindControl("imgThumbnail") as Image;
-            //if (recipe.Picture == null)
-            //{
-            //    image.ImageUrl = "~/Images/Img_Default_small.jpg";
-            //} else
-            //{
-            //image.ImageUrl = recipe.Picture;
-            //}
+            Image image = e.Item.FindControl("imgThumbnail") as Image;
+            if (recipe.picture == null)
+            {
+                image.ImageUrl = "~/Images/Img_Default_small.jpg";
+            }
+            else
+            {
+                //image.ImageUrl = recipe.picture;
+            }
 
 
             //lblAllFavorites.Text = ((Recipe)e.Item.DataItem).NumUsersFavorite.ToString();

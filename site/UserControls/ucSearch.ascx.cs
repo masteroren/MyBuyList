@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 
 public partial class UserControls_ucSearch : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack) return;
-
-
     }
 
-    public void SetSearchOptions(Dictionary<int, string> options)
+    protected void ImageButtonSearch_Click(object sender, System.Web.UI.ImageClickEventArgs e)
     {
+        string selectedSearch = SearchType.SelectedValue;
     }
 }
