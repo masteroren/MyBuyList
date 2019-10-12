@@ -113,7 +113,7 @@ public partial class ucMyRecipesList : System.Web.UI.UserControl
         if (!string.IsNullOrEmpty(btn.Attributes["recipeId"]))
         {
             int recipeId = int.Parse(btn.Attributes["recipeId"]);
-            this.ucRecipe.EditRecipe(recipeId);
+            this.ucRecipe.EditRecipe();
         }
     }
 
@@ -139,7 +139,7 @@ public partial class ucMyRecipesList : System.Web.UI.UserControl
 
     protected void ShowCategories_Click(int recipeId, SRL_RecipeCategory[] arr)
     {
-        this.ucRecipeCats.ShowCategories(recipeId, arr);
+        //this.ucRecipeCats.ShowCategories(recipeId, arr);
     }
 
     protected void SelectPicture_Click(int recipeId)

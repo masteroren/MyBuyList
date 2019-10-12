@@ -12,6 +12,8 @@
         public string searchQuery { get; set; }
         public SortBy sortBy { get; set; }
 
+        public MetaData() { }
+
         public MetaData(int _totalItems, int _pageSize = 5, int _pageIndex = 0, string _searchQuery = null, SortBy _sortBy = 0)
         {
             if (_totalItems == 0)
@@ -25,6 +27,12 @@
             searchQuery = _searchQuery;
             sortBy = _sortBy;
 
+            SetVariables();
+        }
+
+        public void SetVariables()
+        {
+            pageSize = pageSize == 0 ? 5 : pageSize;
             pages = totalItems / pageSize;
             if (totalItems % pageSize != 0)
             {

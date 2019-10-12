@@ -83,10 +83,10 @@
 	width:250px;
 }
 
-.recipeModalPopup {
+/*.recipeModalPopup {
 	background-color:#ffffdd;	
 	padding-top:50px;	
-}
+}*/
 /*
 .MenuRecipeModalPopup
 {
@@ -154,7 +154,7 @@
     border:1px solid #D3D3D3;    
 }
 
-#newRecipe_top {
+/*#newRecipe_top {
     background-image: url('../../Images/bgr_BoxIndex_Top.png');
     background-position: right;
     background-repeat: no-repeat;
@@ -183,7 +183,7 @@
 	filter:alpha(opacity=70);
 	opacity:0.7;
 	z-index: 300000;
-}
+}*/
 
 .btn
 {

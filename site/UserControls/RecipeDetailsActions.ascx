@@ -59,25 +59,27 @@
             <asp:HyperLink ID="btnRecipe" runat="server" Target="print" Text='הדפס' />
         </li>
         <li class="hide-on-logout">
-            <asp:Label ID="lblSeparator3" runat="server">|</asp:Label>
             <asp:PlaceHolder ID="PlaceHolder1" runat="server">
-                <a href="RecipeEdit.aspx?recipeId=<%=RecipeId %>">
-                    <asp:Literal ID="Literal1" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'></asp:Literal>
-                </a>
+                <asp:Label ID="lblSeparator3" runat="server">|</asp:Label>
+                <asp:HyperLink ID="HyperLink1" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'></asp:HyperLink>
+                <asp:Label ID="lblEditRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'
+                    Font-Underline="true" ForeColor="LightGray" Visible="false" />
             </asp:PlaceHolder>
-            <asp:Label ID="lblEditRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Edit %>'
-                Font-Underline="true" ForeColor="LightGray" Visible="false" />
-        </li>
-        <li></li>
-        <li class="hide-on-logout">
-            <asp:Label ID="lblCopyRecipeSeperator" runat="server">|</asp:Label>
-            <asp:LinkButton ID="btnCopyRecipe" runat="server" Text='<%$ Resources:MyGlobalResources, CopyRecipe %>'
-                OnClick="btnCopyRecipe_Click" Visible="false" />
         </li>
         <li class="hide-on-logout">
-            <a id="removeRecipe" class="remove">מחיקה</a>
-            <asp:Label ID="lblDeleteRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
-                Font-Underline="true" ForeColor="LightGray" Visible="false" />
+            <asp:PlaceHolder ID="PlaceHolder3" runat="server">
+                <asp:Label ID="lblCopyRecipeSeperator" runat="server">|</asp:Label>
+                <asp:LinkButton ID="btnCopyRecipe" runat="server" Text='<%$ Resources:MyGlobalResources, CopyRecipe %>' />
+            </asp:PlaceHolder>
+        </li>
+        <li class="hide-on-logout">
+            <asp:PlaceHolder ID="PlaceHolder2" runat="server">
+                <asp:Label ID="Label3" runat="server">|</asp:Label>
+                <asp:LinkButton ID="LinkButton1" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'></asp:LinkButton>
+                <%--<a id="removeRecipe" class="remove">מחיקה</a>--%>
+                <asp:Label ID="lblDeleteRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
+                    Font-Underline="true" ForeColor="LightGray" Visible="false" />
+            </asp:PlaceHolder>
         </li>
     </ul>
     <asp:Label ID="lblResult" runat="server" Text="" Visible="false"></asp:Label>

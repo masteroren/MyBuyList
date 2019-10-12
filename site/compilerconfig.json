@@ -22,5 +22,17 @@
   {
     "outputFile": "App_Themes/Standard/recipes-details.css",
     "inputFile": "App_Themes/Standard/recipes-details.scss"
+  },
+  {
+    "outputFile": "App_Themes/Standard/recipe.css",
+    "inputFile": "App_Themes/Standard/recipe.scss"
+  },
+  {
+    "outputFile": "Scripts/Ingridiants.es5.js",
+    "inputFile": "Scripts/Ingridiants.js"
+  },
+  {
+    "outputFile": "App_Themes/Standard/ingrediants.css",
+    "inputFile": "App_Themes/Standard/ingrediants.scss"
   }
 ]

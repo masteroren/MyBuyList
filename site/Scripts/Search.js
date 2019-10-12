@@ -25,7 +25,7 @@
         },
         source: function (request, response) {
             var data = { method: 'SearchValues', category: searchCategory, term: request.term };
-            $.post('Handler.ashx', data, function (result) {
+            $.post('ASHX/Handler.ashx', data, function (result) {
                 if (result !== '') {
                     var filteredData = $.parseJSON(result);
                     response(filteredData);
@@ -42,7 +42,7 @@
 
             ui.item.value = searchText;
 
-            $.post('Handler.aspx', { method: 'SetSearchParameters', searchIn: listId, searchFor: searchText }, function () {
+            $.post('ASHX/Handler.aspx', { method: 'SetSearchParameters', searchIn: listId, searchFor: searchText }, function () {
 
             });
 
@@ -70,7 +70,7 @@
         },
         open: () => {
             searchCategory = select.val();
-            var text = $(this).val();
+            var text = input.val();
             $('ul.ui-autocomplete li div').each(function () {
                 var listText = $(this).html();
                 var newListText = listText.replace(text, '<span style="color: orange"><b>' + text + '</b></span>');
@@ -126,7 +126,7 @@
         var requireLogin = option.hasClass('requireLogin');
         if (requireLogin) {
             var data = { method: 'IsLoggedIn' };
-            $.post('Handler.ashx', data, function (data) {
+            $.post('ASHX/Handler.ashx', data, function (data) {
                 if (data === '') {
                     OpenLoginDialog();
                 }

@@ -1,12 +1,7 @@
-
-using System;
-using System.Collections.Generic;
-using System.Web.Services;
+using MyBuyListShare.Models;
+using System.Linq;
 using System.Web.Script.Services;
-
-using MyBuyList.BusinessLayer;
-using MyBuyList.Shared.Entities;
-using System.Web.UI;
+using System.Web.Services;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.None)]
@@ -18,25 +13,11 @@ public class AutoComplete : WebService
     }
 
     [WebMethod]
-    public string[] GetCompletionGeneralItemsList(string prefixText)
+    [ScriptMethod]
+    public string[] GetIngrediants(string prefixText, int count)
     {
-        return BusinessFacade.Instance.GetGeneralItemsList(prefixText);
+        Response<FoodModel> response = HttpHelper.GetMeny<FoodModel>(string.Format("foods?searchQuery={0}", prefixText));
+        return response.results.Select(item => AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(item.FoodName, item.FoodId.ToString())).ToArray();
     }
-
-    //[WebMethod]
-    //public object[] GetCompletionFoodList(string prefixText)
-    //{
-    //    string[] list = BusinessFacade.Instance.GetFoodList(prefixText);
-    //    List<object> items = new List<object>();
-
-    //    foreach(string str in list)
-    //    {
-    //        string id = str.Split(new []{"|"}, StringSplitOptions.RemoveEmptyEntries)[0];
-    //        string value = str.Split(new []{"|"}, StringSplitOptions.RemoveEmptyEntries)[1];
-    //        var item = new Pair(id, value);
-    //        items.Add(item);
-    //    }
-    //    return items.ToArray();
-    //}
 }
 

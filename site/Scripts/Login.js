@@ -52,7 +52,7 @@
     });
 
     var isLoggedIn = () => {
-        return $.post('Handler.ashx', { method: 'IsLoggedIn' }, (result) => {
+        return $.post('ASHX/LoginActions.ashx', { method: 'IsLoggedIn' }, (result) => {
             return result;
         });
     };
@@ -62,7 +62,7 @@
         var password = $("#textPassword").val();
 
         var data = { method: 'Login', UserName: userName, Password: password };
-        $.post('Handler.ashx', data, (data) => {
+        $.post('ASHX/LoginActions.ashx', data, (data) => {
             if (data !== '' && data !== 'null') {
                 var user = $.parseJSON(data);
                 window.userId = user.UserId;
@@ -74,7 +74,6 @@
                         loginBtn.html('יציאה');
                         $('.hello-user').html('שלום, ' + user.DisplayName);
                         $("#popuplogin").dialog('close');
-                        $('.hide-on-login').hide();
                         break;
                 }
 
@@ -112,7 +111,7 @@
     };
 
     var logout = () => {
-        $.post('Handler.ashx', { method: 'Logout' }, () => {
+        $.post('ASHX/LoginActions.ashx', { method: 'Logout' }, () => {
             loginBtn.html('כניסה');
             $('.hello-user').html('שלום, אורח');
             ResetSearch(1);

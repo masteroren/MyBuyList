@@ -10,7 +10,8 @@
     <div style="height: 75px;"></div>
 
     <uc1:Recipe ID="ucRecipe" runat="server" />    
-    <uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="RecipeCategories_RefreshData" />
+    <uc2:RecipeCategories ID="ucRecipeCats" runat="server"
+        OnSaveClick="ucRecipeCats_SaveClick" />
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphFooter" runat="Server">

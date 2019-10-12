@@ -60,7 +60,7 @@
     <div style="clear: both; height: 1px;">
     </div>
     <div class="recipe-details">
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 <div class="recipe-name-wrapper">
                     <div class="recipe_name">
@@ -71,8 +71,8 @@
                     </div>
                     <MBL:AddRecipeButton runat="server" ID="AddRecipeButton" />
                 </div>
-                <asp:UpdatePanel ID="upTopTags" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                    <ContentTemplate>
+                <%--<asp:UpdatePanel ID="upTopTags" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                    <ContentTemplate>--%>
                         <div class="top-tags-wrapper">
                             <div class="top-tags">
                                 <div id="myFavoritesTopTag" runat="server" class="myFavoritesTopTag">
@@ -89,8 +89,8 @@
                                 </div>
                             </div>
                         </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                    <%--</ContentTemplate>
+                </asp:UpdatePanel>--%>
                 <div style="height: 15px;"></div>
                 <div class="recipe-wrapper">
                     <div class="recipe-wrapper__top">
@@ -140,13 +140,13 @@
                                 <div class="left__top-actions">
                                     <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions" />
 
-                                    <div class="social-plugins">
+                                    <%--<div class="social-plugins">
                                         <div style="margin-top: -3px;">
                                             <div class="fb-like" data-send="false" data-layout="button_count" data-width="80"
                                                 data-show-faces="true" data-href="<%=FBUrl %>">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--%>
 
                                 </div>
 
@@ -267,7 +267,7 @@
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
             <ContentTemplate>
                 <uc1:SendToFriend ID="ucSendMailToFriend" runat="server" OnEmailSent="ucSendMailToFriend_EmailSent" />
             </ContentTemplate>

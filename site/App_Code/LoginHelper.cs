@@ -1,5 +1,5 @@
-﻿using MyBuyList.Shared;
-using MyBuyListShare.Classes;
+﻿using MyBuyListShare.Classes;
+using MyBuyListShare.Services;
 
 /// <summary>
 /// Summary description for LoginHelper
@@ -8,9 +8,6 @@ public class LoginHelper
 {
     public LoginHelper()
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
 
     public static UserInfo Login(string userName, string password)
@@ -19,7 +16,11 @@ public class LoginHelper
         string a = Encryption.Encrypt(clearText);
 
         UserInfo userInfo = HttpHelper.Get<UserInfo>(string.Format("users/{0}", a));
-        //context.Session.Add(AppConstants.CURR_USER, userInfo);
         return userInfo;
+    }
+
+    public static void SendLoginNotification(UserInfo userInfo)
+    {
+        AuthService.Instance.Notify(userInfo);
     }
 }

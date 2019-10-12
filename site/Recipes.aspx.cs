@@ -4,6 +4,7 @@ using MyBuyList.Shared.Entities;
 using MyBuyList.Shared.Enums;
 using MyBuyListShare;
 using MyBuyListShare.Models;
+using MyBuyListShare.Services;
 using ProperControls.General;
 using ProperServices.Common.Extensions;
 using ProperServices.Common.Log;
@@ -193,14 +194,14 @@ public partial class Recipes : BasePage
 
     private string ApiUrl = ConfigurationManager.AppSettings["ApiUrl"];
 
+    private IDisposable searchSubscription;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            //lnkNewRecipe.Visible = CurrUser != null;
-
-            if (!IsPostBack)
-            {
+        //try
+        //{
+        //    if (!IsPostBack)
+        //    {
                 //if (Display == RecipeDisplayEnum.ByCategory)
                 //{
                 //    int count = RebindCategories();
@@ -215,8 +216,8 @@ public partial class Recipes : BasePage
                 //    this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
                 //    this.btnSearch.CommandArgument = "BySearchSimple";
                 //}
-                if (Display == RecipeDisplayEnum.BySearchAdvanced)
-                {
+                //if (Display == RecipeDisplayEnum.BySearchAdvanced)
+                //{
                     //this.simpleSearch.Visible = true;
                     //this.advancedSearch.Visible = true;
                     //this.btnSearch.Visible = true;
@@ -224,25 +225,36 @@ public partial class Recipes : BasePage
                     //this.txtServings.Text = (!string.IsNullOrEmpty(Request["serv"])) ? Request["serv"] : "";
                     //this.txtCategory.Text = "";
                     //this.btnSearch.CommandArgument = "BySearchAdvanced";
-                }
+                //}
 
                 //EmphasizeCurrentSearch(this.Display);
 
-                users currentUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
-                string email = (currentUser != null) ? currentUser.Email : string.Empty;
+                //users currentUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
+                //string email = (currentUser != null) ? currentUser.Email : string.Empty;
                 //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
 
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.Write("PageLoad failed", ex, Logger.Level.Error);
-        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    Logger.Write("PageLoad failed", ex, Logger.Level.Error);
+        //}
 
         ucRecipesFilter.FilterChanged += UcRecipesFilter_FilterChanged;
         rptRecipes.ItemCreated += rptRecipes_ItemCreated;
         rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
         RebindRecipes();
+
+        searchSubscription = SearchService.Search
+            .Subscribe(data =>
+            {
+                SearchType searchType = data;
+            });
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+        searchSubscription.Dispose();
     }
 
     private void UcRecipesFilter_FilterChanged(object sender, ChangeEventArgs e)
@@ -434,10 +446,10 @@ public partial class Recipes : BasePage
             Label lblAllMenus = e.Item.FindControl("lblAllMenus") as Label;
 
             Label mainCategor = e.Item.FindControl("lblMainCategory") as Label;
-            categories[] recipeCategories = (from a in recipe.categories select new categories { CategoryName = a }).ToArray();
-            if (recipeCategories.Length > 0)
+            //List<ShortCategoryModel> recipeCategories = (from a in recipe.categories select new categories { CategoryName = a }).ToArray();
+            if (recipe.categories.Count > 0)
             {
-                mainCategor.Text = recipeCategories[0].CategoryName;
+                mainCategor.Text = recipe.categories[0].categoryName;
             }
 
             Image image = e.Item.FindControl("imgThumbnail") as Image;

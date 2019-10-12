@@ -175,7 +175,7 @@ public partial class ucSearchSimple : System.Web.UI.UserControl, IPostBackEventH
             }
         }
 
-        this.ucRecipe.EditRecipe(receipeId);
+        this.ucRecipe.EditRecipe();
     }
 
     #endregion

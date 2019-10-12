@@ -8,7 +8,7 @@ namespace MyBuyListShare.Models
         public int id { get; set; }
         public int userId { get; set; }
         public string name { get; set; }
-        public List<string> categories { get; set; }
+        public List<ShortCategoryModel> categories { get; set; }
         public string publishedBy { get; set; }
         public List<IngrediantModel> ingrediants { get; set; }
         public string preparationMethod { get; set; }

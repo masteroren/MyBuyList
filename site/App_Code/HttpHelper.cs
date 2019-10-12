@@ -1,7 +1,14 @@
-﻿using System;
+﻿using MyBuyListShare.Models;
+using System;
 using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+public class Response<T>
+{
+    public MetaData metadata { get; set; }
+    public T[] results { get; set; }
+}
 
 /// <summary>
 /// Summary description for HttpHelper
@@ -19,7 +26,7 @@ public class HttpHelper
 
     public static T Get<T>(string uri)
     {
-        T results = default(T);
+        T response = default(T);
 
         using (var client = new HttpClient())
         {
@@ -33,11 +40,34 @@ public class HttpHelper
                 Task<T> readTask = result.Content.ReadAsAsync<T>();
                 readTask.Wait();
 
-                results = readTask.Result;
+                response = readTask.Result;
             }
         }
 
-        return results;
+        return response;
+    }
+
+    public static Response<T> GetMeny<T>(string uri)
+    {
+        Response<T> response = default(Response<T>);
+
+        using (var client = new HttpClient())
+        {
+            client.BaseAddress = new Uri(string.Format("{0}/api/", ApiUrl));
+            Task<HttpResponseMessage> responseTask = client.GetAsync(uri);
+            responseTask.Wait();
+
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                Task<Response<T>> readTask = result.Content.ReadAsAsync<Response<T>>();
+                readTask.Wait();
+
+                response = readTask.Result;
+            }
+        }
+
+        return response;
     }
 
     public static string JsonSerializer<T>(T t)

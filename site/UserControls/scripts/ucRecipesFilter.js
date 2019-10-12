@@ -5,7 +5,7 @@
         var redirectTo = $(this).attr('data-href');
 
         var data = { method: 'IsLoggedIn' };
-        $.post('Handler.ashx', data, function (data) {
+        $.post('ASHX/Handler.ashx', data, function (data) {
             if (data == '') {
                 OpenLoginDialog(function () {
                     window.location = redirectTo;

@@ -26,8 +26,12 @@
     <MBL:Facebook runat="server" ID="Facebook" />
 
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"
+            EnablePageMethods="true"
+            EnablePartialRendering="true">
+        </asp:ScriptManager>
+
         <MBL:ucPopupLogin runat="server" ID="ucPopupLogin" />
-        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div class="main_wrapper">
             <div class="main">
                 <proper:DisappearingMessage runat="server" ID="DisappearingMessage1" />

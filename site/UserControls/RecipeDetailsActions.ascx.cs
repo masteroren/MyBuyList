@@ -1,13 +1,29 @@
-﻿using System;
+﻿using MyBuyList.Shared;
+using MyBuyListShare.Classes;
+using System;
+using System.Web;
 
 public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserControl
 {
-    public int RecipeId { get; set; }
+    private int recipeId;
+    public int RecipeId
+    {
+        set
+        {
+            recipeId = value;
+            HyperLink1.NavigateUrl = string.Format("~/RecipeEdit.aspx?recipeId={0}", value);
+        }
+    }
 
+    public int RecipeOwnerID;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        UserInfo userInfo = (UserInfo)HttpContext.Current.Session[AppConstants.CURR_USER];
+        bool me = userInfo != null && userInfo.UserId == RecipeOwnerID;
+        PlaceHolder1.Visible = me;
+        PlaceHolder2.Visible = me;
+        PlaceHolder3.Visible = me;
     }
 
     protected void blkAddRemove_Click(object sender, EventArgs e)

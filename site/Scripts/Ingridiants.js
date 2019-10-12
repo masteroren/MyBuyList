@@ -1,18 +1,16 @@
-﻿var ingridiantsContainer;
+﻿$(document).ready(() => {
 
-var IngridiantsApi = function () {
+    var list = $('#ingridiantsList');
+    list.hide();
+    var ingridiantsContainer = $('.ingredients-container');
 
-    var ingridiantsArr = new Array();
-    var fractures = new Array();
+    var updateIngrediant = $('.update-ingrediant');
+    var addIngrediant = $('.add-ingrediant');
+    updateIngrediant.hide();
 
-    this.SelectedIngrediant;
+    var selectedIngrediant;
 
-    this.Length = function () {
-        return ingridiantsArr.length;
-    };
-
-    this.getIngridiants = function (prefix) {
-        var list = $('#ingridiantsList');
+    var getIngridiants = (prefix) => {
         list.addClass('ingridiant-list');
         list.click((data) => {
             $('#ingridiantName').val(data.target.text);
@@ -25,12 +23,11 @@ var IngridiantsApi = function () {
             return;
         }
 
-        var url = $('#apiUrl').val() + '/api/foods';
-        $.get(url, { searchQuery: prefix }, function (response) {
-            if (response.results) {
+        $.get("ASHX/Handler.ashx", { method: "GetIngrediants", searchQuery: prefix }, (response) => {
+            if (response.results && response.results.length !== 0) {
                 list.text('');
 
-                $.each(response.results, function (index, item) {
+                $.each(response.results, (index, item) => {
                     list.append($('<option/>').text(item.FoodName).val(item.FoodId));
                 });
                 list.show();
@@ -38,114 +35,102 @@ var IngridiantsApi = function () {
         }, 'json');
     };
 
-    this.Exists = function (ingridiant) {
-        for (var i = 0; i < ingridiantsArr.length; i++) {
-            if (ingridiantsArr[i].Id === ingridiant.Id)
-                return true;
-        }
-        return false;
+    var editClicked = (e) => {
+        console.log('edit clicked...', e.target.dataset);
+        $('.input-section-item.quantity0 input').val(e.target.dataset.quantity0 === 0 ? '' : e.target.dataset.quantity0);
+        $('.input-section-item.quantity1 select').val(e.target.dataset.quantity1);
+        $('.input-section-item.unit select').val(e.target.dataset.unit);
+        $('.input-section-item.name input').val(e.target.dataset.name);
+        $('.input-section-item.remark input').val(e.target.dataset.howTo);
+        updateIngrediant.show();
+        addIngrediant.hide();
+
+        selectedIngrediant = e.target.dataset.id;
     };
 
-    this.IndexOf = function (id) {
-        for (var i = 0; i < ingridiantsArr.length; i++) {
-            if (ingridiantsArr[i].Id === id)
-                return i;
-        }
-        return -1;
+    var deleteClicked = (e) => {
+        console.log('delete clicked...', e.target.dataset);
+        var id = e.target.dataset.id;
+        $(`.list-item-${id}`).remove();
     };
 
-    this.Add = function (ingridiant) {
+    $('.edit-ingrediant').click(editClicked);
+    $('.delete-ingrediant').click(deleteClicked);
 
-        //ingridiant.Id = ingridiantsArr.length - 1;
-        ingridiantsArr.push(ingridiant);
+    updateIngrediant.click(() => {
+        var quantity0 = $('.input-section-item.quantity0 input').val();
+        var quantity1 = $('.input-section-item.quantity1 select option:selected').text();
+        var quantity1val = $('.input-section-item.quantity1 select').val();
+        var unit = $('.input-section-item.unit select option:selected').text();
+        var unitId = $('.input-section-item.unit select').val();
+        var name = $('.input-section-item.name input').val();
+        var remark = $('.input-section-item.remark input').val();
+        var displayName = `${quantity1}${quantity0 === '0' ? '' : quantity0} ${unit} ${name}`;
+        $(`.list-item-${selectedIngrediant} .display-name`)[0].innerText = displayName;
+
+        $(`.list-item-${selectedIngrediant} .edit-ingrediant`)[0].dataset.quantity0 = quantity0 === '0' ? '' : quantity0;
+        $(`.list-item-${selectedIngrediant} .edit-ingrediant`)[0].dataset.quantity1 = quantity1val;
+        $(`.list-item-${selectedIngrediant} .edit-ingrediant`)[0].dataset.unit = unitId;
+        $(`.list-item-${selectedIngrediant} .edit-ingrediant`)[0].dataset.name = name;
+
+        addIngrediant.show();
+        updateIngrediant.hide();
+
+        $('.input-section-item.quantity0 input').val('');
+        $('.input-section-item.quantity1 select').val('');
+        $('.input-section-item.unit select').val('0');
+        $('.input-section-item.name input').val('');
+        $('.input-section-item.remark input').val('');
+    });
+
+    addIngrediant.click(() => {
+        addItem({
+            id: $('.input-section-item.name select').val(),
+            quantity0: $('.input-section-item.quantity0 input').val(),
+            quantity1: $('.input-section-item.quantity1 select option:selected').text(),
+            quantity1val: $('.input-section-item.quantity1 select').val(),
+            unit: $('.input-section-item.unit select option:selected').text(),
+            unitId: $('.input-section-item.unit select').val(),
+            name: $('.input-section-item.name input').val(),
+            remark: $('.input-section-item.remark input').val()
+        });
+
+        $('.input-section-item.quantity0 input').val('');
+        $('.input-section-item.quantity1 select').val('');
+        $('.input-section-item.unit select').val('0');
+        $('.input-section-item.name input').val('');
+        $('.input-section-item.remark input').val('');
+    });
+
+    var addItem = (data) => {
+        if (data.name === '') { return; }
+
+        var displayName = `${data.quantity1}${data.quantity0} ${data.unit} ${data.name}`;
+
+        var div = $('<div/>').addClass(`list-item list-item-${data.nameId}`);
+        var a1 = $('<a/>')
+            .addClass('list-btn edit-ingrediant')
+            .text('עריכה')
+            .click(editClicked)
+            .attr('data-id', data.id)
+            .attr('data-quantity0', data.quantity0)
+            .attr('data-quantity1', data.quantity1val)
+            .attr('data-unit', data.unitId)
+            .attr('data-name', data.name)
+            .attr('data-howto', data.remark);
+        var a2 = $('<a/>').addClass('list-btn delete-ingrediant').text('מחיקה').click(deleteClicked).attr('data-id', data.nameId);
+        var span = $('<a/>').addClass('display-name').text(displayName);
+        div.append(a1).append(a2).append(span);
+        ingridiantsContainer.append(div);
+
+        $.post('ASHX/Recipes.ashx', { method: 'AddIngredianToRecipe', ...data }, () => { });
     };
-
-    this.Update = function (ingridiant, indx) {
-        ingridiantsArr[indx].FoodId = ingridiant.FoodId;
-        ingridiantsArr[indx].Quantity = ingridiant.Quantity;
-        ingridiantsArr[indx].FractionDisplay = ingridiant.FractionDisplay;
-        ingridiantsArr[indx].MeasurementUnitId = ingridiant.MeasurementUnitId;
-        ingridiantsArr[indx].MeasureUnitName = ingridiant.MeasureUnitName;
-        ingridiantsArr[indx].Remarks = ingridiant.Remarks;
-        ingridiantsArr[indx].FoodName = ingridiant.FoodName;
-        ingridiantsArr[indx].DisplayIngredient = ingridiant.DisplayIngredient;
-    };
-
-    this.Delete = function (index) {
-        ingridiantsArr.splice(index, 1);
-    };
-
-    this.GetItem = function (index) {
-        return ingridiantsArr[index];
-    };
-
-    this.GetList = function () {
-        return ingridiantsArr;
-    };
-
-    this.SetList = function (arr) {
-        for (var i = 0; i < arr.length; i++) {
-
-            var ingrediant = new Ingridiant();
-
-            ingrediant.IngredientId = arr[i].IngredientId;
-            ingrediant.FoodId = arr[i].FoodId;
-            ingrediant.FoodName = arr[i].FoodName;
-            ingrediant.MeasurementUnitId = arr[i].MeasurementUnitId;
-            ingrediant.MeasureUnitName = arr[i].MeasureUnitName;
-            ingrediant.Quantity = arr[i].Quantity;
-            ingrediant.FractionDisplay = arr[i].FractionDisplay;
-            ingrediant.Remarks = arr[i].Remarks;
-            ingrediant.q = parseInt(arr[i].Quantity);
-            ingrediant.f = arr[i].Quantity - ingrediant.q;
-            this.Add(ingrediant);
-        }
-    };
-};
-
-var Ingridiant = function () {
-
-    this.IngredientId;
-    this.RecipeId;
-    this.FoodId;
-    this.FoodName;
-    this.MeasurementUnitId;
-    this.MeasurementUnitName;
-    this.Quantity;
-    this.Remarks;
-    this.CompleteValue;
-    this.FractionValue;
-    this.FractionDisplay;
-    this.DisplayIngredient;
-    this.DecimalSeperator;
-
-    this.q;
-    this.f;
-
-    this.IsValid = function () {
-        return this.Quantity !== '' && this.FoodId !== '';
-        //return (this.Quantity !== '' || this.FractionValue !== '') && this.FoodId !== '';
-    };
-};
-
-var ingridiantsApi;
-var recipeId;
-
-$(document).ready(function () {
-
-    InitIngediantsControl();
-
-    var savedIngridiants = $('#hfIngridiants').val();
-    if (savedIngridiants !== '') {
-        ShowSavedListIngridiant(JSON.parse(savedIngridiants));
-    }
-    recipeId = $('#hfRecipeId').val() === '' ? -1 : $('#hfRecipeId').val();
 
     $('#updateIngridiant').hide();
 
     $('#ingridiantName').keyup(function () {
         var prefix = $('#ingridiantName').val();
-        ingridiantsApi.getIngridiants(prefix);
+        getIngridiants(prefix);
     });
 
     $('#addIngridiant').mousedown(function () {
@@ -177,7 +162,7 @@ $(document).ready(function () {
             default:
                 ingridiant = new Ingridiant();
                 ingridiant.IngredientId = $('#ingridiantId').val();
-                break
+                break;
         }
 
         ingridiant.RecipeId = recipeId;
@@ -233,98 +218,6 @@ $(document).ready(function () {
     });
 });
 
-function ShowList() {
-
-    var ingredientsContainer = $('#ingredientsContainer');
-    ingredientsContainer.html('');
-
-    for (var i = 0; i < ingridiantsApi.Length(); i++) {
-
-        var ingridiant = ingridiantsApi.GetItem(i);
-
-        ingridiant.DisplayIngredient =
-            ingridiant.FractionDisplay +
-            ingridiant.q + ' ' +
-            ingridiant.MeasureUnitName + ' ' +
-            ingridiant.FoodName;
-
-        var div = $('<div/>').addClass('row').attr('data-id', i);
-        var spanEdit = $('<a />').html('עדכן').addClass('listBtn').addClass('updateBtn').addClass('modifyBtn').addClass('col').attr('data-id', i);
-        div.append(spanEdit);
-        var spanDelete = $('<a />').html('מחק').addClass('listBtn').addClass('deleteBtn').addClass('deleteBtn').addClass('col').attr('data-id', i);
-        div.append(spanDelete);
-        var spanDisplayIngredient = $('<span />').html(ingridiant.DisplayIngredient).addClass('floatRight').addClass('col');
-        div.append(spanDisplayIngredient);
-        var spanFoodRemark = $('<span />').html(ingridiant.Remarks).addClass('floatRight');
-        div.append(spanFoodRemark);
-
-        ingredientsContainer.append(div);
-    }
-
-    var listAsJSON = JSON.stringify(ingridiantsApi.GetList());
-    $('#hfIngridiants').val(listAsJSON);
-    initEvents();
-}
-
-function InitIngediantsControl() {
-    if (!ingridiantsApi) {
-        ingridiantsApi = new IngridiantsApi();
-    }
-}
-
-function ShowSavedListIngridiant(arr) {
-    if (!ingridiantsApi) {
-        ingridiantsApi = new IngridiantsApi();
-    }
-    ingridiantsApi.SetList(arr);
-    ShowList();
-}
-
-function initEvents() {
-
-    $('.modifyBtn').click(function () {
-
-        var index = $(this).attr('data-id');
-        var ingridiant = ingridiantsApi.GetItem(index);
-
-        $('#mode').val('update');
-        $('#selectedIndex').val(index);
-
-        $('#txtQuantity').val(ingridiant.q);
-        $('#' + fractionClientId).val(ingridiant.f);
-        $('#ingridiantName').val(ingridiant.FoodName);
-        $('#' + foodRemarkClientId).val(ingridiant.Remarks);
-        $('#' + unitClientId).val(ingridiant.MeasurementUnitId);
-        $('#ingridiantId').val(ingridiant.FoodId);
-
-        $('#addIngridiant').hide();
-        $('#updateIngridiant').show();
-    });
-
-    $('.deleteBtn').click(function () {
-        var index = $(this).attr('data-id');
-        ingridiantsApi.Delete(index);
-        $('.row[data-id=' + index + ']').hide();
-
-        var listAsJSON = JSON.stringify(ingridiantsApi.GetList());
-        $('#hfIngridiants').val(listAsJSON);
-
-        ShowList();
-    });
-}
-
-function OnClientItemSelected(behaviour, args) {
-    var value = args._value.Second;
-    $('#' + hfSelectedIngridiantClientId).val(value);
-}
-
-function OnClientShowing(behaviour, e) {
-    var ResultsDiv = behaviour.get_completionList();
-
-    for (var i = 0; i < ResultsDiv.childNodes.length; i++) {
-
-        var item = ResultsDiv.childNodes[i];
-        var text = item._value.First;
-        item.innerText = text;
-    }
+function ingrediantSelected(source, eventArgs) {
+    $('#IngridiantId').val(eventArgs.get_value());
 }

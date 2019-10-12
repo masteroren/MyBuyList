@@ -1,87 +1,26 @@
-﻿using MyBuyList.BusinessLayer;
-using MyBuyList.Shared;
-using MyBuyList.Shared.Entities;
-using ProperServices.Common.Log;
+﻿using MyBuyListShare.Classes;
+using MyBuyListShare.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class UserControls_Ingridiants : UserControl
 {
-    private string JsonSerializer<T>(T t)
+    public List<IngrediantModel> Ingrediants
     {
-        System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
-        System.IO.MemoryStream ms = new System.IO.MemoryStream();
-        ser.WriteObject(ms, t);
-        string jsonString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
-        ms.Close();
-        return jsonString;
-    }
-
-    public List<ingredients> ListOfIngediants
-    {
-        get
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(hfIngridiants.Value))
-                {
-                    JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-                    List<ingredients> ingredients = jsSerializer.Deserialize<List<ingredients>>(hfIngridiants.Value);
-                    return ingredients;
-                }
-                return null;
-            }
-            catch(Exception ex)
-            {
-                Logger.Write("Retrieve ListOfIngediants -> get failed", ex, Logger.Level.Error);
-                return null;
-            }
-        }
         set
         {
-            try
-            {
-                ViewState["Ingredients"] = value;
-
-                Logger.Write("Retrieve ListOfIngediants -> Before Serialized", Logger.Level.Info);
-
-                JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-                hfIngridiants.Value = jsSerializer.Serialize(value);
-
-                Logger.Write(string.Format("Retrieve ListOfIngediants -> After Serialized, {0}", hfIngridiants.Value.Replace("{", "{{").Replace("}", "}}")), Logger.Level.Info);
-            }
-            catch(Exception ex)
-            {
-                Logger.Write("Retrieve ListOfIngediants -> set failed", ex, Logger.Level.Error);
-                hfIngridiants.Value = string.Empty;
-            }
+            IngrediantModelContainer ingrediantModelContainer = new IngrediantModelContainer { ingrediants = value };
+            ViewState.Add("Ingrediants", Json.JsonSerializer(ingrediantModelContainer));
+            ListView1.DataSource = value;
+            ListView1.DataBind();
         }
-    }
-
-    public int recipeId {
         get
         {
-            return int.Parse(hfRecipeId.Value);
-        }
-        set
-        {
-            hfRecipeId.Value = value.ToString();
-        }
-    }
-
-    public string Ingridiants
-    {
-        get
-        {
-            return hfIngridiants.Value;
-        }
-        set
-        {
-            hfIngridiants.Value = value;
+            IngrediantModelContainer ingrediantModelContainer = Json.JsonDeserializer<IngrediantModelContainer>((string)ViewState["Ingrediants"]);
+            return ingrediantModelContainer.ingrediants;
         }
     }
 
@@ -93,29 +32,123 @@ public partial class UserControls_Ingridiants : UserControl
         }
     }
 
+    private int SelectedIngrediantId;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (IsPostBack) return;
 
-        try
-        {
-            string decimalSeperator = DecimalSeperator;
-            ddlFractions.Items.Add(new ListItem("", ""));
-            ddlFractions.Items.Add(new ListItem("¼", string.Format("0{0}25", decimalSeperator)));
-            ddlFractions.Items.Add(new ListItem("⅓", string.Format("0{0}33", decimalSeperator)));
-            ddlFractions.Items.Add(new ListItem("½", string.Format("0{0}5", decimalSeperator)));
-            ddlFractions.Items.Add(new ListItem("⅔", string.Format("0{0}66", decimalSeperator)));
-            ddlFractions.Items.Add(new ListItem("¾", string.Format("0{0}75", decimalSeperator)));
-            ddlFractions.Items.Add(new ListItem("⅛", string.Format("0{0}125", decimalSeperator)));
+        string decimalSeperator = DecimalSeperator;
+        ddlFractions.Items.Add(new ListItem("", ""));
+        ddlFractions.Items.Add(new ListItem("¼", string.Format("{0}", 0.25)));
+        ddlFractions.Items.Add(new ListItem("⅓", string.Format("{0}", 0.33)));
+        ddlFractions.Items.Add(new ListItem("½", string.Format("{0}", 0.5)));
+        ddlFractions.Items.Add(new ListItem("⅔", string.Format("{0}", 0.66)));
+        ddlFractions.Items.Add(new ListItem("¾", string.Format("{0}", 0.75)));
+        ddlFractions.Items.Add(new ListItem("⅛", string.Format("{0}", 0.125)));
 
-            ddlMeasurementUnits.DataSource = BusinessFacade.Instance.GetMeasurementUnitsList();
-            ddlMeasurementUnits.DataTextField = "UnitName";
-            ddlMeasurementUnits.DataValueField = "UnitId";
-            ddlMeasurementUnits.DataBind();
-        }
-        catch(Exception ex)
+        var units = HttpHelper.GetMeny<UnitModel>("general/units");
+        ddlMeasurementUnits.DataSource = units.results;
+        ddlMeasurementUnits.DataTextField = "unitName";
+        ddlMeasurementUnits.DataValueField = "unitId";
+        ddlMeasurementUnits.DataBind();
+    }
+
+    private bool IsExist(int id)
+    {
+        List<IngrediantModel> ingrediants = Ingrediants;
+        IngrediantModel f = ingrediants.Find(item => item.id == id);
+        return f != null;
+    }
+
+    // Modify Ingrediant
+    protected void ImageButton2_Click(object sender, ImageClickEventArgs e)
+    {
+        ModifyIngrediant();
+    }
+
+    private void ModifyIngrediant()
+    {
+        List<IngrediantModel> ingrediants = Ingrediants;
+        IngrediantModel SelectedIngrediant = ingrediants.Find(item => item.id == Convert.ToInt32(ViewState["SelectedIngrediantId"]));
+        if (SelectedIngrediant != null)
         {
-            Logger.Write("Ingrediants.Page_Load -> failed", ex, Logger.Level.Error);
+            SelectedIngrediant.quantity0 = TextBox1.Text;
+            SelectedIngrediant.quantity1 = ddlFractions.SelectedValue;
+            SelectedIngrediant.unitId = Convert.ToInt32(ddlMeasurementUnits.SelectedValue);
+            SelectedIngrediant.unit = ddlMeasurementUnits.SelectedItem.Text;
+            SelectedIngrediant.name = IngridiantName.Text;
+            SelectedIngrediant.howTo = txtFoodRemark.Text;
+            Ingrediants = ingrediants;
+            ImageButton1.Visible = true;
+            ImageButton2.Visible = false;
+            Clear();
         }
+    }
+
+    // Add Ingrediant
+    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+    {
+        if (TextBox1.Text == "" || IngridiantName.Text == "")
+        {
+            return;
+        }
+
+        int id = Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value);
+        if (IsExist(Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value)))
+        {
+            ModifyIngrediant();
+        } else
+        {
+            IngrediantModel ingrediantModel = new IngrediantModel
+            {
+                id = id,
+                quantity0 = TextBox1.Text,
+                unit = ddlMeasurementUnits.SelectedItem.Text,
+                unitId = Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value),
+                name = IngridiantName.Text
+            };
+            List<IngrediantModel> ingrediants = Ingrediants;
+            ingrediants.Add(ingrediantModel);
+            Ingrediants = ingrediants;
+        }
+    }
+
+    // Edit
+    protected void LinkButton1_Click(object sender, EventArgs e)
+    {
+        string id = ((LinkButton)sender).CommandArgument;
+        List<IngrediantModel> ingrediants = Ingrediants;
+        IngrediantModel ingrediantModel = ingrediants.Find(item => item.id == Convert.ToInt32(id));
+        TextBox1.Text = ingrediantModel.quantity0;
+        ddlFractions.SelectedValue = ingrediantModel.quantity1 == "0" ? "" : ingrediantModel.quantity1;
+        ddlMeasurementUnits.SelectedValue = ingrediantModel.unitId.ToString();
+        IngridiantName.Text = ingrediantModel.name;
+        txtFoodRemark.Text = ingrediantModel.howTo;
+        ImageButton1.Visible = false;
+        ImageButton2.Visible = true;
+        ViewState["SelectedIngrediantId"] = ingrediantModel.id.Value;
+    }
+
+    // Delete
+    protected void LinkButton2_Click(object sender, EventArgs e)
+    {
+        string id = ((LinkButton)sender).CommandArgument;
+        List<IngrediantModel> ingrediants = Ingrediants;
+        int indx = ingrediants.FindIndex(item => item.id == Convert.ToInt32(id));
+        ingrediants.RemoveAt(indx);
+        Ingrediants = ingrediants;
+        ImageButton1.Visible = true;
+        ImageButton2.Visible = false;
+        Clear();
+    }
+
+    private void Clear()
+    {
+        TextBox1.Text = "";
+        ddlFractions.SelectedValue = "";
+        ddlMeasurementUnits.SelectedValue = "0";
+        IngridiantName.Text = "";
+        txtFoodRemark.Text = "";
     }
 }

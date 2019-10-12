@@ -121,7 +121,7 @@ public partial class ucSearchComplex : System.Web.UI.UserControl
 
     protected void btnCategories_Click(object sender, EventArgs e)
     {
-        ucRecipeCats.ShowCategories(this.RecipeCategories);
+        //ucRecipeCats.ShowCategories(this.RecipeCategories);
     }
 
     protected void RecipeCategories_Rebind(SRL_RecipeCategory[] arr)

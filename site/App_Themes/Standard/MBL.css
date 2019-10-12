@@ -623,7 +623,7 @@ div.pager {
             text-decoration: underline;
         }
 
-.wrapper_bottom_tab {
+/*.wrapper_bottom_tab {
     clear: both;
     min-height: 50px;
     padding-right: 2px;
@@ -692,7 +692,7 @@ div.pager {
     background-image: url('../../Images/bgr_TabIndexReciepesLeft.png');
     background-position: left bottom;
     background-repeat: no-repeat;
-}
+}*/
 
 /*.wrapper_bottom_tab2 {
     clear: both;
@@ -828,7 +828,7 @@ div.field_row {
 
 .recipe_video {
     text-align: left;
-    height: 360px;
+    height: auto;
     width: 444px;
     margin-top: 50px;
 }
@@ -1496,7 +1496,6 @@ a.article_published_value {
 
 .DividerAddNewRecipe {
     background-color: #e3e3e3;
-    width: 645px;
     height: 1px;
 }
 

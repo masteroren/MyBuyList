@@ -6,4 +6,10 @@ namespace MyBuyListShare.Models
     {
         public int recipes { get; set; }
     }
+
+    public class ShortCategoryModel
+    {
+        public int categoryId { get; set; }
+        public string categoryName { get; set; }
+    }
 }

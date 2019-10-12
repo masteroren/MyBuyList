@@ -9,7 +9,7 @@ function StartHeaderInterval() {
 
         var recipes = $('#' + favRecipesNumClientId);
 
-        $.post('handler.ashx', { method: 'GetSelectedRecipes' }, function (data) {
+        $.post('ASHX/handler.ashx', { method: 'GetSelectedRecipes' }, function (data) {
 
             recipes.html('(' + data + ')');
 

@@ -1,31 +1,41 @@
 ﻿using MyBuyList.BusinessLayer;
 using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
+using MyBuyListShare.Models;
 using ProperServices.Common.Log;
 using Resources;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Linq;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class ucRecipe : UserControl
 {
-    SRL_RecipeCategory[] RecipeCategories
-    {
-        get { return (SRL_RecipeCategory[])ViewState["RecipeCategories"]; }
-        set { ViewState["RecipeCategories"] = value; }
-    }
+    //SRL_RecipeCategory[] RecipeCategories
+    //{
+    //    get { return (SRL_RecipeCategory[])ViewState["RecipeCategories"]; }
+    //    set { ViewState["RecipeCategories"] = value; }
+    //}
 
-    int RecipeId
+    public int RecipeId;
+    public RecipeModel recipe;
+
+    private List<ShortCategoryModel> selectedCategories;
+    public List<ShortCategoryModel> SelectedCategories
     {
-        get { return ViewState["RecipeId"] == null ? 0 : (int)ViewState["RecipeId"]; }
-        set { ViewState["RecipeId"] = value; }
+        set
+        {
+            selectedCategories = value;
+            if (value != null)
+            {
+                string[] result = value.Select(item => item.categoryName).ToArray();
+                txtCategories.Text = string.Join(",", result);
+            }
+        }
     }
 
     Binary RecipePicture
@@ -40,23 +50,25 @@ public partial class ucRecipe : UserControl
         {
             string numberSeperator = ConfigurationManager.AppSettings["NumberSeperator"];
         }
+
+
     }
 
     public void NewRecipe()
     {
-        ShowEditor(0);
+        SetValues();
     }
 
-    public void EditRecipe(int recipeId)
+    public void EditRecipe()
     {
-        ShowEditor(recipeId);
+        SetValues();
     }
 
     public void RefreshCategories(SRL_RecipeCategory[] arr)
     {
-        this.RecipeCategories_Rebind(arr);
+        //this.RecipeCategories_Rebind(arr);
         //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "setDirty", "setDirty();", true);
-        updateCategories.Update();
+        //updateCategories.Update();
     }
 
     public void UpdatePicture(Binary picture)
@@ -64,22 +76,22 @@ public partial class ucRecipe : UserControl
         this.RecipePicture = picture;
     }
 
-    public void CopyRecipe(int recipeId)
+    public void CopyRecipe()
     {
-        if (recipeId != 0)
+        if (RecipeId != 0)
         {
-            recipes recipe = BusinessFacade.Instance.GetRecipe(recipeId);
+            recipes recipe = BusinessFacade.Instance.GetRecipe(RecipeId);
             if (recipe == null)
             {
                 return;
             }
             RecipeId = 0;
 
-            imgTitle.ImageUrl = "~/Images/Header_AddNewRecipe.png"; 
-            txtRecipeName.Text = recipe.RecipeName + string.Format(" ({0})", MyGlobalResources.Copy);            
-            chkPublic.Checked = recipe.IsPublic;            
+            imgTitle.ImageUrl = "~/Images/Header_AddNewRecipe.png";
+            RecipeName.Text = recipe.RecipeName + string.Format(" ({0})", MyGlobalResources.Copy);
+            chkPublic.Checked = recipe.IsPublic;
             txtPreparationMethod.Text = recipe.PreparationMethod;
-            txtRemarks.Text = recipe.Remarks;            
+            txtRemarks.Text = recipe.Remarks;
             txtEmbeddedLink.Text = recipe.VideoLink;
             txtServings.Text = recipe.Servings.ToString();
             txtTools.Text = recipe.Tools;
@@ -131,27 +143,13 @@ public partial class ucRecipe : UserControl
             //dlistIngredients.DataSource = recipe.Ingredients;
             //dlistIngredients.DataBind();
 
-            RecipePicture = recipe.Picture;            
+            RecipePicture = recipe.Picture;
 
             //txtFoodName.Text = "";
             //txtFoodName.Text = "";
             //txtQuantity.Text = "";
             //ddlFractions.SelectedIndex = 0;
             //ddlMeasurementUnits.SelectedIndex = 0;
-        }
-    }
-
-    private void ShowEditor(int recipeId)
-    {
-        RecipeId = recipeId;
-        if (recipeId != 0)
-        {
-            recipes recipe = BusinessFacade.Instance.GetRecipe(recipeId);
-            SetValues(recipe);
-        }
-        else
-        {
-            SetValues(null);
         }
     }
 
@@ -167,7 +165,7 @@ public partial class ucRecipe : UserControl
         set { ViewState["ReadOnly"] = value; }
     }
 
-    private void SetValues(recipes recipe)
+    private void SetValues()
     {
         try
         {
@@ -176,42 +174,27 @@ public partial class ucRecipe : UserControl
                 Logger.Write("ucRecipe.SetValues -> Start", Logger.Level.Info);
 
                 imgTitle.ImageUrl = "~/Images/Header_EditRecipe.png";
-                txtRecipeName.Text = recipe.RecipeName;
-                chkPublic.Checked = recipe.IsPublic;
-                txtPreparationMethod.Text = recipe.PreparationMethod;
-                txtRemarks.Text = recipe.Remarks;
-                txtTools.Text = recipe.Tools;
-
-                txtEmbeddedLink.Text = recipe.VideoLink;
-
-                txtServings.Text = recipe.Servings.ToString();
-
-                if (recipe.Description != null)
-                {
-                    txtRecipeDesc.Text = recipe.Description;
-                }
-
-                if (recipe.Tags != null)
-                {
-                    txtTags.Text = recipe.Tags;
-                }
-
-                if (recipe.DifficultyLevel != null)
-                {
-                    ddlDifficulty.SelectedValue = recipe.DifficultyLevel.Value.ToString();
-                }
-
-                if (recipe.PreperationTime != null)
+                RecipeName.Text = recipe.name;
+                chkPublic.Checked = recipe.isPublic;
+                txtPreparationMethod.Text = recipe.preparationMethod;
+                txtRemarks.Text = recipe.remarks;
+                txtTools.Text = recipe.tools;
+                txtEmbeddedLink.Text = recipe.videoLink;
+                txtServings.Text = recipe.servings.ToString();
+                txtRecipeDesc.Text = recipe.description;
+                txtTags.Text = recipe.tags;
+                ddlDifficulty.SelectedValue = recipe.level.Value.ToString();
+                if (recipe.prepTime != null)
                 {
                     int unit;
-                    txtPrepTime.Text = this.GetTimeInCorrectUnits(recipe.PreperationTime.Value, out unit).ToString();
+                    txtPrepTime.Text = this.GetTimeInCorrectUnits(recipe.prepTime.Value, out unit).ToString();
                     ddlPrepTimeUnits.SelectedValue = unit.ToString();
                 }
 
-                if (recipe.CookingTime != null)
+                if (recipe.cookTime != null)
                 {
                     int unit;
-                    txtCookTime.Text = this.GetTimeInCorrectUnits(recipe.CookingTime.Value, out unit).ToString();
+                    txtCookTime.Text = this.GetTimeInCorrectUnits(recipe.cookTime.Value, out unit).ToString();
                     ddlCookTimeUnits.SelectedValue = unit.ToString();
                 }
 
@@ -220,40 +203,42 @@ public partial class ucRecipe : UserControl
                 //var list = from item in recipe.categories
                 //           select new SRL_RecipeCategory(recipe.RecipeId, item.CategoryId, item.CategoryName);
 
-                //RecipeCategories_Rebind(list.ToArray());
+                RecipeCategories_Rebind(recipe.categories);
 
                 Logger.Write("ucRecipe.SetValues -> Set Ingrediants", Logger.Level.Info);
 
-                ingredients[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
-                List<FlatIngredient> flatIngredients = new List<FlatIngredient>();
-                foreach(ingredients ing in ingredients)
-                {
-                    flatIngredients.Add(new FlatIngredient
-                    {
-                        FoodId = ing.FoodId,
-                        IngredientId = ing.IngredientId,
-                        MeasurementUnitId = ing.MeasurementUnitId,
-                        Quantity = ing.Quantity,
-                        RecipeId = ing.RecipeId,
-                        Remarks = ing.Remarks,
-                        SortOrder = ing.SortOrder,
-                        FoodName = ing.FoodName,
-                        MeasureUnitName = ing.MeasureUnitName
-                    });
-                }
+                Ingridiants.Ingrediants = recipe.ingrediants;
 
-                JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-                Ingridiants.recipeId = recipe.RecipeId;
-                Ingridiants.Ingridiants = jsSerializer.Serialize(flatIngredients);
+                //ingredients[] ingredients = BusinessFacade.Instance.GetRecipeIngredientsList(recipe.RecipeId);
+                //List<FlatIngredient> flatIngredients = new List<FlatIngredient>();
+                //foreach (IngrediantModel ing in recipe.ingrediants)
+                //{
+                //    flatIngredients.Add(new FlatIngredient
+                //    {
+                //        FoodId = ing.FoodId,
+                //        IngredientId = ing.IngredientId,
+                //        MeasurementUnitId = ing.MeasurementUnitId,
+                //        Quantity = ing.Quantity,
+                //        RecipeId = ing.RecipeId,
+                //        Remarks = ing.Remarks,
+                //        SortOrder = ing.SortOrder,
+                //        FoodName = ing.FoodName,
+                //        MeasureUnitName = ing.MeasureUnitName
+                //    });
+                //}
+
+                //JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+                //Ingridiants.recipeId = recipe.id;
+                //Ingridiants.Ingridiants = jsSerializer.Serialize(flatIngredients);
 
                 Logger.Write("ucRecipe.SetValues -> End", Logger.Level.Info);
 
-                RecipePicture = recipe.Picture;
+                RecipePicture = recipe.picture;
             }
             else
             {
                 imgTitle.ImageUrl = "~/Images/Header_AddNewRecipe.png";
-                txtRecipeName.Text = "";
+                RecipeName.Text = "";
                 txtRecipeDesc.Text = "";
                 txtTags.Text = "";
                 txtCategories.Text = "";
@@ -273,9 +258,9 @@ public partial class ucRecipe : UserControl
                 RecipePicture = null;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            Logger.Write(string.Format("ucRecipe.SetValues -> Failed for recipe {0}", recipe.RecipeId), ex, Logger.Level.Error);
+            Logger.Write(string.Format("ucRecipe.SetValues -> Failed for recipe {0}", recipe.id), ex, Logger.Level.Error);
         }
     }
 
@@ -283,52 +268,42 @@ public partial class ucRecipe : UserControl
     {
         if (this.SelectPictureClick != null)
         {
-            this.SelectPictureClick.Invoke(this.RecipeId);
+            this.SelectPictureClick.Invoke(RecipeId);
         }
     }
 
-    protected void btnCategories_Click(object sender, EventArgs e)
-    {        
-        if (this.ShowCategoriesClick != null)
-        {
+    //protected void btnCategories_Click(object sender, EventArgs e)
+    //{
+    //    if (this.ShowCategoriesClick != null)
+    //    {
 
-            this.ShowCategoriesClick.Invoke(this.RecipeId, this.RecipeCategories);           
-        }        
-    }
+    //        this.ShowCategoriesClick.Invoke(this.RecipeId, this.RecipeCategories);
+    //    }
+    //}
 
-    private void RecipeCategories_Rebind(SRL_RecipeCategory[] arr)
+    private void RecipeCategories_Rebind(List<ShortCategoryModel> categories)
     {
-        if (arr != null)
+        if (categories != null)
         {
-            this.RecipeCategories = arr;            
-            string cats = "";
-            foreach (SRL_RecipeCategory rc in arr)
-            {
-                cats += rc.CategoryName + ", ";
-            }
-            if (!string.IsNullOrEmpty(cats))
-            {
-                cats = cats.Remove(cats.Length - 2, 2);
-            }
-
-            this.txtCategories.Text = cats;
+            string[] cats = categories.Select(category => category.categoryName).ToArray();
+            txtCategories.Text = string.Join(",", cats);
         }
     }
 
     protected void btnCancel_Click(object sender, EventArgs e)
     {
-        this.RecipeCategories = null;
-        
-        if (this.RecipeId != 0)
+        //this.RecipeCategories = null;
+
+        if (RecipeId != 0)
         {
-            Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", this.RecipeId));
+            Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", RecipeId));
         }
-        else 
+        else
         {
             Response.Redirect("~/Recipes.aspx");
         }
-    } 
-       
+    }
+
     protected void btnSave_Click(object sender, EventArgs e)
     {
         Logger.Write("btnSave_Click -> Start", Logger.Level.Info);
@@ -340,22 +315,12 @@ public partial class ucRecipe : UserControl
                 return;
             }
 
-            recipes recipe;
             bool isNewRecipe = false;
-
-            if (RecipeId == 0)
-            {
-                recipe = new recipes();
-                isNewRecipe = true;
-            }
-            else
-            {
-                recipe = BusinessFacade.Instance.GetRecipe(RecipeId);
-            }
 
             if (recipe == null)
             {
-                return; //TODO Exception (record is not exist)
+                recipe = new RecipeModel();
+                isNewRecipe = true;
             }
 
             Logger.Write("btnSave_Click -> Set recipe data", Logger.Level.Info);
@@ -366,75 +331,47 @@ public partial class ucRecipe : UserControl
                 RecipePicture = ImageHelper.GetBitmapBytes(bitmap);
             }
 
-            recipe.RecipeName = txtRecipeName.Text;
-            recipe.IsPublic = chkPublic.Checked;
-            recipe.Description = txtRecipeDesc.Text;
-            recipe.Tags = txtTags.Text;
-            recipe.PreparationMethod = txtPreparationMethod.Text;
-            recipe.Remarks = txtRemarks.Text;
-            recipe.Tools = txtTools.Text;
-
-            if (ddlDifficulty.SelectedValue != "0")
-            {
-                recipe.DifficultyLevel = int.Parse(ddlDifficulty.SelectedValue);
-            }
-            else
-            {
-                recipe.DifficultyLevel = null;
-            }
-
-            if (!string.IsNullOrEmpty(txtPrepTime.Text))
-            {
-                recipe.PreperationTime = GetTimeInMinutes(txtPrepTime.Text, int.Parse(ddlPrepTimeUnits.SelectedValue));
-            }
-            else
-            {
-                recipe.PreperationTime = null;
-            }
-
-            if (!string.IsNullOrEmpty(this.txtCookTime.Text))
-            {
-                recipe.CookingTime = this.GetTimeInMinutes(this.txtCookTime.Text, int.Parse(this.ddlCookTimeUnits.SelectedValue));
-            }
-            else
-            {
-                recipe.CookingTime = null;
-            }
-
-            if (!string.IsNullOrEmpty(this.txtServings.Text))
-            {
-                recipe.Servings = int.Parse(this.txtServings.Text);
-            }
-            else
-            {
-                recipe.Servings = 1;
-            }
-
-            recipe.VideoLink = this.txtEmbeddedLink.Text;
+            recipe.name = RecipeName.Text;
+            recipe.isPublic = chkPublic.Checked;
+            recipe.description = txtRecipeDesc.Text;
+            recipe.tags = txtTags.Text;
+            recipe.preparationMethod = txtPreparationMethod.Text;
+            recipe.remarks = txtRemarks.Text;
+            recipe.tools = txtTools.Text;
+            recipe.level = ddlDifficulty.SelectedValue != "0" ? int.Parse(ddlDifficulty.SelectedValue) : 0;
+            recipe.prepTime = string.IsNullOrEmpty(txtPrepTime.Text) ? 0 : GetTimeInMinutes(txtPrepTime.Text, int.Parse(ddlPrepTimeUnits.SelectedValue));
+            recipe.cookTime = string.IsNullOrEmpty(this.txtCookTime.Text) ? 0 : this.GetTimeInMinutes(this.txtCookTime.Text, int.Parse(this.ddlCookTimeUnits.SelectedValue));
+            recipe.servings = string.IsNullOrEmpty(this.txtServings.Text) ? 1 : int.Parse(this.txtServings.Text);
+            recipe.videoLink = this.txtEmbeddedLink.Text;
             //recipe.Picture = this.RecipePicture;
+            recipe.ingrediants = Ingridiants.Ingrediants;
+            recipe.categories = selectedCategories;
 
-            if (recipe.UserId == 0)
+            if (recipe.userId == 0)
             {
-                recipe.UserId = ((BasePage)Page).UserId;
+                recipe.userId = ((BasePage)Page).UserId;
             }
 
             int returnedRecipeId;
-            if (BusinessFacade.Instance.SaveRecipe(recipe, Ingridiants.ListOfIngediants, RecipeCategories.ToList(), isNewRecipe, out returnedRecipeId))
-            {
-                if (RefreshData != null)
-                {
-                    RefreshData.Invoke();
-                }
-            }
+
+            HttpHelper.
+
+            //if (BusinessFacade.Instance.SaveRecipe(recipe, Ingridiants.ListOfIngediants, RecipeCategories.ToList(), isNewRecipe, out returnedRecipeId))
+            //{
+            //    if (RefreshData != null)
+            //    {
+            //        RefreshData.Invoke();
+            //    }
+            //}
 
             Logger.Write("btnSave_Click -> End and redirect", Logger.Level.Info);
 
-            RecipeCategories = null;
+            //RecipeCategories = null;
 
-            if (returnedRecipeId != 0)
-            {
-                Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", returnedRecipeId));
-            }
+            //if (returnedRecipeId != 0)
+            //{
+            //    Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", returnedRecipeId));
+            //}
         }
         catch (Exception ex)
         {
@@ -471,7 +408,7 @@ public partial class ucRecipe : UserControl
     //    }
 
     //    this.UpdatePanel4.Update();
-        
+
     //}
 
     //protected void btnAddIngerdient_Command(object sender, CommandEventArgs e)
@@ -703,7 +640,7 @@ public partial class ucRecipe : UserControl
 
     private void ToggleReadOnly()
     {
-        this.txtRecipeName.ReadOnly = ReadOnly;
+        this.RecipeName.ReadOnly = ReadOnly;
         this.txtCategories.ReadOnly = ReadOnly;
         this.txtPreparationMethod.ReadOnly = ReadOnly;
         this.txtRemarks.ReadOnly = ReadOnly;
@@ -731,9 +668,9 @@ public partial class ucRecipe : UserControl
         //this.pnlIngredients.CssClass = css;
 
         this.btnsReadOnly.Visible = ReadOnly;
-        this.btnsEditable.Visible = !this.btnsReadOnly.Visible;
+        //this.btnsEditable.Visible = !this.btnsReadOnly.Visible;
 
-        this.btnPrint.NavigateUrl = "~/Print.aspx?code=1&recipeId=" + this.RecipeId.ToString();        
+        this.btnPrint.NavigateUrl = "~/Print.aspx?code=1&recipeId=" + RecipeId.ToString();
     }
 
     private int GetTimeInMinutes(string time, int unitValue)
@@ -741,11 +678,11 @@ public partial class ucRecipe : UserControl
         int timeInMinutes = 0;
         if (unitValue == 1) //minutes
         {
-            timeInMinutes = decimal.ToInt32(decimal.Parse(time));            
+            timeInMinutes = decimal.ToInt32(decimal.Parse(time));
         }
         if (unitValue == 2) //hours
         {
-            timeInMinutes = decimal.ToInt32(decimal.Parse(time)*60);
+            timeInMinutes = decimal.ToInt32(decimal.Parse(time) * 60);
         }
 
         return timeInMinutes;

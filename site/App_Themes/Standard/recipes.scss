@@ -46,10 +46,19 @@
         }
     }
 
+    .body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .recipes {
         width: 600px;
 
         .recipe_list {
+            display: flex;
+            flex-direction: column;
+
             .recipe-box-wrapper {
                 display: flex;
                 flex-direction: column;

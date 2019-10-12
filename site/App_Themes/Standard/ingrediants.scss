@@ -1,0 +1,166 @@
+﻿.ingridiants {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .input-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        height: 35px;
+
+        .input-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 55%;
+
+            .input-section-item {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                position: relative;
+
+                &.action {
+                    margin-left: 0;
+                }
+
+                .ingridiant-list {
+                    background-color: #ddecb6;
+                    border: 1px solid #A4CB3A;
+                    width: auto;
+                    min-width: 173px;
+                    max-width: 200px;
+                    overflow-y: auto;
+                    max-height: 100px;
+                    margin-top: 1px;
+                    display: none;
+                    color: #656565;
+                    position: absolute;
+                    top: 33px;
+
+                    .ingridiant-list-item {
+                        color: #656565;
+                        font-size: 12px;
+                        cursor: pointer;
+                    }
+
+                    .ingridiant-list-item:hover {
+                        background-color: #808080;
+                    }
+                }
+            }
+
+            .input-section-item input.text {
+                height: 14px;
+                background-color: #ddecb6;
+                border: 1px solid #A4CB3A;
+                color: #656565;
+                font-size: 12px;
+            }
+
+            .input-section-item .quantity {
+                background-color: #ddecb6;
+                border: 1px solid #A4CB3A;
+                width: 30px;
+                text-align: center;
+            }
+        }
+    }
+
+    .ingredients-container {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #656565;
+        width: 98%;
+        height: 140px;
+        font-weight: bold;
+        font-size: 15px;
+        margin-bottom: 32px;
+        overflow-y: scroll;   
+
+        .list-btn {
+            font-family: Arial;
+            margin-left: 5px;
+            cursor: pointer;
+            opacity: 0.6;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            &.edit-ingrediant {
+                color: blue;
+            }
+
+            &.delete-ingrediant {
+                color: red;
+            }
+        }
+    }
+}
+
+.ingridiant-prefix {
+    background-color: #ddecb6;
+    border: 1px solid #A4CB3A;
+    width: 100%;
+}
+
+.drop-down-fractions {
+    width: 50px;
+    background-color: #ddecb6;
+    height: 18px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #656565;
+    border: 1px solid #A4CB3A;
+    margin-top: 6px;
+}
+
+drop-down-measurement-units {
+    width: 76px;
+    background-color: #ddecb6;
+    height: 18px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #656565;
+    border: 1px solid #A4CB3A;
+    margin-top: 6px;
+}
+
+.food-process {
+    width: 157px;
+    background-color: #ddecb6;
+    color: #656565;
+    border: 1px solid #A4CB3A;
+    font-size: 12px;
+    height: 14px;
+    margin-top: 6px;
+}
+
+a.action {
+    width: 103px;
+    height: 33px;
+    display: block;
+    cursor: pointer;
+}
+
+#addIngridiant {
+    background-image: url('Images/btn_AddProduct_up.png');
+}
+
+#updateIngridiant {
+    background-image: url('Images/btn_EditProduct_up.png');
+}
+
+.floatRight {
+    float: right;
+}
+
+.col {
+    margin-left: 5px;
+}
+
+.row {
+    font-size: 12pt;
+    height: 20px;
+}

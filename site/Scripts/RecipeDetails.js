@@ -9,25 +9,6 @@
         }
     });
 
-    $('#removeRecipe').click(function () {
-        var recipeId = $('#hfRecipeId').val();
-
-        var url = $('#RestUrl').val() + '/api/recipes/' + recipeId;
-
-        $.ajax(
-            url, {
-                type: 'DELETE',
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function (response) {
-                    window.location = 'Recipes.aspx';
-                },
-                error: function (xhr, status, error) {
-                    console.log(error);
-                }
-            });
-    });
-
     var checkFavorits = (userId) => {
         var recipeId = $('#hfRecipeId').val();
         var data = {

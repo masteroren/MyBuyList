@@ -1,17 +1,14 @@
-﻿<%@ WebHandler Language="C#" Class="Handler" %>
-
-using System;
-using System.Web;
-using System.Reflection;
-using MyBuyList.BusinessLayer;
+﻿using MyBuyList.BusinessLayer;
 using MyBuyList.Shared;
-using System.Web.Script.Serialization;
-using System.Web.SessionState;
+using MyBuyListShare.Models;
 using ProperServices.Common.Log;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyBuyListShare.Models;
-using MyBuyListShare.Classes;
+using System.Reflection;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.SessionState;
 
 [Serializable]
 internal class SearchItem
@@ -47,53 +44,6 @@ public class Handler : IHttpHandler, IRequiresSessionState
         }
     }
 
-    //public string JsonSerializer<T>(T t)
-    //{
-    //    System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
-    //    System.IO.MemoryStream ms = new System.IO.MemoryStream();
-    //    ser.WriteObject(ms, t);
-    //    string jsonString = System.Text.Encoding.UTF8.GetString(ms.ToArray());
-    //    ms.Close();
-    //    return jsonString;
-    //}
-
-    public string IsLoggedIn(HttpContext context)
-    {
-        UserInfo userInfo = (UserInfo)context.Session[AppConstants.CURR_USER];
-        if (userInfo != null)
-        {
-            return HttpHelper.JsonSerializer<UserInfo>(userInfo);
-        }
-        return null;
-    }
-
-    public void Logout(HttpContext context)
-    {
-        HttpContext.Current.Session[AppConstants.CURR_USER] = null;
-    }
-
-    public string Login(HttpContext context)
-    {
-        Logger.Info("Login", new object[] { });
-        UserInfo userInfo = null;
-
-        try
-        {
-            string userName = context.Request["UserName"];
-            string password = context.Request["Password"];
-            userInfo = LoginHelper.Login(userName, password);
-            context.Session.Add(AppConstants.CURR_USER, userInfo);
-            HttpContext.Current.Session.Add(AppConstants.CURR_USER, userInfo);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Login", new object[] { });
-        }
-
-        return HttpHelper.JsonSerializer<UserInfo>(userInfo);
-    }
-
-    #region food
     public int AddFood(HttpContext context)
     {
         //try
@@ -126,7 +76,6 @@ public class Handler : IHttpHandler, IRequiresSessionState
 
         return 0;
     }
-    #endregion
 
     public int AddShoppingListCustomIngrediant(HttpContext context)
     {
@@ -183,7 +132,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
             IEnumerable<menus> menus = null;
 
             users user;
-            string isLoggedIn = IsLoggedIn(context);
+            //string isLoggedIn = IsLoggedIn(context);
 
             int totalPages;
             int numOfMenus;
@@ -198,41 +147,41 @@ public class Handler : IHttpHandler, IRequiresSessionState
                 case "1": // מתכונים
                     recipes = HttpHelper.Get<ListResponse<RecipeModel[]>>(string.Format("recipes?pageSize=10&searchQuery={0}", value));
                     break;
-                case "2": // המתכונים שלי
-                    if (isLoggedIn != null)
-                    {
-                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
-                        //recipes = BusinessFacade.Instance.GetUserRecipesList(user.UserId).Where(p=>p.RecipeName.Contains(value)).Take(10);
-                        //recipes = BusinessFacade.Instance.GetRecipesEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfRecipes);
-                    }
-                    break;
-                case "3": // המתכונים המועדפים שלי
-                    if (isLoggedIn != null)
-                    {
-                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
-                        //recipes = BusinessFacade.Instance.GetUserFavoritesRecipes(user.UserId).Where(p => p.RecipeName.Contains(value)).Take(10);
-                    }
-                    break;
-                case "4": // תפריטים
-                          //menus = BusinessFacade.Instance.SearchMenus(value).Take(10);
-                    menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, -1, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
-                    break;
-                case "5": // התפריטים שלי
-                    if (isLoggedIn != null)
-                    {
-                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
-                        //menus = BusinessFacade.Instance.GetUserMenusList(user.UserId).Where(p => p.MenuName.Contains(value)).Take(10);
-                        menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.MyRecipes, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
-                    }
-                    break;
-                case "6": // התפריטים המועדפים שלי
-                    if (isLoggedIn != null)
-                    {
-                        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
-                        //menus = BusinessFacade.Instance.GetUserFavoritesMenus(user.UserId).Where(p => p.MenuName.Contains(value)).Take(10);
-                        menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.MyFavoriteRecipes, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
-                    }
-                    break;
+                    //case "2": // המתכונים שלי
+                    //    if (isLoggedIn != null)
+                    //    {
+                    //        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
+                    //        //recipes = BusinessFacade.Instance.GetUserRecipesList(user.UserId).Where(p=>p.RecipeName.Contains(value)).Take(10);
+                    //        //recipes = BusinessFacade.Instance.GetRecipesEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfRecipes);
+                    //    }
+                    //    break;
+                    //case "3": // המתכונים המועדפים שלי
+                    //    if (isLoggedIn != null)
+                    //    {
+                    //        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
+                    //        //recipes = BusinessFacade.Instance.GetUserFavoritesRecipes(user.UserId).Where(p => p.RecipeName.Contains(value)).Take(10);
+                    //    }
+                    //    break;
+                    //case "4": // תפריטים
+                    //          //menus = BusinessFacade.Instance.SearchMenus(value).Take(10);
+                    //    menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.All, -1, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
+                    //    break;
+                    //case "5": // התפריטים שלי
+                    //    if (isLoggedIn != null)
+                    //    {
+                    //        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
+                    //        //menus = BusinessFacade.Instance.GetUserMenusList(user.UserId).Where(p => p.MenuName.Contains(value)).Take(10);
+                    //        menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.MyRecipes, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
+                    //    }
+                    //    break;
+                    //case "6": // התפריטים המועדפים שלי
+                    //    if (isLoggedIn != null)
+                    //    {
+                    //        user = (users)HttpContext.Current.Session[AppConstants.CURR_USER];
+                    //        //menus = BusinessFacade.Instance.GetUserFavoritesMenus(user.UserId).Where(p => p.MenuName.Contains(value)).Take(10);
+                    //        menus = BusinessFacade.Instance.GetMenusEx(MyBuyList.Shared.Enums.RecipeDisplayEnum.MyFavoriteRecipes, user.UserId, value, null, null, null, MyBuyList.Shared.Enums.RecipeOrderEnum.LastUpdate, 1, 7, out totalPages, out numOfMenus).Take(10);
+                    //    }
+                    //    break;
             }
 
             IEnumerable<SearchItem> results1 = null;
@@ -306,5 +255,11 @@ public class Handler : IHttpHandler, IRequiresSessionState
         }
 
         return false;
+    }
+
+    public string GetIngrediants(HttpContext context)
+    {
+        var result = HttpHelper.GetMeny<FoodModel>(string.Format("foods?searchQuery={0}", context.Request["searchQuery"]));
+        return HttpHelper.JsonSerializer(result);
     }
 }

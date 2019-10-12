@@ -30,7 +30,7 @@
             <asp:ListItem Value="6" class="show-on-logged-in">התפריטים המועדפים שלי</asp:ListItem>
         </asp:DropDownList>
         <div class="search-btn">
-            <asp:ImageButton ID="ImageButtonSearch" runat="server" ImageUrl="~/Images/Very-Basic-Search-icon.png" CssClass="search-button" OnClick="ImageButtonSearch_Click" OnClientClick="return false;" />
+            <asp:ImageButton ID="ImageButtonSearch" runat="server" ImageUrl="~/Images/Very-Basic-Search-icon.png" CssClass="search-button" OnClick="ImageButtonSearch_Click" />
         </div>
     </div>
 </div>
