@@ -3,6 +3,7 @@ using MyBuyListShare.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -39,13 +40,13 @@ public partial class UserControls_Ingridiants : UserControl
         if (IsPostBack) return;
 
         string decimalSeperator = DecimalSeperator;
-        ddlFractions.Items.Add(new ListItem("", ""));
-        ddlFractions.Items.Add(new ListItem("¼", string.Format("{0}", 0.25)));
-        ddlFractions.Items.Add(new ListItem("⅓", string.Format("{0}", 0.33)));
-        ddlFractions.Items.Add(new ListItem("½", string.Format("{0}", 0.5)));
-        ddlFractions.Items.Add(new ListItem("⅔", string.Format("{0}", 0.66)));
-        ddlFractions.Items.Add(new ListItem("¾", string.Format("{0}", 0.75)));
-        ddlFractions.Items.Add(new ListItem("⅛", string.Format("{0}", 0.125)));
+        ddlFractions.Items.Add(new ListItem("", "0"));
+        ddlFractions.Items.Add(new ListItem("¼", 0.25.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"))));
+        ddlFractions.Items.Add(new ListItem("⅓", 0.33.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"))));
+        ddlFractions.Items.Add(new ListItem("½", 0.5.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"))));
+        ddlFractions.Items.Add(new ListItem("⅔", 0.66.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"))));
+        ddlFractions.Items.Add(new ListItem("¾", 0.75.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"))));
+        ddlFractions.Items.Add(new ListItem("⅛", 0.125.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"))));
 
         var units = HttpHelper.GetMeny<UnitModel>("general/units");
         ddlMeasurementUnits.DataSource = units.results;
@@ -73,8 +74,11 @@ public partial class UserControls_Ingridiants : UserControl
         IngrediantModel SelectedIngrediant = ingrediants.Find(item => item.id == Convert.ToInt32(ViewState["SelectedIngrediantId"]));
         if (SelectedIngrediant != null)
         {
-            SelectedIngrediant.quantity0 = TextBox1.Text;
-            SelectedIngrediant.quantity1 = ddlFractions.SelectedValue;
+            int quantity0 = Convert.ToInt32(TextBox1.Text);
+            decimal quantity1 = Convert.ToDecimal(ddlFractions.SelectedValue, CultureInfo.CreateSpecificCulture("he-IL"));
+            SelectedIngrediant.quantity = quantity0 + quantity1;
+            SelectedIngrediant.quantity0 = quantity0;
+            SelectedIngrediant.quantity1 = quantity1;
             SelectedIngrediant.unitId = Convert.ToInt32(ddlMeasurementUnits.SelectedValue);
             SelectedIngrediant.unit = ddlMeasurementUnits.SelectedItem.Text;
             SelectedIngrediant.name = IngridiantName.Text;
@@ -100,13 +104,19 @@ public partial class UserControls_Ingridiants : UserControl
             ModifyIngrediant();
         } else
         {
+            int quantity0 = Convert.ToInt32(TextBox1.Text);
+            decimal quantity1 = Convert.ToDecimal(ddlFractions.SelectedValue, CultureInfo.CreateSpecificCulture("he-IL"));
+
             IngrediantModel ingrediantModel = new IngrediantModel
             {
                 id = id,
-                quantity0 = TextBox1.Text,
+                quantity = quantity0 + quantity1,
+                quantity0 = quantity0,
+                quantity1 = quantity1,
                 unit = ddlMeasurementUnits.SelectedItem.Text,
                 unitId = Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value),
-                name = IngridiantName.Text
+                name = IngridiantName.Text,
+                foodId = Convert.ToInt32(IngridiantId.Value)
             };
             List<IngrediantModel> ingrediants = Ingrediants;
             ingrediants.Add(ingrediantModel);
@@ -120,8 +130,8 @@ public partial class UserControls_Ingridiants : UserControl
         string id = ((LinkButton)sender).CommandArgument;
         List<IngrediantModel> ingrediants = Ingrediants;
         IngrediantModel ingrediantModel = ingrediants.Find(item => item.id == Convert.ToInt32(id));
-        TextBox1.Text = ingrediantModel.quantity0;
-        ddlFractions.SelectedValue = ingrediantModel.quantity1 == "0" ? "" : ingrediantModel.quantity1;
+        TextBox1.Text = ingrediantModel.quantity0.ToString();
+        ddlFractions.SelectedValue = ingrediantModel.quantity1 == 0 ? "0" : ingrediantModel.quantity1.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"));
         ddlMeasurementUnits.SelectedValue = ingrediantModel.unitId.ToString();
         IngridiantName.Text = ingrediantModel.name;
         txtFoodRemark.Text = ingrediantModel.howTo;
@@ -146,7 +156,7 @@ public partial class UserControls_Ingridiants : UserControl
     private void Clear()
     {
         TextBox1.Text = "";
-        ddlFractions.SelectedValue = "";
+        ddlFractions.SelectedValue = "0";
         ddlMeasurementUnits.SelectedValue = "0";
         IngridiantName.Text = "";
         txtFoodRemark.Text = "";

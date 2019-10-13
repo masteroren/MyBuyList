@@ -44,6 +44,7 @@ public partial class RecipeEdit : BasePage
                 ucRecipe.SelectedCategories = ucRecipe.recipe.categories;
                 ViewState["Recipe"] = Json.JsonSerializer(ucRecipe.recipe);
                 ViewState["RecipeId"] = ucRecipe.RecipeId;
+                ViewState["Categories"] = Json.JsonSerializer(ucRecipe.recipe.categories);
 
                 if (ShouldCopy)
                     ucRecipe.CopyRecipe();

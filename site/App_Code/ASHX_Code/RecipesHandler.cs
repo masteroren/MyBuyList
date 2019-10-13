@@ -3,7 +3,7 @@ using System.Reflection;
 using MyBuyListShare.Models;
 using MyBuyListShare.Classes;
 
-public class Recipes : IHttpHandler
+public class RecipesHandler : IHttpHandler
 {
 
     public void ProcessRequest(HttpContext context)
@@ -15,10 +15,10 @@ public class Recipes : IHttpHandler
         if (!string.IsNullOrEmpty(method))
         {
             // Calling methods using reflection
-            MethodInfo methodInfo = typeof(Recipes).GetMethod(method);
+            MethodInfo methodInfo = typeof(RecipesHandler).GetMethod(method);
             if (methodInfo != null)
             {
-                object response = methodInfo.Invoke(new Recipes(), new object[] { context });
+                object response = methodInfo.Invoke(new RecipesHandler(), new object[] { context });
                 context.Response.Write(response);
             }
         }
@@ -42,12 +42,12 @@ public class Recipes : IHttpHandler
 
     public void AddIngredianToRecipe(HttpContext context)
     {
-        IngrediantsService.subject.OnNext(new IngrediantModel
-        {
-            quantity0 = context.Request["quantity0"],
-            quantity1 = context.Request["quantity1"],
-            unit = context.Request["unit"],
-            name = context.Request["name"],
-        });
+        //IngrediantsService.subject.OnNext(new IngrediantModel
+        //{
+        //    quantity0 = context.Request["quantity0"],
+        //    quantity1 = context.Request["quantity1"],
+        //    unit = context.Request["unit"],
+        //    name = context.Request["name"],
+        //});
     }
 }

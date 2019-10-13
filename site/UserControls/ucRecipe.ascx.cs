@@ -354,7 +354,7 @@ public partial class ucRecipe : UserControl
 
             int returnedRecipeId;
 
-            HttpHelper.
+            HttpHelper.Post<RecipeModel>("recipes", recipe);
 
             //if (BusinessFacade.Instance.SaveRecipe(recipe, Ingridiants.ListOfIngediants, RecipeCategories.ToList(), isNewRecipe, out returnedRecipeId))
             //{

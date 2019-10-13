@@ -17,7 +17,7 @@
             userId
         };
 
-        $.post('ASHX/Recipes.ashx', data, (res) => {
+        $.post('ASHX/RecipesHandler.ashx', data, (res) => {
             var oRes = $.parseJSON(res);
             $('.add-to-favorites').hide();
             $('.remove-from-favorites').hide();

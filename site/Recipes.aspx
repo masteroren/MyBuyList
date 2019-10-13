@@ -56,7 +56,7 @@
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
-            <uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="ucRecipeCats_RefreshData" />
+            <%--<uc2:RecipeCategories ID="ucRecipeCats" runat="server" OnRefreshData="ucRecipeCats_RefreshData" />--%>
         </div>
         <div class="body">
             <%--<div class="ShoppingList">
