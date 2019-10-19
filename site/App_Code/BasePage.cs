@@ -188,7 +188,8 @@ public class BasePage : Page
             }
             else
             {
-                return CurrUser.UserId;
+                UserInfo user = (UserInfo)HttpContext.Current.Session[AppConstants.CURR_USER];
+                return user.UserId;
             }
         }
     }

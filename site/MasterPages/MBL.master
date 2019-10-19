@@ -8,9 +8,11 @@
 <%@ Register Src="~/UserControls/Facebook.ascx" TagPrefix="MBL" TagName="Facebook" %>
 <%@ Register Src="~/UserControls/ucPopupLogin.ascx" TagPrefix="MBL" TagName="ucPopupLogin" %>
 <%@ Register Src="~/UserControls/HeaderControl.ascx" TagName="Header" TagPrefix="MBL" %>
+<%@ Register Src="~/UserControls/Drawer.ascx" TagPrefix="MBL" TagName="Drawer" %>
+
 
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head runat="server">
     <title>MyBuyList</title>
     <meta name="viewport" content="width=device-width; initial-scale=1.0" />
@@ -30,6 +32,8 @@
             EnablePageMethods="true"
             EnablePartialRendering="true">
         </asp:ScriptManager>
+
+        <MBL:Drawer runat="server" ID="Drawer" Visible="false" />
 
         <MBL:ucPopupLogin runat="server" ID="ucPopupLogin" />
         <div class="main_wrapper">

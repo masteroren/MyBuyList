@@ -5,17 +5,14 @@
   background-image: url("../../Images/bgr.jpg");
   background-repeat: repeat-y;
   background-position: center top;
-  direction: rtl;
-  /*padding: 0px 5px;*/ }
-
-.search-box input {
-  border: none;
-  font-size: large; }
-
-.search-box select {
-  border: none;
-  margin-left: 10px;
-  margin-right: 10px; }
+  direction: rtl; }
+  .main_wrapper .main {
+    margin: 0 auto;
+    max-width: 982px; }
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .main_wrapper .main {
+      display: flex;
+      flex-direction: column; } }
 
 .flex-container {
   display: flex;

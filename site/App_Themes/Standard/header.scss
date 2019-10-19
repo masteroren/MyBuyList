@@ -52,6 +52,158 @@
 
         .search {
             width: 100%;
+
+            .search-box {
+
+                .search-btn {
+                }
+
+                input {
+                    border: none;
+                    font-size: large;
+                }
+
+                select {
+                    border: none;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
+        height: 50px;
+
+        .header-top {
+            align-self: flex-start;
+
+            .links {
+                display: none;
+            }
+        }
+
+        .header-bottom {
+            margin-top: 10px;
+
+            .logo {
+                display: none;
+            }
+
+            .search {
+                display: flex;
+                justify-content: center;
+
+
+                .search-box {
+                    height: 35px;
+
+                    .search-filter {
+                        display: none;
+                    }
+
+                    .search-btn {
+                    }
+
+                    input {
+                        width: 100%;
+                    }
+
+                    select {
+                    }
+                }
+            }
+        }
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        height: 50px;
+
+        .header-top {
+            align-self: center;
+            width: 80%;
+
+            .links {
+            }
+        }
+
+        .header-bottom {
+            margin-top: 10px;
+            justify-content: center;
+
+            .logo {
+                display: none;
+            }
+
+            .search {
+                display: flex;
+                justify-content: center;
+                width: 80%;
+
+                .search-box {
+                    height: 35px;
+
+                    .search-filter {
+                        display: none;
+                    }
+
+                    .search-btn {
+                    }
+
+                    input {
+                        width: 100%;
+                    }
+
+                    select {
+                    }
+                }
+            }
+        }
+    }
+
+    @media only screen and (min-device-width: 1024px) and (max-device-width: 1200px) {
+        height: 90px;
+
+        .header-top {
+            align-self: center;
+            width: 80%;
+        }
+
+        .header-bottom {
+            margin-top: 10px;
+            justify-content: center;
+
+            .logo {
+                display: block;
+
+                img {
+                    width: 70px;
+                }
+            }
+
+            .search {
+                display: flex;
+                justify-content: center;
+                width: 80%;
+
+                .search-box {
+                    height: 35px;
+
+                    .search-filter {
+                        display: none;
+                    }
+
+                    .search-btn {
+                    }
+
+                    input {
+                        width: 100%;
+                    }
+
+                    select {
+                    }
+                }
+            }
         }
     }
 }

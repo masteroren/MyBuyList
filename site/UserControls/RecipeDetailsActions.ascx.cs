@@ -1,6 +1,7 @@
 ﻿using MyBuyList.Shared;
 using MyBuyListShare.Classes;
 using System;
+using System.Threading.Tasks;
 using System.Web;
 
 public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserControl
@@ -12,6 +13,10 @@ public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserContr
         {
             recipeId = value;
             HyperLink1.NavigateUrl = string.Format("~/RecipeEdit.aspx?recipeId={0}", value);
+        }
+        get
+        {
+            return recipeId;
         }
     }
 
@@ -48,5 +53,13 @@ public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserContr
     protected void btnCopyRecipe_Click(object sender, EventArgs e)
     {
 
+    }
+
+    // Delete Recipe
+    protected void LinkButton1_Click(object sender, EventArgs e)
+    {
+        Task<string> t = HttpHelper.Delete(string.Format("recipes/{0}", RecipeId));
+        t.Wait();
+        Response.Redirect("Recipes.aspx");
     }
 }

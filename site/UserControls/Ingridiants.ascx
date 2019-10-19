@@ -56,16 +56,16 @@
                 <asp:Panel ID="ingredientsContainer" runat="server" CssClass="ingredients-container ingredients ingredientsEditable">
                     <asp:ListView ID="ListView1" runat="server">
                         <ItemTemplate>
-                            <div class="list-item list-item-<%# Eval("id")%>">
+                            <div class="list-item list-item-<%# Eval("foodId")%>">
                                 <asp:LinkButton ID="LinkButton1" runat="server"
                                     CssClass="list-btn edit-ingrediant hide-on-logout"
                                     OnClick="LinkButton1_Click"
-                                    CommandArgument='<%# Eval("id")%>'
+                                    CommandArgument='<%# Eval("foodId")%>'
                                     Text="<%$ Resources:MyGlobalResources, Edit%>"></asp:LinkButton>
                                 <asp:LinkButton ID="LinkButton2" runat="server"
                                     CssClass="list-btn delete-ingrediant hide-on-logout"
                                     OnClick="LinkButton2_Click"
-                                    CommandArgument='<%# Eval("id")%>'
+                                    CommandArgument='<%# Eval("foodId")%>'
                                     Text="<%$ Resources:MyGlobalResources, Delete%>"></asp:LinkButton>
                                 <span class="display-name"><%# Eval("displayName")%></span>
                             </div>

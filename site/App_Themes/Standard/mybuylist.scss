@@ -8,27 +8,19 @@
     background-repeat: repeat-y;
     background-position: center top;
     direction: rtl;
-    /*padding: 0px 5px;*/
-}
 
-.search-box {
-
-    .search-btn {
+    .main {
+        margin: 0 auto;
+        max-width: 982px;
     }
 
-    input {
-        border: none;
-        font-size: large;
-    }
-
-    select {
-        border: none;
-        margin-left: 10px;
-        margin-right: 10px;
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        .main {
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
-
-
 
 .flex-container {
     display: flex;
@@ -54,4 +46,3 @@
 [flex-grow="1"] {
     flex: 1;
 }
-

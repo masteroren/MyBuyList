@@ -29,7 +29,7 @@ div.add-recipe {
     cursor: pointer;
 }
 
-.main_wrapper {
+/*.main_wrapper {
     background-image: url('../../Images/bgr.jpg');
     background-repeat: repeat-y;
     background-position: center top;
@@ -38,8 +38,8 @@ div.add-recipe {
 
 .main {
     margin: 0 auto;
-    width: 982px;
-}
+    max-width: 982px;
+}*/
 
 /*Header*/
 /*#header {
@@ -494,13 +494,13 @@ a.recipe_forum_link {
     padding: 10px 3px 24px 6px;
 }
 
-    .recipe_list div.pager {
+    /*.recipe_list div.pager {
         width: 540px;
         text-align: right;
         direction: ltr;
         margin-bottom: 18px;
         padding-right: 5px;
-    }
+    }*/
 
     .recipe_list div.published_date {
         width: 110px;
@@ -826,12 +826,12 @@ div.field_row {
         max-width: 298px;
     }
 
-.recipe_video {
+/*.recipe_video {
     text-align: left;
     height: auto;
     width: 444px;
     margin-top: 50px;
-}
+}*/
 
 #recipe_bottom_left_corner {
     float: right;
@@ -1169,43 +1169,43 @@ td.mealDetails_mealNames {
     color: #656565;
 }*/
 
-.myFavoritesTopTag {
+/*.myFavoritesTopTag {
     background-image: url('../../Images/icon_Add.jpg');
     background-repeat: no-repeat;
     height: 43px;
     width: 126px;
-    margin-left: 9px;
     font-weight: bold;
     float: right;
-}
+    background-position: -69px;
+}*/
 
-#allFavoritesTopTag {
+/*#allFavoritesTopTag {
     background-image: url('../../Images/icon_LoveRecipe.jpg');
     background-repeat: no-repeat;
     height: 30px;
     width: 106px;
-    margin-left: 9px;
     font-weight: bold;
     font-size: 10px;
     color: White;
     float: right;
     padding-top: 13px;
     padding-right: 20px;
-}
+    background-position: -69px;
+}*/
 
-#allMenusTopTag {
+/*#allMenusTopTag {
     background-image: url('../../Images/icon_InMenu.jpg');
     background-repeat: no-repeat;
     height: 28px;
     width: 106px;
-    margin-left: 9px;
     font-weight: bold;
     font-size: 10px;
     color: White;
     float: right;
     padding-top: 15px;
     padding-right: 20px;
-}
+    background-position: -69px;
+}*/
 
 .myFavoritesInfoTag {
     background-image: url('../../Images/icon_Add_small.jpg');

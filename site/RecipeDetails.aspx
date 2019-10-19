@@ -60,37 +60,44 @@
     <div style="clear: both; height: 1px;">
     </div>
     <div class="recipe-details">
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" ClientIDMode="Static">
             <ContentTemplate>
-                <div class="recipe-name-wrapper">
-                    <div class="recipe_name">
-                        <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/Header_Recipe.png" Style="margin-left: 11px;" />
-                        <div>
-                            <asp:Label ID="lblRecipeName" runat="server" />
+                <div class="recipe-top">
+                    <div class="recipe-name-wrapper">
+                        <div class="recipe_name">
+                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/Header_Recipe.png" Style="margin-left: 11px;" />
+                            <div>
+                                <asp:Label ID="lblRecipeName" runat="server" />
+                            </div>
                         </div>
+                        <MBL:AddRecipeButton runat="server" ID="AddRecipeButton" />
                     </div>
-                    <MBL:AddRecipeButton runat="server" ID="AddRecipeButton" />
-                </div>
-                <%--<asp:UpdatePanel ID="upTopTags" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                    <ContentTemplate>--%>
-                        <div class="top-tags-wrapper">
-                            <div class="top-tags">
+                    <div class="top-tags-wrapper">
+                        <div class="top-tags">
+                            <div class="top-tag">
                                 <div id="myFavoritesTopTag" runat="server" class="myFavoritesTopTag">
                                 </div>
+                                <asp:Label ID="Label9" runat="server" Text="קיים באוסף שלי" CssClass="top-tag-text"></asp:Label>
+                            </div>
+                            <div class="top-tag">
                                 <div id="allFavoritesTopTag">
                                     <div style="width: 20px; text-align: center;">
                                         <asp:Label ID="lblAllFavorites" runat="server" />
                                     </div>
                                 </div>
+                                <asp:Label ID="Label10" runat="server" Text="גולשים הוסיפו מתכון זה" CssClass="top-tag-text"></asp:Label>
+                            </div>
+                            <div class="top-tag">
                                 <div id="allMenusTopTag">
                                     <div style="width: 20px; text-align: center;">
                                         <asp:Label ID="lblAllMenus" runat="server" />
                                     </div>
                                 </div>
+                                <asp:Label ID="Label11" runat="server" Text="תפריטים כוללים מתכון זה" CssClass="top-tag-text"></asp:Label>
                             </div>
                         </div>
-                    <%--</ContentTemplate>
-                </asp:UpdatePanel>--%>
+                    </div>
+                </div>
                 <div style="height: 15px;"></div>
                 <div class="recipe-wrapper">
                     <div class="recipe-wrapper__top">
@@ -108,7 +115,7 @@
                                 </div>
                                 <div class="recipe-publisher-box m-t-10">
                                     <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י' CssClass="m-l-5"></asp:Label>
-                                    <asp:HyperLink ID="lnkPublisher" runat="server" NavigateUrl="" CssClass="published_value"></asp:HyperLink>&nbsp;&nbsp;&nbsp;
+                                    <asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value"></asp:HyperLink>&nbsp;&nbsp;&nbsp;
                                 <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך' CssClass="m-l-5"></asp:Label>
                                     <asp:Label ID="lblPublishDate" runat="server" CssClass="published_value"></asp:Label>
                                 </div>
@@ -147,22 +154,27 @@
                                             </div>
                                         </div>
                                     </div>--%>
-
                                 </div>
 
                                 <div class="recipe-picture">
                                     <div class="recipe-picture__tags">
-                                        <div id="servingsInfoTag" class="tag">
-                                            <asp:Label ID="lblServNumber" runat="server" />
+                                        <div class="tag">
+                                            <div id="servingsInfoTag" class="tag-image">
+                                            </div>
+                                            <asp:Label ID="lblServNumber" runat="server" CssClass="tag-text" />
                                         </div>
-                                        <div id="prepTimeInfoTag" class="tag">
-                                            <asp:Label ID="lblPrepTime" runat="server" />
+                                        <div class="tag">
+                                            <div id="prepTimeInfoTag" class="tag-image">
+                                            </div>
+                                            <asp:Label ID="lblPrepTime" runat="server" CssClass="tag-text" />
                                         </div>
-                                        <div id="cookTimeInfoTag" class="tag">
-                                            <asp:Label ID="lblCookTime" runat="server" />
+                                        <div class="tag">
+                                            <div id="cookTimeInfoTag" class="tag-image">
+                                            </div>
+                                            <asp:Label ID="lblCookTime" runat="server" CssClass="tag-text" />
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="recipe-picture__image">
                                         <asp:Image ID="imgRecipePicture" runat="server" BorderColor="#656565" BorderWidth="1px"
                                             BorderStyle="Solid" ImageUrl="~/Images/Img_Default.jpg" />
                                     </div>

@@ -67,7 +67,7 @@
                 </asp:UpdatePanel>
             </div>--%>
             <div class="recipes">
-                <asp:UpdatePanel ID="upRecipes" runat="server">
+                <asp:UpdatePanel ID="upRecipes" runat="server" ClientIDMode="Static">
                     <ContentTemplate>
                         <div class="recipe_list">
                             <asp:Repeater ID="rptRecipes" runat="server">

@@ -1,6 +1,7 @@
 ﻿using MyBuyList.BusinessLayer;
 using MyBuyList.Shared;
 using MyBuyList.Shared.Entities;
+using MyBuyListShare.Classes;
 using MyBuyListShare.Models;
 using ProperServices.Common.Log;
 using Resources;
@@ -24,17 +25,20 @@ public partial class ucRecipe : UserControl
     public int RecipeId;
     public RecipeModel recipe;
 
-    private List<ShortCategoryModel> selectedCategories;
     public List<ShortCategoryModel> SelectedCategories
     {
         set
         {
-            selectedCategories = value;
             if (value != null)
             {
                 string[] result = value.Select(item => item.categoryName).ToArray();
                 txtCategories.Text = string.Join(",", result);
+                ViewState["Categories"] = Json.JsonSerializer(value);
             }
+        }
+        get
+        {
+            return Json.JsonDeserializer<List<ShortCategoryModel>>(ViewState["Categories"].ToString());
         }
     }
 
@@ -50,8 +54,6 @@ public partial class ucRecipe : UserControl
         {
             string numberSeperator = ConfigurationManager.AppSettings["NumberSeperator"];
         }
-
-
     }
 
     public void NewRecipe()
@@ -242,7 +244,6 @@ public partial class ucRecipe : UserControl
                 txtRecipeDesc.Text = "";
                 txtTags.Text = "";
                 txtCategories.Text = "";
-                chkPublic.Checked = false;
                 txtPreparationMethod.Text = "";
                 txtRemarks.Text = "";
                 txtEmbeddedLink.Text = "";
@@ -345,43 +346,36 @@ public partial class ucRecipe : UserControl
             recipe.videoLink = this.txtEmbeddedLink.Text;
             //recipe.Picture = this.RecipePicture;
             recipe.ingrediants = Ingridiants.Ingrediants;
-            recipe.categories = selectedCategories;
+            recipe.categories = SelectedCategories;
+
+            recipe.createDate = DateTime.Now;
+            recipe.modifyDate = DateTime.Now;
 
             if (recipe.userId == 0)
             {
                 recipe.userId = ((BasePage)Page).UserId;
             }
 
-            int returnedRecipeId;
-
-            HttpHelper.Post<RecipeModel>("recipes", recipe);
-
-            //if (BusinessFacade.Instance.SaveRecipe(recipe, Ingridiants.ListOfIngediants, RecipeCategories.ToList(), isNewRecipe, out returnedRecipeId))
-            //{
-            //    if (RefreshData != null)
-            //    {
-            //        RefreshData.Invoke();
-            //    }
-            //}
+            if (RecipeId == 0)
+            {
+                RecipeId = HttpHelper.Post<RecipeModel>("recipes", recipe);
+            }
+            else
+            {
+                HttpHelper.Put<RecipeModel>("recipes", recipe);
+            }
 
             Logger.Write("btnSave_Click -> End and redirect", Logger.Level.Info);
 
             //RecipeCategories = null;
 
-            //if (returnedRecipeId != 0)
-            //{
-            //    Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", returnedRecipeId));
-            //}
+            if (RecipeId != -1)
+            {
+                Response.Redirect(string.Format("~/RecipeDetails.aspx?RecipeId={0}", RecipeId));
+            }
         }
         catch (Exception ex)
         {
-            //string Source = "MyBuyList";
-            //if (!EventLog.SourceExists(Source))
-            //{
-            //    EventLog.CreateEventSource(Source, "Application");
-            //}
-            //EventLog.WriteEntry(Source, ex.Message, EventLogEntryType.Error);
-
             Logger.Write("Save recipe failed", ex, Logger.Level.Error);
         }
     }

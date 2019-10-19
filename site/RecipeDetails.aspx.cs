@@ -7,6 +7,7 @@ using MyBuyListShare.Services;
 using ProperControls.General;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web.UI;
@@ -37,7 +38,7 @@ public partial class PageRecipeDetails : BasePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
 
         //AuthService.Instance.login.Subscribe(userInfo =>
         //{
@@ -58,19 +59,19 @@ public partial class PageRecipeDetails : BasePage
         //SetDrives();
         //SetCategories();
 
+        RecipeId = int.Parse(Request["recipeId"]);
+        RecipeDetailsActions.RecipeId = RecipeId;
+        RecipeDetailsActions2.RecipeId = RecipeId;
+
         if (!IsPostBack)
         {
-            RecipeId = int.Parse(Request["recipeId"]);
             hfRecipeId.Value = RecipeId.ToString();
 
             RecipeModel currRecipe = HttpHelper.Get<RecipeModel>(string.Format("recipes/{0}", RecipeId));
             Rebind(currRecipe);
-
-            RecipeDetailsActions.RecipeId = RecipeId;
             RecipeDetailsActions.RecipeOwnerID = currRecipe.userId;
-
-            RecipeDetailsActions2.RecipeId = RecipeId;
             RecipeDetailsActions2.RecipeOwnerID = currRecipe.userId;
+
 
             //FBUrl = Request.Url.AbsoluteUri;
 
@@ -287,8 +288,8 @@ public partial class PageRecipeDetails : BasePage
         //bool existInFavorites = false;
         //if (isValidUser)
         //{
-            //recipes[] ufrep = user.Recipes1.ToArray();
-            //existInFavorites = (ufrep != null);
+        //recipes[] ufrep = user.Recipes1.ToArray();
+        //existInFavorites = (ufrep != null);
         //}
 
         //lblAddToFavoritesSeparator.Visible = isValidUser;
@@ -300,10 +301,10 @@ public partial class PageRecipeDetails : BasePage
 
         //if ((isValidUser) && (((BasePage)Page).UserType == 1))
         //{
-            //btnCopyRecipe.Visible = true;
-            //btnCopyRecipe_bottom.Visible = true;
-            //lblSeparator3.Visible = true;
-            //lblSeparator3_bottom.Visible = true;
+        //btnCopyRecipe.Visible = true;
+        //btnCopyRecipe_bottom.Visible = true;
+        //lblSeparator3.Visible = true;
+        //lblSeparator3_bottom.Visible = true;
         //}
 
         //btnSendMail.Visible = isValidUser;
@@ -331,15 +332,15 @@ public partial class PageRecipeDetails : BasePage
 
         //if (!isSelectedRecipe)
         //{
-            //blkAddRemove.Text = "הוסף לרשימת קניות";
-            //blkAddRemove_bottom.Text = "הוסף לרשימת קניות";
+        //blkAddRemove.Text = "הוסף לרשימת קניות";
+        //blkAddRemove_bottom.Text = "הוסף לרשימת קניות";
         //}
         //else
         //{
-            //blkAddRemove.Text = "הסר מרשימת קניות";
-            //blkAddRemove_bottom.Text = "הסר מרשימת קניות";
-            //blkAddRemove.Style["color"] = "Red";
-            //blkAddRemove_bottom.Style["color"] = "Red";
+        //blkAddRemove.Text = "הסר מרשימת קניות";
+        //blkAddRemove_bottom.Text = "הסר מרשימת קניות";
+        //blkAddRemove.Style["color"] = "Red";
+        //blkAddRemove_bottom.Style["color"] = "Red";
         //}
 
         //bool isCompleteCalculation = false;
@@ -380,8 +381,8 @@ public partial class PageRecipeDetails : BasePage
         //    this.recipe_video.Visible = false;
         //}
 
-        //this.lnkPublisher.Text = recipe.publishedBy;
-        //this.lblPublishDate.Text = recipe.modifyDate.ToString("dd/MM/yyyy");
+        this.lnkPublisher.Text = recipe.publishedBy;
+        this.lblPublishDate.Text = recipe.createDate.ToString("d",new CultureInfo("he-IL"));
 
         //string userEmail = string.Empty;
         //users currentUser = BusinessFacade.Instance.GetUser(((BasePage)this.Page).UserId);

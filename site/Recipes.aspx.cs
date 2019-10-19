@@ -272,7 +272,7 @@ public partial class Recipes : BasePage
             categoryId = Convert.ToInt32(e.category);
         }
 
-        RebindCategories();
+        //RebindCategories();
         RebindRecipes();
     }
 
@@ -331,8 +331,8 @@ public partial class Recipes : BasePage
 
             bool isEnd = false, isStart = false;
 
-            int startPage = 20 * ((CurrentPage - 1) / 20) + 1;
-            int endpage = 20 * ((CurrentPage - 1) / 20) + 20;
+            int startPage = 10 * ((CurrentPage - 1) / 10) + 1;
+            int endpage = 10 * ((CurrentPage - 1) / 10) + 10;
 
             if (startPage == 1)
             {
@@ -347,7 +347,7 @@ public partial class Recipes : BasePage
             if (!isStart)
             {
                 LinkButton lnkArrow = new LinkButton();
-                lnkArrow.CommandArgument = (startPage - 20).ToString();
+                lnkArrow.CommandArgument = (startPage - 10).ToString();
                 lnkArrow.Click += LnkPage_Click;
 
                 lnkArrow.Font.Size = FontUnit.Larger;
@@ -385,7 +385,7 @@ public partial class Recipes : BasePage
             if (!isEnd)
             {
                 LinkButton lnkArrow = new LinkButton();
-                lnkArrow.CommandArgument = (startPage + 20).ToString();
+                lnkArrow.CommandArgument = (startPage + 10).ToString();
                 lnkArrow.Click += LnkPage_Click;
 
                 lnkArrow.Font.Size = FontUnit.Larger;

@@ -75,8 +75,7 @@
         <li class="hide-on-logout">
             <asp:PlaceHolder ID="PlaceHolder2" runat="server">
                 <asp:Label ID="Label3" runat="server">|</asp:Label>
-                <asp:LinkButton ID="LinkButton1" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'></asp:LinkButton>
-                <%--<a id="removeRecipe" class="remove">מחיקה</a>--%>
+                <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click" Text='<%$ Resources:MyGlobalResources, Delete %>'></asp:LinkButton>
                 <asp:Label ID="lblDeleteRecipeDisabled" runat="server" Text='<%$ Resources:MyGlobalResources, Delete %>'
                     Font-Underline="true" ForeColor="LightGray" Visible="false" />
             </asp:PlaceHolder>

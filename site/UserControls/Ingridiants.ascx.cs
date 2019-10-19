@@ -20,8 +20,12 @@ public partial class UserControls_Ingridiants : UserControl
         }
         get
         {
-            IngrediantModelContainer ingrediantModelContainer = Json.JsonDeserializer<IngrediantModelContainer>((string)ViewState["Ingrediants"]);
-            return ingrediantModelContainer.ingrediants;
+            if (ViewState["Ingrediants"] != null)
+            {
+                IngrediantModelContainer ingrediantModelContainer = Json.JsonDeserializer<IngrediantModelContainer>((string)ViewState["Ingrediants"]);
+                return ingrediantModelContainer.ingrediants;
+            }
+            return null;
         }
     }
 
@@ -55,10 +59,17 @@ public partial class UserControls_Ingridiants : UserControl
         ddlMeasurementUnits.DataBind();
     }
 
-    private bool IsExist(int id)
+    private bool IsExist()
     {
+
+        if (Ingrediants == null || Ingrediants.Count == 0)
+        {
+            Ingrediants = new List<IngrediantModel>();
+            return false;
+        }
+
         List<IngrediantModel> ingrediants = Ingrediants;
-        IngrediantModel f = ingrediants.Find(item => item.id == id);
+        IngrediantModel f = ingrediants.Find(item => item.foodId == Convert.ToInt32(IngridiantId.Value));
         return f != null;
     }
 
@@ -71,10 +82,10 @@ public partial class UserControls_Ingridiants : UserControl
     private void ModifyIngrediant()
     {
         List<IngrediantModel> ingrediants = Ingrediants;
-        IngrediantModel SelectedIngrediant = ingrediants.Find(item => item.id == Convert.ToInt32(ViewState["SelectedIngrediantId"]));
+        IngrediantModel SelectedIngrediant = ingrediants.Find(item => item.foodId == Convert.ToInt32(IngridiantId.Value));
         if (SelectedIngrediant != null)
         {
-            int quantity0 = Convert.ToInt32(TextBox1.Text);
+            int quantity0 = TextBox1.Text == "" ? 0 : Convert.ToInt32(TextBox1.Text);
             decimal quantity1 = Convert.ToDecimal(ddlFractions.SelectedValue, CultureInfo.CreateSpecificCulture("he-IL"));
             SelectedIngrediant.quantity = quantity0 + quantity1;
             SelectedIngrediant.quantity0 = quantity0;
@@ -93,34 +104,36 @@ public partial class UserControls_Ingridiants : UserControl
     // Add Ingrediant
     protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
     {
-        if (TextBox1.Text == "" || IngridiantName.Text == "")
+        if ((TextBox1.Text == "" || ddlFractions.SelectedValue == "") && IngridiantName.Text == "")
         {
             return;
         }
 
-        int id = Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value);
-        if (IsExist(Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value)))
+        int id = 0;
+        if (IsExist())
         {
             ModifyIngrediant();
         } else
         {
-            int quantity0 = Convert.ToInt32(TextBox1.Text);
+            int quantity0 = TextBox1.Text == "" ? 0 : Convert.ToInt32(TextBox1.Text);
             decimal quantity1 = Convert.ToDecimal(ddlFractions.SelectedValue, CultureInfo.CreateSpecificCulture("he-IL"));
 
             IngrediantModel ingrediantModel = new IngrediantModel
             {
-                id = id,
+                id = ++id,
                 quantity = quantity0 + quantity1,
                 quantity0 = quantity0,
                 quantity1 = quantity1,
                 unit = ddlMeasurementUnits.SelectedItem.Text,
                 unitId = Convert.ToInt32(ddlMeasurementUnits.SelectedItem.Value),
                 name = IngridiantName.Text,
-                foodId = Convert.ToInt32(IngridiantId.Value)
+                foodId = Convert.ToInt32(IngridiantId.Value),
+                howTo = txtFoodRemark.Text
             };
             List<IngrediantModel> ingrediants = Ingrediants;
             ingrediants.Add(ingrediantModel);
             Ingrediants = ingrediants;
+            Clear();
         }
     }
 
@@ -129,8 +142,8 @@ public partial class UserControls_Ingridiants : UserControl
     {
         string id = ((LinkButton)sender).CommandArgument;
         List<IngrediantModel> ingrediants = Ingrediants;
-        IngrediantModel ingrediantModel = ingrediants.Find(item => item.id == Convert.ToInt32(id));
-        TextBox1.Text = ingrediantModel.quantity0.ToString();
+        IngrediantModel ingrediantModel = ingrediants.Find(item => item.foodId == Convert.ToInt32(id));
+        TextBox1.Text = ingrediantModel.quantity0 == 0 ? "" : ingrediantModel.quantity0.ToString();
         ddlFractions.SelectedValue = ingrediantModel.quantity1 == 0 ? "0" : ingrediantModel.quantity1.ToString("F", CultureInfo.CreateSpecificCulture("he-IL"));
         ddlMeasurementUnits.SelectedValue = ingrediantModel.unitId.ToString();
         IngridiantName.Text = ingrediantModel.name;
@@ -138,6 +151,7 @@ public partial class UserControls_Ingridiants : UserControl
         ImageButton1.Visible = false;
         ImageButton2.Visible = true;
         ViewState["SelectedIngrediantId"] = ingrediantModel.id.Value;
+        IngridiantId.Value = ingrediantModel.foodId.ToString();
     }
 
     // Delete
@@ -145,7 +159,7 @@ public partial class UserControls_Ingridiants : UserControl
     {
         string id = ((LinkButton)sender).CommandArgument;
         List<IngrediantModel> ingrediants = Ingrediants;
-        int indx = ingrediants.FindIndex(item => item.id == Convert.ToInt32(id));
+        int indx = ingrediants.FindIndex(item => item.foodId == Convert.ToInt32(id));
         ingrediants.RemoveAt(indx);
         Ingrediants = ingrediants;
         ImageButton1.Visible = true;

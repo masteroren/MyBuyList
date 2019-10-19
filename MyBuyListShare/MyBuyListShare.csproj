@@ -70,6 +70,7 @@
     <Compile Include="Models\Ingrediant.cs" />
     <Compile Include="Classes\Metadata.cs" />
     <Compile Include="Models\Recipe.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\UnitModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthService.cs" />

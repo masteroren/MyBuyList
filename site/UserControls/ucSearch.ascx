@@ -20,7 +20,7 @@
 
 <div class="search-box flex-container">
     <asp:TextBox ID="TextBoxSearchValue" runat="server" CssClass="search-value" flex-grow="1"></asp:TextBox>
-    <div>
+    <div class="search-filter">
         <asp:DropDownList ID="SearchType" runat="server" CssClass="search-category" DataTextField="value" DataValueField="key">
             <asp:ListItem Value="1">מתכונים</asp:ListItem>
             <asp:ListItem Value="2" class="show-on-logged-in">המתכונים שלי</asp:ListItem>

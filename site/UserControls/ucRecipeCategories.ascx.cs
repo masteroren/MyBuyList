@@ -12,18 +12,8 @@ public class SaveEventArgs
 
 public partial class ucRecipeCategories : System.Web.UI.UserControl
 {
-    protected int? RecipeId
-    {
-        get
-        {
-            int recipeId;
-
-            if (string.IsNullOrEmpty(Request["recipeId"]) || !int.TryParse(Request["recipeId"], out recipeId))
-                return null;
-            else
-                return recipeId;
-        }
-    }
+    public int RecipeId;
+    public RecipeModel recipe;
 
     public delegate void SaveEventHandler(object sender, SaveEventArgs e);
     public event SaveEventHandler SaveClick;
@@ -32,8 +22,10 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-                RecipeModel recipe = HttpHelper.Get<RecipeModel>(string.Format("recipes/{0}", RecipeId));
-        recipeCategories = recipe.categories;
+        if (recipe != null)
+        {
+            recipeCategories = recipe.categories;
+        }
 
         if (!IsPostBack)
         {
@@ -53,7 +45,7 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
         {
             TreeNode node = new TreeNode(category.CategoryName, category.CategoryId.ToString());
 
-            if (recipeCategories.Find(a => a.categoryId == category.CategoryId) != null)
+            if (recipeCategories != null && recipeCategories.Find(a => a.categoryId == category.CategoryId) != null)
             {
                 node.Checked = true;
             }
@@ -91,6 +83,7 @@ public partial class ucRecipeCategories : System.Web.UI.UserControl
                 SelectedCategories = selectedCategories
             });
         }
+
         mpeCategories.Hide();
     }
 }

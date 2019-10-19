@@ -78,6 +78,8 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
 
     public void FillList(IEnumerable<CategoryModel> categoryList)
     {
+        if (categoryList == null) { return; }
+
         lstCategories.Items.Clear();
         lstCategories.Items.Add(new ListItem("בחר קטגוריה"));
 
