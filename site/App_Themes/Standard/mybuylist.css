@@ -14,6 +14,47 @@
       display: flex;
       flex-direction: column; } }
 
+.drawer {
+  display: none; }
+  .drawer .drawer-trigger {
+    position: absolute; }
+    .drawer .drawer-trigger input {
+      width: 20px;
+      padding: 7px 0 0 10px; }
+  .drawer .drawer-panel {
+    width: 75%;
+    background-color: #ededed;
+    height: 100%;
+    position: absolute;
+    top: 2px;
+    z-index: 10; }
+    .drawer .drawer-panel .panel-close-trigger {
+      display: flex;
+      flex-direction: row-reverse; }
+      .drawer .drawer-panel .panel-close-trigger input {
+        width: 16px;
+        padding: 7px 7px 0 0; }
+    .drawer .drawer-panel .navigation-links {
+      display: flex;
+      flex-direction: column;
+      direction: rtl;
+      text-decoration: none;
+      font-size: x-large;
+      height: 100px;
+      justify-content: space-between;
+      margin: 10px;
+      align-items: flex-end; }
+      .drawer .drawer-panel .navigation-links .link {
+        display: flex; }
+        .drawer .drawer-panel .navigation-links .link .link-text {
+          color: gray; }
+        .drawer .drawer-panel .navigation-links .link img {
+          width: 20px;
+          margin-right: 10px; }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
+    .drawer {
+      display: inline; } }
+
 .flex-container {
   display: flex;
   height: auto; }

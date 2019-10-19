@@ -22,6 +22,67 @@
     }
 }
 
+.drawer {
+    display: none;
+
+    .drawer-trigger {
+        position: absolute;
+
+        input {
+            width: 20px;
+            padding: 7px 0 0 10px;
+        }
+    }
+
+    .drawer-panel {
+        width: 75%;
+        background-color: #ededed;
+        height: 100%;
+        position: absolute;
+        top: 2px;
+        z-index: 10;
+
+        .panel-close-trigger {
+            display: flex;
+            flex-direction: row-reverse;
+
+            input {
+                width: 16px;
+                padding: 7px 7px 0 0;
+            }
+        }
+
+        .navigation-links {
+            display: flex;
+            flex-direction: column;
+            direction: rtl;
+            text-decoration: none;
+            font-size: x-large;
+            height: 100px;
+            justify-content: space-between;
+            margin: 10px;
+            align-items: flex-end;
+
+            .link {
+                display: flex;
+
+                .link-text {
+                    color: gray;
+                }
+
+                img {
+                    width: 20px;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
+        display: inline;
+    }
+}
+
 .flex-container {
     display: flex;
     height: auto;
