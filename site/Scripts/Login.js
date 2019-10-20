@@ -6,6 +6,9 @@
     };
 
     $("#popuplogin").dialog({
+        classes: {
+            "ui-dialog": "login-dialog"
+        },
         autoOpen: false,
         title: "כניסת חברים",
         width: 400,
@@ -17,11 +20,6 @@
         buttons: {
             "אישור": () => { login(); },
             "ביטול": () => { closeLogin(); }
-        },
-        open: () => {
-            $('.ui-dialog-title').css('float', 'right');
-            $('.ui-dialog-title').css('margin-right', '20px');
-            $('.ui-dialog-titlebar').css('width', '92%');
         }
     });
 

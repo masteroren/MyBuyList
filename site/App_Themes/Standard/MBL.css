@@ -1574,7 +1574,7 @@ a.article_published_value {
         margin-left: 3px;
     }*/
 
-#popuplogin {
+/*#popuplogin {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1594,7 +1594,7 @@ a.article_published_value {
 
     #popuplogin img {
         width: 100px;
-    }
+    }*/
 
 
 
@@ -1627,7 +1627,6 @@ a.article_published_value {
             list-style-type: none;
             float: right;
             padding-right: 54px;
-            /*padding-left: 112px;*/
             padding-left: 10%;
         }
 
@@ -1654,9 +1653,6 @@ a.article_published_value {
         right: -50px;
         z-index: 1;
     }
-    /*#mbl_logo img {
-            width: 80%;
-        }*/
 }
 
 /*Tablets (Portrate)*/

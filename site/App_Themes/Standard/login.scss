@@ -1,0 +1,57 @@
+﻿.login-dialog {
+
+    .ui-dialog-titlebar {
+        direction: rtl;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .ui-dialog-title {
+            float: none;
+        }
+
+        .ui-button {
+            position: relative;
+        }
+    }
+
+    .ui-dialog-buttonpane {
+        display: flex;
+    }
+
+    #popuplogin {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .credentials {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            margin-right: 10px;
+            flex: 1;
+
+            label {
+                display: flex;
+                flex-direction: column;
+            }
+
+            input {
+                width: auto;
+                text-align: right;
+            }
+        }
+
+        img {
+            width: 100px;
+        }
+    }
+
+
+    @media only screen and (max-device-width: 1024px) and (orientation: portrait) {
+        width: 90% !important;
+        top: 30px !important;
+        position: fixed;
+    }
+}

@@ -36,6 +36,7 @@
         <MBL:Drawer runat="server" ID="Drawer" />
 
         <MBL:ucPopupLogin runat="server" ID="ucPopupLogin" />
+
         <div class="main_wrapper">
             <div class="main">
                 <proper:DisappearingMessage runat="server" ID="DisappearingMessage1" />

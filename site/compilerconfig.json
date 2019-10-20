@@ -34,5 +34,9 @@
   {
     "outputFile": "App_Themes/Standard/ingrediants.css",
     "inputFile": "App_Themes/Standard/ingrediants.scss"
+  },
+  {
+    "outputFile": "App_Themes/Standard/login.css",
+    "inputFile": "App_Themes/Standard/login.scss"
   }
 ]
