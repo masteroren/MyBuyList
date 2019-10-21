@@ -17,7 +17,7 @@
 
 <style>
     .add-recipe {
-        padding-left: 20px;
+        /*padding-left: 20px;*/
     }
 </style>
 
