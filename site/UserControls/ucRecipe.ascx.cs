@@ -644,7 +644,7 @@ public partial class ucRecipe : UserControl
         this.txtTools.ReadOnly = ReadOnly;
         bool visible = !ReadOnly;
         //this.btnCategories.Visible = visible;
-        this.divOptions.Visible = visible;
+        //this.divOptions.Visible = visible;
         //this.UpdatePanel3.Visible = visible;
         //this.UpdatePanel4.Visible = visible;
         //this.divIngredients.Visible = visible;

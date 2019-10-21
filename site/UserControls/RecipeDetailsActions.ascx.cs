@@ -20,15 +20,18 @@ public partial class UserControls_RecipeDetailsActions : System.Web.UI.UserContr
         }
     }
 
+    public bool Me;
+
     public int RecipeOwnerID;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         UserInfo userInfo = (UserInfo)HttpContext.Current.Session[AppConstants.CURR_USER];
         bool me = userInfo != null && userInfo.UserId == RecipeOwnerID;
-        PlaceHolder1.Visible = me;
-        PlaceHolder2.Visible = me;
-        PlaceHolder3.Visible = me;
+        Me = me;
+        HyperLink1.Visible = me;
+        LinkButton1.Visible = me;
+        btnCopyRecipe.Visible = me;
     }
 
     protected void blkAddRemove_Click(object sender, EventArgs e)

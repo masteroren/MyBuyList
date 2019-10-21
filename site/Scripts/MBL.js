@@ -1,4 +1,7 @@
 ﻿$(document).ready(function () {
+    registerToLoginNotifications((loginNotification) => {
+        console.log('mbl => login notification (recipes)', loginNotification);
+    });
 });
 
 var isIE = document.all ? true : false;

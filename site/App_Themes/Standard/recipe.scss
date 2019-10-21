@@ -3,14 +3,17 @@
     flex-direction: column;
     padding: 20px;
 
+    .m-b-10 {
+        margin-bottom: 10px;
+    }
+
     .recipe-body {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
 
-        .recipe-details {
+        .recipe-edit-details {
             display: flex;
-            flex-direction: column;
             min-height: 320px;
             justify-content: space-between;
             margin-top: 20px;
@@ -18,11 +21,35 @@
             &__col {
                 display: flex;
                 flex-direction: column;
+
+                &.check-box {
+                    width: 100%;
+                    flex-direction: row;
+
+                    .chxBox_aligned {
+                        display: flex;
+
+                        &.mobile {
+                            display: none;
+                        }
+                    }
+                }
             }
 
             &__row {
                 display: flex;
                 justify-content: space-between;
+                flex-direction: column;
+                margin-top: 5px;
+
+                img {
+                    height: 15px;
+                    width: 120px;
+                }
+
+                select {
+                    width: 100%;
+                }
             }
         }
 
@@ -37,6 +64,87 @@
         display: flex;
         justify-content: flex-end;
         margin-top: 20px;
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 768px) and (orientation:portrait) {
+        .recipe-body {
+            .recipe-edit-details {
+                flex-direction: column;
+
+                &__col {
+                    img {
+                        width: 100px;
+                    }
+
+                    &.check-box {
+                        width: 100%;
+                        flex-direction: row;
+                        justify-content: space-between;
+
+                        input[type='checkbox'] {
+                            width: auto;
+                        }
+
+                        .chxBox_aligned {
+
+                            &.mobile {
+                                display: inline;
+                            }
+                        }
+                    }
+                }
+
+                &__row {
+                    flex-direction: column;
+
+                    select {
+                        width: 100% !important;
+                    }
+
+                    .time {
+                        width: 80px;
+                    }
+
+                    input[type='text'] {
+                        width: 100% !important;
+                    }
+
+                    textarea {
+                        width: 99% !important;
+                    }
+
+                    input[type='file'] {
+                        width: 100% !important;
+                    }
+
+                    &.categories {
+                        width: 100%;
+
+                        .categories-wrapper {
+                            width: 100%;
+                            display: flex;
+
+                            input[type='text'] {
+                                margin-top: 0;
+                                flex: 1;
+                            }
+
+                            input[type='image'] {
+                                width: 16px !important;
+                                height: 18px;
+                            }
+                        }
+                    }
+
+                    .chxBox_aligned {
+
+                        &.desktop {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

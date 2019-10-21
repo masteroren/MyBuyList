@@ -71,6 +71,8 @@
                     case 2:
                         loginBtn.html('יציאה');
                         $('.hello-user').html('שלום, ' + user.DisplayName);
+                        $('.on-login').show();
+                        $('.on-logout').hide();
                         $("#popuplogin").dialog('close');
                         break;
                 }
@@ -84,6 +86,7 @@
             }
             else {
                 alert('Login failed');
+                $('.login-trigger').hide();
 
                 notificatiosCallbacks.forEach((callback) => {
                     callback({
@@ -114,7 +117,8 @@
             $('.hello-user').html('שלום, אורח');
             ResetSearch(1);
             window.userId = null;
-            $('.hide-on-login').show();
+            $('.on-login').hide();
+            $('.on-logout').show();
 
             notificatiosCallbacks.forEach((callback) => {
                 callback({
@@ -129,7 +133,8 @@
         n.done((userInfo) => {
             if (userInfo !== '' && userInfo !== null) {
                 var user = $.parseJSON(userInfo);
-                $('.hide-on-login').hide();
+                $('.on-login').show();
+                $('.on-logout').hide();
                 notificatiosCallbacks.forEach((callback) => {
                     callback({
                         loggedIn: user !== null,
@@ -137,7 +142,8 @@
                     });
                 });
             } else {
-                $('.hide-on-login').show();
+                $('.on-login').hide();
+                $('.on-logout').show();
             }
         });
     })();

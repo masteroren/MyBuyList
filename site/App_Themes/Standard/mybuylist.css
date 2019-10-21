@@ -76,7 +76,32 @@
           margin-right: 10px; }
   @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
     .drawer {
-      display: inline; } }
+      display: inline; }
+      .drawer .recipe-actions {
+        text-align: left;
+        color: #666666;
+        height: 26px;
+        width: 100%; }
+        .drawer .recipe-actions ul.actions {
+          list-style-type: none;
+          width: 100%;
+          display: flex;
+          margin-right: 0;
+          padding-right: 0;
+          flex-direction: column; }
+          .drawer .recipe-actions ul.actions li {
+            margin: 7px 0; }
+            .drawer .recipe-actions ul.actions li a {
+              color: #fff;
+              text-decoration: none;
+              font-size: large; }
+            .drawer .recipe-actions ul.actions li a:after {
+              content: "";
+              margin: 0 5px; }
+            .drawer .recipe-actions ul.actions li span {
+              margin: 0 5px; }
+          .drawer .recipe-actions ul.actions li:last-child a:after {
+            content: ""; } }
 
 .flex-container {
   display: flex;

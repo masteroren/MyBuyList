@@ -115,6 +115,47 @@
 
     @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
         display: inline;
+
+        .recipe-actions {
+            text-align: left;
+            color: #666666;
+            height: 26px;
+            width: 100%;
+
+            ul.actions {
+                list-style-type: none;
+                width: 100%;
+                display: flex;
+                margin-right: 0;
+                padding-right: 0;
+                flex-direction: column;
+
+                li {
+                    margin: 7px 0;
+
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                        font-size: large;
+                    }
+
+                    a:after {
+                        content: "";
+                        margin: 0 5px;
+                    }
+
+                    span {
+                        margin: 0 5px;
+                    }
+                }
+
+                li:last-child {
+                    a:after {
+                        content: "";
+                    }
+                }
+            }
+        }
     }
 }
 

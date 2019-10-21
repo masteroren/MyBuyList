@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <asp:ImageButton ID="ImageButton1" runat="server" OnClick="ImageButton1_Click" CssClass="hide-on-logout" ImageUrl="~/Images/btn_AddProduct_up.png" />
+                    <asp:ImageButton ID="ImageButton1" runat="server" OnClick="ImageButton1_Click" CssClass="on-login" ImageUrl="~/Images/btn_AddProduct_up.png" />
                     <asp:ImageButton ID="ImageButton2" runat="server" OnClick="ImageButton2_Click" ImageUrl="~/Images/btn_EditProduct_up.png" Visible="false" />
                 </div>
             </div>
@@ -58,12 +58,12 @@
                         <ItemTemplate>
                             <div class="list-item list-item-<%# Eval("foodId")%>">
                                 <asp:LinkButton ID="LinkButton1" runat="server"
-                                    CssClass="list-btn edit-ingrediant hide-on-logout"
+                                    CssClass="list-btn edit-ingrediant on-login"
                                     OnClick="LinkButton1_Click"
                                     CommandArgument='<%# Eval("foodId")%>'
                                     Text="<%$ Resources:MyGlobalResources, Edit%>"></asp:LinkButton>
                                 <asp:LinkButton ID="LinkButton2" runat="server"
-                                    CssClass="list-btn delete-ingrediant hide-on-logout"
+                                    CssClass="list-btn delete-ingrediant on-login"
                                     OnClick="LinkButton2_Click"
                                     CommandArgument='<%# Eval("foodId")%>'
                                     Text="<%$ Resources:MyGlobalResources, Delete%>"></asp:LinkButton>

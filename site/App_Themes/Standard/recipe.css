@@ -2,22 +2,37 @@
   display: flex;
   flex-direction: column;
   padding: 20px; }
+  .recipe .m-b-10 {
+    margin-bottom: 10px; }
   .recipe .recipe-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between; }
-    .recipe .recipe-body .recipe-details {
+    .recipe .recipe-body .recipe-edit-details {
       display: flex;
-      flex-direction: column;
       min-height: 320px;
       justify-content: space-between;
       margin-top: 20px; }
-      .recipe .recipe-body .recipe-details__col {
+      .recipe .recipe-body .recipe-edit-details__col {
         display: flex;
         flex-direction: column; }
-      .recipe .recipe-body .recipe-details__row {
+        .recipe .recipe-body .recipe-edit-details__col.check-box {
+          width: 100%;
+          flex-direction: row; }
+          .recipe .recipe-body .recipe-edit-details__col.check-box .chxBox_aligned {
+            display: flex; }
+            .recipe .recipe-body .recipe-edit-details__col.check-box .chxBox_aligned.mobile {
+              display: none; }
+      .recipe .recipe-body .recipe-edit-details__row {
         display: flex;
-        justify-content: space-between; }
+        justify-content: space-between;
+        flex-direction: column;
+        margin-top: 5px; }
+        .recipe .recipe-body .recipe-edit-details__row img {
+          height: 15px;
+          width: 120px; }
+        .recipe .recipe-body .recipe-edit-details__row select {
+          width: 100%; }
     .recipe .recipe-body .recipe-link {
       display: flex;
       flex-direction: column;
@@ -26,6 +41,44 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 20px; }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 768px) and (orientation: portrait) {
+    .recipe .recipe-body .recipe-edit-details {
+      flex-direction: column; }
+      .recipe .recipe-body .recipe-edit-details__col img {
+        width: 100px; }
+      .recipe .recipe-body .recipe-edit-details__col.check-box {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between; }
+        .recipe .recipe-body .recipe-edit-details__col.check-box input[type='checkbox'] {
+          width: auto; }
+        .recipe .recipe-body .recipe-edit-details__col.check-box .chxBox_aligned.mobile {
+          display: inline; }
+      .recipe .recipe-body .recipe-edit-details__row {
+        flex-direction: column; }
+        .recipe .recipe-body .recipe-edit-details__row select {
+          width: 100% !important; }
+        .recipe .recipe-body .recipe-edit-details__row .time {
+          width: 80px; }
+        .recipe .recipe-body .recipe-edit-details__row input[type='text'] {
+          width: 100% !important; }
+        .recipe .recipe-body .recipe-edit-details__row textarea {
+          width: 99% !important; }
+        .recipe .recipe-body .recipe-edit-details__row input[type='file'] {
+          width: 100% !important; }
+        .recipe .recipe-body .recipe-edit-details__row.categories {
+          width: 100%; }
+          .recipe .recipe-body .recipe-edit-details__row.categories .categories-wrapper {
+            width: 100%;
+            display: flex; }
+            .recipe .recipe-body .recipe-edit-details__row.categories .categories-wrapper input[type='text'] {
+              margin-top: 0;
+              flex: 1; }
+            .recipe .recipe-body .recipe-edit-details__row.categories .categories-wrapper input[type='image'] {
+              width: 16px !important;
+              height: 18px; }
+        .recipe .recipe-body .recipe-edit-details__row .chxBox_aligned.desktop {
+          display: none; } }
 
 .categories-modal-popup .categories-modal-footer {
   display: flex;

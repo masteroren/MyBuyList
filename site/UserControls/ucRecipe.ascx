@@ -25,20 +25,16 @@
             שדות החובה מסומנים בכוכבית, אך מומלץ למלא את כל השדות. ככל שהמתכון יהיה מסווג ומפורט
                 יותר, כך יהיה קל יותר לחברי קהילת האתר למצוא אותו ולהשתמש בו בעת הצורך.
         </p>
-        <div class="recipe-details">
-            <div class="recipe-details__row">
-                <div class="recipe-details__col">
-                    <asp:Image ID="Image3" runat="server" ImageUrl="~/Images/SubHeader_Details.png" />
-                </div>
-                <div class="recipe-details__col">
-                    <div id="divOptions" runat="server" style="margin: 0px; padding: 0px; float: left;">
-                        <asp:CheckBox ID="chkPublic" runat="server" Checked="true" Text='<%$ Resources:MyGlobalResources, PublicRecipe %>'
-                            CssClass="chxBox_aligned" />
+        <div class="recipe-edit-details">
+            <div class="recipe-edit-details__col">
+                <div class="recipe-edit-details__row m-b-10">
+                    <div class="recipe-edit-details__col check-box">
+                        <asp:Image ID="Image3" runat="server" ImageUrl="~/Images/SubHeader_Details.png" />
+                        <asp:CheckBox ID="CheckBox2" runat="server" Checked="true" Text='<%$ Resources:MyGlobalResources, PublicRecipe %>'
+                            CssClass="chxBox_aligned mobile" />
                     </div>
                 </div>
-            </div>
-            <div class="recipe-details__row">
-                <div class="recipe-details__col">
+                <div class="recipe-edit-details__row">
                     <div>
                         <asp:Label ID="lblRecipeName" runat="server" Text="שם המתכון" Font-Bold="true" />
                         <asp:Label ID="Label2" runat="server" Text="*" ForeColor="#EF1839" />
@@ -49,44 +45,74 @@
                     <asp:RequiredFieldValidator ID="reqValidRecipeName" runat="server" ValidationGroup="general"
                         Display="Dynamic" ControlToValidate="RecipeName" ErrorMessage='<%$ Resources:ValidationResources, RecipeNameIsRequired%>'></asp:RequiredFieldValidator>
                 </div>
-                <div class="recipe-details__col">
+                <div class="recipe-edit-details__row">
+                    <asp:UpdatePanel ID="updateCategories" runat="server">
+                        <ContentTemplate>
+                            <div class="recipe-edit-details__row categories">
+                                <div>
+                                    <asp:Label ID="lblCategories" runat="server" Text="קטגוריה" Font-Bold="true" />
+                                    <asp:Label ID="Label3" runat="server" Text="*" ForeColor="#EF1839" />
+                                </div>
+                                <div class="categories-wrapper">
+                                    <asp:TextBox ID="txtCategories" runat="server" MaxLength="200" ReadOnly="true" BackColor="#ddecb6"
+                                        BorderColor="#A4CB3A" BorderStyle="Solid" BorderWidth="1px" Font-Size="12px"
+                                        ForeColor="#656565" />
+                                    <asp:ImageButton ID="btnSelectCategories" runat="server" OnClientClick='openCategoriesModal()'
+                                        ImageUrl="~/Images/btn_DropDown_3.gif" Style="vertical-align: bottom;" />
+                                    <asp:RequiredFieldValidator ID="reqValidCategories" runat="server" ValidationGroup="general"
+                                        Display="Dynamic" ControlToValidate="txtCategories" ErrorMessage='<%$ Resources:ValidationResources, RecipeCategoryIsRequired%>'></asp:RequiredFieldValidator>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="recipe-edit-details__row">
+                    <asp:Label ID="lblTags" runat="server" Text="תגיות" Font-Bold="true" />
+                    <asp:TextBox ID="txtTags" runat="server" Width="299px" BackColor="#ddecb6" BorderColor="#A4CB3A"
+                        BorderStyle="Solid" BorderWidth="1px" Height="14px" Font-Size="12px" ForeColor="#656565"
+                        AutoCompleteType="Disabled" Style="margin-top: 6px;" />
+                </div>
+                <div class="recipe-edit-details__row">
+                    <asp:Label ID="lblRecipeDesc" runat="server" Text="תיאור קצר" Font-Bold="true" />
+                    <asp:TextBox ID="txtRecipeDesc" runat="server" TextMode="MultiLine" Width="299px"
+                        BackColor="#ddecb6" BorderColor="#A4CB3A" BorderStyle="Solid" BorderWidth="1px"
+                        Height="53px" Font-Size="12px" ForeColor="#656565" AutoCompleteType="Disabled"
+                        Style="margin-top: 6px; margin-bottom: 0px;" />
+                </div>
+                <div class="recipe-edit-details__row">
+                    <asp:Label ID="lblRecipeImage" runat="server" Text="תמונה לתצוגה של המתכון" Font-Bold="true" />
+                    <asp:FileUpload ID="fuRecipeImage" runat="server" Width="300px" size="33" BackColor="#ddecb6"
+                        BorderColor="#A4CB3A" BorderStyle="Solid" BorderWidth="1px" ForeColor="#656565"
+                        Style="margin-top: 6px;" />
+                    <p style="font-size: 11px;">
+                        (הגודל לתמונה 600 פיקסלים לרוחב על 462 פיקסלים לגובה)
+                    </p>
+                </div>
+            </div>
+            <div class="recipe-edit-details__col">
+                <div class="recipe-edit-details__row m-b-10px">
+                    <asp:CheckBox ID="chkPublic" runat="server" Checked="true" Text='<%$ Resources:MyGlobalResources, PublicRecipe %>'
+                        CssClass="chxBox_aligned desktop" />
+                </div>
+                <div class="recipe-edit-details__row">
                     <asp:Label ID="lblPrepTime" runat="server" Text="זמן הכנה (חיתוך, ערבוב)" Font-Bold="true"
                         Style="display: block;" />
-                    <div style="margin-top: 6px;">
+                    <div>
                         <asp:TextBox ID="txtPrepTime" runat="server" Width="214px" BackColor="#ddecb6" BorderColor="#A4CB3A"
                             BorderStyle="Solid" BorderWidth="1px" Height="14px" Font-Size="12px" ForeColor="#656565"
                             AutoCompleteType="Disabled" Style="margin-left: 1px; vertical-align: middle; padding-left: 0px; padding-right: 0px;" />
                         <ajaxToolkit:FilteredTextBoxExtender ID="filtertxtPrepTime" runat="server" TargetControlID="txtPrepTime"
                             ValidChars="0123456789." />
-                        <asp:DropDownList ID="ddlPrepTimeUnits" runat="server" Width="80px" BackColor="#ddecb6"
-                            Font-Bold="true" Font-Size="12px" Height="18px" ForeColor="#656565" Style="border: 1px solid #A4CB3A; vertical-align: middle;">
-                            <asp:ListItem Value="1" Text="דקות" Selected="True" />
-                            <asp:ListItem Value="2" Text="שעות" />
-                        </asp:DropDownList>
+                        <div class="time">
+                            <asp:DropDownList ID="ddlPrepTimeUnits" runat="server" Width="80px" BackColor="#ddecb6"
+                                Font-Bold="true" Font-Size="12px" Height="18px" ForeColor="#656565" Style="border: 1px solid #A4CB3A; vertical-align: middle;">
+                                <asp:ListItem Value="1" Text="דקות" Selected="True" />
+                                <asp:ListItem Value="2" Text="שעות" />
+                            </asp:DropDownList>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="recipe-details__row">
-                <asp:UpdatePanel ID="updateCategories" runat="server">
-                    <ContentTemplate>
-                        <div class="recipe-details__col">
-                            <div>
-                                <asp:Label ID="lblCategories" runat="server" Text="קטגוריה" Font-Bold="true" />
-                                <asp:Label ID="Label3" runat="server" Text="*" ForeColor="#EF1839" />
-                            </div>
-                            <div>
-                                <asp:TextBox ID="txtCategories" runat="server" MaxLength="200" ReadOnly="true" BackColor="#ddecb6"
-                                    BorderColor="#A4CB3A" BorderStyle="Solid" BorderWidth="1px" Font-Size="12px"
-                                    ForeColor="#656565" Height="14px" Width="277px" Style="margin-top: 6px; padding-left: 0px; padding-right: 0px;" />
-                                <asp:ImageButton ID="btnSelectCategories" runat="server" OnClientClick='openCategoriesModal()'
-                                    ImageUrl="~/Images/btn_DropDown_3.gif" Style="vertical-align: bottom;" />
-                                <asp:RequiredFieldValidator ID="reqValidCategories" runat="server" ValidationGroup="general"
-                                    Display="Dynamic" ControlToValidate="txtCategories" ErrorMessage='<%$ Resources:ValidationResources, RecipeCategoryIsRequired%>'></asp:RequiredFieldValidator>
-                            </div>
-                        </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-                <div class="recipe-details__col">
+                <div class="recipe-edit-details__row">
                     <asp:Label ID="lblCookTime" runat="server" Text="זמן בישול / אפייה / טיגון / אידוי / צלייה"
                         Font-Bold="true" />
                     <div style="margin-top: 6px;">
@@ -95,22 +121,16 @@
                             Style="margin-left: 1px; vertical-align: middle; padding-left: 0px; padding-right: 0px;" ForeColor="#656565" />
                         <ajaxToolkit:FilteredTextBoxExtender ID="filtertxtCookTime" runat="server" TargetControlID="txtCookTime"
                             ValidChars="0123456789." />
-                        <asp:DropDownList ID="ddlCookTimeUnits" runat="server" Width="80px" BackColor="#ddecb6"
-                            Font-Bold="true" Font-Size="12px" Height="18px" ForeColor="#656565" Style="border: 1px solid #A4CB3A; vertical-align: middle;">
-                            <asp:ListItem Value="1" Text="דקות" Selected="True" />
-                            <asp:ListItem Value="2" Text="שעות" />
-                        </asp:DropDownList>
+                        <div class="time">
+                            <asp:DropDownList ID="ddlCookTimeUnits" runat="server" Width="80px" BackColor="#ddecb6"
+                                Font-Bold="true" Font-Size="12px" Height="18px" ForeColor="#656565" Style="border: 1px solid #A4CB3A; vertical-align: middle;">
+                                <asp:ListItem Value="1" Text="דקות" Selected="True" />
+                                <asp:ListItem Value="2" Text="שעות" />
+                            </asp:DropDownList>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="recipe-details__row">
-                <div class="recipe-details__col">
-                    <asp:Label ID="lblTags" runat="server" Text="תגיות" Font-Bold="true" />
-                    <asp:TextBox ID="txtTags" runat="server" Width="299px" BackColor="#ddecb6" BorderColor="#A4CB3A"
-                        BorderStyle="Solid" BorderWidth="1px" Height="14px" Font-Size="12px" ForeColor="#656565"
-                        AutoCompleteType="Disabled" Style="margin-top: 6px;" />
-                </div>
-                <div class="recipe-details__col">
+                <div class="recipe-edit-details__row">
                     <asp:Label ID="lblServings" runat="server" Text="מספר מנות" Font-Bold="true" />
                     <asp:TextBox ID="txtServings" runat="server" Width="299px" BackColor="#ddecb6" BorderColor="#A4CB3A"
                         BorderStyle="Solid" BorderWidth="1px" Font-Size="12px" ForeColor="#656565" Height="14px"
@@ -118,16 +138,7 @@
                     <ajaxToolkit:FilteredTextBoxExtender ID="txtServings_ftb" runat="server" TargetControlID="txtServings"
                         FilterType="Numbers" />
                 </div>
-            </div>
-            <div class="recipe-details__row">
-                <div class="recipe-details__col">
-                    <asp:Label ID="lblRecipeDesc" runat="server" Text="תיאור קצר" Font-Bold="true" />
-                    <asp:TextBox ID="txtRecipeDesc" runat="server" TextMode="MultiLine" Width="299px"
-                        BackColor="#ddecb6" BorderColor="#A4CB3A" BorderStyle="Solid" BorderWidth="1px"
-                        Height="53px" Font-Size="12px" ForeColor="#656565" AutoCompleteType="Disabled"
-                        Style="margin-top: 6px; margin-bottom: 0px;" />
-                </div>
-                <div class="recipe-details__col">
+                <div class="recipe-edit-details__row">
                     <asp:Label ID="Label4" runat="server" Text="דרגת קושי (קל, בינוני, קשה)" Font-Bold="true" />
                     <asp:DropDownList ID="ddlDifficulty" runat="server" Width="301px" BackColor="#ddecb6"
                         Font-Bold="true" Height="18px" Font-Size="12px" ForeColor="#656565" Style="border: 1px solid #A4CB3A; margin-top: 6px;">
@@ -136,17 +147,6 @@
                         <asp:ListItem Text=" בינוני" Value="2" />
                         <asp:ListItem Text=" קשה" Value="3" />
                     </asp:DropDownList>
-                </div>
-            </div>
-            <div class="recipe-details__row">
-                <div class="recipe-details__col">
-                    <asp:Label ID="lblRecipeImage" runat="server" Text="תמונה לתצוגה של המתכון" Font-Bold="true" />
-                    <asp:FileUpload ID="fuRecipeImage" runat="server" Width="300px" size="33" BackColor="#ddecb6"
-                        BorderColor="#A4CB3A" BorderStyle="Solid" BorderWidth="1px" ForeColor="#656565"
-                        Style="margin-top: 6px;" />
-                    <p style="font-size: 11px;">
-                        (הגודל לתמונה 600 פיקסלים לרוחב על 462 פיקסלים לגובה)
-                    </p>
                 </div>
             </div>
         </div>
@@ -204,7 +204,7 @@
     <div class="recipe-bottom">
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
-                <asp:LinkButton ID="btnSave" runat="server" OnClick="btnSave_Click" CssClass="hide-on-logout" CausesValidation="true"
+                <asp:LinkButton ID="btnSave" runat="server" OnClick="btnSave_Click" CssClass="on-login" CausesValidation="true"
                     ValidationGroup="general">
                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/btn_Save_up.png" onmouseover='this.src="Images/btn_Save_over.png";'
                         onmouseout='this.src="Images/btn_Save_up.png";' onmousedown='this.src="Images/btn_Save_down.png";'

@@ -9,7 +9,7 @@
         <asp:Label ID="Label2" runat="server" Text="תפריטים" CssClass="link-text"></asp:Label>
         <asp:Image ID="Image2" runat="server" ImageUrl="~/Images/menu.svg" />
     </asp:HyperLink>
-    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/Register.aspx" CssClass="hide-on-login link">
+    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/Register.aspx" CssClass="on-logout link">
         <asp:Label ID="Label3" runat="server" Text="הצטרפות" CssClass="link-text"></asp:Label>
         <asp:Image ID="Image3" runat="server" ImageUrl="~/Images/signin.svg" />
     </asp:HyperLink>

@@ -6,4 +6,11 @@ public partial class UserControls_drawer : System.Web.UI.UserControl
     {
 
     }
+
+    public void ShowRecipeActions(bool value, int recipeOwner = 0, int recipeId = 0)
+    {
+        RecipeDetailsActions.Visible = value;
+        RecipeDetailsActions.RecipeOwnerID = recipeOwner;
+        RecipeDetailsActions.RecipeId = recipeId;
+    }
 }

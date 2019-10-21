@@ -85,6 +85,11 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
         }
     }
 
+    protected void page_init(object sender, EventArgs e)
+    {
+        Drawer.ShowRecipeActions(false);
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         //if (Session["SearchFor"] != null && Session["SearchIn"] != null)
@@ -142,5 +147,10 @@ public partial class MasterPages_MBL : System.Web.UI.MasterPage
     public void ConsoleLog(string message)
     {
         Response.Write(string.Format("<script>console.log('{0}')</script>", message));
+    }
+
+    public void ShowRecipeActions(bool value, int recipeOwner = 0, int recipeId = 0)
+    {
+        Drawer.ShowRecipeActions(value, recipeOwner, recipeId);
     }
 }

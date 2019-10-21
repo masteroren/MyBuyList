@@ -69,6 +69,13 @@
         color: blue; }
       .ingridiants .ingredients-container .list-btn.delete-ingrediant {
         color: red; }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
+    .ingridiants .input-section {
+      height: auto; }
+      .ingridiants .input-section .input-wrapper {
+        flex-direction: column; }
+      .ingridiants .input-section .actions input {
+        height: 33px; } }
 
 .ingridiant-prefix {
   background-color: #ddecb6;

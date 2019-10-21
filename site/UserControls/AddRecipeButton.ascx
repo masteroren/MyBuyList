@@ -21,7 +21,7 @@
     }
 </style>
 
-<div class="add-recipe" style="display: none">
+<div class="add-recipe on-login">
     <asp:HyperLink ID="lnkNewRecipe" runat="server" NavigateUrl="~/RecipeEdit.aspx">
                                 <asp:Image runat="server" ImageUrl="~/Images/btn_AddNewRecipe_up.png" onmouseover='this.src="Images/btn_AddNewRecipe_over.png";' 
                                     onmouseout='this.src="Images/btn_AddNewRecipe_up.png";' onmousedown='this.src="Images/btn_AddNewRecipe_Down.png";' 

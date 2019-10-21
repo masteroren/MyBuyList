@@ -120,8 +120,11 @@
     border-color: #8dac34; }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
-  #reciep-wrapper .header .search .recipes-filter {
-    padding-right: 0; }
+  #reciep-wrapper .header .search {
+    flex-direction: column;
+    align-items: center; }
+    #reciep-wrapper .header .search .recipes-filter {
+      padding-right: 0; }
   #reciep-wrapper .body .recipes {
     width: 100%; }
     #reciep-wrapper .body .recipes #upRecipes {

@@ -39,7 +39,6 @@ public partial class PageRecipeDetails : BasePage
     protected void Page_Load(object sender, EventArgs e)
     {
 
-
         //AuthService.Instance.login.Subscribe(userInfo =>
         //{
         //    var userId = userInfo.UserId;
@@ -72,6 +71,7 @@ public partial class PageRecipeDetails : BasePage
             RecipeDetailsActions.RecipeOwnerID = currRecipe.userId;
             RecipeDetailsActions2.RecipeOwnerID = currRecipe.userId;
 
+            Master.ShowRecipeActions(true, currRecipe.userId, RecipeId);
 
             //FBUrl = Request.Url.AbsoluteUri;
 

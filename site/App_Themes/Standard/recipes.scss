@@ -185,6 +185,8 @@
             }
 
             .search {
+                flex-direction: column;
+                align-items: center;
 
                 .recipes-filter {
                     padding-right: 0;

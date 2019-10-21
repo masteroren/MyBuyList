@@ -1,5 +1,7 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="drawer.ascx.cs" Inherits="UserControls_drawer" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Drawer.ascx.cs" Inherits="UserControls_drawer" %>
 <%@ Register Src="~/UserControls/NavigationLinks.ascx" TagPrefix="uc1" TagName="NavigationLinks" %>
+<%@ Register Src="~/UserControls/RecipeDetailsActions.ascx" TagPrefix="uc1" TagName="RecipeDetailsActions" %>
+
 
 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
     <ContentTemplate>
@@ -13,6 +15,9 @@
                 </div>
 
                 <uc1:NavigationLinks runat="server" ID="NavigationLinks" />
+                <div class="show-on-login">
+                    <uc1:RecipeDetailsActions runat="server" ID="RecipeDetailsActions" />
+                </div>
             </asp:Panel>
         </asp:Panel>
     </ContentTemplate>

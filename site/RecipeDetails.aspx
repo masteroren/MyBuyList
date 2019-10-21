@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/MBL.master" AutoEventWireup="true"
     CodeFile="RecipeDetails.aspx.cs" Inherits="PageRecipeDetails" Theme="Standard" %>
 
+<%@ MasterType VirtualPath="~/MasterPages/MBL.master" %>
+
 <%@ Register Src="~/UserControls/ucSendMailToFriend.ascx" TagPrefix="uc1" TagName="SendToFriend" %>
 <%@ Register Src="~/UserControls/RecipeDetailsActions.ascx" TagPrefix="MBL" TagName="RecipeDetailsActions" %>
 <%@ Register Src="~/UserControls/AddRecipeButton.ascx" TagPrefix="MBL" TagName="AddRecipeButton" %>
@@ -64,12 +66,7 @@
             <ContentTemplate>
                 <div class="recipe-top">
                     <div class="recipe-name-wrapper">
-                        <div class="recipe_name">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/Header_Recipe.png" Style="margin-left: 11px;" />
-                            <div>
-                                <asp:Label ID="lblRecipeName" runat="server" />
-                            </div>
-                        </div>
+                        <asp:Label ID="lblRecipeName" runat="server" CssClass="recipe-name" />
                         <MBL:AddRecipeButton runat="server" ID="AddRecipeButton" />
                     </div>
                     <div class="top-tags-wrapper">
@@ -144,7 +141,7 @@
                                 </div>
                             </div>
                             <div class="left">
-                                <div class="left__top-actions">
+                                <div class="left__top-actions desktop">
                                     <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions" />
 
                                     <%--<div class="social-plugins">
@@ -256,7 +253,7 @@
                             </div>--%>
                         <%--</div>--%>
                     </div>
-                    <div class="wrapper_bottom_tab2">
+                    <div class="wrapper_bottom_tab2 desktop">
                         <asp:Image ID="Image2" runat="server" ImageUrl="~/Images/bgr_TabIndexReciepesRight.png" />
                         <MBL:RecipeDetailsActions runat="server" ID="RecipeDetailsActions2" />
                         <asp:Image runat="server" ImageUrl="~/Images/bgr_TabIndexReciepesLeft.png" />
