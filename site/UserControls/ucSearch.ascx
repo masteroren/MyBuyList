@@ -8,32 +8,18 @@
 
 <script type="text/javascript" src="Scripts/Search.js"></script>
 
-<style>
-    .search-box {
-        width: 100%;
-    }
-
-    .search-value, .search-category {
-        font-size: large;
-    }
-</style>
-
-<div class="search-box flex-container">
-    <asp:TextBox ID="TextBoxSearchValue" runat="server" CssClass="search-value" flex-grow="1"></asp:TextBox>
-    <div class="search-filter">
-        <asp:DropDownList ID="SearchType" runat="server" CssClass="search-category" DataTextField="value" DataValueField="key">
-            <asp:ListItem Value="1">מתכונים</asp:ListItem>
-            <asp:ListItem Value="2" class="show-on-logged-in">המתכונים שלי</asp:ListItem>
-            <asp:ListItem Value="3" class="show-on-logged-in">המתכונים המועדפים שלי</asp:ListItem>
-            <asp:ListItem Value="4">תפריטים</asp:ListItem>
-            <asp:ListItem Value="5" class="show-on-logged-in">התפריטים שלי</asp:ListItem>
-            <asp:ListItem Value="6" class="show-on-logged-in">התפריטים המועדפים שלי</asp:ListItem>
-        </asp:DropDownList>
-        <div class="search-btn">
-            <asp:ImageButton ID="ImageButtonSearch" runat="server" ImageUrl="~/Images/Very-Basic-Search-icon.png" CssClass="search-button" OnClick="ImageButtonSearch_Click" />
-        </div>
-    </div>
+<div class="search-box">
+    <input id="Text1" type="text" class="search-value" />
+    <%--<asp:TextBox ID="TextBoxSearchValue" runat="server" CssClass="search-value" flex-grow="1"></asp:TextBox>--%>
 </div>
+<%--<div class="search-filter">
+    <asp:RadioButton ID="RadioButton1" runat="server" Text="מתכונים" Checked="true" GroupName="search-filter" OnCheckedChanged="RadioButton1_CheckedChanged"/>
+    <asp:RadioButton ID="RadioButton2" runat="server" CssClass="on-login" Text="המתכונים שלי" GroupName="search-filter" OnCheckedChanged="RadioButton2_CheckedChanged" />
+    <asp:RadioButton ID="RadioButton3" runat="server" CssClass="on-login" Text="המתכונים המועדפים שלי" GroupName="search-filter" OnCheckedChanged="RadioButton3_CheckedChanged" />
+    <asp:RadioButton ID="RadioButton4" runat="server" Text="תפריטים" GroupName="search-filter" OnCheckedChanged="RadioButton4_CheckedChanged" />
+    <asp:RadioButton ID="RadioButton5" runat="server" CssClass="on-login" Text="התפריטים שלי" GroupName="search-filter" OnCheckedChanged="RadioButton5_CheckedChanged" />
+    <asp:RadioButton ID="RadioButton6" runat="server" CssClass="on-login" Text="התפריטים המועדפים שלי" GroupName="search-filter" OnCheckedChanged="RadioButton6_CheckedChanged" />
+</div>--%>
 
 <asp:HiddenField ID="hfSelectedCategoryId" runat="server" />
 <asp:HiddenField ID="hfSelectedCategoryText" runat="server" />

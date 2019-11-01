@@ -18,13 +18,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 10px;
 
             .recipe-name {
                 color: #8bac31;
-                font-size: 18px;
+                font-size: 30px;
                 text-decoration: none;
                 font-weight: bold;
-                height: 30px;
                 margin-top: 5px;
 
                 img {
@@ -365,6 +365,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     margin-top: 0;
+                    font-size: 18px;
                 }
             }
 

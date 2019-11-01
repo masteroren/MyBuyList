@@ -30,25 +30,6 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        //string currentDisplay = Request.QueryString["disp"] == string.Empty ? "All" : Request.QueryString["disp"];
-
-        //lnkRecipes.Style["text-decoration"] = "none";
-        //lnkMyRecipes.Style["text-decoration"] = "none";
-        //lnkMyFavoriteRecipes.Style["text-decoration"] = "none";
-
-        //switch (currentDisplay)
-        //{
-        //    case "All":
-        //        lnkRecipes.Style["text-decoration"] = "underline";
-        //        break;
-        //    case "MyRecipes":
-        //        lnkMyRecipes.Style["text-decoration"] = "underline";
-        //        break;
-        //    case "MyFavoriteRecipes":
-        //        lnkMyFavoriteRecipes.Style["text-decoration"] = "underline";
-        //        break;
-        //}
-
         if (!IsPostBack)
         {
             var categories = HttpHelper.Get<ListResponse<IEnumerable<CategoryModel>>>("categories");
@@ -102,46 +83,6 @@ public partial class UserControls_ucRecipesFilter : System.Web.UI.UserControl
             //lnk.NavigateUrl = string.Format(this.RecipeCategoryChangeBaseUrl, category.CategoryId);
         }
     }
-
-    //protected void lnkAllMenus_Click(object sender, EventArgs e)
-    //{
-    //    Response.Redirect("~/Recipes.aspx");
-    //}
-
-    //protected void lnkMyMenus_Click(object sender, EventArgs e)
-    //{
-    //    Response.Redirect(string.Format("~/Recipes.aspx?page=1&orderby=LastUpdate&disp={0}", RecipeDisplayEnum.MyRecipes.ToString()));
-    //}
-
-    //protected void lnkFavMenus_Click(object sender, EventArgs e)
-    //{
-    //    Response.Redirect(string.Format("~/Recipes.aspx?page=1&orderby=LastUpdate&disp={0}", RecipeDisplayEnum.MyFavoriteRecipes.ToString()));
-    //}
-
-    //public void EmphasizeCurrentSearch(RecipeDisplayEnum currentDisplay)
-    //{
-    //    this.lnkAllMenus.Style["text-decoration"] = "none";
-    //    this.lnkMyMenus.Style["text-decoration"] = "none";
-    //    this.lnkFavMenus.Style["text-decoration"] = "none";
-
-    //    switch (currentDisplay)
-    //    {
-    //        case RecipeDisplayEnum.All:
-    //            this.lnkAllMenus.Style["text-decoration"] = "underline";
-    //            break;
-    //        case RecipeDisplayEnum.MyRecipes:
-    //            this.lnkMyMenus.Style["text-decoration"] = "underline";
-    //            break;
-    //        case RecipeDisplayEnum.MyFavoriteRecipes:
-    //            this.lnkFavMenus.Style["text-decoration"] = "underline";
-    //            break;
-    //    }
-    //}
-
-    //protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
-    //{
-    //    Response.Redirect(string.Format("~/Recipes.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term={0}", txtSearchTerm.Text));
-    //}
 
     protected void ddlSortBy_SelectedIndexChanged(object sender, EventArgs e)
     {

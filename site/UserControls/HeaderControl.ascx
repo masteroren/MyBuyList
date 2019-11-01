@@ -10,8 +10,8 @@
         <div class="links">
             <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Recipes.aspx">מתכונים</asp:HyperLink>
             <div class="separator">|</div>
-            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Menus.aspx">תפריטים</asp:HyperLink>
-            <div class="separator">|</div>
+            <%--<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Menus.aspx">תפריטים</asp:HyperLink>
+            <div class="separator">|</div>--%>
             <asp:PlaceHolder ID="PlaceHolderJoin" runat="server">
                 <div class="on-logout">
                     <asp:HyperLink ID="lnkReg1" NavigateUrl="~/Register.aspx" runat="server" Text="הצטרפות"

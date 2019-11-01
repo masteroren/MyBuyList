@@ -123,7 +123,16 @@ public class Handler : IHttpHandler, IRequiresSessionState
     public string SearchValues(HttpContext context)
     {
         string value = context.Request["term"];
-        string category = context.Request["category"];
+        ListResponse<RecipeModel[]> recipes = HttpHelper.Get<ListResponse<RecipeModel[]>>(string.Format("recipes?pageSize=10&searchQuery={0}", value));
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
+        return serializer.Serialize(recipes.results.Select(item => new
+        {
+            value = item.id,
+            label = item.name
+        }));
+
+        /*
+        //string category = context.Request["category"];
         Logger.Write(string.Format("Search Values: term -> {0}, Category -> {1}", value, category), Logger.Level.Info);
 
         try
@@ -231,6 +240,7 @@ public class Handler : IHttpHandler, IRequiresSessionState
             Logger.Write("SearchValues", ex, Logger.Level.Error);
             return string.Empty;
         }
+        */
     }
 
     public bool RemoveFromMissingList(HttpContext context)

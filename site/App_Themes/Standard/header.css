@@ -11,14 +11,14 @@
     .header .header-top .welcome {
       display: flex;
       justify-content: space-between;
-      font-size: 12px; }
+      font-size: 16px; }
       .header .header-top .welcome .hello-user {
         margin-left: 10px; }
     .header .header-top .links {
       display: flex;
       justify-content: space-between;
       color: #666563;
-      font-size: 12px; }
+      font-size: 16px; }
       .header .header-top .links .separator {
         padding: 0 10px; }
       .header .header-top .links a {
@@ -32,13 +32,28 @@
       width: 175px; }
     .header .header-bottom .search {
       width: 100%; }
-      .header .header-bottom .search .search-box input {
-        border: none;
-        font-size: large; }
-      .header .header-bottom .search .search-box select {
-        border: none;
-        margin-left: 10px;
-        margin-right: 10px; }
+      .header .header-bottom .search .search-box {
+        width: 100%;
+        /*input {
+                    height: 30px;
+                    font-size: large;
+                }*/ }
+        .header .header-bottom .search .search-box .search-value {
+          width: 100%;
+          border: none;
+          font-size: large;
+          height: 30px;
+          flex: 1; }
+      .header .header-bottom .search .search-filter {
+        display: flex;
+        height: 40px;
+        font-size: large;
+        align-items: center; }
+        .header .header-bottom .search .search-filter input {
+          margin: 0;
+          margin-left: 5px; }
+        .header .header-bottom .search .search-filter label {
+          margin-left: 15px; }
   @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
     .header {
       height: 50px; }

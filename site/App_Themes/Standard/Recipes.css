@@ -103,7 +103,11 @@
                 font-weight: bold; }
                 #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body .recipe_inner_box .recipe_title a {
                   font-size: 1.6em;
-                  color: #8DAC34; }
+                  color: #8DAC34;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  max-width: 400px; }
               #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body .recipe_inner_box .recipe_tags {
                 display: none;
                 color: #000000;
@@ -155,14 +159,16 @@
       #reciep-wrapper .body .recipes .recipe_list .pager {
         margin-bottom: 20px;
         width: 100%; }
-      #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body .recipe_inner_box {
-        width: 60%; }
-        #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body .recipe_inner_box .recipe_title a {
-          font-size: 1.4em;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          width: 95%; } }
+      #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body {
+        padding: 0; }
+        #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body .recipe_inner_box {
+          width: 60%; }
+          #reciep-wrapper .body .recipes .recipe_list .recipe-box-wrapper .recipe_box .body .recipe_inner_box .recipe_title a {
+            font-size: 1.4em;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 95%; } }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   #reciep-wrapper {

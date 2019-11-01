@@ -2,9 +2,9 @@
 
     registerToLoginNotifications((loginNotification) => {
         if (loginNotification.loggedIn) {
-            $('.show-on-logged-in').show();
+            $('.on-login').show();
         } else {
-            $('.show-on-logged-in').hide();
+            $('.on-login').hide();
         }
     });
 
@@ -12,20 +12,19 @@
     var searchText;
     var searchCategory;
 
-    var input = $('#header div.search-box input');
-    var select = $('#header div.search-box select');
-    var searchBtn = $('.search-button');
-    input.addClass('search-value');
+    var input = $('.search-value');
+    //var select = $('#header div.search-box select');
+    //var searchBtn = $('.search-button');
 
-    $('.show-on-logged-in').hide();
+    $('.on-login').hide();
 
     input.autocomplete({
         classes: {
             'ui-autocomplete': 'search-results'
         },
         source: function (request, response) {
-            var data = { method: 'SearchValues', category: searchCategory, term: request.term };
-            $.post('ASHX/Handler.ashx', data, function (result) {
+            var data = { method: 'SearchValues', term: request.term };
+            $.post('ASHX/Handler.ashx', data, (result) => {
                 if (result !== '') {
                     var filteredData = $.parseJSON(result);
                     response(filteredData);
@@ -36,40 +35,13 @@
         select: (event, ui) => {
             searchValue = ui.item.value;
             searchText = ui.item.label;
-
-            var value = searchValue.split('|')[0];
-            var listId = searchValue.split('|')[1];
-
-            ui.item.value = searchText;
-
-            $.post('ASHX/Handler.aspx', { method: 'SetSearchParameters', searchIn: listId, searchFor: searchText }, function () {
-
-            });
-
-            switch (searchCategory) {
-                //case '0':
-                //    if (category == 0)
-                //        window.location = 'RecipeDetails.aspx?RecipeId=' + value;
-                //    if (category == 1)
-                //        window.location = 'MenuDetails.aspx?menuId=' + value;
-                //    break;
-                case '1':
-                case '2':
-                case '3':
-                    window.location = 'RecipeDetails.aspx?RecipeId=' + value;
-                    break;
-                case '4':
-                case '5':
-                case '6':
-                    window.location = 'MenuDetails.aspx?menuId=' + value;
-                    break;
-            }
+            window.location = 'RecipeDetails.aspx?RecipeId=' + ui.item.value;
         },
         search: (event, ui) => {
-            searchCategory = select.val();
+            //searchCategory = select.val();
         },
         open: () => {
-            searchCategory = select.val();
+            //searchCategory = select.val();
             var text = input.val();
             $('ul.ui-autocomplete li div').each(function () {
                 var listText = $(this).html();
@@ -79,63 +51,63 @@
         }
     });
 
-    searchBtn.click(() => {
+    //searchBtn.click(() => {
 
-        searchCategory = select.val();
-        var searchValue = input.val();
+    //    searchCategory = select.val();
+    //    var searchValue = input.val();
 
-        switch (searchCategory) {
-            case '0':
-                //if (category == 0)
-                //    window.location = 'RecipeDetails.aspx?RecipeId=' + value;
-                //if (category == 1)
-                //    window.location = 'MenuDetails.aspx?menuId=' + value;
-                break;
-            case '1':
-                if (searchValue !== '')
-                    window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term=' + searchValue + '&category=' + searchCategory;
-                else
-                    window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=All';
-                break;
-            case '2':
-                window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=MyRecipes&term=' + searchValue + '&category=' + searchCategory;
-                break;
-            case '3':
-                window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=MyFavoriteRecipes&term=' + searchValue + '&category=' + searchCategory;
-                break;
-            case '4':
-                if (searchValue !== '')
-                    window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term=' + searchValue + '&category=' + searchCategory;
-                else
-                    window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=All';
-                break;
-            case '5':
-                window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=MyRecipes&term=' + searchValue + '&category=' + searchCategory;
-                break;
-            case '6':
-                window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=MyFavoriteRecipes&term=' + searchValue + '&category=' + searchCategory;
-                break;
-        }
-    });
+    //    switch (searchCategory) {
+    //        case '0':
+    //            //if (category == 0)
+    //            //    window.location = 'RecipeDetails.aspx?RecipeId=' + value;
+    //            //if (category == 1)
+    //            //    window.location = 'MenuDetails.aspx?menuId=' + value;
+    //            break;
+    //        case '1':
+    //            if (searchValue !== '')
+    //                window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term=' + searchValue + '&category=' + searchCategory;
+    //            else
+    //                window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=All';
+    //            break;
+    //        case '2':
+    //            window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=MyRecipes&term=' + searchValue + '&category=' + searchCategory;
+    //            break;
+    //        case '3':
+    //            window.location = 'Recipes.aspx?page=1&orderby=LastUpdate&disp=MyFavoriteRecipes&term=' + searchValue + '&category=' + searchCategory;
+    //            break;
+    //        case '4':
+    //            if (searchValue !== '')
+    //                window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=BySearchSimple&term=' + searchValue + '&category=' + searchCategory;
+    //            else
+    //                window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=All';
+    //            break;
+    //        case '5':
+    //            window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=MyRecipes&term=' + searchValue + '&category=' + searchCategory;
+    //            break;
+    //        case '6':
+    //            window.location = 'Menus.aspx?page=1&orderby=LastUpdate&disp=MyFavoriteRecipes&term=' + searchValue + '&category=' + searchCategory;
+    //            break;
+    //    }
+    //});
 
     //SetSearchOptions(options);
 
-    select.change(function () {
-        searchCategory = $(this).val();
-        var option = $('#header div.search-box select option:selected');
-        var requireLogin = option.hasClass('requireLogin');
-        if (requireLogin) {
-            var data = { method: 'IsLoggedIn' };
-            $.post('ASHX/Handler.ashx', data, function (data) {
-                if (data === '') {
-                    OpenLoginDialog();
-                }
-            });
-        }
+    //select.change(function () {
+    //    searchCategory = $(this).val();
+    //    var option = $('#header div.search-box select option:selected');
+    //    var requireLogin = option.hasClass('requireLogin');
+    //    if (requireLogin) {
+    //        var data = { method: 'IsLoggedIn' };
+    //        $.post('ASHX/Handler.ashx', data, function (data) {
+    //            if (data === '') {
+    //                OpenLoginDialog();
+    //            }
+    //        });
+    //    }
 
-        $('#header div.search-box input[type=text]').val('');
-    });
-})
+    //    $('#header div.search-box input[type=text]').val('');
+    //});
+});
 
 function SetSearchOptions(options) {
     var select = $('#header div.search-box select');

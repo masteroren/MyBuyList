@@ -7,6 +7,14 @@
 <%@ Register Src="~/UserControls/ucShoppingList.ascx" TagName="ucShoppingList" TagPrefix="uc1" %>
 <%@ Register Src="~/UserControls/AddRecipeButton.ascx" TagPrefix="uc1" TagName="AddRecipeButton" %>
 <%@ Register Src="~/UserControls/ucRecipesFilter.ascx" TagPrefix="uc1" TagName="ucRecipesFilter" %>
+<script runat="server">
+
+    protected void ucRecipesFilter_FilterChanged(object sender, ChangeEventArgs e)
+    {
+
+    }
+</script>
+
 
 
 
@@ -46,7 +54,7 @@
                 <asp:Image runat="server" ImageUrl="~/Images/Header_Recipes.png" />
             </div>
             <div class="search">
-                <uc1:ucRecipesFilter runat="server" ID="ucRecipesFilter" />
+                <uc1:ucRecipesFilter runat="server" ID="ucRecipesFilter" OnFilterChanged="UcRecipesFilter_FilterChanged" />
                 <uc1:AddRecipeButton runat="server" ID="AddRecipeButton" />
             </div>
             <div id="numResults">
@@ -70,7 +78,7 @@
                 <asp:UpdatePanel ID="upRecipes" runat="server" ClientIDMode="Static">
                     <ContentTemplate>
                         <div class="recipe_list">
-                            <asp:Repeater ID="rptRecipes" runat="server">
+                            <asp:Repeater ID="rptRecipes" runat="server" OnItemCreated="rptRecipes_ItemCreated" OnItemDataBound="rptRecipes_ItemDataBound">
                                 <HeaderTemplate>
                                     <!-- pager -->
                                     <div id="topPager" class="pager">
@@ -117,11 +125,12 @@
                                                     </div>
                                                     <div class="publisher_box">
                                                         <asp:Label ID="lblPublishedBy" runat="server" Text='פורסם ע"י'></asp:Label>
-                                                        <asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>'></asp:HyperLink>&nbsp;&nbsp;&nbsp;
-                                                    <div class="published_date">
-                                                        <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
-                                                        <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>
-                                                    </div>
+                                                        <%--<asp:HyperLink ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>'></asp:HyperLink>--%>
+                                                        <asp:LinkButton ID="lnkPublisher" runat="server" CssClass="published_value" Text='<%# Eval("publishedBy") %>' CommandArgument='<%# Eval("userId") %>' OnClick="lnkPublisher_Click"></asp:LinkButton>
+                                                        <div class="published_date">
+                                                            <asp:Label ID="lblPublishedOn" runat="server" Text='בתאריך'></asp:Label>
+                                                            <asp:Label ID="lblPublishDate" runat="server" Text='<%# Eval("createDate") %>' CssClass="published_value"></asp:Label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="recipe_thumbnail_box">

@@ -141,6 +141,10 @@
                                     a {
                                         font-size: 1.6em;
                                         color: #8DAC34;
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        max-width: 400px;
                                     }
                                 }
 
@@ -241,6 +245,7 @@
                         .recipe_box {
 
                             .body {
+                                padding: 0;
 
                                 .recipe_inner_box {
                                     width: 60%;

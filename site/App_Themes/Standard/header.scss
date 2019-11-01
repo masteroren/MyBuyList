@@ -13,7 +13,7 @@
         .welcome {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
+            font-size: 16px;
 
             .hello-user {
                 margin-left: 10px;
@@ -24,7 +24,7 @@
             display: flex;
             justify-content: space-between;
             color: #666563;
-            font-size: 12px;
+            font-size: 16px;
 
             .separator {
                 padding: 0 10px;
@@ -54,19 +54,38 @@
             width: 100%;
 
             .search-box {
+                width: 100%;
 
                 .search-btn {
                 }
 
-                input {
+                /*input {
+                    height: 30px;
+                    font-size: large;
+                }*/
+
+                .search-value {
+                    width: 100%;
                     border: none;
                     font-size: large;
+                    height: 30px;
+                    flex: 1
+                }
+            }
+
+            .search-filter {
+                display: flex;
+                height: 40px;
+                font-size: large;
+                align-items: center;
+
+                input {
+                    margin: 0;
+                    margin-left: 5px;
                 }
 
-                select {
-                    border: none;
-                    margin-left: 10px;
-                    margin-right: 10px;
+                label {
+                    margin-left: 15px;
                 }
             }
         }

@@ -10,7 +10,6 @@ using ProperServices.Common.Extensions;
 using ProperServices.Common.Log;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -20,18 +19,7 @@ public partial class Recipes : BasePage
 {
     #region Properties
 
-    public int CurrentPage
-    {
-        get
-        {
-            object page = ViewState["page"];
-            return (page == null) ? 1 : (int)page;
-        }
-        set
-        {
-            ViewState["page"] = value;
-        }
-    }
+    public int CurrentPage;
 
     public RecipeOrderEnum OrderBy
     {
@@ -60,31 +48,6 @@ public partial class Recipes : BasePage
 
     public RecipeDisplayEnum Display { get; set; }
 
-    //public RecipeDisplayEnum Display
-    //{
-    //    get
-    //    {
-    //        RecipeDisplayEnum display;
-
-    //        if (!string.IsNullOrEmpty(Request["disp"]))
-    //        {
-    //            try
-    //            {
-    //                display = (RecipeDisplayEnum)Enum.Parse(typeof(RecipeDisplayEnum), Request["disp"], true);
-    //                return display;
-    //            }
-    //            catch
-    //            {
-    //                return RecipeDisplayEnum.All;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            return RecipeDisplayEnum.All;
-    //        }
-    //    }
-    //}
-
     public string FreeText
     {
         get { return (!string.IsNullOrEmpty(Request["term"]) ? Request["term"] : null); }
@@ -92,23 +55,6 @@ public partial class Recipes : BasePage
 
     private int? categoryId;
     private SortBy sortBy;
-
-    //public int? CategoryId
-    //{
-    //    get
-    //    {
-    //        int catId = 0;
-
-    //        if (!string.IsNullOrEmpty(Request["cat"]) && int.TryParse(Request["cat"], out catId))
-    //        {
-    //            return catId;
-    //        }
-    //        else
-    //        {
-    //            return null;
-    //        }
-    //    }
-    //}
 
     public int? Servings
     {
@@ -192,75 +138,18 @@ public partial class Recipes : BasePage
 
     private string recipeCategoryChangeBaseUrl;
 
-    private string ApiUrl = ConfigurationManager.AppSettings["ApiUrl"];
-
     private IDisposable searchSubscription;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        //try
-        //{
-        //    if (!IsPostBack)
-        //    {
-                //if (Display == RecipeDisplayEnum.ByCategory)
-                //{
-                //    int count = RebindCategories();
-                //    categories.Visible = true;
-                //    if (count == 0)
-                //        pnlCategories.Visible = false;
-                //}
-                //if (this.Display == RecipeDisplayEnum.BySearchSimple)
-                //{
-                //    this.simpleSearch.Visible = true;
-                //    this.btnSearch.Visible = true;
-                //    this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
-                //    this.btnSearch.CommandArgument = "BySearchSimple";
-                //}
-                //if (Display == RecipeDisplayEnum.BySearchAdvanced)
-                //{
-                    //this.simpleSearch.Visible = true;
-                    //this.advancedSearch.Visible = true;
-                    //this.btnSearch.Visible = true;
-                    //this.txtSearchTerm.Text = (!string.IsNullOrEmpty(Request["term"])) ? Request["term"] : "" ;
-                    //this.txtServings.Text = (!string.IsNullOrEmpty(Request["serv"])) ? Request["serv"] : "";
-                    //this.txtCategory.Text = "";
-                    //this.btnSearch.CommandArgument = "BySearchAdvanced";
-                //}
-
-                //EmphasizeCurrentSearch(this.Display);
-
-                //users currentUser = BusinessFacade.Instance.GetUser(((BasePage)Page).UserId);
-                //string email = (currentUser != null) ? currentUser.Email : string.Empty;
-                //this.ucSendMailToFriend.BindItemDetails("Recipe", 0, string.Empty, email);
-
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Logger.Write("PageLoad failed", ex, Logger.Level.Error);
-        //}
-
-        ucRecipesFilter.FilterChanged += UcRecipesFilter_FilterChanged;
-        rptRecipes.ItemCreated += rptRecipes_ItemCreated;
-        rptRecipes.ItemDataBound += rptRecipes_ItemDataBound;
         RebindRecipes();
-
-        searchSubscription = SearchService.Search
-            .Subscribe(data =>
-            {
-                SearchType searchType = data;
-            });
     }
 
-    protected void Page_UnLoad(object sender, EventArgs e)
-    {
-        searchSubscription.Dispose();
-    }
-
-    private void UcRecipesFilter_FilterChanged(object sender, ChangeEventArgs e)
+    public void UcRecipesFilter_FilterChanged(object sender, ChangeEventArgs e)
     {
         CurrentPage = 1;
         sortBy = e.sortBy;
+        ViewState["SortBy"] = e.sortBy;
 
         if (e.category == null)
         {
@@ -270,69 +159,77 @@ public partial class Recipes : BasePage
         {
             Display = RecipeDisplayEnum.ByCategory;
             categoryId = Convert.ToInt32(e.category);
+            ViewState["Category"] = categoryId;
+            ViewState["page"] = 0;
         }
 
-        //RebindCategories();
         RebindRecipes();
     }
 
     private void RebindRecipes()
     {
-        int count;
         int userId = -1;
-
-        //List<recipes> recipes;
 
         if (CurrUser != null && CurrUser.UserId != -1)
         {
-            //    IQueryable<RecipesInShoppingList> recipesInShoppingList = BusinessFacade.Instance.GetSelectedRecipes(UserId);
-            //    Dictionary<int, Recipe> selectedRecipes = new Dictionary<int, Recipe>();
-
-            //    foreach (RecipesInShoppingList recipe in recipesInShoppingList)
-            //    {
-            //        selectedRecipes.Add(recipe.RECIPE_ID, recipe.Recipes);
-            //    }
-
-            //    foreach (KeyValuePair<int, Recipe> selectedRecipe in Utils.SelectedRecipes)
-            //    {
-            //        if (!selectedRecipes.ContainsKey(selectedRecipe.Key))
-            //            selectedRecipes.Add(selectedRecipe.Key, selectedRecipe.Value);
-            //    }
-
-            //    Utils.SelectedRecipes = selectedRecipes;
             userId = CurrUser.UserId;
         }
 
-        RecipesResults recipesResults;
+        RecipesResults recipesResults = null;
 
-        if (categoryId == null || categoryId == 0)
+        int PageIndex = ViewState["page"] == null ? 0 : (int)ViewState["page"];
+        int RecipeOwner = ViewState["RecipeOwner"] == null ? -1 : Convert.ToInt32(ViewState["RecipeOwner"]);
+        int CategoryId = ViewState["Category"] == null ? -1 : Convert.ToInt32(ViewState["Category"]);
+        int SortBy = ViewState["SortBy"] == null ? -1 : Convert.ToInt32(ViewState["SortBy"]);
+
+        if (CategoryId == -1 && RecipeOwner == -1)
         {
-            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("recipes?pageIndex={0}&sortBy={1}", CurrentPage - 1, sortBy));
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("recipes?pageIndex={0}&sortBy={1}", PageIndex, SortBy));
         }
-        else
+
+        if (CategoryId == -1 && RecipeOwner != -1)
         {
-            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("categories/{0}/recipes?pageIndex={1}&sortBy={2}", categoryId, CurrentPage - 1, sortBy));
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("users/{0}/recipes?pageIndex={1}&sortBy={2}", RecipeOwner, PageIndex, SortBy));
         }
 
-        totalPages = recipesResults.metadata.pages;
-        lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", recipesResults.metadata.totalItems);
+        if (CategoryId == -1 && RecipeOwner != -1)
+        {
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("users/{0}/recipes?pageIndex={1}&sortBy={2}", RecipeOwner, PageIndex, SortBy));
+        }
 
-        rptRecipes.DataSource = recipesResults.results;
-        rptRecipes.DataBind();
+        if (CategoryId != -1 && RecipeOwner == -1)
+        {
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("categories/{0}/recipes?pageIndex={1}&sortBy={2}", CategoryId, PageIndex, SortBy));
+        }
+
+        if (CategoryId != -1 && RecipeOwner != -1)
+        {
+            recipesResults = HttpHelper.Get<RecipesResults>(string.Format("users/{0}/categories/{1}/recipes?pageIndex={2}&sortBy={3}", RecipeOwner, CategoryId, PageIndex, SortBy));
+        }
+
+        if (recipesResults != null)
+        {
+            totalPages = recipesResults.metadata.pages;
+            lblNumRecipes.Text = string.Format("נמצאו {0} מתכונים", recipesResults.metadata.totalItems);
+
+            rptRecipes.DataSource = recipesResults.results;
+            rptRecipes.DataBind();
+        }
+
     }
 
-    void rptRecipes_ItemCreated(object sender, RepeaterItemEventArgs e)
+    public void rptRecipes_ItemCreated(object sender, RepeaterItemEventArgs e)
     {
+        int pageIndex = ViewState["page"] == null ? 0 : (int)ViewState["page"];
+
         if (e.Item.ItemType == ListItemType.Header || e.Item.ItemType == ListItemType.Footer)
         {
             PlaceHolder phPager = (PlaceHolder)e.Item.FindControl("phPager");
 
-            //phPager.Controls.Clear();
-
             bool isEnd = false, isStart = false;
 
-            int startPage = 10 * ((CurrentPage - 1) / 10) + 1;
-            int endpage = 10 * ((CurrentPage - 1) / 10) + 10;
+            int startPage = 10 * (pageIndex/ 10) + 1;
+            int endpage = 10 * (pageIndex/ 10) + 10;
 
             if (startPage == 1)
             {
@@ -347,7 +244,7 @@ public partial class Recipes : BasePage
             if (!isStart)
             {
                 LinkButton lnkArrow = new LinkButton();
-                lnkArrow.CommandArgument = (startPage - 10).ToString();
+                lnkArrow.CommandArgument = (startPage - 11).ToString();
                 lnkArrow.Click += LnkPage_Click;
 
                 lnkArrow.Font.Size = FontUnit.Larger;
@@ -358,7 +255,7 @@ public partial class Recipes : BasePage
 
             for (int page = startPage; page <= endpage; page++)
             {
-                if (page == this.CurrentPage)
+                if (page == pageIndex + 1)
                 {
                     Label lblPage = new Label();
                     lblPage.Font.Size = FontUnit.Large;
@@ -370,7 +267,7 @@ public partial class Recipes : BasePage
                 else
                 {
                     LinkButton lnkPage = new LinkButton();
-                    lnkPage.CommandArgument = page.ToString();
+                    lnkPage.CommandArgument = (page - 1).ToString();
                     lnkPage.Click += LnkPage_Click;
 
                     lnkPage.Font.Size = FontUnit.Larger;
@@ -385,7 +282,7 @@ public partial class Recipes : BasePage
             if (!isEnd)
             {
                 LinkButton lnkArrow = new LinkButton();
-                lnkArrow.CommandArgument = (startPage + 10).ToString();
+                lnkArrow.CommandArgument = (startPage + 9).ToString();
                 lnkArrow.Click += LnkPage_Click;
 
                 lnkArrow.Font.Size = FontUnit.Larger;
@@ -397,12 +294,12 @@ public partial class Recipes : BasePage
 
     private void LnkPage_Click(object sender, EventArgs e)
     {
-        CurrentPage = Convert.ToInt32((sender as LinkButton).CommandArgument);
-        //categoryId = RecipesFilter1.Category;
+        int page = Convert.ToInt32((sender as LinkButton).CommandArgument);
+        ViewState["page"] = page;
         RebindRecipes();
     }
 
-    void rptRecipes_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    public void rptRecipes_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         RecipeModel recipe = e.Item.DataItem as RecipeModel;
 
@@ -955,5 +852,12 @@ public partial class Recipes : BasePage
         //upRecipes.Update();
         //ucShoppingList1.UpdateList();
         //upShoppingList.Update();
+    }
+
+    protected void lnkPublisher_Click(object sender, EventArgs e)
+    {
+        int userId = Convert.ToInt32((sender as LinkButton).CommandArgument);
+        ViewState["RecipeOwner"] = userId;
+        RebindRecipes();
     }
 }
